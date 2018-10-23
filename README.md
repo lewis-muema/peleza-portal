@@ -1,4 +1,4 @@
-# sendy-partner-onboarding-admin
+# sendy-peleza-portal
 
 > An app to process new partner applications
 
@@ -23,7 +23,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## DOCKER SETUP
 ```Dockerfile```
- * Docker build command ```docker build -t sendy-partner-onboarding-admin:latest --build-arg DOCKER_ENV=testing .```
+ * Docker build command ```docker build -t sendy-peleza-portal:latest --build-arg DOCKER_ENV=testing .```
  * Added ```ARG``` used to set the variable in the build command i.e. ```ARG DOCKER_ENV```
  * Saved it to the environment by setting ```ENV DOCKER_ENV=$DOCKER_ENV```
 

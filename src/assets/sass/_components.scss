@@ -1,0 +1,49 @@
+@import 'variables';
+.el-card {
+    overflow: scroll;
+    &__header {
+            font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.3em;
+    }
+}
+
+.lum-lightbox {
+    z-index: 9999999999;
+}
+@keyframes zoom {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.lightbox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999999999;
+    animation: zoom 0.2s;
+    &__image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .el-pager li.active {
+        background: $primary;
+        border-color: $primary;
+    }
+}

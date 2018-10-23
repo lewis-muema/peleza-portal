@@ -1,0 +1,461 @@
+@import 'imports';
+@import 'variables';
+@import 'components';
+html,
+body {
+    font: caption;
+    height: 100%;
+}
+
+.m{
+    &t {
+        margin-top: $margin;
+    }
+    &r {
+        margin-right: $margin;
+    }
+    &b {
+        margin-bottom: $margin;
+    }
+    &l {
+        margin-left: $margin;
+    }
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    svg {
+        margin: 0 auto;
+        margin-top: 25vh;
+    }
+    h1 {
+        width: 25vw;
+        margin: 0 auto;
+        margin-top: $margin;
+        text-align: center;
+        color: $el-dark-blue;
+        font-size: 1.3em;
+        color: $primary;
+        font-weight: normal;
+        text-transform: uppercase;
+    }
+    form {
+        width: 25vw;
+        margin: 0 auto;
+        margin-top: $margin;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+        padding: $padding * 3 $padding;
+        button {
+            width: 100%;
+            background: $primary;
+            border: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+    }
+}
+.nav {
+    &.el-menu {
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: $primary;
+        color: white;
+    }
+    &__logo {
+        &.el-menu-item {
+            color: white;
+            &:hover {
+                background: none!important;
+            }
+        }
+        &.el-menu-item:hover {
+            border: none !important;
+            background: none;
+        }
+        flex: 1;
+        color: white;
+    }
+    &__search {
+        background: rgba($white, 0.2);
+        border: none;
+        border-radius: 5px;
+        height: 40px;
+        flex: 2;
+        color: $white;
+        padding: 0 12px;
+        outline: none;
+        &::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: darken($off-white, 10%);
+        }
+        &::-moz-placeholder {
+            /* Firefox 19+ */
+            color: darken($off-white, 10%);
+        }
+        &:-ms-input-placeholder {
+            /* IE 10+ */
+            color: darken($off-white, 10%);
+        }
+        &:-moz-placeholder {
+            /* Firefox 18- */
+            color: darken($off-white, 10%);
+        }
+    }
+    &__links {
+        flex: 3;
+        .el-menu-item {
+            color: $off-white;
+            &:hover {
+                background: lighten($primary, 5%)!important;
+            }
+            &.is-active {
+                color: white;
+                border-bottom: 5px solid $secondary;
+                background: lighten($primary, 5%)!important;
+            }
+        }
+    }
+    &__session {
+        flex: 0.9;
+        &.el-submenu {
+            color: white;
+            .el-submenu__title {
+                &:hover {
+                    background: lighten($primary, 5%)!important;
+                }
+            }
+            &:hover {
+                .el-submenu__title {
+                    border: none !important;
+                }
+            }
+        }
+        .el-submenu__title {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border: none!important;
+            color: white;
+        }
+    }
+}
+
+.stageone {
+    padding: $padding;
+    &__filters {
+        padding: $padding 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .el-table {
+        &__row {
+            cursor: pointer;
+        }
+    }
+    &__verification {
+        &__steps {
+            margin-left: 50%;
+            transform: translateX(-50%);
+            .el-step__title.is-wait, .el-step__title.is-process {
+
+                color: $white;
+            }
+            .el-step__title.is-finish {
+                color: $white;
+            }
+            .el-step__head.is-text.is-wait {
+                background: none;
+            }
+            .el-step__head.is-text.is-process {
+                background: none;
+            }
+            .el-step__head.is-text.is-finish {
+                background: $secondary;
+                border-color: $secondary;
+            }
+        }
+        &__left-button {
+            position: fixed;
+            left: 0;
+            top: 25vh;
+            height: 50vh;
+            bottom: 25vh;
+            right: 95%;
+            background: rgba(0,0,0,0.15);
+            z-index: 999;
+            color: rgba(white, 0.9);
+            cursor: pointer;
+            line-height: 50vh;
+            font-size: 5em;
+            text-align: center;
+        }
+        &__right-button {
+            position: fixed;
+            right: 0;
+            top: 25vh;
+            height: 50vh;
+            bottom: 25vh;
+            left: 95%;
+            background: rgba(0,0,0,0.15);
+            z-index: 999;
+            color: rgba(white, 0.9);
+            cursor: pointer;
+            line-height: 50vh;
+            font-size: 5em;
+            text-align: center;
+        }
+        .el-dialog {
+            background: rgba($primary, 0.8);
+            padding: $padding;
+            height: 100%;
+            &__header {
+                padding: 0;
+            }
+            &__title {
+                color: $white;
+                text-transform: uppercase;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            &__body {
+                height: 100%;
+                padding: 0;
+            }
+        }
+        .el-carousel {
+            height: 100%;
+            color: $white;
+            &__container {
+                height: 100%;
+            }
+        }
+        .personal-details {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-basis: top;
+            &__details {
+                flex: 1;
+                height: 95%;
+                color: $el-dark-blue;
+                margin-right: $margin;
+            }
+            &__docs {
+                flex: 2;
+                overflow: scroll;
+            }
+        }
+        .vehicle-details {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-basis: top;
+            &__details {
+                flex: 1;
+                height: 95%;
+                color: $el-dark-blue;
+                margin-right: $margin;
+            }
+            &__docs {
+                flex: 2;
+                overflow: scroll;
+            }
+        }
+        .owner-details {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-basis: top;
+            &__details {
+                flex: 1;
+                height: 95%;
+                color: $el-dark-blue;
+                margin-right: $margin;
+            }
+            &__docs {
+                flex: 2;
+                overflow: scroll;
+            }
+        }
+        .summary-details {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-basis: top;
+            &__data {
+                flex: 1;
+                height: 100%;
+                color: $el-dark-blue;
+                margin-right: $margin;
+                overflow: scroll;
+                .el-card {
+                    margin-bottom: $margin;
+                }
+            }
+            &__docs {
+                flex: 1;
+                overflow: scroll;
+            }
+            &__details {
+                flex: 1;
+                height: 100%;
+                color: $el-dark-blue;
+                &__blockers {
+                    display: inline-block;
+                    vertical-align: top;
+                    &__content {
+                        list-style-image: url('./assets/error.png');
+                        line-height: 20px;
+                        vertical-align: middle;
+                    }
+                }
+                &__verified {
+                    display: inline-block;
+                    vertical-align: top;
+                    margin-right: $margin;
+                    &__content {
+                        list-style-image: url('./assets/success.png');
+                        line-height: 20px;
+                        vertical-align: middle;
+                    }
+                }
+                &__email {
+                    margin-bottom: $margin;
+                    &__content {
+                        padding: $padding * 2 $padding;
+                        background: #f7f7f7;
+                        border-radius: 5px;
+                        margin-bottom: $margin;
+                    }
+                }
+                &__buttons {
+                    display: flex;
+                    flex-direction: column;
+                }
+                &__button {
+                    width: 100%;
+                    padding: $padding 0;
+                    border: none;
+                    background: $primary;
+                    color: $white;
+                    outline: none;
+                    margin-bottom: $margin / 3;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    &[disabled=disabled] {
+                        background: #d7d7d7;
+                        color: darken(#d7d7d7, 20%);
+                    }
+                    // &.success {
+                    //     background: $success;
+                    //     color: $el-dark-blue;
+                    // }
+                    // &.error {
+                    //     background: $error;
+                    //     color: $el-dark-blue;
+                    // }
+                }
+            }
+        }
+    }
+}
+.approved {
+    padding: $padding;
+    &__filters {
+        padding: $padding 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .el-table {
+        &__row {
+            cursor: pointer;
+        }
+    }
+    &__view {
+        .el-dialog {
+            background: rgba($primary, 0.8);
+            padding: $padding;
+            &__header {
+                padding: 0;
+            }
+            &__title {
+                color: $white;
+                text-transform: uppercase;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            &__body {
+                height: 100%;
+                padding: 0;
+            }
+        }
+        &__container {
+            display: flex;
+        }
+        &__details {
+            flex: 1;
+            height: 95vh;
+            overflow: scroll;
+            margin-right: $margin * 2;
+            &__personal-details {
+                margin-bottom: $margin / 3;
+            }
+            &__vehicle-details {
+                margin-bottom: $margin / 3;
+            }
+            &__owner-details {
+                margin-bottom: $margin / 3;
+            }
+        }
+        &__buttons {
+            display: flex;
+            flex-direction: column;
+            &__button {
+                    width: 100%;
+                    padding: $padding 0;
+                    border: none;
+                    background: $white;
+                    color: $el-dark-blue;
+                    outline: none;
+                    margin-bottom: $margin / 3;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    &.success {
+                        background: $secondary;
+                        color: $white;
+                    }
+                    &.error {
+                        background: $error;
+                        color: $el-dark-blue;
+                    }
+                }
+        }
+        &__docs {
+            flex: 3;
+            height: 95vh;
+            overflow: scroll;
+            .doc {
+                margin-right: $margin * 2;
+                &__title {
+                    color: $white;
+                }
+            }
+        }
+    }
+}
