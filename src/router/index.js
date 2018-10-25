@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/login'
-import stageone from '@/components/stageone/stageone'
-import approved from '@/components/approved/approved'
+import applications_list from '@/components/applications/list'
+import applicant_detail from '@/components/applications/details'
+
+import reviewed_list from '@/components/reviewed/list'
+import renewals_list from '@/components/renewals/list'
+
 
 Vue.use(Router)
 
@@ -14,14 +18,24 @@ let router = new Router({
       component: login
     },
     {
-      path: '/stageone',
-      name: 'stageone',
-      component: stageone
+      path: '/applications',
+      name: 'applications',
+      component: applications_list
     },
     {
-      path: '/approved',
-      name: 'approved',
-      component: approved
+      path: '/applicant/:id',
+      name: 'applicant',
+      component: applicant_detail
+    },
+    {
+      path: '/reviewed',
+      name: 'reviewed',
+      component: reviewed_list
+    },
+    {
+      path: '/renewals',
+      name: 'renewals',
+      component: renewals_list
     },
 
   ]
@@ -30,7 +44,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if(to.path == '/') {
     if(!localStorage.authenticated || !JSON.parse(localStorage.authenticated)) next();
-    else next('/stageone');
+    else next('/applications');
     return;
   }
   if(localStorage.authenticated) {

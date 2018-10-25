@@ -299,7 +299,7 @@ export default {
                   this.lock_ui = false;
                   this.$notify.success({
                       title: 'Approval Successful',
-                      message: 'Successfully approved partner and sent login details to test account'
+                      message: 'Successfully reviewed partner and sent login details to test account'
                   });
                   this.$emit('finished');
                 } else {

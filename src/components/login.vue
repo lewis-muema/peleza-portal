@@ -77,7 +77,7 @@ export default {
                             if(response.data.status) {
                                 localStorage.setItem('authenticated', JSON.stringify(true));
                                 localStorage.setItem('user', JSON.stringify(response.data.data));
-                                vm.$router.replace('/stageone');
+                                vm.$router.replace('/applications');
                             } else {
                                 this.$notify.error({
                                     title: 'Error logging in',

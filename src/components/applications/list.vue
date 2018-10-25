@@ -1,54 +1,15 @@
 <template xmlns:router-link="">
     <div class="stageone">
-        <div class="stageone__filters">
-            <label class="mr">Date Applied</label>
-            <el-date-picker v-model="date_range" type="daterange" align="right" placeholder="Pick a range" :picker-options="picker_options" @change="changeDateRange">
-            </el-date-picker>
-        </div>
-        <!--<vue-csv-downloader-->
-         <!--class="el-button el-button&#45;&#45;primary download-csv"-->
-         <!--:data="paginated_drivers"-->
-         <!--:fields="export_fields">-->
-          <!--Download CSV-->
-        <!--</vue-csv-downloader>-->
-
-        <el-table :data="paginated_drivers" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort = "{prop: 'date_created', order: 'descending'}">
+        <el-table :data="paginated_applicants" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort = "{prop: 'date_created', order: 'descending'}">
             <template slot="empty">
                 {{empty_state}}
             </template>
-            <el-table-column prop="name" label="Name"></el-table-column>
-            <el-table-column prop="phone" label="Phone"></el-table-column>
-            <el-table-column prop="email" label="Email"></el-table-column>
-            <el-table-column prop="city" label="City"></el-table-column>
-            <el-table-column prop="vehicle_details" label="Vendor Type" :formatter="getVendorType"></el-table-column>
-            <el-table-column prop="date_created" label="Date Applied" :formatter="formatTime" sortable></el-table-column>
-            <el-table-column prop="application_type" label="Application" sortable></el-table-column>
-            <el-table-column prop="last_activity" label="Last Activity" :formatter="getLastActivity"></el-table-column>
-            <el-table-column prop="admin_name" label="Desk" :formatter="getDesk"></el-table-column>
-            <el-table-column prop="invited_by" label="Invited By">
+            <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
+            <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
+            <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
+            <el-table-column prop="status" label="STATUS">
               <template scope="scope">
-                  <span v-if="!paginated_drivers[scope.$index]['invited_by']">
-                          N/A
-                  </span>
-                  <span v-if="paginated_drivers[scope.$index]['invited_by']">
-                    <router-link :to="{ name: 'owner', params: { id: paginated_drivers[scope.$index]['owner_id'] }}"> {{ paginated_drivers[scope.$index]['invited_by'] }}</router-link>
-                  </span>
-              </template>
-            </el-table-column>
-             <el-table-column prop="allocation_status" label="Invite Status">
-              <template scope="scope">
-                  <span v-if="!paginated_drivers[scope.$index]['allocation_status']">
-                          N/A
-                  </span>
-                  <span v-if="paginated_drivers[scope.$index]['allocation_status'] == 2">
-                          Accepted
-                  </span>
-                  <span v-if="paginated_drivers[scope.$index]['allocation_status'] == 3">
-                          Rejected
-                  </span>
-                  <span v-if="paginated_drivers[scope.$index]['allocation_status'] == 1">
-                          pending
-                  </span>
+                  <span>Pending</span>
               </template>
             </el-table-column>
 
@@ -56,10 +17,10 @@
         <template slot="empty">
             {{ empty_state }}
         </template>
-        <div class="pagination mt mb" v-if="searched_drivers.length >= pagination_limit">
+        <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
             <el-pagination
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="searched_drivers.length"
+                :total="searched_applicants.length"
                 :page-size="pagination_limit"
                 :current-page.sync="pagination_page"
                 @current-change="changePage"
@@ -68,109 +29,30 @@
                 >
             </el-pagination>
         </div>
-        <el-dialog v-if="verifying" :visible.sync="verifying" size="full" :before-close="resetVerification" class="stageone__verification">
-            <el-steps class="stageone__verification__steps" :space="200" :active="current_step" v-if="verifying">
-                <el-step v-for="(step, index) in steps" :key="index" :title="getStepTitle(step)" @click.native="set(step - 1)"></el-step>
-            </el-steps>
-            <div class="stageone__verification__left-button" @click="prev" v-if="current_step > 1">&#10094;</div>
-            <div class="stageone__verification__right-button" @click="next" v-if="current_step < steps">&#10095;</div>
-            <el-carousel arrow="never" :autoplay="false" :indicator-position="'none'" ref="carousel">
-                <el-carousel-item v-if="verifying">
-                    <personaldetails/>
-                </el-carousel-item>
-                <el-carousel-item v-if="verifying && current_verification.has_owner">
-                    <vehicledetails/>
-                </el-carousel-item>
-                <el-carousel-item v-if="verifying && current_verification.has_owner">
-                    <ownerdetails/>
-                </el-carousel-item>
-                <el-carousel-item v-if="verifying">
-                    <summarydetails @finished='finishVerification' />
-                </el-carousel-item>
-            </el-carousel>
-        </el-dialog>
     </div>
 </template>
 <script>
-import personaldetails from './personaldetails'
-import vehicledetails from './vehicledetails'
-import ownerdetails from './ownerdetails'
-import summarydetails from './summarydetails'
-import VueCsvDownloader from 'vue-csv-downloader';
-
 export default {
-    name: 'stageone',
-    components: { personaldetails, vehicledetails, ownerdetails, summarydetails, VueCsvDownloader },
+    name: 'applicants_list',
     data() {
         var date = new Date(), y = date.getFullYear(), m = date.getMonth();
         return {
-            export_fields: ['name', 'phone', 'email', 'city', 'vendor_type','date_created','application_type'],
-            drivers: [],
-            vendor_types: VENDOR_TYPES,
+            applicants: [],
             verifying: false,
-            driver: {},
-            current_step: 1,
+            applicant: {},
             empty_state: 'Loading...',
             date_range: [
                 new Date(y, m, 1), new Date(y, m + 1, 0)
             ],
-            picker_options: {
-                shortcuts: [{
-                    text: 'This month',
-                    onClick(picker) {
-                        picker.$emit('pick', [new Date(y, m, 1), new Date(y, m + 1, 0)]);
-                    }
-                }, {
-                    text: 'Last 1 month',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Last 2 months',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 60);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Last 3 months',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: 'Last 6 months',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 120);
-                        picker.$emit('pick', [start, end]);
-                     }
-                },
-                    {
-                      text:'All Applications',
-                      onClick(picker) {
-                        picker.$emit('pick', [null, null]);
-
-                      }
-                }]
-            },
-            pagination_limit: 20,
+            pagination_limit: 40,
             pagination_page: 1,
             loading: false,
-            steps: 4
         }
     },
     beforeMount() {
-        this.getDrivers();
+        this.getApplicants();
         setInterval(() => {
-            this.getDriversBackground();
+            this.getApplicantsBackground();
         }, 600000);
     },
     methods: {
@@ -185,73 +67,44 @@ export default {
             console.log('Page changed to', this.pagination_page);
             let from = (this.pagination_page - 1) * this.pagination_limit;
             let to = this.pagination_page * this.pagination_limit;
-            let paginated_drivers = this.searched_drivers.slice(from, to);
-            console.log(from, to, paginated_drivers);
+            let paginated_applicants = this.searched_applicants().slice(from, to);
+            console.log(from, to, paginated_applicants);
         },
         changeDateRange() {
             this.pagination_page = 1;
-            this.getDrivers();
+            this.getApplicants();
         },
-        getDriversBackground() {
+        getApplicantsBackground() {
             let vm = this;
-            let start = new Date(this.date_range[0]);
-            let start_date = start.getDate();
-            let start_month = start.getMonth() + 1;
-            let start_year = start.getFullYear();
-
-            let final_start_date = start_year + "-" + start_month + "-" + start_date ;
-
-            let stop = new Date(this.date_range[1]);
-            let stop_date = stop.getDate();
-            let stop_month = stop.getMonth() + 1;
-            let stop_year = stop.getFullYear();
-
-            let final_stop_date = stop_year + "-" + stop_month + "-" + stop_date ;
+            let final_start_date = null;
+            let final_stop_date = null;
 
             let payload = {
                 limit: "all",
-                stage: 2,
+                stage: -1,
                 state: "all",
                 from: final_start_date,
                 to: final_stop_date
             };
             axios.post(PARTNER_BASE_URL + 'admin/partner_list', payload)
             .then((response) => {
-                vm.drivers = response.data.data.partner_list;
+                vm.applicants = response.data.data.partner_list;
             })
             .catch((error) => {
                 log(error);
-                throw new Error('Could not get drivers');
+                throw new Error('Could not get applicants');
             });
         },
-        getDrivers() {
+        getApplicants() {
             let vm = this;
             vm.loading = true;
             vm.empty_state = "Loading...";
             let final_start_date = null;
-
-            if(this.date_range[0] !== null ) {
-              let start = new Date(this.date_range[0]);
-              let start_date = start.getDate();
-              let start_month = start.getMonth() + 1;
-              let start_year = start.getFullYear();
-
-              final_start_date = start_year + "-" + start_month + "-" + start_date;
-            }
-
             let final_stop_date = null;
-
-            if(this.date_range[1] !== null) {
-              let stop = new Date(this.date_range[1]);
-              let stop_date = stop.getDate();
-              let stop_month = stop.getMonth() + 1;
-              let stop_year = stop.getFullYear();
-              final_stop_date = stop_year + "-" + stop_month + "-" + stop_date;
-            }
 
             let payload = {
                 limit: "all",
-                stage: 2,
+                stage: -1,
                 state: "all",
                 from: final_start_date,
                 to: final_stop_date
@@ -260,7 +113,7 @@ export default {
             axios.post(PARTNER_BASE_URL + 'admin/partner_list', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
-                    vm.drivers = response.data.data.partner_list;
+                    vm.applicants = response.data.data.partner_list;
                     vm.empty_state = "No Data";
                     vm.loading = false;
                 })
@@ -268,7 +121,7 @@ export default {
                     vm.empty_state = "No Data";
                     vm.loading = false;
                     log(error);
-                    throw new Error('Could not get drivers');
+                    throw new Error('Could not get applicants');
                 })
         },
         getVendorType(row, column) {
@@ -361,11 +214,8 @@ export default {
 
             this.updateSteps(verification.has_owner);
             this.$store.commit('changeVerification', verification);
-            let vm = this;
-            this.verifying = true;
-            this.$nextTick(() => {
-                vm.$refs.carousel.updateItems();
-            });
+            this.$router.push({ name: 'applicant', params: {id : d.id}});
+
         },
         resetVerification(done) {
             this.set(0);
@@ -427,16 +277,16 @@ export default {
         }
     },
     computed: {
-        searched_drivers() {
-            return this.drivers.filter((driver) => {
-                let searchable_string = (driver.name + driver.phone + driver.email).split(" ").join("").toLowerCase();
+        searched_applicants() {
+            return this.applicants.filter((applicant) => {
+                let searchable_string = (applicant.id_no + applicant.kra_pin).split(" ").join("").toLowerCase();
                 return searchable_string.indexOf(this.$store.getters.search_term) > -1;
             });
         },
-        paginated_drivers() {
+        paginated_applicants() {
             let from = (this.pagination_page - 1) * this.pagination_limit;
             let to = this.pagination_page * this.pagination_limit;
-            return this.searched_drivers.slice(from, to);
+            return this.searched_applicants.slice(from, to);
         },
         current_verification() {
             return this.$store.getters.current_verification;
@@ -453,4 +303,9 @@ export default {
     margin-bottom: 10px;
     float: right;
   }
+.el-table__row {
+    cursor: pointer;
+    height: 50px;
+}
+
 </style>
