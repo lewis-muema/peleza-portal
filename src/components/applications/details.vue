@@ -1,318 +1,3 @@
-<template>
-    <div class="applicant-details">
-        <div class="applicant-details__back" @click="handleBack">
-            <img src="../../assets/left-arrow.png" class="applicant-details__back_image"/>
-            <div class="applicant-details__back_text">
-                Back
-            </div>
-        </div>
-        <div class="applicant-details__profile">
-            <el-card class="applicant-details__profile__personal-details">
-                <div class="applicant-details__profile_content">
-                    <img :src="current_verification.docs.driver_photo.image" class="applicant-details__profile_image"/>
-
-                    <div class="applicant-details__profile_row">
-                        <div class="applicant-details__profile_label">
-                            ID NUMBER
-                        </div>
-                        <div class="applicant-details__profile_value">
-                            {{current_verification.personal_details.id_no}}
-                        </div>
-                    </div>
-
-                    <div class="applicant-details__profile_row">
-                        <div class="applicant-details__profile_label">
-                            KRA PIN
-                        </div>
-                        <div class="applicant-details__profile_value">
-                            {{current_verification.personal_details.kra_pin}}
-                        </div>
-                    </div>
-                    <div class="applicant-details__profile_row">
-                        <div class="applicant-details__profile_label">
-                            DATE OF APPLICATION
-                        </div>
-                        <div class="applicant-details__profile_value">
-                            {{current_verification.dates.date_created}}
-                        </div>
-                    </div>
-
-                    <div class="applicant-details__profile_row">
-                        <div class="applicant-details__profile_label">
-                            STATUS
-                        </div>
-                        <div class="applicant-details__profile_value">
-                            Applied
-                        </div>
-                    </div>
-
-                </div>
-            </el-card>
-            <el-card header="Activity Log" class="applicant-details__profile__personal-details">
-
-            </el-card>
-        </div>
-        <div class="applicant-details__data">
-            <el-collapse v-model="activeName" accordion>
-                <el-collapse-item name="1">
-                    <template slot="title">
-                    <span style="">
-                        Identity Check
-                    </span>
-
-                        <span style="float: right; padding-right: 10px">
-                        ID Number : {{current_verification.personal_details.id_no}}
-                    </span>
-
-                    </template>
-
-                    <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Name of Applicant" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Date of Birth" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Place of Birth" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Gender" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-
-                </el-collapse-item>
-                <el-collapse-item title="Criminal Records Check" name="2">
-                    <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Name of Applicant" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Criminal History" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Authenticity" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Id Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Refrence Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-                <el-collapse-item title="Driving License Check" name="3">
-
-                   <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Name of Applicant" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="DL Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Date of Issue" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Expiry Date" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Classes" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                       <el-form-item label="Id Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-                <el-collapse-item name="4">
-                    <template slot="title">
-                     <span>
-                         Motor Vehicle Records Check
-                     </span>
-                        <span style="float: right; padding-right: 10px">
-                           Number Plate : {{current_verification.vehicle_details.registration_no}}
-                      </span>
-                    </template>
-
-                    <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Ownership Details and Address" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Vehicle Insurance Validity" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Vehicle Make" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Vehicle Body Type" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Engine No" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                       <el-form-item label="Year of Manufacture" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Caveats" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="KRA Pin Number of Owner" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-                <el-collapse-item title="Car Insurance Validity" name="5">
-
-                     <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Name of Owner" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Vehicle Number Plate" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Issue Date" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Expiry Date" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Validity" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                       <el-form-item label="Policy Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-                <el-collapse-item name="6">
-                    <template slot="title">
-                     <span>
-                        KRA PIN Verification
-                     </span>
-                        <span style="float: right; padding-right: 10px">
-                         KRA PIN NUMBER  {{current_verification.vehicle_details.kra_pin}}
-                      </span>
-                    </template>
-
-                    <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Validity" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Name" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Pin Number" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Tax Obligations" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Date of Registration" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.id_no" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-                <el-collapse-item name="7">
-                    <template slot="title">
-                     <span>
-                        Next Of Kin
-                     </span>
-                        <span style="float: right; padding-right: 10px">
-                         ID NUMBER  {{current_verification.personal_details.nok_id}}
-                      </span>
-                    </template>
-
-                    <el-form :model="current_verification.owner_details">
-                        <el-form-item label="Name of Next of Kin" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Date of Birth" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Where they Hail From" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="Gender" :label-width="'25%'">
-                            <el-input v-model="current_verification.owner_details.phone" auto-complete="off"></el-input>
-                        </el-form-item>
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-collapse-item>
-
-            </el-collapse>
-        </div>
-    </div>
-</template>
-
 <style>
     .el-radio {
         margin-left: 15px;
@@ -431,15 +116,365 @@
         height: 50px;
 
     }
+    .el-date-editor.el-input {
+        width: 100%;
+    }
+
 </style>
+<template>
+    <div class="applicant-details">
+        <div class="applicant-details__back" @click="handleBack">
+            <img src="../../assets/left-arrow.png" class="applicant-details__back_image"/>
+            <div class="applicant-details__back_text">
+                Back
+            </div>
+        </div>
+        <div class="applicant-details__profile">
+            <el-card class="applicant-details__profile__personal-details">
+                <div class="applicant-details__profile_content">
+                    <img :src="applicant_details.driver_photo" class="applicant-details__profile_image"/>
+
+                    <div class="applicant-details__profile_row">
+                        <div class="applicant-details__profile_label">
+                            ID NUMBER
+                        </div>
+                        <div class="applicant-details__profile_value">
+                            {{applicant_details.id_no}}
+                        </div>
+                    </div>
+
+                    <div class="applicant-details__profile_row">
+                        <div class="applicant-details__profile_label">
+                            KRA PIN
+                        </div>
+                        <div class="applicant-details__profile_value">
+                            {{applicant_details.kra_pin}}
+                        </div>
+                    </div>
+                    <div class="applicant-details__profile_row">
+                        <div class="applicant-details__profile_label">
+                            DATE OF APPLICATION
+                        </div>
+                        <div class="applicant-details__profile_value">
+                            {{applicant_details.date_created}}
+                        </div>
+                    </div>
+
+                    <div class="applicant-details__profile_row">
+                        <div class="applicant-details__profile_label">
+                            STATUS
+                        </div>
+                        <div class="applicant-details__profile_value">
+                            Applied
+                        </div>
+                    </div>
+
+                </div>
+            </el-card>
+            <el-card header="Activity Log" class="applicant-details__profile__personal-details">
+
+            </el-card>
+        </div>
+        <div class="applicant-details__data">
+            <el-collapse v-model="accordionActiveName" accordion>
+                <el-collapse-item name="1">
+                    <template slot="title">
+                    <span style="">
+                        Identity Check
+                    </span>
+
+                        <span style="float: right; padding-right: 10px">
+                        ID Number : {{applicant_details.id_no}}
+                    </span>
+
+                    </template>
+
+                    <el-form :model="verification_details.identity_check">
+                        <el-form-item label="Name of Applicant" :label-width="'25%'">
+                            <el-input v-model="verification_details.identity_check.applicant_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Date of Birth" :label-width="'25%'">
+                             <el-date-picker
+                              v-model="verification_details.identity_check.dob"
+                              type="date"
+                              placeholder="Date of Birth">
+                             </el-date-picker>
+                        </el-form-item>
+
+
+                        <el-form-item label="Place of Birth" :label-width="'25%'">
+                            <el-input v-model="verification_details.identity_check.pob" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Gender" :label-width="'25%'">
+                            <el-input v-model="verification_details.identity_check.gender" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Attach Id Card" :label-width="'25%'">
+                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('identity_check', 'Identity Check')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-collapse-item>
+                <el-collapse-item title="Criminal Records Check" name="2">
+                    <el-form :model="verification_details.criminal_records_check">
+                        <el-form-item label="Name of Applicant" :label-width="'25%'">
+                            <el-input v-model="verification_details.criminal_records_check.applicant_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Criminal History" :label-width="'25%'">
+                            <el-input v-model="verification_details.criminal_records_check.criminal_history" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Authenticity" :label-width="'25%'">
+                            <el-input v-model="verification_details.criminal_records_check.authenticity" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Id Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.criminal_records_check.id_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Refrence Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.criminal_records_check.ref_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('criminal_records_check', 'Criminal Records Check')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item title="Driving License Check" name="3">
+
+                   <el-form :model="verification_details.driving_license_check">
+                        <el-form-item label="Name of Applicant" :label-width="'25%'">
+                            <el-input v-model="verification_details.driving_license_check.applicant_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="DL Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.driving_license_check.dl_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Date of Issue" :label-width="'25%'">
+                             <el-date-picker
+                              v-model="verification_details.motor_vehicle_records_check.date_of_issue"
+                              type="date"
+                              placeholder="Date of Issue">
+                       </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item label="Expiry Date" :label-width="'25%'">
+                             <el-date-picker
+                              v-model="verification_details.motor_vehicle_records_check.expiry_date"
+                              type="date"
+                              placeholder="Expiry Date">
+                             </el-date-picker>
+                        </el-form-item>
+
+
+
+                        <el-form-item label="Classes" :label-width="'25%'">
+                            <el-input v-model="verification_details.driving_license_check.classes" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                       <el-form-item label="Id Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.driving_license_check.id_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('driving_license_check', 'Driving License Check')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item name="4">
+                    <template slot="title">
+                     <span>
+                         Motor Vehicle Records Check
+                     </span>
+                        <span style="float: right; padding-right: 10px">
+                           Number Plate : {{applicant_details.vehicle_reg_no}}
+                      </span>
+                    </template>
+
+                    <el-form :model="verification_details.motor_vehicle_records_check">
+                        <el-form-item label="Ownership Details and Address" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Vehicle Insurance Validity" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.insurance_validity" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Vehicle Make" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.make" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Vehicle Body Type" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.body_type" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Engine No" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.engine_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                       <el-form-item label="Year of Manufacture" :label-width="'25%'">
+                             <el-date-picker
+                              v-model="verification_details.motor_vehicle_records_check.manufacture_year"
+                              type="year"
+                              placeholder="Year of Manufacture">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item label="Caveats" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.caveats" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="KRA Pin Number of Owner" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.owner_kra" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('motor_vehicle_records_check', 'Motor Vehicle Records Check')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item title="Car Insurance Validity" name="5">
+
+                     <el-form :model="verification_details.car_insurance_validity">
+                        <el-form-item label="Name of Owner" :label-width="'25%'">
+                            <el-input v-model="verification_details.car_insurance_validity.owner_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Vehicle Number Plate" :label-width="'25%'">
+                            <el-input v-model="verification_details.car_insurance_validity.vehicle_number_plate" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Issue Date" :label-width="'25%'">
+                            <el-date-picker
+                              v-model="verification_details.car_insurance_validity.issue_date"
+                              type="date"
+                              placeholder="Issue Date">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item label="Expiry Date" :label-width="'25%'">
+                            <el-date-picker
+                              v-model="verification_details.car_insurance_validity.expiry_date"
+                              type="date"
+                              placeholder="Expiry Date">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item label="Validity" :label-width="'25%'">
+                            <el-input v-model="verification_details.car_insurance_validity.validty" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                       <el-form-item label="Policy Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.car_insurance_validity.policy_number" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('car_insurance_validity', 'Car Insurance Validity Check')" >
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item name="6">
+                    <template slot="title">
+                     <span>
+                        KRA PIN Verification
+                     </span>
+                        <span style="float: right; padding-right: 10px">
+                         KRA PIN NUMBER : {{applicant_details.kra_pin}}
+                      </span>
+                    </template>
+
+                    <el-form :model="verification_details.kra_pin_verification">
+                        <el-form-item label="Validity" :label-width="'25%'">
+                            <el-input v-model="verification_details.kra_pin_verification.validity" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Name" :label-width="'25%'">
+                            <el-input v-model="verification_details.kra_pin_verification.name" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Pin Number" :label-width="'25%'">
+                            <el-input v-model="verification_details.kra_pin_verification.pin_number" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Tax Obligations" :label-width="'25%'">
+                            <el-input v-model="verification_details.kra_pin_verification.tax_obligations" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Date of Registration" :label-width="'25%'">
+                         <el-date-picker
+                              v-model="verification_details.kra_pin_verification.registration_date"
+                              type="date"
+                              placeholder="Date of Registration">
+                            </el-date-picker>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('kra_pin_verification', 'KRA Pin Verification')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item name="7">
+                    <template slot="title">
+                     <span>
+                        Next Of Kin
+                     </span>
+                        <span style="float: right; padding-right: 10px">
+                         ID NUMBER : {{applicant_details.nok_id}}
+                      </span>
+                    </template>
+
+                    <el-form :model="verification_details.next_of_kin">
+                        <el-form-item label="Name of Next of Kin" :label-width="'25%'">
+                            <el-input v-model="verification_details.next_of_kin.name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Date of Birth" :label-width="'25%'">
+                            <el-date-picker
+                              v-model="verification_details.next_of_kin.dob"
+                              type="date"
+                              placeholder="Date of Birth">
+                            </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item label="Where they Hail From" :label-width="'25%'">
+                            <el-input v-model="verification_details.next_of_kin.pob" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Gender" :label-width="'25%'">
+                            <el-input v-model="verification_details.next_of_kin.gender" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                         <el-form-item>
+                          <el-button type="primary" class="details-save-button" @click="updateReview('next_of_kin', 'Next of Kin')">
+                            SAVE
+                          </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+
+            </el-collapse>
+        </div>
+    </div>
+</template>
 
 <script>
-    import doc from './doc';
-
     export default {
         name: 'applicant-details',
         props: ['data', 'docs'],
-        components: {doc},
         data() {
             return {
                 vendor_types: VENDOR_TYPES,
@@ -449,217 +484,64 @@
                 lock_ui: false,
                 valid_docs: [],
                 invalid_docs: [],
-                current_verification: this.$store.getters.current_verification
+                current_verification: this.$store.getters.current_verification,
+                applicant_details: {},
+                verification_details: {},
+                accordionActiveName:'identity_check'
             }
         },
         beforeMount() {
-            let new_verification = this.current_verification;
-
-            console.log(new_verification);
-            this.createValidDocs(new_verification);
-            this.createInvalidDocs(new_verification);
-
-            console.log(this.invalid_docs);
-
-        },
-        created() {
-
-            $eventBus.$on('doc-validity', doc_validity => {
-                let doc = doc_validity["doc"];
-                let status = doc_validity["status"];
-                console.log(doc_validity);
-                this.verify(doc, status);
-                console.log(this.invalid_docs);
-                console.log(this.valid_docs);
+            this.applicant_details = this.current_verification.applicant_details;
+            this.verification_details = this.current_verification.verification_details;
 
 
-            });
         },
         methods: {
-            verify(doc, status) {
-                console.log('verify!', doc, status);
-                let new_verification = Object.assign({}, this.current_verification);
-                new_verification.docs[doc].validity = status;
-                this.current_verification.docs[doc].valid = status;
-                this.$store.commit('changeVerification', new_verification);
-                this.createValidDocs(new_verification);
-                this.createInvalidDocs(new_verification);
-                console.log(new_verification);
-                this.$forceUpdate();
-            },
-            save() {
-                this.lock_ui = true;
-                let payload = {
-                    admin_id: JSON.parse(localStorage.user).admin_id,
-                    admin_name: JSON.parse(localStorage.user).name,
-                    driver: Object.assign({}, this.current_verification),
-                    docs: Object.assign({}, this.current_verification.docs),
-                    status: 'save',
-                    send_email: true,
-                    email_content: {
-                        email_type: 'invalid_docs',
-                        email_address: this.current_verification.personal_details.email,
-                        invalid_docs: this.invalid_docs.map(doc => doc.split(' ').join('_').toLowerCase())
-                    }
+            updateReview(field, field_title =''){
+                //update store
+                let verification = {
+                    'applicant_details':this.applicant_details,
+                    'verification_details':this.verification_details
                 }
-                if (this.comments.length > 0) payload.comments = this.comments;
-                delete payload.driver.docs;
-                axios.post(BASE_URL + 'approve', payload)
-                    .then((response) => {
-                        this.lock_ui = false;
-                        this.$notify.success({
-                            title: 'Saving Successful',
-                            message: 'Successfully saved activity and sent email to partner'
-                        });
-                        this.$emit('finished');
-                    })
-                    .catch((error) => {
-                        this.lock_ui = false;
-                        this.$notify.error({
-                            title: 'Saving Failed',
-                            message: 'Failed to save the rider. Please try again'
-                        });
-                        log(error);
-                        throw new Error('Failed to save the rider status');
-                    })
-            },
-            approve() {
-                this.lock_ui = true;
-                let payload = {
-                    admin_id: JSON.parse(localStorage.user).admin_id,
-                    admin_name: JSON.parse(localStorage.user).name,
-                    driver: Object.assign({}, this.current_verification),
-                    docs: Object.assign({}, this.current_verification.docs),
-                    status: 'approve',
-                    send_email: true,
-                    email_content: {
-                        email_type: 'approved',
-                        email_address: this.current_verification.personal_details.email
-                    }
-                }
-                if (this.comments.length > 0) payload.comments = this.comments;
-                delete payload.driver.docs;
-                axios.post(BASE_URL + 'approve', payload)
-                    .then((response) => {
-                        if (response.data.status) {
-                            this.lock_ui = false;
-                            this.$notify.success({
-                                title: 'Approval Successful',
-                                message: 'Successfully reviewed partner and sent login details to test account'
-                            });
-                            this.$emit('finished');
-                        } else {
-                            this.lock_ui = false;
-                            this.$notify.error({
-                                title: 'Approval Failed',
-                                message: response.data.message
-                            });
 
-                        }
+                let review_json = this.verification_details[field];
+
+                //update db
+
+                let payload = {
+                    review_section: field,
+                    review_json: JSON.stringify(review_json),
+                    partner_id: this.applicant_details.partner_id,
+                    partner_id_no: this.applicant_details.id_no
+                };
+
+                axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review', JSON.stringify(payload))
+                    .then((response) => {
+                        console.log(response);
 
                     })
                     .catch((error) => {
-                        this.lock_ui = false;
-                        this.$notify.error({
-                            title: 'Approval Failed',
-                            message: 'Please try again'
-                        });
-                        log(error);
-                        throw new Error('Failed to approve rider. Please try again');
-                    });
-            },
-            reject() {
-                if (this.reason.length == 0) {
-                    this.$message({
-                        showClose: true,
-                        message: 'Please comment on the rejection',
-                        type: 'error'
-                    });
-                    return;
-                }
-                this.popover_visible = false;
-                this.lock_ui = true;
-                let payload = {
-                    admin_id: JSON.parse(localStorage.user).admin_id,
-                    admin_name: JSON.parse(localStorage.user).name,
-                    driver: Object.assign({}, this.current_verification),
-                    docs: Object.assign({}, this.current_verification.docs),
-                    status: 'reject',
-                    reason: this.reason,
-                    send_email: true,
-                    email_content: {
-                        email_type: 'rejected'
-                    }
-                }
-                if (this.comments.length > 0) payload.comments = this.comments;
-                delete payload.driver.docs;
-                axios.post(BASE_URL + 'approve', payload)
-                    .then((response) => {
-                        this.lock_ui = false;
-                        this.$notify.success({
-                            title: 'Rejection Done',
-                            message: 'Sent rejection email to partner'
-                        });
-                        this.$emit('finished');
+                        throw new Error('Could not update applicant');
                     })
-                    .catch((error) => {
-                        this.lock_ui = false;
-                        this.$notify.error({
-                            title: 'Rejection Failed',
-                            message: 'Please try again'
-                        });
-                        log(error);
-                        throw new Error('Failed to reject rider. Please try again');
-                    });
-            },
-            createValidDocs(new_verification) {
-                this.current_verification = new_verification;
-                let valid_docs = [];
-                if (this.current_verification.docs.driving_licence ? this.current_verification.docs.driving_licence.validity : this.current_verification.docs.driving_license.validity) valid_docs.push('Driving License');
-                if (this.current_verification.docs.good_conduct.validity) valid_docs.push('Good Conduct');
-                if (this.current_verification.docs.id_card.validity) valid_docs.push('ID Card');
-                if (this.current_verification.docs.kra_pin_cert.validity) valid_docs.push('KRA PIN Cert');
-                if (this.current_verification.has_owner) {
-                    if (this.current_verification.docs.insurance.validity) valid_docs.push('Insurance');
-                    if (this.current_verification.docs.log_book.validity) valid_docs.push('Log Book');
-                    if (this.current_verification.docs.vehicle_photo.validity) valid_docs.push('Vehicle Photo');
-                }
-                this.valid_docs = valid_docs;
-            },
-            createInvalidDocs(new_verification) {
-                this.current_verification = new_verification;
-                let invalid_docs = [];
-                // check availability of document before checking its validity
-                if (this.current_verification.docs.driving_licence.available) {
-                    if (!(this.current_verification.docs.driving_licence ? this.current_verification.docs.driving_licence.validity : this.current_verification.docs.driving_license.validity)) invalid_docs.push('Driving License');
 
-                }
-                if (this.current_verification.docs.good_conduct.available) {
-                    if (!this.current_verification.docs.good_conduct.validity) invalid_docs.push('Good Conduct');
 
-                }
-                if (!this.current_verification.docs.id_card.validity) invalid_docs.push('ID Card');
-                if (!this.current_verification.docs.kra_pin_cert.validity) invalid_docs.push('KRA PIN Certificate');
-                if (this.current_verification.has_owner) {
-                    if (!this.current_verification.docs.insurance.validity) invalid_docs.push('Insurance');
-                    if (!this.current_verification.docs.log_book.validity) invalid_docs.push('Log Book');
-                    if (!this.current_verification.docs.vehicle_photo.validity) invalid_docs.push('Vehicle Photo');
-                }
-                this.invalid_docs = invalid_docs;
+
+                this.$store.commit('changeVerification', verification);
+                 this.$notify.success({
+                  title: "update "+field_title,
+                  message: "applicant "+field_title+" updated successfully"
+                });
+
             },
             handleBack() {
-                this.$router.push({name: 'applicants'});
+                 this.$router.push({ name: 'applications'});
             }
         },
         computed: {
-            // current_verification() {
-            //     return this.$store.getters.current_verification;
-            // }
+
         },
         watch: {
-            current_verification: function (old_val, new_val) {
-                console.log('verification changed');
-            }
+
         }
     }
 </script>

@@ -10,7 +10,7 @@
           Applications
       </el-menu-item>
       <el-menu-item :class="{'is-active':(current_route === 'reviewed')}" index="/reviewed" exact replace>Reviewed</el-menu-item>
-      <el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>
+      <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
 
       </div>
       <el-submenu index="6" class="nav__session">

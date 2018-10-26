@@ -6,11 +6,8 @@ module.exports = merge(prodEnv, {
   ENVIRONMENT: '"development"',
   DEBUG_MODE : true,
   BASE_URL: '"https://ridertest.sendyit.com/admin_partner_api/v3/admin/"',
-  PARTNER_BASE_URL: '"https://ridertest.sendyit.com/admin_partner_api/v4/"',
+  PARTNER_BASE_URL: '"https://ridertest.sendyit.com/admin_partner_api/v5/"',
+  //PARTNER_BASE_URL: '"http://localhost:8888/admin_partner_api/index.php/v5/"',
 
-  rbmq_link: '"wss://staging-stomp.sendyit.com:15675/ws"',
-  rbmq_user: '"staging"',
-  rbmq_pass: '"0FAHmQQmjfsIXdro"',
-  websocket: '"wss://api.sendyit.com:9780/libraries"',
 
 });
