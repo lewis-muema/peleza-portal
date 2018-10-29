@@ -53,7 +53,7 @@ window.isNumeric = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 window.$eventBus = EventBus;
-
+window.AWS_URL = "https://s3-eu-west-1.amazonaws.com/sendy-partner-docs/";
 
 
 Vue.prototype.$store = store;

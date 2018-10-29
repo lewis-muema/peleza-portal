@@ -103,8 +103,7 @@
 
     .el-collapse-item__wrap {
         margin-bottom: 30px;
-        padding-top: 50px;
-        margin-top: -20px;
+        padding-top: 10px;
         border-top: 1px solid #d1dbe5;
         background: transparent;
         border-bottom: none;
@@ -176,6 +175,46 @@
         margin-left: -400%;
         text-align: left;
     }
+    .el-select {
+        width: 100%;
+    }
+
+    .review-title {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 15px;
+        margin-top: 10px;
+    }
+    .review-desc {
+        margin-top: 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+    .review-details {
+        display: inline-block;
+    }
+    .review-image {
+        display: inline-block;
+        float: right;
+    }
+
+    .review-image  img{
+        width: 100%;
+        height: auto;
+    }
+    .review-edit {
+        text-align: right;
+        font-size: 15px;
+        padding: 5px;
+        cursor: pointer;
+        color: #f17f3a;
+        text-transform: uppercase;
+    }
+
+    .review-edit:hover, .review-edit:focus {
+        color: #2a7fc3;
+    }
+
 
 
 </style>
@@ -246,8 +285,7 @@
                     </span>
 
                     </template>
-
-                    <el-form :model="verification_details.identity_check">
+                    <el-form :model="verification_details.identity_check" v-show="!identityReview">
                         <el-form-item label="Name of Applicant" :label-width="'25%'">
                             <el-input v-model="verification_details.identity_check.applicant_name" auto-complete="off"></el-input>
                         </el-form-item>
@@ -265,7 +303,12 @@
                         </el-form-item>
 
                         <el-form-item label="Gender" :label-width="'25%'">
-                            <el-input v-model="verification_details.identity_check.gender" auto-complete="off"></el-input>
+                            <el-select v-model="verification_details.identity_check.gender" auto-complete="off">
+                                <el-option value="Male">Male</el-option>
+                                <el-option value="Female">Female</el-option>
+
+                            </el-select>
+
                         </el-form-item>
 
                         <el-form-item label="Attach Id Card" :label-width="'25%'">
@@ -280,10 +323,55 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
-
+                    <div class="review_wrap" v-show="verification_details.identity_check.review_status">
+                        <div class="el-row">
+                            <div class="el-col-lg-16 review-details">
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        Name of Applicant
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.identity_check.applicant_name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Date of Birth
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.identity_check.dob}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Place of Birth
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.identity_check.pob}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Gender
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.identity_check.gender}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="el-col-lg-8 review-image">
+                                <div class="review-edit" @click="handleReviewEdit('identity_check')">
+                                    Edit
+                                </div>
+                                <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
+                                   <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </el-collapse-item>
                 <el-collapse-item title="Criminal Records Check" name="2">
-                    <el-form :model="verification_details.criminal_records_check">
+                    <el-form :model="verification_details.criminal_records_check" class="el-col-lg-15 review-details" v-show="!criminalReview">
                         <el-form-item label="Name of Applicant" :label-width="'25%'">
                             <el-input v-model="verification_details.criminal_records_check.applicant_name" auto-complete="off"></el-input>
                         </el-form-item>
@@ -299,7 +387,7 @@
                             <el-input v-model="verification_details.criminal_records_check.id_no" auto-complete="off"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="Refrence Number" :label-width="'25%'">
+                        <el-form-item label="Reference Number" :label-width="'25%'">
                             <el-input v-model="verification_details.criminal_records_check.ref_no" auto-complete="off"></el-input>
                         </el-form-item>
 
@@ -309,10 +397,58 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+                    <div class="el-col-lg-15 review-details" v-show="criminalReview">
+                        <div class="el-row">
+                                    <div class="review-title">
+                                        Name of Applicant
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.criminal_records_check.applicant_name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Criminal History
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.criminal_records_check.criminal_history}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Authenticity
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.criminal_records_check.authenticity}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Id Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.criminal_records_check.id_no}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Reference Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.criminal_records_check.ref_no}}
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="el-col-lg-7 review-image">
+                        <div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">
+                                    Edit
+                                </div>
+                        <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`"/>
+                    </div>
                 </el-collapse-item>
                 <el-collapse-item title="Driving License Check" name="3">
 
-                   <el-form :model="verification_details.driving_license_check">
+                   <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
                         <el-form-item label="Name of Applicant" :label-width="'25%'">
                             <el-input v-model="verification_details.driving_license_check.applicant_name" auto-complete="off"></el-input>
                         </el-form-item>
@@ -322,7 +458,7 @@
 
                         <el-form-item label="Date of Issue" :label-width="'25%'">
                              <el-date-picker
-                              v-model="verification_details.motor_vehicle_records_check.date_of_issue"
+                              v-model="verification_details.driving_license_check.date_of_issue"
                               type="date"
                               placeholder="Date of Issue">
                        </el-date-picker>
@@ -330,7 +466,7 @@
 
                         <el-form-item label="Expiry Date" :label-width="'25%'">
                              <el-date-picker
-                              v-model="verification_details.motor_vehicle_records_check.expiry_date"
+                              v-model="verification_details.driving_license_check.expiry_date"
                               type="date"
                               placeholder="Expiry Date">
                              </el-date-picker>
@@ -352,6 +488,64 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+                   <div class="el-row" v-show="drivingReview">
+                      <div class="el-col-lg-16 review-details">
+                        <div class="el-row">
+                                    <div class="review-title">
+                                        Name of Applicant
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.applicant_name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        DL Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.dl_no}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Date of Issue
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.date_of_issue}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Expiry Date
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.expiry_date}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Classes
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.classes}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       ID Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.driving_license_check.id_no}}
+                                    </div>
+                                </div>
+                        </div>
+                     <div class="el-col-lg-8 review-image">
+                        <div class="review-edit" @click="handleReviewEdit('driving_license_check')">
+                                    Edit
+                                </div>
+
+                    </div>
+                </div>
                 </el-collapse-item>
                 <el-collapse-item name="4">
                     <template slot="title">
@@ -363,7 +557,7 @@
                       </span>
                     </template>
 
-                    <el-form :model="verification_details.motor_vehicle_records_check">
+                    <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview">
                         <el-form-item label="Ownership Details and Address" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                         </el-form-item>
@@ -406,10 +600,87 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+
+                     <div class="el-row" v-show="motorReview">
+                      <div class="el-col-lg-16 review-details">
+                        <div class="el-row">
+                                    <div class="review-title">
+                                        Ownership Details and Address
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.ownership_details}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Vehicle Make
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.make}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Vehicle Body Type
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.body_type}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Engine No
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.engine_no}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Chasis No
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.chasis_no}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        Year of Manufacture
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.manufacture_year}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        Caveats
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.caveats}}
+                                    </div>
+                                </div>
+
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        KRA Pin Number of Owner
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.motor_vehicle_records_check.owner_kra}}
+                                    </div>
+                                </div>
+                        </div>
+                     <div class="el-col-lg-8 review-image">
+                        <div class="review-edit" @click="handleReviewEdit('motor_vehicle_records_check')">
+                                    Edit
+                                </div>
+                         
+
+                    </div>
+                </div>
                 </el-collapse-item>
                 <el-collapse-item title="Car Insurance Validity" name="5">
 
-                     <el-form :model="verification_details.car_insurance_validity">
+                     <el-form :model="verification_details.car_insurance_validity" class="el-col-lg-15 review-details" v-show="!insuranceReview">
                         <el-form-item label="Name of Owner" :label-width="'25%'">
                             <el-input v-model="verification_details.car_insurance_validity.owner_name" auto-complete="off"></el-input>
                         </el-form-item>
@@ -434,7 +705,7 @@
                         </el-form-item>
 
                         <el-form-item label="Validity" :label-width="'25%'">
-                            <el-input v-model="verification_details.car_insurance_validity.validty" auto-complete="off"></el-input>
+                            <el-input v-model="verification_details.car_insurance_validity.validity" auto-complete="off"></el-input>
                         </el-form-item>
 
                        <el-form-item label="Policy Number" :label-width="'25%'">
@@ -447,6 +718,65 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+                      <div class="el-col-lg-15 review-details" v-show="insuranceReview">
+                        <div class="el-row">
+                                    <div class="review-title">
+                                        Name of Owner
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.owner_name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Vehicle Number Plate
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.vehicle_number_plate}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Issue Date
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.issue_date}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Expiry Date
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.expiry_date}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Validity
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.validity}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        Policy Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.car_insurance_validity.policy_number}}
+                                    </div>
+                                </div>
+                      </div>
+                       <div class="el-col-lg-7 review-image">
+                        <div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">
+                                    Edit
+                                </div>
+                         <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`"/>
+
+                        </div>
+
+
                 </el-collapse-item>
                 <el-collapse-item name="6">
                     <template slot="title">
@@ -458,7 +788,7 @@
                       </span>
                     </template>
 
-                    <el-form :model="verification_details.kra_pin_verification">
+                    <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
                         <el-form-item label="Validity" :label-width="'25%'">
                             <el-input v-model="verification_details.kra_pin_verification.validity" auto-complete="off"></el-input>
                         </el-form-item>
@@ -488,6 +818,55 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+
+                    <div class="el-col-lg-15 review-details" v-show="kraReview">
+                        <div class="el-row">
+                                    <div class="review-title">
+                                        Validity
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.kra_pin_verification.validity}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Name
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.kra_pin_verification.name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Pin Number
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.kra_pin_verification.pin_number}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Tax Obligations
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.kra_pin_verification.tax_obligations}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Date of Registration
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.kra_pin_verification.registration_date}}
+                                    </div>
+                                </div>
+                      </div>
+                       <div class="el-col-lg-7 review-image">
+                        <div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">
+                                    Edit
+                                </div>
+
+                        </div>
                 </el-collapse-item>
                 <el-collapse-item name="7">
                     <template slot="title">
@@ -499,7 +878,7 @@
                       </span>
                     </template>
 
-                    <el-form :model="verification_details.next_of_kin">
+                    <el-form :model="verification_details.next_of_kin" v-show="!kinReview">
                         <el-form-item label="Name of Next of Kin" :label-width="'25%'">
                             <el-input v-model="verification_details.next_of_kin.name" auto-complete="off"></el-input>
                         </el-form-item>
@@ -511,16 +890,26 @@
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item label="Where they Hail From" :label-width="'25%'">
+                        <el-form-item label="Place of Birth" :label-width="'25%'">
                             <el-input v-model="verification_details.next_of_kin.pob" auto-complete="off"></el-input>
                         </el-form-item>
 
+
                         <el-form-item label="Gender" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.gender" auto-complete="off"></el-input>
+                            <el-select v-model="verification_details.next_of_kin.gender" auto-complete="off">
+                                <el-option value="Male">Male</el-option>
+                                <el-option value="Female">Female</el-option>
+
+                            </el-select>
+
                         </el-form-item>
-                        <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.id_card" type="file" auto-complete="off" class="upload-input"></el-input>
+
+                              <el-form-item label="Attach Id Card" :label-width="'25%'">
+                            <el-input v-model="verification_details.next_of_kin.id_card" auto-complete="off" class="upload-input"></el-input>
+                            <input name="nok_id_card" auto-complete="off" v-on:change="handleNOKIdCardChange" class="upload-button inputfile" type="file" id="nok_id_card"/>
+                            <label for="nok_id_card">Choose a file</label>
                         </el-form-item>
+
 
                          <el-form-item>
                           <el-button type="primary" class="details-save-button" @click="updateReview('next_of_kin', 'Next of Kin')">
@@ -528,6 +917,52 @@
                           </el-button>
                         </el-form-item>
                     </el-form>
+                    <div class="review_wrap" v-show="kinReview">
+                        <div class="el-row">
+                            <div class="el-col-lg-16 review-details">
+                                <div class="el-row">
+                                    <div class="review-title">
+                                        Name of Next of Kin
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.next_of_kin.name}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                        Date of Birth
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.next_of_kin.dob}}
+                                    </div>
+                                </div>
+                                 <div class="el-row">
+                                    <div class="review-title">
+                                       Place of Birth
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.next_of_kin.pob}}
+                                    </div>
+                                </div>
+                                <div class="el-row">
+                                    <div class="review-title">
+                                       Gender
+                                    </div>
+                                    <div class="review-desc">
+                                        {{this.verification_details.next_of_kin.gender}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="el-col-lg-8 review-image">
+                                <div class="review-edit" @click="handleReviewEdit('next_of_kin')">
+                                    Edit
+                                </div>
+                                <a :href="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`" target="_blank">
+                                   <img :src="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </el-collapse-item>
 
             </el-collapse>
@@ -553,16 +988,23 @@
                 verification_details: {},
                 accordionActiveName:'identity_check',
                 id_card:'',
-                id_doc_change: false
+                id_doc_change: false,
+                nok_doc_change:false,
+                AWS_URL: window.AWS_URL
             }
         },
         beforeMount() {
             this.applicant_details = this.current_verification.applicant_details;
             this.verification_details = this.current_verification.verification_details;
-
-
         },
         methods: {
+            handleReviewEdit(section) {
+                console.log('handling '+section+' edit');
+                let obj = this.verification_details;
+                obj[section]['review_status'] = false;
+                this.verification_details = Object.assign({}, this.verification_details, obj);
+
+            },
             async updateReview(field, field_title =''){
                 //update store
                 let verification = {
@@ -572,6 +1014,8 @@
 
                 let review_json = this.verification_details[field];
                 let properties_res = this.checkProperties(review_json);
+                console.log(properties_res);
+
 
                 if(properties_res == true){
 
@@ -584,6 +1028,8 @@
 
                     //check if upload happened
                     if(this.id_doc_change == true){
+
+                        console.log('doc upload happened');
                         //perform upload
                         let upload_res = await this.uploadDocument('id_card');
 
@@ -596,6 +1042,21 @@
 
                     }
 
+                } else if(field == 'next_of_kin'){
+                    if(this.nok_doc_change == true){
+
+                        console.log('doc upload happened');
+                        //perform upload
+                        let upload_res = await this.uploadDocument('nok_id_card');
+
+                        if(upload_res != false){
+                            review_json['id_card'] = upload_res;
+                            let obj = this.verification_details;
+                            obj['next_of_kin']['id_card'] = upload_res;
+                            this.verification_details = Object.assign({}, this.verification_details, obj);
+                        }
+
+                    }
                 }
 
 
@@ -619,6 +1080,8 @@
                               title: "update "+field_title,
                               message: "applicant "+field_title+" updated successfully"
                             });
+                            this.$store.commit('changeVerification', verification);
+
                         } else {
                             this.$notify.error({
                               title: "update "+field_title,
@@ -635,15 +1098,6 @@
                           message: "applicant "+field_title+" failed to update"
                         });
                     })
-
-
-
-                this.$store.commit('changeVerification', verification);
-                 this.$notify.success({
-                  title: "update "+field_title,
-                  message: "applicant "+field_title+" updated successfully"
-                });
-
             },
          async uploadDocument(doc_id) {
             let data = new FormData();
@@ -682,8 +1136,11 @@
         },
         checkProperties(obj) {
             for (var key in obj) {
-                if (obj[key] == null || obj[key] == "")
+                console.log(obj[key]);
+                if ((obj[key] == null || obj[key] == "") && obj[key] !== false){
                     return false;
+                }
+
             }
             return true;
         },
@@ -698,7 +1155,7 @@
             if(iid == 'insurance'){
                 return 'insu';
             }
-            else if(iid == 'id_card'){
+            else if(iid == 'id_card' || iid == 'nok_id_card'){
                 return 'id';
             }
             else if(iid == 'driver'){
@@ -727,10 +1184,54 @@
 
                     //this.verification_details.identity_check.id_card = name;
                  }
+        },
+        handleNOKIdCardChange() {
+
+                console.log('id card has been changed');
+                 let files = document.getElementById('nok_id_card')['files'];
+
+                 if (files.length < 1) {
+                     this.nok_doc_change  = false;
+
+                 } else {
+                    this.nok_doc_change = true;
+                    let name = files[0]['name'];
+                    console.log(name);
+
+
+                    let obj = this.verification_details;
+                    obj['next_of_kin']['id_card'] = name;
+                    this.verification_details = Object.assign({}, this.verification_details, obj);
+
+                    //this.verification_details.identity_check.id_card = name;
+                 }
         }
 
         },
         computed: {
+            identityReview : function () {
+                return this.verification_details.identity_check.review_status;
+            },
+            criminalReview : function () {
+                return this.verification_details.criminal_records_check.review_status;
+            },
+            drivingReview : function () {
+                return this.verification_details.driving_license_check.review_status;
+            },
+            motorReview : function () {
+                return this.verification_details.motor_vehicle_records_check.review_status;
+            },
+            insuranceReview: function () {
+                return this.verification_details.car_insurance_validity.review_status;
+            },
+            kraReview: function () {
+                return this.verification_details.kra_pin_verification.review_status;
+            },
+            kinReview: function () {
+                return this.verification_details.next_of_kin.review_status
+            }
+
+
 
         },
         watch: {

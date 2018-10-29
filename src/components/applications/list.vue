@@ -148,7 +148,9 @@ export default {
                     kra_pin: d.kra_pin,
                     driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
                     nok_id: d.nok_id,
-                    vehicle_reg_no: d.vehicle_reg_no
+                    vehicle_reg_no: d.vehicle_reg_no ? d.vehicle_reg_no : '',
+                    good_conduct: d.good_conduct ? d.good_conduct: '',
+                    insurance_copy: d.insurance_copy ? d.insurance_copy : ''
                 },
                 verification_details : {
                     identity_check : d.identity_check? JSON.parse(d.identity_check) : {
@@ -193,7 +195,7 @@ export default {
                         vehicle_number_plate:'',
                         issue_date:'',
                         expiry_date:'',
-                        validty:'',
+                        validity:'',
                         policy_number:'',
                         review_status: false
 
