@@ -178,7 +178,7 @@ export default {
                     },
                     motor_vehicle_records_check : d.motor_vehicle_records_check ? JSON.parse(d.motor_vehicle_records_check) : {
                         ownership_details:'',
-                        insurance_validity:'',
+                        chasis_no:'',
                         make:'',
                         body_type:'',
                         engine_no:'',
@@ -211,6 +211,7 @@ export default {
                         dob:'',
                         pob:'',
                         gender:'',
+                        id_card:'',
                         review_status: false
                     }
                 }

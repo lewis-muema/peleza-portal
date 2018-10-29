@@ -120,6 +120,64 @@
         width: 100%;
     }
 
+    .upload-input {
+        width: 80%;
+        display: inline-block;
+    }
+
+    .upload-button {
+        width: 20%;
+        display: inline-block;
+        float: right;
+        text-align: right;
+        margin-top: -5px;
+    }
+    .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .inputfile + label {
+    font-size: 14px;
+    font-weight: 300;
+    color: white;
+    background: #1782c5;
+    border-color: #1782c5;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline-block;
+        width: 16%;
+        border-radius: 5px;
+        text-transform: uppercase;
+    }
+
+    .inputfile:focus + label,
+    .inputfile + label:hover {
+        background: #fff;
+        color: #1782c5;
+        border: 1px solid;
+        border-color: #1782c5;
+    }
+    .upload-button button {
+        width: 95%;
+        padding: 11px;
+        text-transform: uppercase;
+    }
+
+    .el-upload__tip {
+        font-size: 12px;
+        color: #8391a5;
+        margin-top: 7px;
+        position: relative;
+        margin-left: -400%;
+        text-align: left;
+    }
+
+
 </style>
 <template>
     <div class="applicant-details">
@@ -211,7 +269,9 @@
                         </el-form-item>
 
                         <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off"></el-input>
+                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
+                            <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
+                            <label for="id_card">Choose a file</label>
                         </el-form-item>
 
                          <el-form-item>
@@ -307,9 +367,6 @@
                         <el-form-item label="Ownership Details and Address" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="Vehicle Insurance Validity" :label-width="'25%'">
-                            <el-input v-model="verification_details.motor_vehicle_records_check.insurance_validity" auto-complete="off"></el-input>
-                        </el-form-item>
 
                         <el-form-item label="Vehicle Make" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.make" auto-complete="off"></el-input>
@@ -321,6 +378,10 @@
 
                         <el-form-item label="Engine No" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.engine_no" auto-complete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="Chasis No" :label-width="'25%'">
+                            <el-input v-model="verification_details.motor_vehicle_records_check.chasis_no" auto-complete="off"></el-input>
                         </el-form-item>
 
                        <el-form-item label="Year of Manufacture" :label-width="'25%'">
@@ -457,6 +518,9 @@
                         <el-form-item label="Gender" :label-width="'25%'">
                             <el-input v-model="verification_details.next_of_kin.gender" auto-complete="off"></el-input>
                         </el-form-item>
+                        <el-form-item label="Attach Id Card" :label-width="'25%'">
+                            <el-input v-model="verification_details.next_of_kin.id_card" type="file" auto-complete="off" class="upload-input"></el-input>
+                        </el-form-item>
 
                          <el-form-item>
                           <el-button type="primary" class="details-save-button" @click="updateReview('next_of_kin', 'Next of Kin')">
@@ -487,7 +551,9 @@
                 current_verification: this.$store.getters.current_verification,
                 applicant_details: {},
                 verification_details: {},
-                accordionActiveName:'identity_check'
+                accordionActiveName:'identity_check',
+                id_card:'',
+                id_doc_change: false
             }
         },
         beforeMount() {
@@ -497,7 +563,7 @@
 
         },
         methods: {
-            updateReview(field, field_title =''){
+            async updateReview(field, field_title =''){
                 //update store
                 let verification = {
                     'applicant_details':this.applicant_details,
@@ -505,6 +571,33 @@
                 }
 
                 let review_json = this.verification_details[field];
+                let properties_res = this.checkProperties(review_json);
+
+                if(properties_res == true){
+
+                    review_json['review_status'] = true;
+                } else {
+                    review_json['review_status'] = false;
+                }
+
+                if(field == 'identity_check'){
+
+                    //check if upload happened
+                    if(this.id_doc_change == true){
+                        //perform upload
+                        let upload_res = await this.uploadDocument('id_card');
+
+                        if(upload_res != false){
+                            review_json['id_card'] = upload_res;
+                            let obj = this.verification_details;
+                            obj['identity_check']['id_card'] = upload_res;
+                            this.verification_details = Object.assign({}, this.verification_details, obj);
+                        }
+
+                    }
+
+                }
+
 
                 //update db
 
@@ -515,13 +608,32 @@
                     partner_id_no: this.applicant_details.id_no
                 };
 
+
+
+
                 axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review', JSON.stringify(payload))
                     .then((response) => {
                         console.log(response);
+                        if(response.data.status == true){
+                            this.$notify.success({
+                              title: "update "+field_title,
+                              message: "applicant "+field_title+" updated successfully"
+                            });
+                        } else {
+                            this.$notify.error({
+                              title: "update "+field_title,
+                              message: "applicant "+field_title+" failed to update"
+                            });
+
+                        }
 
                     })
                     .catch((error) => {
                         throw new Error('Could not update applicant');
+                        this.$notify.error({
+                          title: "update "+field_title,
+                          message: "applicant "+field_title+" failed to update"
+                        });
                     })
 
 
@@ -533,14 +645,100 @@
                 });
 
             },
-            handleBack() {
-                 this.$router.push({ name: 'applications'});
+         async uploadDocument(doc_id) {
+            let data = new FormData();
+            let files = document.getElementById(doc_id)['files'];
+
+              if (!files.length) { return false;}
+
+             let file = files[0];
+            data.append(doc_id, file);
+
+            let fileName = this.sanitizeFilename(file.name);
+            let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + '/';
+            let photoKey = albumPhotosKey + fileName;
+
+            data.append("key", photoKey);
+            data.append("field_name", doc_id);
+            data.append("album", albumPhotosKey);
+
+            let headers = {
+                "headers": {
+                  "content-type": "multipart/form-data"
+                }
+              }
+
+            return axios.post(PARTNER_BASE_URL+'peleza/upload_doc', data,headers).then((response) => {
+                 console.log(response.data.file_name);
+
+                 return response.data.file_name;
+
+          }).catch((err) => {
+             console.error(err);
+             return false;
+          });
+
+
+        },
+        checkProperties(obj) {
+            for (var key in obj) {
+                if (obj[key] == null || obj[key] == "")
+                    return false;
             }
+            return true;
+        },
+        handleBack() {
+             this.$router.push({ name: 'applications'});
+        },
+        sanitizeFilename(name){
+             let temp_name = new Date().getTime()+name.toLowerCase().replace(/\s/g,'');
+             return temp_name;
+        },
+        getAlbumName(iid){
+            if(iid == 'insurance'){
+                return 'insu';
+            }
+            else if(iid == 'id_card'){
+                return 'id';
+            }
+            else if(iid == 'driver'){
+                return 'photo';
+            }
+            else{
+                return iid;
+            }
+        },
+        handleIdCardChange() {
+            console.log('id card has been changed');
+                 let files = document.getElementById('id_card')['files'];
+
+                 if (files.length < 1) {
+                     this.id_doc_change  = false;
+
+                 } else {
+                    this.id_doc_change = true;
+                    let name = files[0]['name'];
+                    console.log(name);
+
+
+                    let obj = this.verification_details;
+                    obj['identity_check']['id_card'] = name;
+                    this.verification_details = Object.assign({}, this.verification_details, obj);
+
+                    //this.verification_details.identity_check.id_card = name;
+                 }
+        }
+
         },
         computed: {
 
         },
         watch: {
+            'id_card':function () {
+
+
+
+            }
 
         }
     }
