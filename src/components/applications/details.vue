@@ -72,6 +72,12 @@
         border-radius: 20px;
         margin-bottom: 20px;
     }
+    .el-card.applicant-details__submit-review {
+        overflow: hidden;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        background: #f3f3f3;
+    }
 
     .el-collapse {
         border: none;
@@ -215,7 +221,28 @@
         color: #2a7fc3;
     }
 
-
+    .submit-review-button {
+        margin-top: 20px;
+        padding:12px;
+        border: 1px solid #2a7fc3;
+    }
+    .submit-review-button:hover , .submit-review-button:focus {
+        margin-top: 20px;
+        padding:12px;
+        background: #fff;
+        color: #2a7fc3;
+        border: 1px solid #2a7fc3;
+    }
+    .review-reason {
+        margin-top: 15px;
+        height: auto;
+    }
+    .review-select {
+        width: 100%;
+        height: 35px;
+        background: #fff;
+        font-size: 14px;
+    }
 
 </style>
 <template>
@@ -253,7 +280,7 @@
                             DATE OF APPLICATION
                         </div>
                         <div class="applicant-details__profile_value">
-                            {{applicant_details.date_created}}
+                            {{formatDate(applicant_details.date_created)}}
                         </div>
                     </div>
 
@@ -269,6 +296,30 @@
                 </div>
             </el-card>
             <el-card header="Activity Log" class="applicant-details__profile__personal-details">
+
+            </el-card>
+
+            <el-card header="Submit Applicant" class="applicant-details__submit-review" v-show="validSubmit">
+
+                <el-form>
+
+                    <el-form-item>
+                        <select v-model="applicant_review.status" auto-complete="off" placeholder="" class="review-select">
+                            <option value="" disabled selected>Review Applicant</option>
+                            <option value="1" label="Recommended"></option>
+                            <option value="0" label="Not Recommended"></option>
+                        </select>
+                    </el-form-item>
+
+                    <el-form-item v-show="applicant_review.status == 0 && applicant_review.status != ''">
+                            <el-input type="textarea" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                          <el-button type="primary" class="submit-review-button" @click="">
+                            SUBMIT
+                          </el-button>
+                    </el-form-item>
+                </el-form>
 
             </el-card>
         </div>
@@ -339,7 +390,7 @@
                                         Date of Birth
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.identity_check.dob}}
+                                        {{formatDate(this.verification_details.identity_check.dob)}}
                                     </div>
                                 </div>
                                  <div class="el-row">
@@ -443,7 +494,9 @@
                         <div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">
                                     Edit
                                 </div>
-                        <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`"/>
+                        <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
+                            <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`"/>
+                        </a>
                     </div>
                 </el-collapse-item>
                 <el-collapse-item title="Driving License Check" name="3">
@@ -511,7 +564,7 @@
                                        Date of Issue
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.driving_license_check.date_of_issue}}
+                                        {{formatDate(this.verification_details.driving_license_check.date_of_issue)}}
                                     </div>
                                 </div>
                                 <div class="el-row">
@@ -519,7 +572,7 @@
                                        Expiry Date
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.driving_license_check.expiry_date}}
+                                        {{formatDate(this.verification_details.driving_license_check.expiry_date)}}
                                     </div>
                                 </div>
                                 <div class="el-row">
@@ -648,7 +701,7 @@
                                         Year of Manufacture
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.motor_vehicle_records_check.manufacture_year}}
+                                        {{formatYear(this.verification_details.motor_vehicle_records_check.manufacture_year)}}
                                     </div>
                                 </div>
                                 <div class="el-row">
@@ -740,7 +793,7 @@
                                        Issue Date
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.car_insurance_validity.issue_date}}
+                                        {{formatDate(this.verification_details.car_insurance_validity.issue_date)}}
                                     </div>
                                 </div>
                                 <div class="el-row">
@@ -748,7 +801,7 @@
                                        Expiry Date
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.car_insurance_validity.expiry_date}}
+                                        {{formatDate(this.verification_details.car_insurance_validity.expiry_date)}}
                                     </div>
                                 </div>
                                 <div class="el-row">
@@ -772,7 +825,9 @@
                         <div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">
                                     Edit
                                 </div>
-                         <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`"/>
+                           <a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
+                            <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`"/>
+                           </a>
 
                         </div>
 
@@ -857,7 +912,7 @@
                                        Date of Registration
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.kra_pin_verification.registration_date}}
+                                        {{formatDate(this.verification_details.kra_pin_verification.registration_date)}}
                                     </div>
                                 </div>
                       </div>
@@ -933,7 +988,7 @@
                                         Date of Birth
                                     </div>
                                     <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.dob}}
+                                        {{formatDate(this.verification_details.next_of_kin.dob)}}
                                     </div>
                                 </div>
                                  <div class="el-row">
@@ -990,7 +1045,11 @@
                 id_card:'',
                 id_doc_change: false,
                 nok_doc_change:false,
-                AWS_URL: window.AWS_URL
+                AWS_URL: window.AWS_URL,
+                applicant_review: {
+                    "status": "",
+                    "reason": ""
+                }
             }
         },
         beforeMount() {
@@ -1205,7 +1264,28 @@
 
                     //this.verification_details.identity_check.id_card = name;
                  }
+        },
+
+        checkReviewStatus() {
+            let obj = this.verification_details;
+            for (var key in obj) {
+                if (obj[key]['review_status'] == false ){
+                    return false;
+                }
+
+            }
+            return true;
+        },
+
+        formatDate(date){
+           return moment(date).format("Do MMM YYYY");
+        },
+
+        formatYear(date){
+           return moment(date).format("YYYY");
+
         }
+
 
         },
         computed: {
@@ -1229,17 +1309,15 @@
             },
             kinReview: function () {
                 return this.verification_details.next_of_kin.review_status
+            },
+            validSubmit: function () {
+                return this.checkReviewStatus();
             }
 
 
 
         },
         watch: {
-            'id_card':function () {
-
-
-
-            }
 
         }
     }
