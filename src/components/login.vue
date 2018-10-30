@@ -18,7 +18,7 @@
                 </g>
             </g>
         </svg>
-      <h1>Partner Onboarding Admin</h1>
+      <h1>SENDY PELEZA PORTAL</h1>
       <el-form :model="login_form" ref="login_form" @submit="login" :rules='rules'>
         <el-form-item label="Email" prop="email">
             <el-input placeholder="e.g. sendyer@sendy.co.ke" v-model="login_form.email" type="email"></el-input>
@@ -77,7 +77,7 @@ export default {
                             if(response.data.status) {
                                 localStorage.setItem('authenticated', JSON.stringify(true));
                                 localStorage.setItem('user', JSON.stringify(response.data.data));
-                                vm.$router.replace('/applications');
+                                 this.$router.push({ name: 'applications'});
                             } else {
                                 this.$notify.error({
                                     title: 'Error logging in',

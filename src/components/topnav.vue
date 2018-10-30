@@ -28,7 +28,7 @@
         <div class="el-menu-item" @click="logout">Logout</div>
       </el-submenu>
     </el-menu>
-    <div class="row" v-if="current_route !== 'applicant'">
+    <div class="row" v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant'">
       <div class="nav-search">
           <input class="nav__search" type="search" placeholder="Search ID/KRA PIN" v-model="search_term" @input="search"/>
       </div>

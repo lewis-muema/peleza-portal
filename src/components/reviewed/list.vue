@@ -33,7 +33,7 @@
 </template>
 <script>
 export default {
-    name: 'reviewed_list',
+    name: 'applicants_list',
     data() {
         var date = new Date(), y = date.getFullYear(), m = date.getMonth();
         return {
@@ -76,19 +76,6 @@ export default {
         },
         getApplicantsBackground() {
             let vm = this;
-            // let start = new Date(this.date_range[0]);
-            // let start_date = start.getDate();
-            // let start_month = start.getMonth() + 1;
-            // let start_year = start.getFullYear();
-            //
-            // let final_start_date = start_year + "-" + start_month + "-" + start_date ;
-            //
-            // let stop = new Date(this.date_range[1]);
-            // let stop_date = stop.getDate();
-            // let stop_month = stop.getMonth() + 1;
-            // let stop_year = stop.getFullYear();
-            //
-            // let final_stop_date = stop_year + "-" + stop_month + "-" + stop_date ;
             let final_start_date = null;
             let final_stop_date = null;
 
@@ -99,7 +86,7 @@ export default {
                 from: final_start_date,
                 to: final_stop_date
             };
-            axios.post(PARTNER_BASE_URL + 'admin/partner_list', payload)
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed', payload)
             .then((response) => {
                 vm.applicants = response.data.data.partner_list;
             })
@@ -112,26 +99,6 @@ export default {
             let vm = this;
             vm.loading = true;
             vm.empty_state = "Loading...";
-            // let final_start_date = null;
-            //
-            // if(this.date_range[0] !== null ) {
-            //   let start = new Date(this.date_range[0]);
-            //   let start_date = start.getDate();
-            //   let start_month = start.getMonth() + 1;
-            //   let start_year = start.getFullYear();
-            //
-            //   final_start_date = start_year + "-" + start_month + "-" + start_date;
-            // }
-            //
-            // let final_stop_date = null;
-            //
-            // if(this.date_range[1] !== null) {
-            //   let stop = new Date(this.date_range[1]);
-            //   let stop_date = stop.getDate();
-            //   let stop_month = stop.getMonth() + 1;
-            //   let stop_year = stop.getFullYear();
-            //   final_stop_date = stop_year + "-" + stop_month + "-" + stop_date;
-            // }
             let final_start_date = null;
             let final_stop_date = null;
 
@@ -143,10 +110,10 @@ export default {
                 to: final_stop_date
             };
 
-            axios.post(PARTNER_BASE_URL + 'admin/partner_list', JSON.stringify(payload))
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
-                    vm.applicants = response.data.data.partner_list;
+                    vm.applicants = response.data.applicants;
                     vm.empty_state = "No Data";
                     vm.loading = false;
                 })
@@ -173,85 +140,90 @@ export default {
         startVerification(d) {
               console.log(d);
             let verification = {
-                id: d.id,
-                has_owner: d.owner_details !== null ? true : false,
-                status: d.status,
-                state: d.state,
-                stage: d.stage,
-                token: d.token,
-                referrer: d.referrer,
-                dates: {
+                applicant_details : {
+                    application_type: d.application_type,
                     date_created: d.date_created,
-                    date_time: d.date_time,
-                    date_approved: d.date_approved,
-                    interview_date: d.interview_date
-                },
-                docs: d.docs_verification ? JSON.parse(d.docs_verification) : {
-                    driver_photo: {
-                        image: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.driver_photo ? true : false
-                    },
-                    id_card: {
-                        image: d.id_card ? `${AWS_URL}id/${d.id_card}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.id_card ? true : false
-                    },
-                    kra_pin_cert: {
-                        image: d.kra_pin_cert ? `${AWS_URL}kra/${d.kra_pin_cert}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.kra_pin_cert ? true : false
-                    },
-                    good_conduct: {
-                        image: d.good_conduct ? `${AWS_URL}gc/${d.good_conduct}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.good_conduct ? true : false
-                    },
-                    driving_licence: {
-                        image: d.driving_licence ? `${AWS_URL}dl/${d.driving_licence}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.driving_licence ? true : false
-                    },
-                    log_book: d.vehicle_details ? {
-                        image: d.vehicle_details.log_book ? `${AWS_URL}lb/${d.vehicle_details.log_book}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.vehicle_details.log_book ? true : false
-                    } : null,
-                    insurance: d.vehicle_details ? {
-                        image: d.vehicle_details.insurance ? `${AWS_URL}insu/${d.vehicle_details.insurance}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.vehicle_details.insurance ? true : false
-                    } : null,
-                    vehicle_photo: d.vehicle_details ? {
-                        image: d.vehicle_details.photo ? `${AWS_URL}vehicle/${d.vehicle_details.photo}` : MISSING_PHOTO_URL,
-                        validity: false,
-                        available: d.vehicle_details.photo ? true : false
-                    } : null
-                },
-                personal_details: {
-                    driver_photo: d.driver_photo ? `${AWS_URL}driver/${d.driver_photo}` : MISSING_PHOTO_URL,
-                    name: d.name,
+                    partner_id: d.id,
                     id_no: d.id_no,
                     kra_pin: d.kra_pin,
-                    nok_name: d.nok_name,
-                    nok_phone: d.nok_phone,
+                    driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
                     nok_id: d.nok_id,
-                    nok_relationship: d.nok_relationship,
-                    country: d.country,
-                    city: d.city,
-                    email: d.email
+                    vehicle_reg_no: d.vehicle_reg_no ? d.vehicle_reg_no : '',
+                    good_conduct: d.good_conduct ? d.good_conduct: '',
+                    insurance_copy: d.insurance_copy ? d.insurance_copy : '',
+                    vehicle_photo: d.vehicle_photo ? d.vehicle_photo: ''
                 },
-                vehicle_details: d.vehicle_details,
-                owner_details: d.owner_details
+                verification_details : {
+                    identity_check : d.identity_check? JSON.parse(d.identity_check) : {
+                        applicant_name: '',
+                        dob:'',
+                        pob:'',
+                        gender:'',
+                        id_card:'',
+                        review_status: false
+                    },
+                    criminal_records_check : d.criminal_records_check? JSON.parse(d.criminal_records_check) : {
+                        applicant_name:'',
+                        criminal_history:'',
+                        authenticity:'',
+                        id_no:'',
+                        ref_no:'',
+                        review_status: false
+                    },
+                    driving_license_check : d.driving_license_check ? JSON.parse(d.driving_license_check) : {
+                        applicant_name:'',
+                        dl_no:'',
+                        date_of_issue:'',
+                        expiry_date:'',
+                        classes:'',
+                        id_no:'',
+                        review_status: false
+                    },
+                    motor_vehicle_records_check : d.motor_vehicle_records_check ? JSON.parse(d.motor_vehicle_records_check) : {
+                        ownership_details:'',
+                        chasis_no:'',
+                        make:'',
+                        body_type:'',
+                        engine_no:'',
+                        manufacture_year:'',
+                        caveats:'',
+                        owner_kra:'',
+                        review_status: false
+
+                    },
+                    car_insurance_validity : d.car_insurance_validity ? JSON.parse(d.car_insurance_validity) : {
+                        owner_name:'',
+                        vehicle_number_plate:'',
+                        issue_date:'',
+                        expiry_date:'',
+                        validity:'',
+                        policy_number:'',
+                        review_status: false
+
+                    },
+                    kra_pin_verification : d.kra_pin_verification ? JSON.parse(d.kra_pin_verification) : {
+                        validity:'',
+                        name:'',
+                        pin_number:'',
+                        tax_obligations:'',
+                        registration_date:'',
+                        review_status: false
+                    },
+                    next_of_kin : d.next_of_kin ? JSON.parse(d.next_of_kin) : {
+                        name: '',
+                        dob:'',
+                        pob:'',
+                        gender:'',
+                        id_card:'',
+                        review_status: false
+                    }
+                }
             };
 
             this.updateSteps(verification.has_owner);
             this.$store.commit('changeVerification', verification);
-            let vm = this;
-            this.verifying = true;
-            this.$nextTick(() => {
-                vm.$refs.carousel.updateItems();
-            });
+            this.$router.push({ name: 'reviewed-applicant', params: {id : d.id}});
+
         },
         resetVerification(done) {
             this.set(0);
@@ -277,31 +249,7 @@ export default {
             this.$refs.carousel.setActiveItem(i);
             this.current_step = this.$refs.carousel.activeIndex + 1;
         },
-        getStepTitle(step) {
-            if (this.current_verification.has_owner) {
-                switch (step) {
-                    case 1:
-                        return 'Personal Details'
-                    case 2:
-                        return 'Vehicle Details'
-                    case 3:
-                        return 'Owner Details'
-                    case 4:
-                        return 'Summary'
-                    default:
-                        return `Step ${step}`
-                }
-            } else {
-                switch (step) {
-                    case 1:
-                        return 'Personal Details'
-                    case 2:
-                        return 'Summary'
-                    default:
-                        return `Step ${step}`
-                }
-            }
-        },
+
         finishVerification() {
             this.set(0);
             this.verifying = false;
@@ -339,4 +287,9 @@ export default {
     margin-bottom: 10px;
     float: right;
   }
+.el-table__row {
+    cursor: pointer;
+    height: 50px;
+}
+
 </style>

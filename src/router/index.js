@@ -7,6 +7,9 @@ import applicant_detail from '@/components/applications/details'
 import reviewed_list from '@/components/reviewed/list'
 import renewals_list from '@/components/renewals/list'
 
+import reviewed_detail from '@/components/reviewed/details'
+
+
 
 Vue.use(Router)
 
@@ -32,6 +35,12 @@ let router = new Router({
       name: 'reviewed',
       component: reviewed_list
     },
+    {
+      path:'/reviewed-applicant/:id',
+      name:'reviewed-applicant',
+      component:reviewed_detail
+
+      },
     {
       path: '/renewals',
       name: 'renewals',

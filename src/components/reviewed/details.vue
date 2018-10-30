@@ -248,7 +248,6 @@
         font-size: 14px;
     }
 
-
 </style>
 <template>
     <div class="applicant-details">
@@ -304,29 +303,6 @@
 
             </el-card>
 
-            <el-card header="Submit Applicant" class="applicant-details__submit-review" v-show="validSubmit">
-
-                <el-form>
-
-                    <el-form-item>
-                        <select v-model="applicant_review.status" auto-complete="off" placeholder="" class="review-select">
-                            <option value="" disabled selected>Review Applicant</option>
-                            <option value="1" label="Recommended"></option>
-                            <option value="0" label="Not Recommended"></option>
-                        </select>
-                    </el-form-item>
-
-                    <el-form-item v-show="applicant_review.status == 0 && applicant_review.status != ''">
-                            <el-input type="textarea" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                          <el-button type="primary" class="submit-review-button" @click="submitApplicantReview" :disabled="!validSubmitStatus">
-                            SUBMIT
-                          </el-button>
-                    </el-form-item>
-                </el-form>
-
-            </el-card>
         </div>
         <div class="applicant-details__data">
             <el-collapse v-model="accordionActiveName" accordion>
@@ -416,9 +392,9 @@
                                 </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
-                                <div class="review-edit" @click="handleReviewEdit('identity_check')">
-                                    Edit
-                                </div>
+                                <!--<div class="review-edit" @click="handleReviewEdit('identity_check')">-->
+                                    <!--Edit-->
+                                <!--</div>-->
                                 <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
                                    <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
                                 </a>
@@ -496,9 +472,9 @@
                                 </div>
                     </div>
                     <div class="el-col-lg-7 review-image">
-                        <div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">
-                                    Edit
-                                </div>
+                        <!--<div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">-->
+                                    <!--Edit-->
+                                <!--</div>-->
                         <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
                             <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`"/>
                         </a>
@@ -598,9 +574,9 @@
                                 </div>
                         </div>
                      <div class="el-col-lg-8 review-image">
-                        <div class="review-edit" @click="handleReviewEdit('driving_license_check')">
-                                    Edit
-                                </div>
+                        <!--<div class="review-edit" @click="handleReviewEdit('driving_license_check')">-->
+                                    <!--Edit-->
+                                <!--</div>-->
 
                     </div>
                 </div>
@@ -615,7 +591,7 @@
                       </span>
                     </template>
 
-                    <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview" class="el-col-lg-15 review-details">
+                    <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview" class="el-col-lg-16 review-details">
                         <el-form-item label="Ownership Details and Address" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                         </el-form-item>
@@ -727,9 +703,9 @@
                                 </div>
                         </div>
                      <div class="el-col-lg-8 review-image">
-                        <div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">
-                                    Edit
-                        </div>
+                        <!--<div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">-->
+                                    <!--Edit-->
+                        <!--</div>-->
 
                           <a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
                             <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"/>
@@ -829,9 +805,9 @@
                                 </div>
                       </div>
                        <div class="el-col-lg-7 review-image">
-                        <div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">
-                                    Edit
-                                </div>
+                        <!--<div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">-->
+                                    <!--Edit-->
+                                <!--</div>-->
                            <a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
                             <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`"/>
                            </a>
@@ -924,9 +900,9 @@
                                 </div>
                       </div>
                        <div class="el-col-lg-7 review-image">
-                        <div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">
-                                    Edit
-                                </div>
+                        <!--<div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">-->
+                                    <!--Edit-->
+                                <!--</div>-->
 
                         </div>
                 </el-collapse-item>
@@ -1016,9 +992,9 @@
                                 </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
-                                <div class="review-edit" @click="handleReviewEdit('next_of_kin')">
-                                    Edit
-                                </div>
+                                <!--<div class="review-edit" @click="handleReviewEdit('next_of_kin')">-->
+                                    <!--Edit-->
+                                <!--</div>-->
                                 <a :href="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`" target="_blank">
                                    <img :src="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`"/>
                                 </a>
@@ -1071,261 +1047,94 @@
                 this.verification_details = Object.assign({}, this.verification_details, obj);
 
             },
-            async updateReview(field, field_title =''){
-                //update store
-                let verification = {
-                    'applicant_details':this.applicant_details,
-                    'verification_details':this.verification_details
-                }
 
-                let review_json = this.verification_details[field];
-                let properties_res = this.checkProperties(review_json);
-                console.log(properties_res);
-
-
-                if(properties_res == true){
-
-                    review_json['review_status'] = true;
-                } else {
-                    review_json['review_status'] = false;
-                }
-
-                if(field == 'identity_check'){
-
-                    //check if upload happened
-                    if(this.id_doc_change == true){
-
-                        console.log('doc upload happened');
-                        //perform upload
-                        let upload_res = await this.uploadDocument('id_card');
-
-                        if(upload_res != false){
-                            review_json['id_card'] = upload_res;
-                            let obj = this.verification_details;
-                            obj['identity_check']['id_card'] = upload_res;
-                            this.verification_details = Object.assign({}, this.verification_details, obj);
-                        }
-
+            checkProperties(obj) {
+                for (var key in obj) {
+                    console.log(obj[key]);
+                    if ((obj[key] == null || obj[key] == "") && obj[key] !== false){
+                        return false;
                     }
 
-                } else if(field == 'next_of_kin'){
-                    if(this.nok_doc_change == true){
-
-                        console.log('doc upload happened');
-                        //perform upload
-                        let upload_res = await this.uploadDocument('nok_id_card');
-
-                        if(upload_res != false){
-                            review_json['id_card'] = upload_res;
-                            let obj = this.verification_details;
-                            obj['next_of_kin']['id_card'] = upload_res;
-                            this.verification_details = Object.assign({}, this.verification_details, obj);
-                        }
-
-                    }
                 }
-
-
-                //update db
-
-                let payload = {
-                    review_section: field,
-                    review_json: JSON.stringify(review_json),
-                    partner_id: this.applicant_details.partner_id,
-                    partner_id_no: this.applicant_details.id_no
-                };
-
-
-
-
-                axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review', JSON.stringify(payload))
-                    .then((response) => {
-                        console.log(response);
-                        if(response.data.status == true){
-                            this.$notify.success({
-                              title: "update "+field_title,
-                              message: "applicant "+field_title+" updated successfully"
-                            });
-                            this.$store.commit('changeVerification', verification);
-
-                        } else {
-                            this.$notify.error({
-                              title: "update "+field_title,
-                              message: "applicant "+field_title+" failed to update"
-                            });
-
-                        }
-
-                    })
-                    .catch((error) => {
-                        throw new Error('Could not update applicant');
-                        this.$notify.error({
-                          title: "update "+field_title,
-                          message: "applicant "+field_title+" failed to update"
-                        });
-                    })
+                return true;
             },
-         async uploadDocument(doc_id) {
-            let data = new FormData();
-            let files = document.getElementById(doc_id)['files'];
-
-              if (!files.length) { return false;}
-
-             let file = files[0];
-            data.append(doc_id, file);
-
-            let fileName = this.sanitizeFilename(file.name);
-            let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + '/';
-            let photoKey = albumPhotosKey + fileName;
-
-            data.append("key", photoKey);
-            data.append("field_name", doc_id);
-            data.append("album", albumPhotosKey);
-
-            let headers = {
-                "headers": {
-                  "content-type": "multipart/form-data"
+            handleBack() {
+                 this.$router.push({ name: 'reviewed'});
+            },
+            getAlbumName(iid){
+                if(iid == 'insurance'){
+                    return 'insu';
                 }
-              }
-
-            return axios.post(PARTNER_BASE_URL+'peleza/upload_doc', data,headers).then((response) => {
-                 console.log(response.data.file_name);
-
-                 return response.data.file_name;
-
-          }).catch((err) => {
-             console.error(err);
-             return false;
-          });
-
-
-        },
-        checkProperties(obj) {
-            for (var key in obj) {
-                console.log(obj[key]);
-                if ((obj[key] == null || obj[key] == "") && obj[key] !== false){
-                    return false;
+                else if(iid == 'id_card' || iid == 'nok_id_card'){
+                    return 'id';
                 }
-
-            }
-            return true;
-        },
-        handleBack() {
-             this.$router.push({ name: 'applications'});
-        },
-        sanitizeFilename(name){
-             let temp_name = new Date().getTime()+name.toLowerCase().replace(/\s/g,'');
-             return temp_name;
-        },
-        getAlbumName(iid){
-            if(iid == 'insurance'){
-                return 'insu';
-            }
-            else if(iid == 'id_card' || iid == 'nok_id_card'){
-                return 'id';
-            }
-            else if(iid == 'driver'){
-                return 'photo';
-            }
-            else{
-                return iid;
-            }
-        },
-        handleIdCardChange() {
-            console.log('id card has been changed');
-                 let files = document.getElementById('id_card')['files'];
-
-                 if (files.length < 1) {
-                     this.id_doc_change  = false;
-
-                 } else {
-                    this.id_doc_change = true;
-                    let name = files[0]['name'];
-                    console.log(name);
-
-
-                    let obj = this.verification_details;
-                    obj['identity_check']['id_card'] = name;
-                    this.verification_details = Object.assign({}, this.verification_details, obj);
-
-                    //this.verification_details.identity_check.id_card = name;
-                 }
-        },
-        handleNOKIdCardChange() {
-
+                else if(iid == 'driver'){
+                    return 'photo';
+                }
+                else{
+                    return iid;
+                }
+            },
+            handleIdCardChange() {
                 console.log('id card has been changed');
-                 let files = document.getElementById('nok_id_card')['files'];
+                     let files = document.getElementById('id_card')['files'];
 
-                 if (files.length < 1) {
-                     this.nok_doc_change  = false;
+                     if (files.length < 1) {
+                         this.id_doc_change  = false;
 
-                 } else {
-                    this.nok_doc_change = true;
-                    let name = files[0]['name'];
-                    console.log(name);
+                     } else {
+                        this.id_doc_change = true;
+                        let name = files[0]['name'];
+                        console.log(name);
 
 
-                    let obj = this.verification_details;
-                    obj['next_of_kin']['id_card'] = name;
-                    this.verification_details = Object.assign({}, this.verification_details, obj);
+                        let obj = this.verification_details;
+                        obj['identity_check']['id_card'] = name;
+                        this.verification_details = Object.assign({}, this.verification_details, obj);
 
-                    //this.verification_details.identity_check.id_card = name;
-                 }
-        },
+                        //this.verification_details.identity_check.id_card = name;
+                     }
+            },
+            handleNOKIdCardChange() {
 
-        checkReviewStatus() {
-            let obj = this.verification_details;
-            for (var key in obj) {
-                if (obj[key]['review_status'] == false ){
-                    return false;
-                }
-            }
-            return true;
-        },
+                    console.log('id card has been changed');
+                     let files = document.getElementById('nok_id_card')['files'];
 
-        formatDate(date){
-           return moment(date).format("Do MMM YYYY");
-        },
+                     if (files.length < 1) {
+                         this.nok_doc_change  = false;
 
-        formatYear(date){
-           return moment(date).format("YYYY");
+                     } else {
+                        this.nok_doc_change = true;
+                        let name = files[0]['name'];
+                        console.log(name);
 
-        },
 
-        submitApplicantReview() {
+                        let obj = this.verification_details;
+                        obj['next_of_kin']['id_card'] = name;
+                        this.verification_details = Object.assign({}, this.verification_details, obj);
 
-            let payload = {
-                "partner_id": this.applicant_details.partner_id,
-                "applicant_review": this.applicant_review
-            }
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/submit_applicant_review', JSON.stringify(payload))
-                .then((response) => {
-                    console.log(response);
-                    if(response.data.status == true){
-                        this.$notify.success({
-                          title: "submit applicant review",
-                          message: response.data.message
-                        });
+                        //this.verification_details.identity_check.id_card = name;
+                     }
+            },
 
-                    } else {
-                        this.$notify.error({
-                          title: "submit applicant review",
-                          message: response.data.message
-                        });
-
+            checkReviewStatus() {
+                let obj = this.verification_details;
+                for (var key in obj) {
+                    if (obj[key]['review_status'] == false ){
+                        return false;
                     }
+                }
+                return true;
+            },
 
-                })
-                .catch((error) => {
-                    throw new Error('Could not update applicant');
-                    console.log(error);
+            formatDate(date){
+               return moment(date).format("Do MMM YYYY");
+            },
 
-                    this.$notify.error({
-                      title: "submit applicant review",
-                      message: "failed to update applicant review"
-                    });
-                })
-        }
+            formatYear(date){
+               return moment(date).format("YYYY");
+
+            },
 
         },
         computed: {

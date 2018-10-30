@@ -86,7 +86,7 @@ export default {
                 from: final_start_date,
                 to: final_stop_date
             };
-            axios.post(PARTNER_BASE_URL + 'peleza/list_applicants', payload)
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_applicants', payload)
             .then((response) => {
                 vm.applicants = response.data.data.partner_list;
             })
