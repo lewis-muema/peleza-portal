@@ -610,7 +610,7 @@
                       </span>
                     </template>
 
-                    <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview">
+                    <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview" class="el-col-lg-16 review-details">
                         <el-form-item label="Ownership Details and Address" :label-width="'25%'">
                             <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                         </el-form-item>
@@ -654,8 +654,7 @@
                         </el-form-item>
                     </el-form>
 
-                     <div class="el-row" v-show="motorReview">
-                      <div class="el-col-lg-16 review-details">
+                      <div v-show="motorReview" class="el-col-lg-16 review-details">
                         <div class="el-row">
                                     <div class="review-title">
                                         Ownership Details and Address
@@ -723,13 +722,16 @@
                                 </div>
                         </div>
                      <div class="el-col-lg-8 review-image">
-                        <div class="review-edit" @click="handleReviewEdit('motor_vehicle_records_check')">
+                        <div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">
                                     Edit
-                                </div>
+                        </div>
+
+                          <a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
+                            <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"/>
+                           </a>
                          
 
-                    </div>
-                </div>
+                     </div>
                 </el-collapse-item>
                 <el-collapse-item title="Car Insurance Validity" name="5">
 

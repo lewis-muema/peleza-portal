@@ -150,7 +150,8 @@ export default {
                     nok_id: d.nok_id,
                     vehicle_reg_no: d.vehicle_reg_no ? d.vehicle_reg_no : '',
                     good_conduct: d.good_conduct ? d.good_conduct: '',
-                    insurance_copy: d.insurance_copy ? d.insurance_copy : ''
+                    insurance_copy: d.insurance_copy ? d.insurance_copy : '',
+                    vehicle_photo: d.vehicle_photo ? d.vehicle_photo: ''
                 },
                 verification_details : {
                     identity_check : d.identity_check? JSON.parse(d.identity_check) : {
