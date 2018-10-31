@@ -247,6 +247,15 @@
         background: #fff;
         font-size: 14px;
     }
+    .logs-list {
+        list-style: none;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    .logs-list li {
+        padding-top: 10px;
+    }
 
 </style>
 <template>
@@ -293,7 +302,7 @@
                             STATUS
                         </div>
                         <div class="applicant-details__profile_value">
-                            Applied
+                            Reviewed
                         </div>
                     </div>
 
@@ -1032,12 +1041,15 @@
                 applicant_review: {
                     "status": "",
                     "reason": ""
-                }
+                },
+                user: JSON.parse(localStorage.user),
+                partner_logs: []
             }
         },
         beforeMount() {
             this.applicant_details = this.current_verification.applicant_details;
             this.verification_details = this.current_verification.verification_details;
+            this.getPartnerLogs();
         },
         methods: {
             handleReviewEdit(section) {
@@ -1135,6 +1147,33 @@
                return moment(date).format("YYYY");
 
             },
+
+            getPartnerLogs() {
+                 let payload = {
+                    "partner_id": this.applicant_details.partner_id
+                 }
+
+                 axios.post(PARTNER_BASE_URL + 'peleza/logs/get_partner_logs', JSON.stringify(payload))
+                    .then((response) => {
+                        console.log(response);
+
+                        if(response.data.status == true){
+                            this.partner_logs = response.data.logs;
+                        } else {
+                           this.partner_logs = [];
+                        }
+
+                    })
+                    .catch((error) => {
+                        throw new Error('Could not update applicant');
+                        console.log(error);
+
+                        this.$notify.error({
+                          title: "submit applicant review",
+                          message: "failed to update applicant review"
+                        });
+                    })
+            }
 
         },
         computed: {

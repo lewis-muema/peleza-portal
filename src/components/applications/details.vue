@@ -248,6 +248,17 @@
         font-size: 14px;
     }
 
+    .logs-list {
+        list-style: none;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    .logs-list li {
+        padding-top: 10px;
+    }
+
+
 
 </style>
 <template>
@@ -302,6 +313,11 @@
             </el-card>
             <el-card header="Activity Log" class="applicant-details__profile__personal-details">
 
+                    <ul class="logs-list">
+                        <li v-for="log in partner_logs.slice().reverse()">
+                            {{createLogStatement(log)}}
+                        </li>
+                    </ul>
             </el-card>
 
             <el-card header="Submit Applicant" class="applicant-details__submit-review" v-show="validSubmit">
@@ -1056,12 +1072,15 @@
                 applicant_review: {
                     "status": "",
                     "reason": ""
-                }
+                },
+                user: JSON.parse(localStorage.user),
+                partner_logs: []
             }
         },
         beforeMount() {
             this.applicant_details = this.current_verification.applicant_details;
             this.verification_details = this.current_verification.verification_details;
+            this.getPartnerLogs();
         },
         methods: {
             handleReviewEdit(section) {
@@ -1070,6 +1089,10 @@
                 obj[section]['review_status'] = false;
                 this.verification_details = Object.assign({}, this.verification_details, obj);
 
+            },
+            createLogStatement(log) {
+                let statement = log.admin_name+" "+log.last_activity+" on "+moment(log.date_time).format("Do MMM YYYY")+" at "+moment(log.date_time).format("HH:mm:ss A");
+                return statement;
             },
             async updateReview(field, field_title =''){
                 //update store
@@ -1132,7 +1155,9 @@
                     review_section: field,
                     review_json: JSON.stringify(review_json),
                     partner_id: this.applicant_details.partner_id,
-                    partner_id_no: this.applicant_details.id_no
+                    partner_id_no: this.applicant_details.id_no,
+                    admin_id: JSON.parse(localStorage.user).admin_id,
+                    admin_name: JSON.parse(localStorage.user).name,
                 };
 
 
@@ -1164,6 +1189,8 @@
                           message: "applicant "+field_title+" failed to update"
                         });
                     })
+
+                this.getPartnerLogs();
             },
          async uploadDocument(doc_id) {
             let data = new FormData();
@@ -1296,11 +1323,15 @@
 
             let payload = {
                 "partner_id": this.applicant_details.partner_id,
-                "applicant_review": this.applicant_review
+                "applicant_review": this.applicant_review,
+                "admin_id": JSON.parse(localStorage.user).admin_id,
+                "admin_name": JSON.parse(localStorage.user).name,
+
             }
             axios.post(PARTNER_BASE_URL + 'peleza/applications/submit_applicant_review', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
+
                     if(response.data.status == true){
                         this.$notify.success({
                           title: "submit applicant review",
@@ -1313,6 +1344,35 @@
                           message: response.data.message
                         });
 
+                    }
+
+                })
+                .catch((error) => {
+                    throw new Error('Could not update applicant');
+                    console.log(error);
+
+                    this.$notify.error({
+                      title: "submit applicant review",
+                      message: "failed to update applicant review"
+                    });
+                });
+            this.getPartnerLogs();
+
+        },
+
+        getPartnerLogs() {
+             let payload = {
+                "partner_id": this.applicant_details.partner_id
+             }
+
+             axios.post(PARTNER_BASE_URL + 'peleza/logs/get_partner_logs', JSON.stringify(payload))
+                .then((response) => {
+                    console.log(response);
+
+                    if(response.data.status == true){
+                        this.partner_logs = response.data.logs;
+                    } else {
+                       this.partner_logs = [];
                     }
 
                 })
