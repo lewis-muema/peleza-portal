@@ -480,7 +480,7 @@
                         </a>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="Driving License Check" name="3">
+                <el-collapse-item title="Driving License Check" name="3" v-show="applicant_details.application_type !== 'Owner'">
 
                    <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
                         <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -581,7 +581,7 @@
                     </div>
                 </div>
                 </el-collapse-item>
-                <el-collapse-item name="4">
+                <el-collapse-item name="4" v-show="applicant_details.application_type !== 'Driver'">
                     <template slot="title">
                      <span>
                          Motor Vehicle Records Check
@@ -714,7 +714,7 @@
 
                      </div>
                 </el-collapse-item>
-                <el-collapse-item title="Car Insurance Validity" name="5">
+                <el-collapse-item title="Car Insurance Validity" name="5" v-show="applicant_details.application_type !== 'Driver'">
 
                      <el-form :model="verification_details.car_insurance_validity" class="el-col-lg-15 review-details" v-show="!insuranceReview">
                         <el-form-item label="Name of Owner" :label-width="'25%'">

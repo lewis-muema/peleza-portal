@@ -7,6 +7,8 @@
             <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
             <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
             <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
+            <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
+
             <el-table-column prop="status" label="STATUS">
               <template scope="scope">
                   <span>Pending</span>
@@ -177,7 +179,7 @@ export default {
                         expiry_date:'',
                         classes:'',
                         id_no:'',
-                        review_status: false
+                        review_status: d.application_type == 'Owner'? true : false
                     },
                     motor_vehicle_records_check : d.motor_vehicle_records_check ? JSON.parse(d.motor_vehicle_records_check) : {
                         ownership_details:'',
@@ -188,7 +190,7 @@ export default {
                         manufacture_year:'',
                         caveats:'',
                         owner_kra:'',
-                        review_status: false
+                        review_status: d.application_type == 'Driver'? true : false
 
                     },
                     car_insurance_validity : d.car_insurance_validity ? JSON.parse(d.car_insurance_validity) : {
@@ -198,7 +200,7 @@ export default {
                         expiry_date:'',
                         validity:'',
                         policy_number:'',
-                        review_status: false
+                        review_status: d.application_type == 'Owner'? true : false
 
                     },
                     kra_pin_verification : d.kra_pin_verification ? JSON.parse(d.kra_pin_verification) : {
