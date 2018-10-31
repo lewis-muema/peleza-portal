@@ -7,6 +7,7 @@
             <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
             <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
             <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
+            <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
             <el-table-column prop="status" label="STATUS">
               <template scope="scope">
                   <span>Pending</span>
