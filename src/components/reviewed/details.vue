@@ -906,103 +906,6 @@
 
                         </div>
                 </el-collapse-item>
-                <el-collapse-item name="7">
-                    <template slot="title">
-                     <span>
-                        Next Of Kin
-                     </span>
-                        <span style="float: right; padding-right: 10px">
-                         ID NUMBER : {{applicant_details.nok_id}}
-                      </span>
-                    </template>
-
-                    <el-form :model="verification_details.next_of_kin" v-show="!kinReview">
-                        <el-form-item label="Name of Next of Kin" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Date of Birth" :label-width="'25%'">
-                            <el-date-picker
-                              v-model="verification_details.next_of_kin.dob"
-                              type="date"
-                              placeholder="Date of Birth">
-                            </el-date-picker>
-                        </el-form-item>
-
-                        <el-form-item label="Place of Birth" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.pob" auto-complete="off"></el-input>
-                        </el-form-item>
-
-
-                        <el-form-item label="Gender" :label-width="'25%'">
-                            <el-select v-model="verification_details.next_of_kin.gender" auto-complete="off">
-                                <el-option value="Male">Male</el-option>
-                                <el-option value="Female">Female</el-option>
-
-                            </el-select>
-
-                        </el-form-item>
-
-                              <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.id_card" auto-complete="off" class="upload-input"></el-input>
-                            <input name="nok_id_card" auto-complete="off" v-on:change="handleNOKIdCardChange" class="upload-button inputfile" type="file" id="nok_id_card"/>
-                            <label for="nok_id_card">Choose a file</label>
-                        </el-form-item>
-
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button" @click="updateReview('next_of_kin', 'Next of Kin')">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                    <div class="review_wrap" v-show="kinReview">
-                        <div class="el-row">
-                            <div class="el-col-lg-16 review-details">
-                                <div class="el-row">
-                                    <div class="review-title">
-                                        Name of Next of Kin
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.name}}
-                                    </div>
-                                </div>
-                                 <div class="el-row">
-                                    <div class="review-title">
-                                        Date of Birth
-                                    </div>
-                                    <div class="review-desc">
-                                        {{formatDate(this.verification_details.next_of_kin.dob)}}
-                                    </div>
-                                </div>
-                                 <div class="el-row">
-                                    <div class="review-title">
-                                       Place of Birth
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.pob}}
-                                    </div>
-                                </div>
-                                <div class="el-row">
-                                    <div class="review-title">
-                                       Gender
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.gender}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="el-col-lg-8 review-image">
-                                <!--<div class="review-edit" @click="handleReviewEdit('next_of_kin')">-->
-                                    <!--Edit-->
-                                <!--</div>-->
-                                <a :href="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`" target="_blank">
-                                   <img :src="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </el-collapse-item>
-
             </el-collapse>
         </div>
     </div>
@@ -1032,12 +935,15 @@
                 applicant_review: {
                     "status": "",
                     "reason": ""
-                }
+                },
+                user: JSON.parse(localStorage.user)
             }
         },
         beforeMount() {
             this.applicant_details = this.current_verification.applicant_details;
             this.verification_details = this.current_verification.verification_details;
+                this.getPartnerLogs();
+
         },
         methods: {
             handleReviewEdit(section) {
@@ -1095,27 +1001,6 @@
                         //this.verification_details.identity_check.id_card = name;
                      }
             },
-            handleNOKIdCardChange() {
-
-                    console.log('id card has been changed');
-                     let files = document.getElementById('nok_id_card')['files'];
-
-                     if (files.length < 1) {
-                         this.nok_doc_change  = false;
-
-                     } else {
-                        this.nok_doc_change = true;
-                        let name = files[0]['name'];
-                        console.log(name);
-
-
-                        let obj = this.verification_details;
-                        obj['next_of_kin']['id_card'] = name;
-                        this.verification_details = Object.assign({}, this.verification_details, obj);
-
-                        //this.verification_details.identity_check.id_card = name;
-                     }
-            },
 
             checkReviewStatus() {
                 let obj = this.verification_details;
@@ -1155,9 +1040,6 @@
             },
             kraReview: function () {
                 return this.verification_details.kra_pin_verification.review_status;
-            },
-            kinReview: function () {
-                return this.verification_details.next_of_kin.review_status
             },
             validSubmit: function () {
                 return this.checkReviewStatus();
