@@ -87,7 +87,7 @@ export default {
                 from: final_start_date,
                 to: final_stop_date
             };
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed', payload)
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', payload)
             .then((response) => {
                 vm.applicants = response.data.data.partner_list;
             })
@@ -111,7 +111,7 @@ export default {
                 to: final_stop_date
             };
 
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed', JSON.stringify(payload))
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
                     vm.applicants = response.data.applicants;
@@ -209,15 +209,8 @@ export default {
                         tax_obligations:'',
                         registration_date:'',
                         review_status: false
-                    },
-                    next_of_kin : d.next_of_kin ? JSON.parse(d.next_of_kin) : {
-                        name: '',
-                        dob:'',
-                        pob:'',
-                        gender:'',
-                        id_card:'',
-                        review_status: false
                     }
+
                 }
             };
 
