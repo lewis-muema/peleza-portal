@@ -49,7 +49,7 @@ export default {
                         message: 'Please input a correct email e.g. sendyer@sendy.co.ke',
                         pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         trigger: 'blur'
-                    }, 
+                    },
                 ],
                 password: [
                     {
@@ -68,7 +68,7 @@ export default {
                 if(valid) {
                     console.log('valid!')
                     vm.logging_in = true;
-                     axios.post(BASE_URL + 'login', {
+                     axios.post(BASE_URL + 'login/verify', {
                          email: vm.login_form.email,
                          password: vm.login_form.password
                      })
@@ -104,6 +104,6 @@ export default {
     },
 // link:https://api.sendyit.com/parcel/api/v10/admin_login
 // sample_data :{"email":"ebiwott@sendy.co.ke","password":"12345"}
-    
+
 }
 </script>

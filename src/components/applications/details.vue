@@ -248,6 +248,17 @@
         font-size: 14px;
     }
 
+    .logs-list {
+        list-style: none;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    .logs-list li {
+        padding-top: 10px;
+    }
+
+
 
 </style>
 <template>
@@ -300,9 +311,6 @@
 
                 </div>
             </el-card>
-            <el-card header="Activity Log" class="applicant-details__profile__personal-details">
-
-            </el-card>
 
             <el-card header="Submit Applicant" class="applicant-details__submit-review" v-show="validSubmit">
 
@@ -327,6 +335,15 @@
                 </el-form>
 
             </el-card>
+
+            <el-card header="Activity Log" class="applicant-details__profile__personal-details">
+                    <ul class="logs-list">
+                        <li v-for="log in partner_logs.slice().reverse()">
+                            {{createLogStatement(log)}}
+                        </li>
+                    </ul>
+            </el-card>
+
         </div>
         <div class="applicant-details__data">
             <el-collapse v-model="accordionActiveName" accordion>
@@ -930,103 +947,6 @@
 
                         </div>
                 </el-collapse-item>
-                <el-collapse-item name="7">
-                    <template slot="title">
-                     <span>
-                        Next Of Kin
-                     </span>
-                        <span style="float: right; padding-right: 10px">
-                         ID NUMBER : {{applicant_details.nok_id}}
-                      </span>
-                    </template>
-
-                    <el-form :model="verification_details.next_of_kin" v-show="!kinReview">
-                        <el-form-item label="Name of Next of Kin" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.name" auto-complete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Date of Birth" :label-width="'25%'">
-                            <el-date-picker
-                              v-model="verification_details.next_of_kin.dob"
-                              type="date"
-                              placeholder="Date of Birth">
-                            </el-date-picker>
-                        </el-form-item>
-
-                        <el-form-item label="Place of Birth" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.pob" auto-complete="off"></el-input>
-                        </el-form-item>
-
-
-                        <el-form-item label="Gender" :label-width="'25%'">
-                            <el-select v-model="verification_details.next_of_kin.gender" auto-complete="off">
-                                <el-option value="Male">Male</el-option>
-                                <el-option value="Female">Female</el-option>
-
-                            </el-select>
-
-                        </el-form-item>
-
-                              <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="verification_details.next_of_kin.id_card" auto-complete="off" class="upload-input"></el-input>
-                            <input name="nok_id_card" auto-complete="off" v-on:change="handleNOKIdCardChange" class="upload-button inputfile" type="file" id="nok_id_card"/>
-                            <label for="nok_id_card">Choose a file</label>
-                        </el-form-item>
-
-
-                         <el-form-item>
-                          <el-button type="primary" class="details-save-button" @click="updateReview('next_of_kin', 'Next of Kin')">
-                            SAVE
-                          </el-button>
-                        </el-form-item>
-                    </el-form>
-                    <div class="review_wrap" v-show="kinReview">
-                        <div class="el-row">
-                            <div class="el-col-lg-16 review-details">
-                                <div class="el-row">
-                                    <div class="review-title">
-                                        Name of Next of Kin
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.name}}
-                                    </div>
-                                </div>
-                                 <div class="el-row">
-                                    <div class="review-title">
-                                        Date of Birth
-                                    </div>
-                                    <div class="review-desc">
-                                        {{formatDate(this.verification_details.next_of_kin.dob)}}
-                                    </div>
-                                </div>
-                                 <div class="el-row">
-                                    <div class="review-title">
-                                       Place of Birth
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.pob}}
-                                    </div>
-                                </div>
-                                <div class="el-row">
-                                    <div class="review-title">
-                                       Gender
-                                    </div>
-                                    <div class="review-desc">
-                                        {{this.verification_details.next_of_kin.gender}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="el-col-lg-8 review-image">
-                                <div class="review-edit" @click="handleReviewEdit('next_of_kin')">
-                                    Edit
-                                </div>
-                                <a :href="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`" target="_blank">
-                                   <img :src="`${AWS_URL}id/${verification_details.next_of_kin.id_card}`"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </el-collapse-item>
-
             </el-collapse>
         </div>
     </div>
@@ -1056,12 +976,15 @@
                 applicant_review: {
                     "status": "",
                     "reason": ""
-                }
+                },
+                user: JSON.parse(localStorage.user),
+                partner_logs: []
             }
         },
         beforeMount() {
             this.applicant_details = this.current_verification.applicant_details;
             this.verification_details = this.current_verification.verification_details;
+            this.getPartnerLogs();
         },
         methods: {
             handleReviewEdit(section) {
@@ -1070,6 +993,10 @@
                 obj[section]['review_status'] = false;
                 this.verification_details = Object.assign({}, this.verification_details, obj);
 
+            },
+            createLogStatement(log) {
+                let statement = log.admin_name+" "+log.last_activity+" on "+moment(log.date_time).format("Do MMM YYYY")+" at "+moment(log.date_time).format("HH:mm:ss A");
+                return statement;
             },
             async updateReview(field, field_title =''){
                 //update store
@@ -1108,21 +1035,6 @@
 
                     }
 
-                } else if(field == 'next_of_kin'){
-                    if(this.nok_doc_change == true){
-
-                        console.log('doc upload happened');
-                        //perform upload
-                        let upload_res = await this.uploadDocument('nok_id_card');
-
-                        if(upload_res != false){
-                            review_json['id_card'] = upload_res;
-                            let obj = this.verification_details;
-                            obj['next_of_kin']['id_card'] = upload_res;
-                            this.verification_details = Object.assign({}, this.verification_details, obj);
-                        }
-
-                    }
                 }
 
 
@@ -1132,13 +1044,15 @@
                     review_section: field,
                     review_json: JSON.stringify(review_json),
                     partner_id: this.applicant_details.partner_id,
-                    partner_id_no: this.applicant_details.id_no
+                    partner_id_no: this.applicant_details.id_no,
+                    admin_id: JSON.parse(localStorage.user).admin_id,
+                    admin_name: JSON.parse(localStorage.user).name,
                 };
 
 
 
 
-                axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review', JSON.stringify(payload))
+                axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review/', JSON.stringify(payload))
                     .then((response) => {
                         console.log(response);
                         if(response.data.status == true){
@@ -1164,6 +1078,8 @@
                           message: "applicant "+field_title+" failed to update"
                         });
                     })
+
+                this.getPartnerLogs();
             },
          async uploadDocument(doc_id) {
             let data = new FormData();
@@ -1188,7 +1104,7 @@
                 }
               }
 
-            return axios.post(PARTNER_BASE_URL+'peleza/upload_doc', data,headers).then((response) => {
+            return axios.post(PARTNER_BASE_URL+'peleza/upload_doc/', data,headers).then((response) => {
                  console.log(response.data.file_name);
 
                  return response.data.file_name;
@@ -1251,27 +1167,7 @@
                     //this.verification_details.identity_check.id_card = name;
                  }
         },
-        handleNOKIdCardChange() {
 
-                console.log('id card has been changed');
-                 let files = document.getElementById('nok_id_card')['files'];
-
-                 if (files.length < 1) {
-                     this.nok_doc_change  = false;
-
-                 } else {
-                    this.nok_doc_change = true;
-                    let name = files[0]['name'];
-                    console.log(name);
-
-
-                    let obj = this.verification_details;
-                    obj['next_of_kin']['id_card'] = name;
-                    this.verification_details = Object.assign({}, this.verification_details, obj);
-
-                    //this.verification_details.identity_check.id_card = name;
-                 }
-        },
 
         checkReviewStatus() {
             let obj = this.verification_details;
@@ -1296,16 +1192,21 @@
 
             let payload = {
                 "partner_id": this.applicant_details.partner_id,
-                "applicant_review": this.applicant_review
+                "applicant_review": this.applicant_review,
+                "admin_id": JSON.parse(localStorage.user).admin_id,
+                "admin_name": JSON.parse(localStorage.user).name,
+
             }
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/submit_applicant_review', JSON.stringify(payload))
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/submit_applicant_review/', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
+
                     if(response.data.status == true){
                         this.$notify.success({
                           title: "submit applicant review",
                           message: response.data.message
                         });
+                        this.handleBack();
 
                     } else {
                         this.$notify.error({
@@ -1313,6 +1214,35 @@
                           message: response.data.message
                         });
 
+                    }
+
+                })
+                .catch((error) => {
+                    throw new Error('Could not update applicant');
+                    console.log(error);
+
+                    this.$notify.error({
+                      title: "submit applicant review",
+                      message: "failed to update applicant review"
+                    });
+                });
+            this.getPartnerLogs();
+
+        },
+
+        getPartnerLogs() {
+             let payload = {
+                "partner_id": this.applicant_details.partner_id
+             }
+
+             axios.post(PARTNER_BASE_URL + 'peleza/logs/get_partner_logs/', JSON.stringify(payload))
+                .then((response) => {
+                    console.log(response);
+
+                    if(response.data.status == true){
+                        this.partner_logs = response.data.logs;
+                    } else {
+                       this.partner_logs = [];
                     }
 
                 })
@@ -1347,11 +1277,8 @@
             kraReview: function () {
                 return this.verification_details.kra_pin_verification.review_status;
             },
-            kinReview: function () {
-                return this.verification_details.next_of_kin.review_status
-            },
             validSubmit: function () {
-                return this.checkReviewStatus();
+               return this.checkReviewStatus();
             },
             validSubmitStatus: function () {
                 if(this.applicant_review.status == ""){

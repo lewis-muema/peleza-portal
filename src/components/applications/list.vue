@@ -88,7 +88,7 @@ export default {
                 from: final_start_date,
                 to: final_stop_date
             };
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_applicants', payload)
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_applicants/', payload)
             .then((response) => {
                 vm.applicants = response.data.data.partner_list;
             })
@@ -112,7 +112,7 @@ export default {
                 to: final_stop_date
             };
 
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_applicants', JSON.stringify(payload))
+            axios.post(PARTNER_BASE_URL + 'peleza/applications/list_applicants/', JSON.stringify(payload))
                 .then((response) => {
                     console.log(response);
                     vm.applicants = response.data.applicants;
@@ -200,7 +200,7 @@ export default {
                         expiry_date:'',
                         validity:'',
                         policy_number:'',
-                        review_status: d.application_type == 'Owner'? true : false
+                        review_status: d.application_type == 'Driver'? true : false
 
                     },
                     kra_pin_verification : d.kra_pin_verification ? JSON.parse(d.kra_pin_verification) : {
@@ -210,15 +210,8 @@ export default {
                         tax_obligations:'',
                         registration_date:'',
                         review_status: false
-                    },
-                    next_of_kin : d.next_of_kin ? JSON.parse(d.next_of_kin) : {
-                        name: '',
-                        dob:'',
-                        pob:'',
-                        gender:'',
-                        id_card:'',
-                        review_status: false
                     }
+
                 }
             };
 
