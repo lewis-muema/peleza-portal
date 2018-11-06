@@ -18,7 +18,7 @@
                 </g>
             </g>
         </svg>
-      <h1>SENDY PELEZA PORTAL</h1>
+      <h1>SENDY PARTNER VERIFICATION PORTAL</h1>
       <el-form :model="login_form" ref="login_form" @submit="login" :rules='rules'>
         <el-form-item label="Email" prop="email">
             <el-input placeholder="e.g. sendyer@sendy.co.ke" v-model="login_form.email" type="email"></el-input>
