@@ -14,6 +14,7 @@
     "docker-prod": "docker build -t sendy-docker-local.jfrog.io/vue_onboarding_admin:prod . && docker push sendy-docker-local.jfrog.io/vue_onboarding_admin:prod"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "axios": "^0.16.2",
     "element-ui": "^1.4.2",
     "google-libphonenumber": "^3.1.14",
@@ -21,6 +22,7 @@
     "luminous-lightbox": "^1.0.1",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.13",
+    "now": "^11.5.2",
     "underscore": "^1.9.1",
     "vue": "^2.3.3",
     "vue-pdf": "^1.2.4",
@@ -28,6 +30,7 @@
     "vuex": "^2.3.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-regenerator": "^7.0.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
