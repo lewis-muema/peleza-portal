@@ -10,7 +10,7 @@
             <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
             <el-table-column prop="status" label="STATUS">
               <template scope="scope">
-                  <span>Pending</span>
+                  <span>Reviewed</span>
               </template>
             </el-table-column>
 
