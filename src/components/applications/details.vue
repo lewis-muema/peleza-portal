@@ -300,6 +300,15 @@
                         </div>
                     </div>
 
+                     <div class="applicant-details__profile_row">
+                        <div class="applicant-details__profile_label">
+                            APPLICATION TYPE
+                        </div>
+                        <div class="applicant-details__profile_value">
+                            {{applicant_details.application_type}}
+                        </div>
+                    </div>
+
                     <div class="applicant-details__profile_row">
                         <div class="applicant-details__profile_label">
                             STATUS
@@ -325,7 +334,7 @@
                     </el-form-item>
 
                     <el-form-item v-show="applicant_review.status == 0 && applicant_review.status != ''">
-                            <el-input type="textarea" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
+                            <el-input type="textarea" :rows="4" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
                     </el-form-item>
                     <el-form-item>
                           <el-button type="primary" class="submit-review-button" @click="submitApplicantReview" :disabled="!validSubmitStatus">
@@ -346,7 +355,7 @@
 
         </div>
         <div class="applicant-details__data">
-            <el-collapse v-model="accordionActiveName" accordion>
+            <el-collapse v-model="accordionActiveName">
                 <el-collapse-item name="1">
                     <template slot="title">
                     <span style="">
@@ -372,7 +381,7 @@
 
 
                         <el-form-item label="Place of Birth" :label-width="'25%'">
-                            <el-input v-model="verification_details.identity_check.pob" auto-complete="off"></el-input>
+                            <el-input type="textarea" :rows="4" v-model="verification_details.identity_check.pob" auto-complete="off"></el-input>
                         </el-form-item>
 
                         <el-form-item label="Gender" :label-width="'25%'">
@@ -384,11 +393,11 @@
 
                         </el-form-item>
 
-                        <el-form-item label="Attach Id Card" :label-width="'25%'">
+                        <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
                             <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
                             <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
                             <label for="id_card">Choose a file</label>
-                        </el-form-item>
+                        </el-form-item> -->
 
                          <el-form-item>
                           <el-button type="primary" class="details-save-button" @click="updateReview('identity_check', 'Identity Check')">
@@ -436,9 +445,9 @@
                                 <div class="review-edit" @click="handleReviewEdit('identity_check')">
                                     Edit
                                 </div>
-                                <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
+                                <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
                                    <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
@@ -634,7 +643,7 @@
 
                     <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview" class="el-col-lg-15 review-details">
                         <el-form-item label="Ownership Details and Address" :label-width="'25%'">
-                            <el-input v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
+                            <el-input type="textarea" :rows="4" v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                         </el-form-item>
 
                         <el-form-item label="Vehicle Make" :label-width="'25%'">
@@ -665,10 +674,7 @@
                             <el-input v-model="verification_details.motor_vehicle_records_check.caveats" auto-complete="off"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="KRA Pin Number of Owner" :label-width="'25%'">
-                            <el-input v-model="verification_details.motor_vehicle_records_check.owner_kra" auto-complete="off"></el-input>
-                        </el-form-item>
-
+                       
                          <el-form-item>
                           <el-button type="primary" class="details-save-button" @click="updateReview('motor_vehicle_records_check', 'Motor Vehicle Records Check')">
                             SAVE

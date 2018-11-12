@@ -161,7 +161,6 @@ export default {
                         dob:'',
                         pob:'',
                         gender:'',
-                        id_card:'',
                         review_status: false
                     },
                     criminal_records_check : d.criminal_records_check? JSON.parse(d.criminal_records_check) : {
@@ -189,7 +188,6 @@ export default {
                         engine_no:'',
                         manufacture_year:'',
                         caveats:'',
-                        owner_kra:'',
                         review_status: d.application_type == 'Driver'? true : false
 
                     },
