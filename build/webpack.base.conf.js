@@ -8,10 +8,9 @@ function resolve (dir) {
 }
 
 module.exports = {
-  entry: [
-    'regenerator-runtime/runtime',
-    './src/main.js'
-  ],
+  entry: {
+    app:'./src/main.js'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
