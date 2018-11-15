@@ -169,7 +169,7 @@ export default {
                         authenticity:'',
                         id_no:'',
                         ref_no:'',
-                        review_status: false
+                        review_status: d.application_type == 'Owner'? true : false
                     },
                     driving_license_check : d.driving_license_check ? JSON.parse(d.driving_license_check) : {
                         applicant_name:'',
