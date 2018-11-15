@@ -418,7 +418,7 @@
                         </div>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="Criminal Records Check" name="2">
+                <el-collapse-item title="Criminal Records Check" name="2" v-show="applicant_details.application_type !== 'Owner'">
                     <el-form :model="verification_details.criminal_records_check" class="el-col-lg-15 review-details" v-show="!criminalReview">
                         <el-form-item label="Name of Applicant" :label-width="'25%'">
                             <el-input v-model="verification_details.criminal_records_check.applicant_name" auto-complete="off"></el-input>
