@@ -1,36 +1,44 @@
 <template xmlns:router-link="">
-    <div class="stageone">
-        <el-table :data="paginated_applicants" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort = "{prop: 'date_created', order: 'descending'}">
-            <template slot="empty">
-                {{empty_state}}
-            </template>
-            <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
-            <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
-            <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
-            <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
-            <el-table-column prop="status" label="STATUS">
-              <template scope="scope">
-                  <span>Reviewed</span>
-              </template>
-            </el-table-column>
+  <div class="stageone">
+    <el-table
+      :data="paginated_applicants"
+      @row-click="startVerification"
+      v-loading.body="loading"
+      border
+      stripe
+      :default-sort="{prop: 'date_created', order: 'descending'}"
+    >
+      <template slot="empty">{{empty_state}}</template>
+      <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
+      <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
+      <el-table-column
+        prop="date_created"
+        label="APPLICATION DATE"
+        :formatter="formatTime"
+        sortable
+      ></el-table-column>
+      <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
+      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
 
-        </el-table>
-        <template slot="empty">
-            {{ empty_state }}
+      <el-table-column prop="status" label="STATUS">
+        <template scope="scope">
+          <span>Reviewed</span>
         </template>
-        <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
-            <el-pagination
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="searched_applicants.length"
-                :page-size="pagination_limit"
-                :current-page.sync="pagination_page"
-                @current-change="changePage"
-                :page-sizes="[10, 20, 50, 100]"
-                @size-change="changeSize"
-                >
-            </el-pagination>
-        </div>
+      </el-table-column>
+    </el-table>
+    <template slot="empty">{{ empty_state }}</template>
+    <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
+      <el-pagination
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="searched_applicants.length"
+        :page-size="pagination_limit"
+        :current-page.sync="pagination_page"
+        @current-change="changePage"
+        :page-sizes="[10, 20, 50, 100]"
+        @size-change="changeSize"
+      ></el-pagination>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -48,6 +56,7 @@ export default {
             pagination_limit: 40,
             pagination_page: 1,
             loading: false,
+            vendor_types: VENDOR_TYPES
         }
     },
     beforeMount() {
@@ -125,8 +134,8 @@ export default {
                     throw new Error('Could not get applicants');
                 })
         },
-        getVendorType(row, column) {
-            return row.vehicle_details ? (row.vehicle_details.vendor_type == '0' ? 'Unknown' : this.vendor_types[Number(row.vehicle_details.vendor_type) - 1]) : 'N/A';
+         getVendorType(row, column) {
+            return row.vendor_type ? (row.vendor_type == '0' ? 'Unknown' : this.vendor_types[Number(row.vendor_type) - 1]) : 'N/A';
         },
         getDesk(row, column) {
             return row.admin_name ? (
@@ -152,7 +161,8 @@ export default {
                     vehicle_reg_no: d.vehicle_reg_no ? d.vehicle_reg_no : '',
                     good_conduct: d.good_conduct ? d.good_conduct: '',
                     insurance_copy: d.insurance_copy ? d.insurance_copy : '',
-                    vehicle_photo: d.vehicle_photo ? d.vehicle_photo: ''
+                    vehicle_photo: d.vehicle_photo ? d.vehicle_photo: '',
+                    vendor_type: d.vendor_type ? d.vendor_type: ''
                 },
                 verification_details : {
                     identity_check : d.identity_check? JSON.parse(d.identity_check) : {
