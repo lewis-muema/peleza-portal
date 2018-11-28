@@ -1,266 +1,3 @@
-<style>
-    .el-radio {
-        margin-left: 15px;
-    }
-
-    .applicant-details__back {
-        margin-bottom: 20px;
-        cursor: pointer;
-        margin-top: -10px;
-
-    }
-
-    .applicant-details__back_image {
-        width: 22px;
-        display: inline-block;
-    }
-
-    .applicant-details__back_text {
-        margin-top: 0px;
-        display: inline-block;
-        position: absolute;
-        font-size: 20px;
-        margin-left: 2px;
-        font-weight: 300;
-        text-transform: uppercase;
-    }
-
-    .applicant-details {
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-top: 50px;
-    }
-
-    .applicant-details__profile {
-        width: 30%;
-        padding-right: 0px;
-        margin-right: 15px;
-        display: inline-block;
-        float: left;
-
-    }
-
-    .applicant-details__profile_image {
-        width: 100%;
-        object-fit: cover;
-        height: auto;
-        max-height: 300px;
-        margin-bottom: 15px;
-    }
-
-    .applicant-details__data {
-        width: 65%;
-        display: inline-block;
-        /*overflow: scroll;*/
-        /*margin-right: -40px;*/
-        /*padding-right: 40px;*/
-        height: auto;
-    }
-
-    .applicant-details__profile_label {
-        font-weight: 500;
-        font-size: 15px;
-        margin-left: 15px;
-        margin-top: 15px;
-    }
-
-    .applicant-details__profile_value {
-        font-weight: 300;
-        font-size: 15px;
-        margin-left: 15px;
-        margin-top: 15px;
-    }
-
-    .el-card.applicant-details__profile__personal-details {
-        overflow: hidden;
-        border-radius: 20px;
-        margin-bottom: 20px;
-    }
-    .el-card.applicant-details__submit-review {
-        overflow: hidden;
-        border-radius: 20px;
-        margin-bottom: 20px;
-        background: #f3f3f3;
-    }
-
-    .el-collapse {
-        border: none;
-    }
-
-    .el-collapse-item__header {
-        margin: 5px;
-        padding-top: 10px;
-        padding-bottom: 20px;
-        text-transform: uppercase;
-        font-size: 15px;
-        border: none;
-    }
-
-    .el-collapse-item is-active {
-        margin-bottom: 20px;
-        border: 1px solid #d1dbe5;
-        border-radius: 15px;
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-bottom: 30px;
-    }
-
-    .el-collapse-item {
-        border: 1px solid #d1dbe5;
-        border-radius: 15px;
-        margin-bottom: 30px;
-    }
-
-    .el-collapse-item__wrap {
-        margin-bottom: 30px;
-        padding-top: 10px;
-        border-top: 1px solid #d1dbe5;
-        background: transparent;
-        border-bottom: none;
-    }
-    .details-save-button {
-        float: right;
-        margin-right: 5px;
-        width:120px;
-        height: 50px;
-
-    }
-    .el-date-editor.el-input {
-        width: 100%;
-    }
-
-    .upload-input {
-        width: 80%;
-        display: inline-block;
-    }
-
-    .upload-button {
-        width: 20%;
-        display: inline-block;
-        float: right;
-        text-align: right;
-        margin-top: -5px;
-    }
-    .inputfile {
-        width: 0.1px;
-        height: 0.1px;
-        opacity: 0;
-        overflow: hidden;
-        position: absolute;
-        z-index: -1;
-    }
-
-    .inputfile + label {
-    font-size: 14px;
-    font-weight: 300;
-    color: white;
-    background: #1782c5;
-    border-color: #1782c5;
-    padding-left: 5px;
-    padding-right: 5px;
-    display: inline-block;
-        width: 16%;
-        border-radius: 5px;
-        text-transform: uppercase;
-    }
-
-    .inputfile:focus + label,
-    .inputfile + label:hover {
-        background: #fff;
-        color: #1782c5;
-        border: 1px solid;
-        border-color: #1782c5;
-    }
-    .upload-button button {
-        width: 95%;
-        padding: 11px;
-        text-transform: uppercase;
-    }
-
-    .el-upload__tip {
-        font-size: 12px;
-        color: #8391a5;
-        margin-top: 7px;
-        position: relative;
-        margin-left: -400%;
-        text-align: left;
-    }
-    .el-select {
-        width: 100%;
-    }
-
-    .review-title {
-        text-transform: uppercase;
-        font-weight: 600;
-        font-size: 15px;
-        margin-top: 10px;
-    }
-    .review-desc {
-        margin-top: 10px;
-        font-size: 14px;
-        display: inline-block;
-    }
-    .review-details {
-        display: inline-block;
-    }
-    .review-image {
-        display: inline-block;
-        float: right;
-    }
-
-    .review-image  img{
-        width: 100%;
-        height: auto;
-    }
-    .review-edit {
-        text-align: right;
-        font-size: 15px;
-        padding: 5px;
-        cursor: pointer;
-        color: #f17f3a;
-        text-transform: uppercase;
-    }
-
-    .review-edit:hover, .review-edit:focus {
-        color: #2a7fc3;
-    }
-
-    .submit-review-button {
-        margin-top: 20px;
-        padding:12px;
-        border: 1px solid #2a7fc3;
-    }
-    .submit-review-button:hover , .submit-review-button:focus {
-        margin-top: 20px;
-        padding:12px;
-        background: #fff;
-        color: #2a7fc3;
-        border: 1px solid #2a7fc3;
-    }
-    .review-reason {
-        margin-top: 15px;
-        height: auto;
-    }
-    .review-select {
-        width: 100%;
-        height: 35px;
-        background: #fff;
-        font-size: 14px;
-    }
-
-    .logs-list {
-        list-style: none;
-        margin-left: 0px;
-        padding-left: 0px;
-    }
-
-    .logs-list li {
-        padding-top: 10px;
-    }
-
-
-
-</style>
 <template>
   <div class="applicant-details">
     <div class="applicant-details__back" @click="handleBack">
@@ -961,358 +698,292 @@
 </template>
 
 <script>
-    export default {
-        name: 'applicant-details',
-        props: ['data', 'docs'],
-        data() {
-            return {
-                vendor_types: VENDOR_TYPES,
-                comments: "",
-                popover_visible: false,
-                reason: "",
-                lock_ui: false,
-                valid_docs: [],
-                invalid_docs: [],
-                current_verification: this.$store.getters.current_verification,
-                applicant_details: {},
-                verification_details: {},
-                accordionActiveName:'identity_check',
-                id_card:'',
-                id_doc_change: false,
-                nok_doc_change:false,
-                AWS_URL: window.AWS_URL,
-                applicant_review: {
-                    "status": "",
-                    "reason": ""
-                },
-                user: JSON.parse(localStorage.user),
-                partner_logs: []
-            }
-        },
-        beforeMount() {
-            this.applicant_details = this.current_verification.applicant_details;
-            this.verification_details = this.current_verification.verification_details;
-            this.getPartnerLogs();
-        },
-        methods: {
-            getVendorType(vendor) {
-                return vendor !== null ? (vendor == '0' ? 'Unknown' : this.vendor_types[Number(vendor) - 1]) : 'N/A';
-            },
-            handleReviewEdit(section) {
-                console.log('handling '+section+' edit');
-                let obj = this.verification_details;
-                obj[section]['review_status'] = false;
-                this.verification_details = Object.assign({}, this.verification_details, obj);
+import DetailMxn from "../../mixins/detail_mixin.js";
 
-            },
-            createLogStatement(log) {
-                let statement = log.admin_name+" "+log.last_activity+" on "+moment(log.date_time).format("Do MMM YYYY")+" at "+moment(log.date_time).format("HH:mm:ss A");
-                return statement;
-            },
-            async updateReview(field, field_title =''){
-                //update store
-                let verification = {
-                    'applicant_details':this.applicant_details,
-                    'verification_details':this.verification_details
-                }
+export default {
+  name: "applicant-details",
+  props: ["data", "docs"],
+  mixins: [DetailMxn],
+  data() {
+    return {
+      vendor_types: VENDOR_TYPES,
+      comments: "",
+      popover_visible: false,
+      reason: "",
+      lock_ui: false,
+      valid_docs: [],
+      invalid_docs: [],
+      current_verification: this.$store.getters.current_verification,
+      applicant_details: {},
+      verification_details: {},
+      accordionActiveName: "identity_check",
+      id_card: "",
+      id_doc_change: false,
+      nok_doc_change: false,
+      AWS_URL: window.AWS_URL,
+      applicant_review: {
+        status: "",
+        reason: ""
+      },
+      user: JSON.parse(localStorage.user),
+      partner_logs: []
+    };
+  },
+  beforeMount() {
+    this.applicant_details = this.current_verification.applicant_details;
+    this.verification_details = this.current_verification.verification_details;
+    this.getPartnerLogs();
+  },
+  methods: {
+    async updateReview(field, field_title = "") {
+      //update store
+      let verification = {
+        applicant_details: this.applicant_details,
+        verification_details: this.verification_details
+      };
 
-                let review_json = this.verification_details[field];
-                let properties_res = this.checkProperties(review_json);
-                console.log(properties_res);
+      let review_json = this.verification_details[field];
+      let properties_res = this.checkProperties(review_json);
+      console.log(properties_res);
 
+      if (properties_res == true) {
+        review_json["review_status"] = true;
+      } else {
+        review_json["review_status"] = false;
+      }
 
-                if(properties_res == true){
+      if (field == "identity_check") {
+        //check if upload happened
+        if (this.id_doc_change == true) {
+          console.log("doc upload happened");
+          //perform upload
+          let upload_res = await this.uploadDocument("id_card");
 
-                    review_json['review_status'] = true;
-                } else {
-                    review_json['review_status'] = false;
-                }
-
-                if(field == 'identity_check'){
-
-                    //check if upload happened
-                    if(this.id_doc_change == true){
-
-                        console.log('doc upload happened');
-                        //perform upload
-                        let upload_res = await this.uploadDocument('id_card');
-
-                        if(upload_res != false){
-                            review_json['id_card'] = upload_res;
-                            let obj = this.verification_details;
-                            obj['identity_check']['id_card'] = upload_res;
-                            this.verification_details = Object.assign({}, this.verification_details, obj);
-                        }
-
-                    }
-
-                }
-
-
-                //update db
-
-                let payload = {
-                    review_section: field,
-                    review_json: JSON.stringify(review_json),
-                    partner_id: this.applicant_details.partner_id,
-                    partner_id_no: this.applicant_details.id_no,
-                    admin_id: JSON.parse(localStorage.user).admin_id,
-                    admin_name: JSON.parse(localStorage.user).name,
-                };
-
-
-
-
-                axios.post(PARTNER_BASE_URL + 'peleza/applications/update_review/', JSON.stringify(payload))
-                    .then((response) => {
-                        console.log(response);
-                        if(response.data.status == true){
-                            this.$notify.success({
-                              title: "update "+field_title,
-                              message: "applicant "+field_title+" updated successfully"
-                            });
-                            this.$store.commit('changeVerification', verification);
-
-                        } else {
-                            this.$notify.error({
-                              title: "update "+field_title,
-                              message: "applicant "+field_title+" failed to update"
-                            });
-
-                        }
-
-                    })
-                    .catch((error) => {
-                        throw new Error('Could not update applicant');
-                        this.$notify.error({
-                          title: "update "+field_title,
-                          message: "applicant "+field_title+" failed to update"
-                        });
-                    })
-
-                this.getPartnerLogs();
-            },
-         async uploadDocument(doc_id) {
-            let data = new FormData();
-            let files = document.getElementById(doc_id)['files'];
-
-              if (!files.length) { return false;}
-
-             let file = files[0];
-            data.append(doc_id, file);
-
-            let fileName = this.sanitizeFilename(file.name);
-            let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + '/';
-            let photoKey = albumPhotosKey + fileName;
-
-            data.append("key", photoKey);
-            data.append("field_name", doc_id);
-            data.append("album", albumPhotosKey);
-
-            let headers = {
-                "headers": {
-                  "content-type": "multipart/form-data"
-                }
-              }
-
-            return axios.post(PARTNER_BASE_URL+'peleza/upload_doc/', data,headers).then((response) => {
-                 console.log(response.data.file_name);
-
-                 return response.data.file_name;
-
-          }).catch((err) => {
-             console.error(err);
-             return false;
-          });
-
-
-        },
-        checkProperties(obj) {
-            for (var key in obj) {
-                console.log(obj[key]);
-                if ((obj[key] == null || obj[key] == "") && obj[key] !== false){
-                    return false;
-                }
-
-            }
-            return true;
-        },
-        handleBack() {
-             this.$router.push({ name: 'applications'});
-        },
-        sanitizeFilename(name){
-             let temp_name = new Date().getTime()+name.toLowerCase().replace(/\s/g,'');
-             return temp_name;
-        },
-        getAlbumName(iid){
-            if(iid == 'insurance'){
-                return 'insu';
-            }
-            else if(iid == 'id_card' || iid == 'nok_id_card'){
-                return 'id';
-            }
-            else if(iid == 'driver'){
-                return 'photo';
-            }
-            else{
-                return iid;
-            }
-        },
-        handleIdCardChange() {
-            console.log('id card has been changed');
-                 let files = document.getElementById('id_card')['files'];
-
-                 if (files.length < 1) {
-                     this.id_doc_change  = false;
-
-                 } else {
-                    this.id_doc_change = true;
-                    let name = files[0]['name'];
-                    console.log(name);
-
-
-                    let obj = this.verification_details;
-                    obj['identity_check']['id_card'] = name;
-                    this.verification_details = Object.assign({}, this.verification_details, obj);
-
-                    //this.verification_details.identity_check.id_card = name;
-                 }
-        },
-
-
-        checkReviewStatus() {
+          if (upload_res != false) {
+            review_json["id_card"] = upload_res;
             let obj = this.verification_details;
-            for (var key in obj) {
-                if (obj[key]['review_status'] == false ){
-                    return false;
-                }
-            }
-            return true;
-        },
-
-        formatDate(date){
-           return moment(date).format("Do MMM YYYY");
-        },
-
-        formatYear(date){
-           return moment(date).format("YYYY");
-
-        },
-
-        submitApplicantReview() {
-
-            let payload = {
-                "partner_id": this.applicant_details.partner_id,
-                "applicant_review": this.applicant_review,
-                "admin_id": JSON.parse(localStorage.user).admin_id,
-                "admin_name": JSON.parse(localStorage.user).name,
-
-            }
-            axios.post(PARTNER_BASE_URL + 'peleza/applications/submit_applicant_review/', JSON.stringify(payload))
-                .then((response) => {
-                    console.log(response);
-
-                    if(response.data.status == true){
-                        this.$notify.success({
-                          title: "submit applicant review",
-                          message: response.data.message
-                        });
-                        this.handleBack();
-
-                    } else {
-                        this.$notify.error({
-                          title: "submit applicant review",
-                          message: response.data.message
-                        });
-
-                    }
-
-                })
-                .catch((error) => {
-                    throw new Error('Could not update applicant');
-                    console.log(error);
-
-                    this.$notify.error({
-                      title: "submit applicant review",
-                      message: "failed to update applicant review"
-                    });
-                });
-            this.getPartnerLogs();
-
-        },
-
-        getPartnerLogs() {
-             let payload = {
-                "partner_id": this.applicant_details.partner_id
-             }
-
-             axios.post(PARTNER_BASE_URL + 'peleza/logs/get_partner_logs/', JSON.stringify(payload))
-                .then((response) => {
-                    console.log(response);
-
-                    if(response.data.status == true){
-                        this.partner_logs = response.data.logs;
-                    } else {
-                       this.partner_logs = [];
-                    }
-
-                })
-                .catch((error) => {
-                    throw new Error('Could not update applicant');
-                    console.log(error);
-
-                    this.$notify.error({
-                      title: "submit applicant review",
-                      message: "failed to update applicant review"
-                    });
-                })
+            obj["identity_check"]["id_card"] = upload_res;
+            this.verification_details = Object.assign(
+              {},
+              this.verification_details,
+              obj
+            );
+          }
         }
+      }
 
-        },
-        computed: {
-            identityReview : function () {
-                return this.verification_details.identity_check.review_status;
-            },
-            criminalReview : function () {
-                return this.verification_details.criminal_records_check.review_status;
-            },
-            drivingReview : function () {
-                return this.verification_details.driving_license_check.review_status;
-            },
-            motorReview : function () {
-                return this.verification_details.motor_vehicle_records_check.review_status;
-            },
-            insuranceReview: function () {
-                return this.verification_details.car_insurance_validity.review_status;
-            },
-            kraReview: function () {
-                return this.verification_details.kra_pin_verification.review_status;
-            },
-            validSubmit: function () {
-               return this.checkReviewStatus();
-            },
-            validSubmitStatus: function () {
-                if(this.applicant_review.status == ""){
-                    return false;
-                } else {
-                    if(this.applicant_review.status == false){
-                        if(this.applicant_review.reason == ""){
-                            return false;
-                        } else {
-                            return true;
-                        }
+      //update db
 
-                    } else {
-                        return true;
-                    }
-                }
-            }
+      let payload = {
+        review_section: field,
+        review_json: JSON.stringify(review_json),
+        partner_id: this.applicant_details.partner_id,
+        partner_id_no: this.applicant_details.id_no,
+        admin_id: JSON.parse(localStorage.user).admin_id,
+        admin_name: JSON.parse(localStorage.user).name
+      };
 
+      axios
+        .post(
+          PARTNER_BASE_URL + "peleza/applications/update_review/",
+          JSON.stringify(payload)
+        )
+        .then(response => {
+          console.log(response);
+          if (response.data.status == true) {
+            this.$notify.success({
+              title: "update " + field_title,
+              message: "applicant " + field_title + " updated successfully"
+            });
+            this.$store.commit("changeVerification", verification);
+          } else {
+            this.$notify.error({
+              title: "update " + field_title,
+              message: "applicant " + field_title + " failed to update"
+            });
+          }
+        })
+        .catch(error => {
+          throw new Error("Could not update applicant");
+          this.$notify.error({
+            title: "update " + field_title,
+            message: "applicant " + field_title + " failed to update"
+          });
+        });
 
+      this.getPartnerLogs();
+    },
+    async uploadDocument(doc_id) {
+      let data = new FormData();
+      let files = document.getElementById(doc_id)["files"];
 
-        },
-        watch: {
+      if (!files.length) {
+        return false;
+      }
 
+      let file = files[0];
+      data.append(doc_id, file);
+
+      let fileName = this.sanitizeFilename(file.name);
+      let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + "/";
+      let photoKey = albumPhotosKey + fileName;
+
+      data.append("key", photoKey);
+      data.append("field_name", doc_id);
+      data.append("album", albumPhotosKey);
+
+      let headers = {
+        headers: {
+          "content-type": "multipart/form-data"
         }
+      };
+
+      return axios
+        .post(PARTNER_BASE_URL + "peleza/upload_doc/", data, headers)
+        .then(response => {
+          console.log(response.data.file_name);
+
+          return response.data.file_name;
+        })
+        .catch(err => {
+          console.error(err);
+          return false;
+        });
+    },
+    handleBack() {
+      this.$router.push({ name: "applications" });
+    },
+    sanitizeFilename(name) {
+      let temp_name =
+        new Date().getTime() + name.toLowerCase().replace(/\s/g, "");
+      return temp_name;
+    },
+    getAlbumName(iid) {
+      if (iid == "insurance") {
+        return "insu";
+      } else if (iid == "id_card" || iid == "nok_id_card") {
+        return "id";
+      } else if (iid == "driver") {
+        return "photo";
+      } else {
+        return iid;
+      }
+    },
+    handleIdCardChange() {
+      console.log("id card has been changed");
+      let files = document.getElementById("id_card")["files"];
+
+      if (files.length < 1) {
+        this.id_doc_change = false;
+      } else {
+        this.id_doc_change = true;
+        let name = files[0]["name"];
+        console.log(name);
+
+        let obj = this.verification_details;
+        obj["identity_check"]["id_card"] = name;
+        this.verification_details = Object.assign(
+          {},
+          this.verification_details,
+          obj
+        );
+
+        //this.verification_details.identity_check.id_card = name;
+      }
+    },
+
+    checkReviewStatus() {
+      let obj = this.verification_details;
+      for (var key in obj) {
+        if (obj[key]["review_status"] == false) {
+          return false;
+        }
+      }
+      return true;
+    },
+
+    submitApplicantReview() {
+      let payload = {
+        partner_id: this.applicant_details.partner_id,
+        applicant_review: this.applicant_review,
+        admin_id: JSON.parse(localStorage.user).admin_id,
+        admin_name: JSON.parse(localStorage.user).name
+      };
+      axios
+        .post(
+          PARTNER_BASE_URL + "peleza/applications/submit_applicant_review/",
+          JSON.stringify(payload)
+        )
+        .then(response => {
+          console.log(response);
+
+          if (response.data.status == true) {
+            this.$notify.success({
+              title: "submit applicant review",
+              message: response.data.message
+            });
+            this.handleBack();
+          } else {
+            this.$notify.error({
+              title: "submit applicant review",
+              message: response.data.message
+            });
+          }
+        })
+        .catch(error => {
+          throw new Error("Could not update applicant");
+          console.log(error);
+
+          this.$notify.error({
+            title: "submit applicant review",
+            message: "failed to update applicant review"
+          });
+        });
+      this.getPartnerLogs();
     }
+  },
+  computed: {
+    identityReview: function() {
+      return this.verification_details.identity_check.review_status;
+    },
+    criminalReview: function() {
+      return this.verification_details.criminal_records_check.review_status;
+    },
+    drivingReview: function() {
+      return this.verification_details.driving_license_check.review_status;
+    },
+    motorReview: function() {
+      return this.verification_details.motor_vehicle_records_check
+        .review_status;
+    },
+    insuranceReview: function() {
+      return this.verification_details.car_insurance_validity.review_status;
+    },
+    kraReview: function() {
+      return this.verification_details.kra_pin_verification.review_status;
+    },
+    validSubmit: function() {
+      return this.checkReviewStatus();
+    },
+    validSubmitStatus: function() {
+      if (this.applicant_review.status == "") {
+        return false;
+      } else {
+        if (this.applicant_review.status == false) {
+          if (this.applicant_review.reason == "") {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }
+    }
+  },
+  watch: {}
+};
 </script>
+<style>
+@import "../../assets/style/detail.css";
+</style>
