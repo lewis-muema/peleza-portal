@@ -1,0 +1,257 @@
+.el-radio {
+  margin-left: 15px;
+}
+
+.applicant-details__back {
+  margin-bottom: 20px;
+  cursor: pointer;
+  margin-top: -10px;
+}
+
+.applicant-details__back_image {
+  width: 22px;
+  display: inline-block;
+}
+
+.applicant-details__back_text {
+  margin-top: 0px;
+  display: inline-block;
+  position: absolute;
+  font-size: 20px;
+  margin-left: 2px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.applicant-details {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 50px;
+}
+
+.applicant-details__profile {
+  width: 30%;
+  padding-right: 0px;
+  margin-right: 15px;
+  display: inline-block;
+  float: left;
+}
+
+.applicant-details__profile_image {
+  width: 100%;
+  object-fit: cover;
+  height: auto;
+  max-height: 300px;
+  margin-bottom: 15px;
+}
+
+.applicant-details__data {
+  width: 65%;
+  display: inline-block;
+  /*overflow: scroll;*/
+  /*margin-right: -40px;*/
+  /*padding-right: 40px;*/
+  height: auto;
+}
+
+.applicant-details__profile_label {
+  font-weight: 500;
+  font-size: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.applicant-details__profile_value {
+  font-weight: 300;
+  font-size: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.el-card.applicant-details__profile__personal-details {
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.el-card.applicant-details__submit-review {
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: #f3f3f3;
+}
+
+.el-collapse {
+  border: none;
+}
+
+.el-collapse-item__header {
+  margin: 5px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 15px;
+  border: none;
+}
+
+.el-collapse-item is-active {
+  margin-bottom: 20px;
+  border: 1px solid #d1dbe5;
+  border-radius: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+}
+
+.el-collapse-item {
+  border: 1px solid #d1dbe5;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.el-collapse-item__wrap {
+  margin-bottom: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #d1dbe5;
+  background: transparent;
+  border-bottom: none;
+}
+.details-save-button {
+  float: right;
+  margin-right: 5px;
+  width: 120px;
+  height: 50px;
+}
+.el-date-editor.el-input {
+  width: 100%;
+}
+
+.upload-input {
+  width: 80%;
+  display: inline-block;
+}
+
+.upload-button {
+  width: 20%;
+  display: inline-block;
+  float: right;
+  text-align: right;
+  margin-top: -5px;
+}
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
+  background: #1782c5;
+  border-color: #1782c5;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-block;
+  width: 16%;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background: #fff;
+  color: #1782c5;
+  border: 1px solid;
+  border-color: #1782c5;
+}
+.upload-button button {
+  width: 95%;
+  padding: 11px;
+  text-transform: uppercase;
+}
+
+.el-upload__tip {
+  font-size: 12px;
+  color: #8391a5;
+  margin-top: 7px;
+  position: relative;
+  margin-left: -400%;
+  text-align: left;
+}
+.el-select {
+  width: 100%;
+}
+
+.review-title {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 10px;
+}
+.review-desc {
+  margin-top: 10px;
+  font-size: 14px;
+  display: inline-block;
+}
+.review-details {
+  display: inline-block;
+}
+.review-image {
+  display: inline-block;
+  float: right;
+}
+
+.review-image img {
+  width: 100%;
+  height: auto;
+}
+.review-edit {
+  text-align: right;
+  font-size: 15px;
+  padding: 5px;
+  cursor: pointer;
+  color: #f17f3a;
+  text-transform: uppercase;
+}
+
+.review-edit:hover,
+.review-edit:focus {
+  color: #2a7fc3;
+}
+
+.submit-review-button {
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid #2a7fc3;
+}
+.submit-review-button:hover,
+.submit-review-button:focus {
+  margin-top: 20px;
+  padding: 12px;
+  background: #fff;
+  color: #2a7fc3;
+  border: 1px solid #2a7fc3;
+}
+.review-reason {
+  margin-top: 15px;
+  height: auto;
+}
+.review-select {
+  width: 100%;
+  height: 35px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.logs-list {
+  list-style: none;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.logs-list li {
+  padding-top: 10px;
+}

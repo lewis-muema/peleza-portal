@@ -1,0 +1,11 @@
+.el-picker-panel__sidebar {
+  width: 120px;
+}
+.download-csv {
+  margin-bottom: 10px;
+  float: right;
+}
+.el-table__row {
+  cursor: pointer;
+  height: 50px;
+}

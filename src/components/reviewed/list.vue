@@ -41,8 +41,11 @@
   </div>
 </template>
 <script>
+import ListMxn from "../../mixins/list_mixin.js";
+
 export default {
   name: "applicants_list",
+  mixins: [ListMxn],
   data() {
     var date = new Date(),
       y = date.getFullYear(),
@@ -66,24 +69,6 @@ export default {
     }, 600000);
   },
   methods: {
-    formatTime(row, column) {
-      return moment(row.date_created).format("Do MMM YYYY, h:mm:ss a");
-    },
-    changeSize(val) {
-      this.pagination_page = 1;
-      this.pagination_limit = val;
-    },
-    changePage() {
-      console.log("Page changed to", this.pagination_page);
-      let from = (this.pagination_page - 1) * this.pagination_limit;
-      let to = this.pagination_page * this.pagination_limit;
-      let paginated_applicants = this.searched_applicants().slice(from, to);
-      console.log(from, to, paginated_applicants);
-    },
-    changeDateRange() {
-      this.pagination_page = 1;
-      this.getApplicants();
-    },
     getApplicantsBackground() {
       let vm = this;
       let final_start_date = null;
@@ -139,34 +124,7 @@ export default {
           throw new Error("Could not get applicants");
         });
     },
-    getVendorType(row, column) {
-      return row.vendor_type
-        ? row.vendor_type == "0"
-          ? "Unknown"
-          : this.vendor_types[Number(row.vendor_type) - 1]
-        : "N/A";
-    },
-    getVendorTypeName(vendor) {
-      return vendor !== null
-        ? vendor == "0"
-          ? "Unknown"
-          : this.vendor_types[Number(vendor) - 1]
-        : "N/A";
-    },
-    getDesk(row, column) {
-      return row.admin_name
-        ? row.admin_name.length > 0
-          ? row.admin_name
-          : "N/A"
-        : "N/A";
-    },
-    getLastActivity(row, column) {
-      return row.last_activity
-        ? row.last_activity.length > 0
-          ? row.last_activity
-          : "N/A"
-        : "N/A";
-    },
+
     startVerification(d) {
       console.log(d);
       let verification = {
@@ -255,80 +213,13 @@ export default {
         }
       };
 
-      this.updateSteps(verification.has_owner);
       this.$store.commit("changeVerification", verification);
       this.$router.push({ name: "reviewed-applicant", params: { id: d.id } });
-    },
-    resetVerification(done) {
-      this.set(0);
-      this.verifying = false;
-      this.$store.commit("resetVerification");
-      done();
-    },
-    prev() {
-      let carousel = this.$refs.carousel;
-      if (carousel.activeIndex != 0) {
-        carousel.setActiveItem(carousel.activeIndex - 1);
-        this.current_step = carousel.activeIndex + 1;
-      }
-    },
-    next() {
-      let carousel = this.$refs.carousel;
-      if (carousel.activeIndex != carousel.items.length - 1) {
-        carousel.setActiveItem(carousel.activeIndex + 1);
-        this.current_step = carousel.activeIndex + 1;
-      }
-    },
-    set(i) {
-      this.$refs.carousel.setActiveItem(i);
-      this.current_step = this.$refs.carousel.activeIndex + 1;
-    },
-
-    finishVerification() {
-      this.set(0);
-      this.verifying = false;
-      this.$store.commit("resetVerification");
-      this.getDrivers();
-    },
-    updateSteps(has_owner) {
-      this.steps = has_owner ? 4 : 2;
     }
   },
-  computed: {
-    searched_applicants() {
-      return this.applicants.filter(applicant => {
-        let searchable_string = (
-          applicant.id_no +
-          applicant.kra_pin +
-          this.getVendorTypeName(applicant.vendor_type)
-        )
-          .split(" ")
-          .join("")
-          .toLowerCase();
-        return searchable_string.indexOf(this.$store.getters.search_term) > -1;
-      });
-    },
-    paginated_applicants() {
-      let from = (this.pagination_page - 1) * this.pagination_limit;
-      let to = this.pagination_page * this.pagination_limit;
-      return this.searched_applicants.slice(from, to);
-    },
-    current_verification() {
-      return this.$store.getters.current_verification;
-    }
-  }
+  computed: {}
 };
 </script>
 <style>
-.el-picker-panel__sidebar {
-  width: 120px;
-}
-.download-csv {
-  margin-bottom: 10px;
-  float: right;
-}
-.el-table__row {
-  cursor: pointer;
-  height: 50px;
-}
+@import "../../assets/style/list.css";
 </style>
