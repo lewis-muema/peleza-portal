@@ -137,6 +137,7 @@ export default {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
+          date_verified:d.date_verified,
           partner_id: d.id,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
