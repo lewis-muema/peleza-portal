@@ -17,6 +17,12 @@
         :formatter="formatTime"
         sortable
       ></el-table-column>
+      <el-table-column
+        prop="date_verified"
+        label="DATE VERIFIED"
+        :formatter="formatTime"
+        sortable
+      ></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
 
@@ -131,6 +137,7 @@ export default {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
+          date_verified:d.date_verified,
           partner_id: d.id,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
