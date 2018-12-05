@@ -17,6 +17,12 @@
         :formatter="formatTime"
         sortable
       ></el-table-column>
+      <el-table-column
+        prop="date_verified"
+        label="DATE VERIFIED"
+        :formatter="formatTime"
+        sortable
+      ></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
 
