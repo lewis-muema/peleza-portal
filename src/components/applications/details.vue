@@ -91,184 +91,199 @@
     </div>
     <div class="applicant-details__data">
       <el-collapse v-model="accordionActiveName">
-        <el-collapse-item name="1">
-          <template slot="title">
-            <span style>Identity Check</span>
-            
-            <span style="float: right; padding-right: 10px">ID Number : {{applicant_details.id_no}}</span>
-          </template>
-          <el-form :model="verification_details.identity_check" v-show="!identityReview">
-            <el-form-item label="Name of Applicant" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.identity_check.applicant_name"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="Date of Birth" :label-width="'25%'">
-              <el-date-picker
-                v-model="verification_details.identity_check.dob"
-                type="date"
-                placeholder="Date of Birth"
-              ></el-date-picker>
-            </el-form-item>
+        <div class="applicant--details-wrap">
+          <el-collapse-item name="1">
+            <template slot="title">
+              <span style>Identity Check</span>
+              
+              <span style="float: right; padding-right: 10px">ID Number : {{applicant_details.id_no}}</span>
+            </template>
+            <el-form :model="verification_details.identity_check" v-show="!identityReview">
+              <el-form-item label="Name of Applicant" :label-width="'25%'">
+                <el-input
+                  v-model="verification_details.identity_check.applicant_name"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="Date of Birth" :label-width="'25%'">
+                <el-date-picker
+                  v-model="verification_details.identity_check.dob"
+                  type="date"
+                  placeholder="Date of Birth"
+                ></el-date-picker>
+              </el-form-item>
 
-            <el-form-item label="Place of Birth" :label-width="'25%'">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="verification_details.identity_check.pob"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
+              <el-form-item label="Place of Birth" :label-width="'25%'">
+                <el-input
+                  type="textarea"
+                  :rows="4"
+                  v-model="verification_details.identity_check.pob"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
 
-            <el-form-item label="Gender" :label-width="'25%'">
-              <el-select v-model="verification_details.identity_check.gender" auto-complete="off">
-                <el-option value="Male">Male</el-option>
-                <el-option value="Female">Female</el-option>
-              </el-select>
-            </el-form-item>
+              <el-form-item label="Gender" :label-width="'25%'">
+                <el-select v-model="verification_details.identity_check.gender" auto-complete="off">
+                  <el-option value="Male">Male</el-option>
+                  <el-option value="Female">Female</el-option>
+                </el-select>
+              </el-form-item>
 
-            <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
-                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
-                            <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
-                            <label for="id_card">Choose a file</label>
-            </el-form-item>-->
+              <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
+                              <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
+                              <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
+                              <label for="id_card">Choose a file</label>
+              </el-form-item>-->
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  class="details-save-button"
+                  @click="updateReview('identity_check', 'Identity Check')"
+                >SAVE</el-button>
+              </el-form-item>
+            </el-form>
+            <div class="review_wrap" v-show="verification_details.identity_check.review_status">
+              <div class="el-row">
+                <div class="el-col-lg-16 review-details">
+                  <div class="el-row">
+                    <div class="review-title">Name of Applicant</div>
+                    <div
+                      class="review-desc"
+                    >{{this.verification_details.identity_check.applicant_name}}</div>
+                  </div>
+                  <div class="el-row">
+                    <div class="review-title">Date of Birth</div>
+                    <div
+                      class="review-desc"
+                    >{{formatDate(this.verification_details.identity_check.dob)}}</div>
+                  </div>
+                  <div class="el-row">
+                    <div class="review-title">Place of Birth</div>
+                    <div class="review-desc">{{this.verification_details.identity_check.pob}}</div>
+                  </div>
+                  <div class="el-row">
+                    <div class="review-title">Gender</div>
+                    <div class="review-desc">{{this.verification_details.identity_check.gender}}</div>
+                  </div>
+                </div>
+                <div class="el-col-lg-8 review-image">
+                  <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
+                  <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
+                                    <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
+                  </a>-->
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+          <el-form class="applicant--incosistency-wrap">
             <el-form-item>
-              <el-button
-                type="primary"
-                class="details-save-button"
-                @click="updateReview('identity_check', 'Identity Check')"
-              >SAVE</el-button>
+              <el-checkbox></el-checkbox> Mark for Data Inconsistency
             </el-form-item>
           </el-form>
-          <div class="review_wrap" v-show="verification_details.identity_check.review_status">
-            <div class="el-row">
-              <div class="el-col-lg-16 review-details">
+        </div>
+        <div class="applicant--details-wrap">
+            <el-collapse-item
+              title="Criminal Records Check"
+              name="2"
+              v-show="applicant_details.application_type !== 'Owner'"
+            >
+              <el-form
+                :model="verification_details.criminal_records_check"
+                class="el-col-lg-15 review-details"
+                v-show="!criminalReview"
+              >
+                <el-form-item label="Name of Applicant" :label-width="'25%'">
+                  <el-input
+                    v-model="verification_details.criminal_records_check.applicant_name"
+                    auto-complete="off"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="Criminal History" :label-width="'25%'">
+                  <el-input
+                    v-model="verification_details.criminal_records_check.criminal_history"
+                    auto-complete="off"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item label="Authenticity" :label-width="'25%'">
+                  <el-input
+                    v-model="verification_details.criminal_records_check.authenticity"
+                    auto-complete="off"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item label="Id Number" :label-width="'25%'">
+                  <el-input
+                    v-model="verification_details.criminal_records_check.id_no"
+                    auto-complete="off"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item label="Reference Number" :label-width="'25%'">
+                  <el-input
+                    v-model="verification_details.criminal_records_check.ref_no"
+                    auto-complete="off"
+                  ></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button
+                    type="primary"
+                    class="details-save-button"
+                    @click="updateReview('criminal_records_check', 'Criminal Records Check')"
+                  >SAVE</el-button>
+                </el-form-item>
+              </el-form>
+              <div class="el-col-lg-15 review-details" v-show="criminalReview">
                 <div class="el-row">
                   <div class="review-title">Name of Applicant</div>
                   <div
                     class="review-desc"
-                  >{{this.verification_details.identity_check.applicant_name}}</div>
+                  >{{this.verification_details.criminal_records_check.applicant_name}}</div>
                 </div>
                 <div class="el-row">
-                  <div class="review-title">Date of Birth</div>
+                  <div class="review-title">Criminal History</div>
                   <div
                     class="review-desc"
-                  >{{formatDate(this.verification_details.identity_check.dob)}}</div>
+                  >{{this.verification_details.criminal_records_check.criminal_history}}</div>
                 </div>
                 <div class="el-row">
-                  <div class="review-title">Place of Birth</div>
-                  <div class="review-desc">{{this.verification_details.identity_check.pob}}</div>
+                  <div class="review-title">Authenticity</div>
+                  <div
+                    class="review-desc"
+                  >{{this.verification_details.criminal_records_check.authenticity}}</div>
                 </div>
                 <div class="el-row">
-                  <div class="review-title">Gender</div>
-                  <div class="review-desc">{{this.verification_details.identity_check.gender}}</div>
+                  <div class="review-title">Id Number</div>
+                  <div class="review-desc">{{this.verification_details.criminal_records_check.id_no}}</div>
+                </div>
+                <div class="el-row">
+                  <div class="review-title">Reference Number</div>
+                  <div class="review-desc">{{this.verification_details.criminal_records_check.ref_no}}</div>
                 </div>
               </div>
-              <div class="el-col-lg-8 review-image">
-                <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
-                <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
-                                   <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
-                </a>-->
+              <div class="el-col-lg-7 review-image">
+                <div
+                  class="review-edit"
+                  v-show="criminalReview"
+                  @click="handleReviewEdit('criminal_records_check')"
+                >Edit</div>
+                <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
+                  <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`">
+                </a>
               </div>
-            </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          title="Criminal Records Check"
-          name="2"
-          v-show="applicant_details.application_type !== 'Owner'"
-        >
-          <el-form
-            :model="verification_details.criminal_records_check"
-            class="el-col-lg-15 review-details"
-            v-show="!criminalReview"
-          >
-            <el-form-item label="Name of Applicant" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.applicant_name"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="Criminal History" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.criminal_history"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Authenticity" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.authenticity"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Id Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.id_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Reference Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.ref_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item>
-              <el-button
-                type="primary"
-                class="details-save-button"
-                @click="updateReview('criminal_records_check', 'Criminal Records Check')"
-              >SAVE</el-button>
-            </el-form-item>
-          </el-form>
-          <div class="el-col-lg-15 review-details" v-show="criminalReview">
-            <div class="el-row">
-              <div class="review-title">Name of Applicant</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.applicant_name}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Criminal History</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.criminal_history}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Authenticity</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.authenticity}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Id Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.id_no}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Reference Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.ref_no}}</div>
-            </div>
-          </div>
-          <div class="el-col-lg-7 review-image">
-            <div
-              class="review-edit"
-              v-show="criminalReview"
-              @click="handleReviewEdit('criminal_records_check')"
-            >Edit</div>
-            <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
-              <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`">
-            </a>
-          </div>
-        </el-collapse-item>
+            </el-collapse-item>
+            <el-form class="applicant--incosistency-wrap">
+              <el-form-item>
+                <el-checkbox></el-checkbox> Mark for Data Inconsistency
+              </el-form-item>
+            </el-form>
+        </div>
+        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Owner'"> 
+       
         <el-collapse-item
           title="Driving License Check"
           name="3"
-          v-show="applicant_details.application_type !== 'Owner'"
         >
           <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
             <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -360,7 +375,16 @@
             </div>
           </div>
         </el-collapse-item>
-        <el-collapse-item name="4" v-show="applicant_details.application_type !== 'Driver'">
+        <el-form class="applicant--incosistency-wrap">
+          <el-form-item>
+            <el-checkbox></el-checkbox> Mark for Data Inconsistency
+          </el-form-item>
+        </el-form>
+        </div>
+      <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'"> 
+       
+        
+        <el-collapse-item name="4" >
           <template slot="title">
             <span>Motor Vehicle Records Check</span>
             <span
@@ -497,10 +521,19 @@
             </a>
           </div>
         </el-collapse-item>
+        <el-form class="applicant--incosistency-wrap">
+          <el-form-item>
+            <el-checkbox></el-checkbox> Mark for Data Inconsistency
+          </el-form-item>
+        </el-form>
+        </div>
+        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'"> 
+      
+        
         <el-collapse-item
           title="Car Insurance Validity"
           name="5"
-          v-show="applicant_details.application_type !== 'Driver'"
+          
         >
           <el-form
             :model="verification_details.car_insurance_validity"
@@ -605,6 +638,15 @@
             </a>
           </div>
         </el-collapse-item>
+        <el-form class="applicant--incosistency-wrap">
+          <el-form-item>
+            <el-checkbox></el-checkbox> Mark for Data Inconsistency
+          </el-form-item>
+        </el-form>
+        </div>
+         <div class="applicant--details-wrap"> 
+      
+        
         <el-collapse-item name="6">
           <template slot="title">
             <span>KRA PIN Verification</span>
@@ -692,7 +734,15 @@
             >Edit</div>
           </div>
         </el-collapse-item>
+         <el-form class="applicant--incosistency-wrap">
+          <el-form-item>
+            <el-checkbox></el-checkbox> Mark for Data Inconsistency
+          </el-form-item>
+        </el-form>
+        </div>
       </el-collapse>
+     
+        
     </div>
   </div>
 </template>
@@ -986,4 +1036,6 @@ export default {
 </script>
 <style>
 @import "../../assets/style/detail.css";
+@import "../../assets/style/overide.css";
+
 </style>
