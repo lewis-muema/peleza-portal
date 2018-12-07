@@ -5,7 +5,7 @@
                 Count : {{searched_applicants.length}}
             </div>
             <label class="mr">Date Applied</label>
-            <el-date-picker v-model="date_range" type="daterange" align="right" placeholder="Pick a range"
+            <el-date-picker v-model="date_range" type="daterange" class= "date-editor" align="right" placeholder="Pick a range"
                             :picker-options="picker_options" @change="changeDateRange">
             </el-date-picker>
         </div>
@@ -295,5 +295,8 @@
         background-color: #1E7FC3;
         display: inline-block !important;
 
+    }
+    .date-editor {
+        width: 25% !important;
     }
 </style>

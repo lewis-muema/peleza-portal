@@ -13,6 +13,12 @@
           exact
           replace
         >Applications</el-menu-item>
+          <el-menu-item
+                  :class="{'is-active':(current_route === 'inconsistencies')}"
+                  index="/inconsistencies"
+                  exact
+                  replace
+          >Inconsistencies</el-menu-item>
         <el-menu-item
           :class="{'is-active':(current_route === 'reviewed')}"
           index="/reviewed"
