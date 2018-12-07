@@ -47,11 +47,6 @@
           @input="search"
         >
       </div>
-        <div class="stageone__filters">
-            <label class="mr">Date Applied</label>
-            <el-date-picker v-model="date_range" type="daterange" align="right" placeholder="Pick a range" :picker-options="picker_options" @change="changeDateRange">
-            </el-date-picker>
-        </div>
     </div>
   </div>
 </template>
@@ -116,7 +111,7 @@ export default {
  display: inline-block!important;
 }
 .nav__search {
-  width: 50%;
+  width: 46%;
   border: 1px solid #bfcbd9;;
   font-size: 14px;
   font-weight: 300;
