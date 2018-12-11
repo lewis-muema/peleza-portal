@@ -2,16 +2,18 @@
   <div class="stageone">
     <div class="stageone__filters">
       <div class="filter_view">Count : {{searched_applicants.length}}</div>
-      <label class="mr">Date Applied</label>
-      <el-date-picker
-        v-model="date_range"
-        class="date-editor"
-        type="daterange"
-        align="right"
-        placeholder="Pick a range"
-        :picker-options="picker_options"
-        @change="changeDateRange"
-      ></el-date-picker>
+      <div class="filter_action">
+        <label class="mr">Date Applied</label>
+        <el-date-picker
+          v-model="date_range"
+          type="daterange"
+          class="date-editor"
+          align="right"
+          placeholder="Pick a range"
+          :picker-options="picker_options"
+          @change="changeDateRange"
+        ></el-date-picker>
+      </div>
     </div>
     <el-table
       :data="paginated_applicants"
