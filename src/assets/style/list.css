@@ -13,8 +13,8 @@
 .stageone__filters {
   float: right;
   margin-bottom: 15px !important;
-  width: 65%;
-  display: inline-block;
+  width: 65% !important;
+  display: inline-block !important;
   text-align: right;
   margin-top: -85px;
 }
@@ -32,9 +32,9 @@
 }
 
 .filter_action {
-    display: inline-block;
-    margin-right: 10px;
-    width: initial;
+  display: inline-block;
+  margin-right: 10px;
+  width: initial;
 }
 
 .date-editor {
@@ -42,5 +42,5 @@
 }
 
 .el-date-editor--daterange.el-input {
-    width: 220px !important;
+  width: 220px !important;
 }
