@@ -187,7 +187,8 @@ export default {
                 dob: "",
                 pob: "",
                 gender: "",
-                review_status: false
+                review_status: false,
+                inconsistency: false
               },
           criminal_records_check: d.criminal_records_check
             ? JSON.parse(d.criminal_records_check)
@@ -197,7 +198,8 @@ export default {
                 authenticity: "",
                 id_no: "",
                 ref_no: "",
-                review_status: d.application_type == "Owner" ? true : false
+                review_status: d.application_type == "Owner" ? true : false,
+                inconsistency: false
               },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
@@ -208,7 +210,8 @@ export default {
                 expiry_date: "",
                 classes: "",
                 id_no: "",
-                review_status: d.application_type == "Owner" ? true : false
+                review_status: d.application_type == "Owner" ? true : false,
+                inconsistency: false
               },
           motor_vehicle_records_check: d.motor_vehicle_records_check
             ? JSON.parse(d.motor_vehicle_records_check)
@@ -220,7 +223,8 @@ export default {
                 engine_no: "",
                 manufacture_year: "",
                 caveats: "",
-                review_status: d.application_type == "Driver" ? true : false
+                review_status: d.application_type == "Driver" ? true : false,
+                inconsistency: false
               },
           car_insurance_validity: d.car_insurance_validity
             ? JSON.parse(d.car_insurance_validity)
@@ -231,7 +235,8 @@ export default {
                 expiry_date: "",
                 validity: "",
                 policy_number: "",
-                review_status: d.application_type == "Driver" ? true : false
+                review_status: d.application_type == "Driver" ? true : false,
+                inconsistency: false
               },
           kra_pin_verification: d.kra_pin_verification
             ? JSON.parse(d.kra_pin_verification)
@@ -241,7 +246,8 @@ export default {
                 pin_number: "",
                 tax_obligations: "",
                 registration_date: "",
-                review_status: false
+                review_status: false,
+                inconsistency: false
               }
         }
       };
