@@ -53,7 +53,7 @@ let router = new Router({
     },
     {
       path: "/inconsistency/:id",
-      name: "inconsistencies-details",
+      name: "inconsistency",
       component: inconsistencies_details
     }
   ]
