@@ -43,7 +43,10 @@
         <div class="el-menu-item" @click="logout">Logout</div>
       </el-submenu>
     </el-menu>
-    <div class="row" v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant'">
+    <div
+      class="row"
+      v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant' && current_route !== 'inconsistency'"
+    >
       <div class="nav-search">
         <input
           class="nav__search"
