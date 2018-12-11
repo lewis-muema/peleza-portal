@@ -13,12 +13,12 @@
           exact
           replace
         >Applications</el-menu-item>
-          <el-menu-item
-                  :class="{'is-active':(current_route === 'inconsistencies')}"
-                  index="/inconsistencies"
-                  exact
-                  replace
-          >Inconsistencies</el-menu-item>
+        <el-menu-item
+          :class="{'is-active':(current_route === 'inconsistencies')}"
+          index="/inconsistencies"
+          exact
+          replace
+        >Inconsistencies</el-menu-item>
         <el-menu-item
           :class="{'is-active':(current_route === 'reviewed')}"
           index="/reviewed"
@@ -110,15 +110,12 @@ export default {
   /*margin: auto;*/
   margin-top: 40px;
   margin-left: 13px;
-    display: inline-block;
+  display: inline-block;
   margin-bottom: 20px;
-}
-.stageone__filters {
- display: inline-block!important;
 }
 .nav__search {
   width: 46%;
-  border: 1px solid #bfcbd9;;
+  border: 1px solid #bfcbd9;
   font-size: 14px;
   font-weight: 300;
   text-transform: uppercase;
