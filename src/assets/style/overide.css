@@ -8,3 +8,7 @@
 .el-checkbox__inner:hover {
     border-color: #2a7fc3 !important;
 }
+.el-card__header {
+    font-weight: 400 !important;
+    color: #555;
+}

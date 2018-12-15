@@ -93,6 +93,9 @@
   border: none !important;
 }
 
+.inconsistent-collapse {
+  border: 1px solid #f17e3a !important
+}
 .el-collapse-item is-active {
   margin-bottom: 20px;
   border: 1px solid #d1dbe5;
@@ -105,7 +108,7 @@
 .el-collapse-item {
   border: 1px solid #d1dbe5;
   border-radius: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 .el-collapse-item__wrap {
@@ -272,15 +275,28 @@
   text-align: right;
   padding-right: 12px;
 }
-
+.applicant--incosistency-mark {
+  margin-left: 10px;
+  color: #555;
+  margin-top: -20px;
+  margin-bottom: 40px;
+  text-transform: capitalize;
+  text-align: right;
+  padding-right: 12px;
+  line-height: 36px;
+  position: relative;
+  font-size: 14px;
+}
 .applicant--incosistency-wrap .el-checkbox {
   margin-right: 10px;
 }
-/* .applicant--details-wrap {
-  float:left;
-  width:100%;
-  position:relative;
-} */
-
-.applicant--details-wrap .el-collapse-item {
+.applicant-details__inconsistency-messsage-wrap {
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: #f3f3f3;
+}
+.applicant-details__inconsistency-message {
+  color: #555;
+  font-size: 14px;
 }
