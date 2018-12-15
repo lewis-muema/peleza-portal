@@ -88,6 +88,13 @@
         class="applicant-details__submit-review"
         v-show="inconsistencyCheck"
       >
+         <el-alert
+          :title="inconsistency_alert_message"
+          type="warning"
+          :closable="false"
+          v-if="inconsistency_alert_status"
+          >
+        </el-alert>
         <el-form>
           <el-form-item>
             <el-input
@@ -101,9 +108,8 @@
           <el-form-item>
             <el-button
               type="primary"
-              class="submit-review-button"
               @click="submitDataInconsistency"
-              :disabled="!validInconsistency"
+              :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'"
             >SUBMIT</el-button>
           </el-form-item>
         </el-form>
@@ -835,7 +841,10 @@ export default {
       },
       user: JSON.parse(localStorage.user),
       partner_logs: [],
-      inconsistency_message: ""
+      inconsistency_message: "",
+      inconsistency_alert_status: false,
+      inconsistency_alert_message: ""
+
     };
   },
   beforeMount() {
@@ -1054,7 +1063,22 @@ export default {
       //change status of application to inconsistency
       //mark the sections to inconsistency
       //send email to partner with reupload link
+      this.inconsistency_alert_status = false;
+      this.inconsistency_alert_message = '';
+      // reset alert status
 
+      if(!this.validInconsistency){
+        //break
+        //check if message is set
+        if(!this.validSubmitStatus){
+          this.inconsistency_alert_message = 'review all sections before you can submit inconsistency';
+        } else {
+          this.inconsistency_alert_message = 'include a detailed inconsistency message to guide the applicant';
+        }
+        this.inconsistency_alert_status = true;
+        return 0;
+      }
+     
       let payload = {
         partner_id: this.applicant_details.partner_id,
         inconsistency_message: this.inconsistency_message,
@@ -1126,7 +1150,7 @@ export default {
       return this.verification_details.kra_pin_verification.review_status;
     },
     validInconsistency: function() {
-      return this.inconsistencyCheck && this.inconsistency_message !== "";
+      return this.inconsistencyCheck && this.inconsistency_message !== "" && this.validSubmitStatus;
     },
     validSubmit: function() {
       return this.checkReviewStatus() && !this.inconsistencyCheck;
