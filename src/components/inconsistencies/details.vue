@@ -152,11 +152,10 @@
              Marked for Data Inconsistency
           </div>
         </div>
-        <div class="applicant--details-wrap">
+        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Owner'">
           <el-collapse-item
             title="Criminal Records Check"
             name="2"
-            v-show="applicant_details.application_type !== 'Owner'"
             :class="verification_details.criminal_records_check.inconsistency? 'inconsistent-collapse':''"
           >
             <el-form
