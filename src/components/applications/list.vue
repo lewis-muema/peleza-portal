@@ -36,7 +36,10 @@
 
             <el-table-column prop="status" label="STATUS">
                 <template scope="scope">
-                    <span>Pending</span>
+                    <span v-if="filteredData[scope.$index]['review_status'] == '4'">
+                             Re-Upload Update
+                    </span>
+                    <span v-else>Pending</span>
                 </template>
             </el-table-column>
         </el-table>
