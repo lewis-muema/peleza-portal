@@ -27,8 +27,26 @@
         >Reviewed</el-menu-item>
         <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
       </div>
+        <el-dropdown class="topnav--reupload-alert">
+          <span class="el-dropdown-link">
+            <el-badge :value="applicants.length" :max="99" class="item">
+            <el-button size="small">
+              <i class="el-icon-bell el-icon--right"></i>
+            </el-button>
+          </el-badge>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item  v-for="applicant in applicants">
+              <a  @click="loadApplicant(applicant)"> 
+              Applicant review updated on {{applicant.date_time}}
+              </a>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+      </el-dropdown>
+
       <el-submenu index="6" class="nav__session">
         <template slot="title">
+          
           <img
             style="
             height: 40px;
@@ -64,8 +82,12 @@ export default {
   name: "topnav",
   data() {
     return {
-      search_term: ""
+      search_term: "",
+      applicants:0
     };
+  },
+  mounted(){
+    this.getInconsisntenciesUpdates();
   },
   computed: {
     current_route() {
@@ -83,6 +105,101 @@ export default {
     }
   },
   methods: {
+    loadApplicant(d){
+      console.log(d);
+                let verification = {
+                    applicant_details: {
+                        application_type: d.application_type,
+                        date_created: d.date_created,
+                        partner_id: d.id,
+                        id_no: d.id_no,
+                        kra_pin: d.kra_pin,
+                        driver_photo: d.driver_photo
+                            ? `${AWS_URL}photo/${d.driver_photo}`
+                            : MISSING_PHOTO_URL,
+                        nok_id: d.nok_id,
+                        vehicle_reg_no: d.vehicle_reg_no ? d.vehicle_reg_no : "",
+                        good_conduct: d.good_conduct ? d.good_conduct : "",
+                        insurance_copy: d.insurance_copy ? d.insurance_copy : "",
+                        vehicle_photo: d.vehicle_photo ? d.vehicle_photo : "",
+                        vendor_type: d.vendor_type ? d.vendor_type : ""
+                    },
+                    verification_details: {
+                        identity_check: d.identity_check
+                            ? JSON.parse(d.identity_check)
+                            : {
+                                applicant_name: "",
+                                dob: "",
+                                pob: "",
+                                gender: "",
+                                review_status: false,
+                                inconsistency: false
+                            },
+                        criminal_records_check: d.criminal_records_check
+                            ? JSON.parse(d.criminal_records_check)
+                            : {
+                                applicant_name: "",
+                                criminal_history: "",
+                                authenticity: "",
+                                id_no: "",
+                                ref_no: "",
+                                review_status: d.application_type == "Owner" ? true : false,
+                                inconsistency: false
+                            },
+                        driving_license_check: d.driving_license_check
+                            ? JSON.parse(d.driving_license_check)
+                            : {
+                                applicant_name: "",
+                                dl_no: "",
+                                date_of_issue: "",
+                                expiry_date: "",
+                                classes: "",
+                                id_no: "",
+                                review_status: d.application_type == "Owner" ? true : false,
+                                inconsistency: false
+                            },
+                        motor_vehicle_records_check: d.motor_vehicle_records_check
+                            ? JSON.parse(d.motor_vehicle_records_check)
+                            : {
+                                ownership_details: "",
+                                chasis_no: "",
+                                make: "",
+                                body_type: "",
+                                engine_no: "",
+                                manufacture_year: "",
+                                caveats: "",
+                                review_status: d.application_type == "Driver" ? true : false,
+                                inconsistency: false
+                            },
+                        car_insurance_validity: d.car_insurance_validity
+                            ? JSON.parse(d.car_insurance_validity)
+                            : {
+                                owner_name: "",
+                                vehicle_number_plate: "",
+                                issue_date: "",
+                                expiry_date: "",
+                                validity: "",
+                                policy_number: "",
+                                review_status: d.application_type == "Driver" ? true : false,
+                                inconsistency: false
+                            },
+                        kra_pin_verification: d.kra_pin_verification
+                            ? JSON.parse(d.kra_pin_verification)
+                            : {
+                                validity: "",
+                                name: "",
+                                pin_number: "",
+                                tax_obligations: "",
+                                registration_date: "",
+                                review_status: false,
+                                inconsistency: false
+                            }
+                    }
+                };
+
+                this.$store.commit("changeVerification", verification);
+                this.$router.push({name: "applicant", params: {id: d.id}});
+    },
     logout() {
       localStorage.clear();
       this.$router.replace("/");
@@ -95,6 +212,23 @@ export default {
           .join("")
           .toLowerCase()
       );
+    },
+    getInconsisntenciesUpdates(){
+      let payload = {
+         
+      };
+      axios
+          .post(
+              PARTNER_BASE_URL + "peleza/applications/list_updated_inconsistencies/",
+              payload
+          )
+          .then(response => {
+              this.applicants = response.data.applicants;
+          })
+          .catch(error => {
+              log(error);
+              throw new Error("Could not get applicants");
+          });
     }
   }
 };
@@ -144,5 +278,8 @@ export default {
   letter-spacing: 1px;
 }
 .nav__links .el-menu-item.is-active {
+}
+.topnav--reupload-alert {
+  margin-right: 50px;
 }
 </style>
