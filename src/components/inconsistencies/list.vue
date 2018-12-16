@@ -30,16 +30,14 @@
                     :formatter="formatTime"
                     sortable
             ></el-table-column>
+            <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatTime"
+                             sortable></el-table-column>
             <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
             <el-table-column prop="vendor_type" label="Vendor Type" sortable
                              :formatter="getVendorType"></el-table-column>
-
             <el-table-column prop="status" label="STATUS">
                 <template scope="scope">
-                    <span v-if="filteredData[scope.$index]['review_status'] == '4'">
-                             Re-Upload Update
-                    </span>
-                    <span v-else>Pending</span>
+                    <span>Inconsistent</span>
                 </template>
             </el-table-column>
         </el-table>
@@ -61,7 +59,7 @@
     import ListMxn from "../../mixins/list_mixin.js";
 
     export default {
-        name: "applicants_list",
+        name: "inconsistencies_list",
         mixins: [ListMxn],
         data() {
             var date = new Date(),
@@ -76,9 +74,7 @@
                     to_date: ""
                 },
                 verifying: false,
-                filterState: false,
                 applicant: {},
-                filterData: {},
                 empty_state: "Loading...",
                 date_range: [new Date(y, m, 1), new Date(y, m + 1, 0)],
                 picker_options: {
@@ -143,7 +139,7 @@
             changeDateRange() {
                 let vm = this;
                 this.filterState = false;
-                this.filteredData = this.paginated_applicants;
+                this.filteredData = this.searched_applicants;
                 this.pagination_page = 1;
                 let from_date = this.date_range[0];
                 let to_date = this.date_range[1];
@@ -157,7 +153,7 @@
                         return application_date >= from_date && application_date <= to_date;
                     }
                     else {
-                        vm.empty_state = "Could not find applications for the dates."
+                        vm.empty_state = "Could not find inconsistencies for the dates."
                     }
                 });
                 // this.filteredUserData = this.filteredUserData.filter( user => user.department_id ==  department);
@@ -165,54 +161,25 @@
             },
             getApplicantsBackground() {
                 let vm = this;
+                let final_start_date = null;
+                let final_stop_date = null;
+
                 let payload = {
                     limit: "all",
                     stage: -1,
                     state: "all",
-                    from: this.date_range[0],
-                    to: this.date_range[1]
+                    from: final_start_date,
+                    to: final_stop_date
                 };
-                console.log(payload);
                 axios
                     .post(
-                        PARTNER_BASE_URL + "peleza/applications/list_applicants/",
+                        PARTNER_BASE_URL + "peleza/applications/list_inconsistencies/",
                         payload
                     )
                     .then(response => {
                         vm.applicants = response.data.data.partner_list;
                     })
                     .catch(error => {
-                        log(error);
-                        throw new Error("Could not get applicants");
-                    });
-            },
-            getApplicants() {
-                let vm = this;
-                vm.loading = true;
-                vm.empty_state = "Loading...";
-
-                let payload = {
-                    limit: "all",
-                    stage: -1,
-                    state: "all",
-                    from: this.date_range[0],
-                    to: this.date_range[1]
-                };
-                axios
-                    .post(
-                        PARTNER_BASE_URL + "peleza/applications/list_applicants/",
-                        JSON.stringify(payload)
-                    )
-                    .then(response => {
-                        console.log(response);
-                        vm.applicants = response.data.applicants;
-                        vm.filteredData = vm.applicants;
-                        vm.empty_state = "No Data";
-                        vm.loading = false;
-                    })
-                    .catch(error => {
-                        vm.empty_state = "No Data";
-                        vm.loading = false;
                         log(error);
                         throw new Error("Could not get applicants");
                     });
@@ -234,7 +201,8 @@
                         good_conduct: d.good_conduct ? d.good_conduct : "",
                         insurance_copy: d.insurance_copy ? d.insurance_copy : "",
                         vehicle_photo: d.vehicle_photo ? d.vehicle_photo : "",
-                        vendor_type: d.vendor_type ? d.vendor_type : ""
+                        vendor_type: d.vendor_type ? d.vendor_type : "",
+                        inconsistency_message: d.inconsistency_message ? d.inconsistency_message : ""
                     },
                     verification_details: {
                         identity_check: d.identity_check
@@ -244,8 +212,7 @@
                                 dob: "",
                                 pob: "",
                                 gender: "",
-                                review_status: false,
-                                inconsistency: false
+                                review_status: false
                             },
                         criminal_records_check: d.criminal_records_check
                             ? JSON.parse(d.criminal_records_check)
@@ -255,8 +222,7 @@
                                 authenticity: "",
                                 id_no: "",
                                 ref_no: "",
-                                review_status: d.application_type == "Owner" ? true : false,
-                                inconsistency: false
+                                review_status: d.application_type == "Owner" ? true : false
                             },
                         driving_license_check: d.driving_license_check
                             ? JSON.parse(d.driving_license_check)
@@ -267,8 +233,7 @@
                                 expiry_date: "",
                                 classes: "",
                                 id_no: "",
-                                review_status: d.application_type == "Owner" ? true : false,
-                                inconsistency: false
+                                review_status: d.application_type == "Owner" ? true : false
                             },
                         motor_vehicle_records_check: d.motor_vehicle_records_check
                             ? JSON.parse(d.motor_vehicle_records_check)
@@ -280,8 +245,7 @@
                                 engine_no: "",
                                 manufacture_year: "",
                                 caveats: "",
-                                review_status: d.application_type == "Driver" ? true : false,
-                                inconsistency: false
+                                review_status: d.application_type == "Driver" ? true : false
                             },
                         car_insurance_validity: d.car_insurance_validity
                             ? JSON.parse(d.car_insurance_validity)
@@ -292,8 +256,7 @@
                                 expiry_date: "",
                                 validity: "",
                                 policy_number: "",
-                                review_status: d.application_type == "Driver" ? true : false,
-                                inconsistency: false
+                                review_status: d.application_type == "Driver" ? true : false
                             },
                         kra_pin_verification: d.kra_pin_verification
                             ? JSON.parse(d.kra_pin_verification)
@@ -303,14 +266,38 @@
                                 pin_number: "",
                                 tax_obligations: "",
                                 registration_date: "",
-                                review_status: false,
-                                inconsistency: false
+                                review_status: false
                             }
                     }
                 };
 
                 this.$store.commit("changeVerification", verification);
-                this.$router.push({name: "applicant", params: {id: d.id}});
+                this.$router.push({name: "inconsistency", params: {id: d.id}});
+            },
+            getApplicants() {
+                let vm = this;
+                vm.loading = true;
+                axios
+                    .post(PARTNER_BASE_URL + "peleza/applications/list_inconsistencies/", {
+                        limit: "all",
+                        stage: -1,
+                        state: "all",
+                        from: this.date_range[0],
+                        to: this.date_range[1]
+                    })
+                    .then(response => {
+                        console.log(response);
+                        vm.applicants = response.data.applicants;
+                        vm.filteredData = vm.applicants;
+                        vm.empty_state = "No Data";
+                        vm.loading = false;
+                    })
+                    .catch(error => {
+                        vm.empty_state = "No Data";
+                        vm.loading = false;
+                        log(error);
+                        throw new Error("Could not get applicants");
+                    });
             }
         },
         computed: {}

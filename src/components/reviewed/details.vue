@@ -25,6 +25,12 @@
             >{{formatDate(applicant_details.date_created)}}</div>
           </div>
           <div class="applicant-details__profile_row">
+            <div class="applicant-details__profile_label">DATE VERIFIED</div>
+            <div
+              class="applicant-details__profile_value"
+            >{{formatDate(applicant_details.date_verified)}}</div>
+          </div>
+          <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">APPLICATION TYPE</div>
             <div class="applicant-details__profile_value">{{applicant_details.application_type}}</div>
           </div>

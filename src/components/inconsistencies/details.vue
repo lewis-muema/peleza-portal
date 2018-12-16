@@ -39,80 +39,15 @@
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">STATUS</div>
-            <div class="applicant-details__profile_value">Applied</div>
+            <div class="applicant-details__profile_value">Inconsistent</div>
           </div>
         </div>
       </el-card>
 
-      <el-card
-        header="Submit Applicant"
-        class="applicant-details__submit-review"
-        v-show="validSubmit"
-      >
-        <el-form>
-          <el-form-item>
-            <select
-              v-model="applicant_review.status"
-              auto-complete="off"
-              placeholder
-              class="review-select"
-            >
-              <option value disabled selected>Review Applicant</option>
-              <option value="1" label="Recommended"></option>
-              <option value="0" label="Not Recommended"></option>
-            </select>
-          </el-form-item>
-
-          <el-form-item v-show="applicant_review.status == 0 && applicant_review.status != ''">
-            <el-input
-              type="textarea"
-              :rows="4"
-              placeholder="Reason"
-              class="review-reason"
-              v-model="applicant_review.reason"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              class="submit-review-button"
-              @click="submitApplicantReview"
-              :disabled="!validSubmitStatus"
-            >SUBMIT</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-
-      <el-card
-        header="Data Inconsistency"
-        class="applicant-details__submit-review"
-        v-show="inconsistencyCheck"
-      >
-         <el-alert
-          :title="inconsistency_alert_message"
-          type="warning"
-          :closable="false"
-          v-if="inconsistency_alert_status"
-          >
-        </el-alert>
-        <el-form>
-          <el-form-item>
-            <el-input
-              type="textarea"
-              :rows="4"
-              placeholder="Reason"
-              class="review-reason"
-              v-model="inconsistency_message"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              @click="submitDataInconsistency"
-              :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'"
-            >SUBMIT</el-button>
-          </el-form-item>
-        </el-form>
+      <el-card header="Data Inconsistency" class="applicant-details__inconsistency-messsage-wrap" v-if="applicant_details.inconsistency_message.length > 0">
+        <div class="applicant-details__inconsistency-message">
+          {{applicant_details.inconsistency_message}}
+        </div>
       </el-card>
 
       <el-card
@@ -128,7 +63,7 @@
     <div class="applicant-details__data">
       <el-collapse v-model="accordionActiveName">
         <div class="applicant--details-wrap">
-          <el-collapse-item name="1">
+          <el-collapse-item name="1" :class="verification_details.identity_check.inconsistency? 'inconsistent-collapse':''">
             <template slot="title">
               <span style>Identity Check</span>
               
@@ -213,21 +148,16 @@
               </div>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.identity_check.inconsistency"
-                id="identity_inconsistency"
-                name="identity_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+          <div class="applicant--incosistency-mark" v-if="verification_details.identity_check.inconsistency">
+             Marked for Data Inconsistency
+          </div>
         </div>
         <div class="applicant--details-wrap">
           <el-collapse-item
             title="Criminal Records Check"
             name="2"
             v-show="applicant_details.application_type !== 'Owner'"
+            :class="verification_details.criminal_records_check.inconsistency? 'inconsistent-collapse':''"
           >
             <el-form
               :model="verification_details.criminal_records_check"
@@ -315,21 +245,15 @@
               </a>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.criminal_records_check.inconsistency"
-                id="criminal_inconsistency"
-                name="criminal_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+          <div class="applicant--incosistency-mark" v-if="verification_details.criminal_records_check.inconsistency">
+             Marked for Data Inconsistency
+          </div>
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Owner'"
         >
-          <el-collapse-item title="Driving License Check" name="3">
+          <el-collapse-item title="Driving License Check" name="3" :class="verification_details.driving_license_check.inconsistency? 'inconsistent-collapse':''">
             <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
                 <el-input
@@ -422,21 +346,15 @@
               </div>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.driving_license_check.inconsistency"
-                name="driving_license_inconsistency"
-                id="driving_license_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+          <div class="applicant--incosistency-mark" v-if="verification_details.driving_license_check.inconsistency">
+             Marked for Data Inconsistency
+          </div>
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-          <el-collapse-item name="4">
+          <el-collapse-item name="4" :class="verification_details.motor_vehicle_records_check.inconsistency? 'inconsistent-collapse':''">
             <template slot="title">
               <span>Motor Vehicle Records Check</span>
               <span
@@ -576,21 +494,17 @@
               </a>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.motor_vehicle_records_check.inconsistency"
-                name="motor_vehicle_inconsistency"
-                id="motor_vehicle_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+        
+          <div class="applicant--incosistency-mark" v-if="verification_details.motor_vehicle_records_check.inconsistency">
+             Marked for Data Inconsistency
+          </div>
+          
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-          <el-collapse-item title="Car Insurance Validity" name="5">
+          <el-collapse-item title="Car Insurance Validity" name="5" :class="verification_details.car_insurance_validity.inconsistency? 'inconsistent-collapse':''">
             <el-form
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-15 review-details"
@@ -696,18 +610,12 @@
               </a>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.car_insurance_validity.inconsistency"
-                name="insurance_inconsistency"
-                id="insurance_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+          <div class="applicant--incosistency-mark" v-if="verification_details.car_insurance_validity.inconsistency">
+             Marked for Data Inconsistency
+          </div>
         </div>
         <div class="applicant--details-wrap">
-          <el-collapse-item name="6">
+          <el-collapse-item name="6" :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''">
             <template slot="title">
               <span>KRA PIN Verification</span>
               <span
@@ -796,15 +704,9 @@
               >Edit</div>
             </div>
           </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.kra_pin_verification.inconsistency"
-                name="kra_pin_inconsistsency"
-                id="kra_pin_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
+          <div class="applicant--incosistency-mark" v-if="verification_details.kra_pin_verification.inconsistency">
+             Marked for Data Inconsistency
+          </div>
         </div>
       </el-collapse>
     </div>
@@ -840,11 +742,7 @@ export default {
         reason: ""
       },
       user: JSON.parse(localStorage.user),
-      partner_logs: [],
-      inconsistency_message: "",
-      inconsistency_alert_status: false,
-      inconsistency_alert_message: ""
-
+      partner_logs: []
     };
   },
   beforeMount() {
@@ -1058,78 +956,9 @@ export default {
           });
         });
       this.getPartnerLogs();
-    },
-    submitDataInconsistency() {
-      //change status of application to inconsistency
-      //mark the sections to inconsistency
-      //send email to partner with reupload link
-      this.inconsistency_alert_status = false;
-      this.inconsistency_alert_message = '';
-      // reset alert status
-
-      if(!this.validInconsistency){
-        //break
-        //check if message is set
-        if(!this.validSubmitStatus){
-          this.inconsistency_alert_message = 'review all sections before you can submit inconsistency';
-        } else {
-          this.inconsistency_alert_message = 'include a detailed inconsistency message to guide the applicant';
-        }
-        this.inconsistency_alert_status = true;
-        return 0;
-      }
-     
-      let payload = {
-        partner_id: this.applicant_details.partner_id,
-        inconsistency_message: this.inconsistency_message,
-        verification_details: this.verification_details,
-        admin_id: JSON.parse(localStorage.user).admin_id,
-        admin_name: JSON.parse(localStorage.user).name
-      };
-      axios
-        .post(
-          PARTNER_BASE_URL + "peleza/applications/submit_data_inconsitency/",
-          JSON.stringify(payload)
-        )
-        .then(response => {
-          console.log(response);
-
-          if (response.data.status == true) {
-            this.$notify.success({
-              title: "submit data inconsistency",
-              message: response.data.message
-            });
-            this.handleBack();
-          } else {
-            this.$notify.error({
-              title: "submit data inconsistency",
-              message: response.data.message
-            });
-          }
-        })
-        .catch(error => {
-          throw new Error("Could not update applicant data inconsistency");
-          console.log(error);
-
-          this.$notify.error({
-            title: "submit applicant review",
-            message: "failed to update applicant data inconsistency"
-          });
-        });
-
-      this.getPartnerLogs();
     }
   },
   computed: {
-    inconsistencyCheck: function() {
-      let obj = this.verification_details;
-      for (var key in obj) {
-        if (obj[key]["inconsistency"] == true) {
-          return true;
-        }
-      }
-      return false;
-    },
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
@@ -1149,12 +978,8 @@ export default {
     kraReview: function() {
       return this.verification_details.kra_pin_verification.review_status;
     },
-    validInconsistency: function() {
-      
-      return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
-    },
     validSubmit: function() {
-      return this.checkReviewStatus() && !this.inconsistencyCheck;
+      return this.checkReviewStatus();
     },
     validSubmitStatus: function() {
       if (this.applicant_review.status == "") {
@@ -1177,5 +1002,4 @@ export default {
 </script>
 <style>
 @import "../../assets/style/detail.css";
-@import "../../assets/style/overide.css";
 </style>

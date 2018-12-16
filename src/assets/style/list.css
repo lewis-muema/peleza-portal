@@ -9,3 +9,38 @@
   cursor: pointer;
   height: 50px;
 }
+
+.stageone__filters {
+  float: right;
+  margin-bottom: 15px !important;
+  width: 65% !important;
+  display: inline-block !important;
+  text-align: right;
+  margin-top: -85px;
+}
+
+.filter_view {
+  width: 60px;
+  padding: 12px;
+  float: left !important;
+  margin-left: 15px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  background-color: #1e7fc3;
+  display: inline-block !important;
+}
+
+.filter_action {
+  display: inline-block;
+  margin-right: 10px;
+  width: initial;
+}
+
+.date-editor {
+  width: 25% !important;
+}
+
+.el-date-editor--daterange.el-input {
+  width: 220px !important;
+}
