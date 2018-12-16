@@ -1150,7 +1150,8 @@ export default {
       return this.verification_details.kra_pin_verification.review_status;
     },
     validInconsistency: function() {
-      return this.inconsistencyCheck && this.inconsistency_message !== "" && this.validSubmitStatus;
+      
+      return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
     },
     validSubmit: function() {
       return this.checkReviewStatus() && !this.inconsistencyCheck;

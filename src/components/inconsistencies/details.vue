@@ -44,7 +44,7 @@
         </div>
       </el-card>
 
-      <el-card header="Data Inconsistency" class="applicant-details__inconsistency-messsage-wrap">
+      <el-card header="Data Inconsistency" class="applicant-details__inconsistency-messsage-wrap" v-if="applicant_details.inconsistency_message.length > 0">
         <div class="applicant-details__inconsistency-message">
           {{applicant_details.inconsistency_message}}
         </div>

@@ -238,6 +238,14 @@
   color: #2a7fc3;
   border: 1px solid #2a7fc3;
 }
+.submit-review-button-disabled, .submit-review-button-disabled:hover,
+.submit-review-button-disabled:focus {
+  color: #555;
+  background-color: #d1dbe5 !important;
+  border-color: #d1dbe5 !important;
+  cursor: not-allowed;
+}
+
 .review-reason {
   margin-top: 15px;
   height: auto;
