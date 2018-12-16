@@ -223,11 +223,10 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="applicant--details-wrap">
+        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Owner'">
           <el-collapse-item
             title="Criminal Records Check"
             name="2"
-            v-show="applicant_details.application_type !== 'Owner'"
           >
             <el-form
               :model="verification_details.criminal_records_check"
