@@ -20,7 +20,8 @@
 }
 
 .filter_view {
-  width: 60px;
+  min-width: 80px;
+  width: auto;
   padding: 12px;
   float: left !important;
   margin-left: 15px;
