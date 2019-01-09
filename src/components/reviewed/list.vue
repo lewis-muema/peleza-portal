@@ -14,7 +14,7 @@
             ></el-date-picker>
         </div>
         <el-table
-                :data="filteredData"
+                :data="searched_applicants"
                 @row-click="startVerification"
                 v-loading.body="loading"
                 border
