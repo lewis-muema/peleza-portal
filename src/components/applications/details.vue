@@ -329,7 +329,7 @@
           v-show="applicant_details.application_type !== 'Owner'"
         >
           <el-collapse-item title="Driving License Check" name="3">
-            <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
+            <el-form :model="verification_details.driving_license_check" v-if="!drivingReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.driving_license_check.applicant_name"
@@ -342,7 +342,6 @@
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-
               <el-form-item label="Date of Issue" :label-width="'25%'">
                 <el-date-picker
                   v-model="verification_details.driving_license_check.date_of_issue"
@@ -350,7 +349,6 @@
                   placeholder="Date of Issue"
                 ></el-date-picker>
               </el-form-item>
-
               <el-form-item label="Expiry Date" :label-width="'25%'">
                 <el-date-picker
                   v-model="verification_details.driving_license_check.expiry_date"
@@ -358,21 +356,18 @@
                   placeholder="Expiry Date"
                 ></el-date-picker>
               </el-form-item>
-
               <el-form-item label="Classes" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.driving_license_check.classes"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-
               <el-form-item label="Id Number" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.driving_license_check.id_no"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-
               <el-form-item>
                 <el-button
                   type="primary"
@@ -849,9 +844,81 @@ export default {
   beforeMount() {
     this.applicant_details = this.current_verification.applicant_details;
     this.verification_details = this.current_verification.verification_details;
+    this.updateRecordNulls();
     this.getPartnerLogs();
   },
   methods: {
+    updateRecordNulls(){
+                if(this.verification_details.driving_license_check == null){
+                    this.verification_details.driving_license_check = {
+                                applicant_name: "",
+                                dl_no: "",
+                                date_of_issue: "",
+                                expiry_date: "",
+                                classes: "",
+                                id_no: "",
+                                review_status: this.applicant_details.application_type == "Owner" ? true : false,
+                                inconsistency: false
+                            };
+                }  
+                if(this.verification_details.kra_pin_verification == null) {
+                    this.verification_details.kra_pin_verification = {
+                                validity: "",
+                                name: "",
+                                pin_number: "",
+                                tax_obligations: "",
+                                registration_date: "",
+                                review_status: false,
+                                inconsistency: false
+                            };
+                }
+                if(this.verification_details.car_insurance_validity == null){
+                    this.verification_details.car_insurance_validity = {
+                                owner_name: "",
+                                vehicle_number_plate: "",
+                                issue_date: "",
+                                expiry_date: "",
+                                validity: "",
+                                policy_number: "",
+                                review_status: this.applicant_details.application_type == "Driver" ? true : false,
+                                inconsistency: false
+                            }
+                }
+                if(this.verification_details.motor_vehicle_records_check == null) {
+                    this.verification_details.motor_vehicle_records_check = {
+                                ownership_details: "",
+                                chasis_no: "",
+                                make: "",
+                                body_type: "",
+                                engine_no: "",
+                                manufacture_year: "",
+                                caveats: "",
+                                review_status: this.applicant_details.application_type == "Driver" ? true : false,
+                                inconsistency: false
+                            }
+                }
+                if(this.verification_details.criminal_records_check == null){
+                    this.verification_details.criminal_records_check = {
+                                applicant_name: "",
+                                criminal_history: "",
+                                authenticity: "",
+                                id_no: "",
+                                ref_no: "",
+                                review_status: this.applicant_details.application_type == "Owner" ? true : false,
+                                inconsistency: false
+                            }
+                }
+                if(this.verification_details.identity_check == null) {
+                    this.verification_details.identity_check = {
+                                applicant_name: "",
+                                dob: "",
+                                pob: "",
+                                gender: "",
+                                review_status: false,
+                                inconsistency: false
+                            }
+                }
+    },
     async updateReview(field, field_title = "") {
       //update store
       let verification = {
@@ -1017,7 +1084,7 @@ export default {
       } else {
         let obj = this.verification_details;
         for (var key in obj) {
-          if (obj[key]["review_status"] == false) {
+          if (obj[key] != null && obj[key]["review_status"] == false) {
             return false;
           }
         }
@@ -1129,30 +1196,31 @@ export default {
     inconsistencyCheck: function() {
         let obj = this.verification_details;
           for (var key in obj) {
-            if (obj[key]["inconsistency"] == true) {
+            
+            if (obj[key] != null && obj[key]["inconsistency"] == true) {
               return true;
             }
           }
           return false
     },
     identityReview: function() {
-      return this.verification_details.identity_check.review_status;
+      return this.verification_details.identity_check != null ? this.verification_details.identity_check.review_status : true;
     },
     criminalReview: function() {
-      return this.verification_details.criminal_records_check.review_status;
+      return this.verification_details.criminal_records_check !== null? this.verification_details.criminal_records_check.review_status:true;
     },
     drivingReview: function() {
-      return this.verification_details.driving_license_check.review_status;
+      return this.verification_details.driving_license_check == null ? false: this.verification_details.driving_license_check.review_status;
     },
     motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check
-        .review_status;
+      return  this.verification_details.motor_vehicle_records_check != null? this.verification_details.motor_vehicle_records_check
+        .review_status: true;
     },
     insuranceReview: function() {
-      return this.verification_details.car_insurance_validity.review_status;
+      return this.verification_details.car_insurance_validity != null ? this.verification_details.car_insurance_validity.review_status:true;
     },
     kraReview: function() {
-      return this.verification_details.kra_pin_verification.review_status;
+      return this.verification_details.kra_pin_verification != null ? this.verification_details.kra_pin_verification.review_status: true;
     },
     validInconsistency: function() {
       return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
