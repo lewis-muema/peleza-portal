@@ -1204,23 +1204,23 @@ export default {
           return false
     },
     identityReview: function() {
-      return this.verification_details.identity_check != null ? this.verification_details.identity_check.review_status : true;
+      return this.verification_details.identity_check.review_status;
     },
     criminalReview: function() {
-      return this.verification_details.criminal_records_check !== null? this.verification_details.criminal_records_check.review_status:true;
+      return this.verification_details.criminal_records_check.review_status;
     },
     drivingReview: function() {
-      return this.verification_details.driving_license_check == null ? false: this.verification_details.driving_license_check.review_status;
+      return this.verification_details.driving_license_check.review_status;
     },
     motorReview: function() {
-      return  this.verification_details.motor_vehicle_records_check != null? this.verification_details.motor_vehicle_records_check
-        .review_status: true;
+      return  this.verification_details.motor_vehicle_records_check
+        .review_status;
     },
     insuranceReview: function() {
-      return this.verification_details.car_insurance_validity != null ? this.verification_details.car_insurance_validity.review_status:true;
+      return this.verification_details.car_insurance_validity.review_status;
     },
     kraReview: function() {
-      return this.verification_details.kra_pin_verification != null ? this.verification_details.kra_pin_verification.review_status: true;
+      return this.verification_details.kra_pin_verification.review_status;
     },
     validInconsistency: function() {
       return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
