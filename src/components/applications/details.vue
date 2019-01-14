@@ -47,7 +47,7 @@
       <el-card
         header="Submit Applicant"
         class="applicant-details__submit-review"
-        v-show="validSubmit"
+        v-if="validSubmit"
       >
         <el-form>
           <el-form-item>
@@ -86,7 +86,7 @@
       <el-card
         header="Data Inconsistency"
         class="applicant-details__submit-review"
-        v-show="inconsistencyCheck"
+        v-if="inconsistencyCheck"
       >
          <el-alert
           :title="inconsistency_alert_message"
@@ -1010,13 +1010,19 @@ export default {
     },
 
     checkReviewStatus() {
-      let obj = this.verification_details;
-      for (var key in obj) {
-        if (obj[key]["review_status"] == false) {
-          return false;
+      if(this.applicant_details.application_type == 'Driver'){
+        return this.identityReview && this.criminalReview && this.drivingReview && this.kraReview;
+      } else if (this.applicant_details.application_type == 'Owner') {
+        return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
+      } else {
+        let obj = this.verification_details;
+        for (var key in obj) {
+          if (obj[key]["review_status"] == false) {
+            return false;
+          }
         }
+        return true;
       }
-      return true;
     },
 
     submitApplicantReview() {
@@ -1121,13 +1127,13 @@ export default {
   },
   computed: {
     inconsistencyCheck: function() {
-      let obj = this.verification_details;
-      for (var key in obj) {
-        if (obj[key]["inconsistency"] == true) {
-          return true;
-        }
-      }
-      return false;
+        let obj = this.verification_details;
+          for (var key in obj) {
+            if (obj[key]["inconsistency"] == true) {
+              return true;
+            }
+          }
+          return false
     },
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
@@ -1149,7 +1155,6 @@ export default {
       return this.verification_details.kra_pin_verification.review_status;
     },
     validInconsistency: function() {
-      
       return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
     },
     validSubmit: function() {
