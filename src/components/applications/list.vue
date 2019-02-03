@@ -8,6 +8,7 @@
                     type="daterange"
                     class="date-editor"
                     align="right"
+                    popper-class = "date-picker-pop-up"
                     placeholder="Pick a range"
                     :picker-options="picker_options"
                     @change="changeDateRange"
@@ -20,6 +21,7 @@
                 border
                 stripe
                 :default-sort="{prop: 'date_created', order: 'descending'}"
+                width = "100"
         >
             <template slot="empty">{{empty_state}}</template>
             <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
@@ -35,7 +37,7 @@
                              :formatter="getVendorType"></el-table-column>
 
             <el-table-column prop="status" label="STATUS">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <span v-if="filteredData[scope.$index]['review_status'] == '4'">
                              Re-Upload Update
                     </span>

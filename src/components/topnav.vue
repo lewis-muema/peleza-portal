@@ -36,7 +36,7 @@
           </el-badge>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item  v-for="applicant in applicants">
+            <el-dropdown-item  v-for="applicant in applicants" :key="applicant" >
               <a  @click="loadApplicant(applicant)"> 
               Applicant review updated on {{applicant.date_time}}
               </a>
@@ -46,19 +46,10 @@
 
       <el-submenu index="6" class="nav__session">
         <template slot="title">
-          
-          <img
-            style="
-            height: 40px;
-            width: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        "
-            :src="`http://care.sendyit.com/customer/include/team/${user.pic}`"
-          >
-          <span>{{ user.name }}</span>
+          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`">
+          <span id="el-name">{{ user.name }}</span>
         </template>
-        <div class="el-menu-item" @click="logout">Logout</div>
+        <div class="el-menu-item el-dropdown" @click="logout">Logout</div>
       </el-submenu>
     </el-menu>
     <div
@@ -277,9 +268,76 @@ export default {
   font-weight: 300;
   letter-spacing: 1px;
 }
-.nav__links .el-menu-item.is-active {
-}
 .topnav--reupload-alert {
   margin-right: 50px;
+}
+
+@media only screen and (max-width: 480px) {
+  .nav__logo {
+    height: 35px;
+    grid-column: span 6;
+    padding: 0px;
+    margin-top: 15px;
+  }
+  .el-menu-item * {
+    vertical-align: top;
+  }
+  .header-logo { 
+    height: 28px;
+    margin-top: 0px;
+  }
+  .topnav--reupload-alert {
+    margin-left: 15px;
+    grid-column: span 12;
+    margin-top: 10px;
+  }
+  .nav__session{
+    margin: 0px;
+    grid-column: span 9;
+    font-size: 10px !important;
+  }
+  .nav{
+    height: 120px !important;
+    display: grid !important;
+    grid-template-columns: repeat(21, 1fr) !important;
+    grid-template-rows: 60px;
+    align-items: flex-start !important;
+  }
+  .nav__links{
+    grid-column: span 14;
+    margin-top: 0px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .el-menu:before{
+    grid-column: span 1;
+  }
+  .el-menu-item{
+    padding: 4px !important;
+    font-size: 7px !important;
+    width: 30% !important;
+    text-align: center;
+  }
+  .nav-search{
+    width: 94% !important;
+  }
+  .nav__search{
+    width: 100% !important;
+  }
+  #el-name{
+    font-size: 10px;
+  }
+  .el-submenu {
+    width: 100%;
+  }
+  .el-dropdown{
+    min-width: 120px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .el-menu-item{
+    width: 40% !important;
+  }
 }
 </style>

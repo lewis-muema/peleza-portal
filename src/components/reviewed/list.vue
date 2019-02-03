@@ -8,6 +8,7 @@
                     class="date-editor"
                     type="daterange"
                     align="right"
+                    popper-class = "date-picker-pop-up"
                     placeholder="Pick a range"
                     :picker-options="picker_options"
                     @change="changeDateRange"
@@ -36,7 +37,7 @@
             <el-table-column prop="vendor_type" label="Vendor Type" sortable
                              :formatter="getVendorType"></el-table-column>
             <el-table-column prop="status" label="STATUS">
-                <template scope="scope">
+                <template>
                     <span>Reviewed</span>
                 </template>
             </el-table-column>

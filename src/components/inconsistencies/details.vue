@@ -56,7 +56,7 @@
         v-show="partner_logs.length > 0"
       >
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()">{{createLogStatement(log)}}</li>
+          <li v-for="log in partner_logs.slice().reverse()" :key="log">{{createLogStatement(log)}}</li>
         </ul>
       </el-card>
     </div>
@@ -67,8 +67,7 @@
             <template slot="title">
               <span style>Identity Check</span>
               
-              <span
-                style="float: right; padding-right: 10px"
+              <span class="applicant-details__idNo"
               >ID Number : {{applicant_details.id_no}}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
@@ -82,6 +81,7 @@
                 <el-date-picker
                   v-model="verification_details.identity_check.dob"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Date of Birth"
                 ></el-date-picker>
               </el-form-item>
@@ -271,6 +271,7 @@
                 <el-date-picker
                   v-model="verification_details.driving_license_check.date_of_issue"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Date of Issue"
                 ></el-date-picker>
               </el-form-item>
@@ -279,6 +280,7 @@
                 <el-date-picker
                   v-model="verification_details.driving_license_check.expiry_date"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Expiry Date"
                 ></el-date-picker>
               </el-form-item>
@@ -356,8 +358,7 @@
           <el-collapse-item name="4" :class="verification_details.motor_vehicle_records_check.inconsistency? 'inconsistent-collapse':''">
             <template slot="title">
               <span>Motor Vehicle Records Check</span>
-              <span
-                style="float: right; padding-right: 10px"
+              <span class="applicant--details__noPlate"
               >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
             </template>
 
@@ -407,6 +408,7 @@
                 <el-date-picker
                   v-model="verification_details.motor_vehicle_records_check.manufacture_year"
                   type="year"
+                  popper-class="date-popup"
                   placeholder="Year of Manufacture"
                 ></el-date-picker>
               </el-form-item>
@@ -526,6 +528,7 @@
                 <el-date-picker
                   v-model="verification_details.car_insurance_validity.issue_date"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Issue Date"
                 ></el-date-picker>
               </el-form-item>
@@ -534,6 +537,7 @@
                 <el-date-picker
                   v-model="verification_details.car_insurance_validity.expiry_date"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Expiry Date"
                 ></el-date-picker>
               </el-form-item>
@@ -617,8 +621,7 @@
           <el-collapse-item name="6" :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''">
             <template slot="title">
               <span>KRA PIN Verification</span>
-              <span
-                style="float: right; padding-right: 10px"
+              <span class="applicant--details__kraPin"
               >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
             </template>
 
@@ -654,6 +657,7 @@
                 <el-date-picker
                   v-model="verification_details.kra_pin_verification.registration_date"
                   type="date"
+                  popper-class="date-popup"
                   placeholder="Date of Registration"
                 ></el-date-picker>
               </el-form-item>

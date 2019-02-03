@@ -8,6 +8,7 @@
                     type="daterange"
                     class="date-editor"
                     align="right"
+                    popper-class = "date-picker-pop-up"
                     placeholder="Pick a range"
                     :picker-options="picker_options"
                     @change="changeDateRange"
@@ -20,6 +21,7 @@
                 border
                 stripe
                 :default-sort="{prop: 'date_created', order: 'descending'}"
+
         >
             <template slot="empty">{{empty_state}}</template>
             <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
@@ -36,7 +38,7 @@
             <el-table-column prop="vendor_type" label="Vendor Type" sortable
                              :formatter="getVendorType"></el-table-column>
             <el-table-column prop="status" label="STATUS">
-                <template scope="scope">
+                <template scope="">
                     <span>Inconsistent</span>
                 </template>
             </el-table-column>

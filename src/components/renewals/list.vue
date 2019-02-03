@@ -18,7 +18,7 @@
         sortable
       ></el-table-column>
       <el-table-column prop="status" label="STATUS">
-        <template scope="scope">
+        <template>
           <span>Pending</span>
         </template>
       </el-table-column>
