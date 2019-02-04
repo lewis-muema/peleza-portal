@@ -8,6 +8,7 @@
                     class="date-editor"
                     type="daterange"
                     align="right"
+                    popper-class = "date-picker-pop-up"
                     placeholder="Pick a range"
                     :picker-options="picker_options"
                     @change="changeDateRange"
@@ -36,7 +37,7 @@
             <el-table-column prop="vendor_type" label="Vendor Type" sortable
                              :formatter="getVendorType"></el-table-column>
             <el-table-column prop="status" label="STATUS">
-                <template scope="scope">
+                <template>
                     <span>Reviewed</span>
                 </template>
             </el-table-column>
@@ -257,7 +258,8 @@
                         good_conduct: d.good_conduct ? d.good_conduct : "",
                         insurance_copy: d.insurance_copy ? d.insurance_copy : "",
                         vehicle_photo: d.vehicle_photo ? d.vehicle_photo : "",
-                        vendor_type: d.vendor_type ? d.vendor_type : ""
+                        vendor_type: d.vendor_type ? d.vendor_type : "",
+                        insurance_number: d.insurance_number ? d.insurance_number : ""
                     },
                     verification_details: {
                         identity_check: d.identity_check
