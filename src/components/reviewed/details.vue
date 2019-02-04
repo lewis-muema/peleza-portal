@@ -50,7 +50,7 @@
       </el-card>
       <el-card header="Activity Log" class="applicant-details__profile__personal-details">
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()">{{createLogStatement(log)}}</li>
+          <li v-for="log in partner_logs.slice().reverse()" :key="log">{{createLogStatement(log)}}</li>
         </ul>
       </el-card>
     </div>
@@ -60,7 +60,7 @@
           <template slot="title">
             <span style>Identity Check</span>
             
-            <span style="float: right; padding-right: 10px">ID Number : {{applicant_details.id_no}}</span>
+            <span class="applicant-details__idNo">ID Number : {{applicant_details.id_no}}</span>
           </template>
           <el-form :model="verification_details.identity_check" v-show="!identityReview">
             <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -73,6 +73,7 @@
               <el-date-picker
                 v-model="verification_details.identity_check.dob"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Birth"
               ></el-date-picker>
             </el-form-item>
@@ -141,7 +142,7 @@
                 <!--<div class="review-edit" @click="handleReviewEdit('identity_check')">-->
                 <!--Edit-->
                 <!--</div>-->
-                <a
+                !<a
                   :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`"
                   target="_blank"
                 >
@@ -149,95 +150,6 @@
                 </a>
               </div>
             </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          title="Criminal Records Check"
-          name="2"
-          v-show="applicant_details.application_type !== 'Owner'"
-        >
-          <el-form
-            :model="verification_details.criminal_records_check"
-            class="el-col-lg-15 review-details"
-            v-show="!criminalReview"
-          >
-            <el-form-item label="Name of Applicant" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.applicant_name"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="Criminal History" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.criminal_history"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Authenticity" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.authenticity"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Id Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.id_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Reference Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.ref_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item>
-              <el-button
-                type="primary"
-                class="details-save-button"
-                @click="updateReview('criminal_records_check', 'Criminal Records Check')"
-              >SAVE</el-button>
-            </el-form-item>
-          </el-form>
-          <div class="el-col-lg-15 review-details" v-show="criminalReview">
-            <div class="el-row">
-              <div class="review-title">Name of Applicant</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.applicant_name}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Criminal History</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.criminal_history}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Authenticity</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.authenticity}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Id Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.id_no}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Reference Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.ref_no}}</div>
-            </div>
-          </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">-->
-            <!--Edit-->
-            <!--</div>-->
-            <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
-              <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`">
-            </a>
           </div>
         </el-collapse-item>
         <el-collapse-item
@@ -263,6 +175,7 @@
               <el-date-picker
                 v-model="verification_details.driving_license_check.date_of_issue"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Issue"
               ></el-date-picker>
             </el-form-item>
@@ -271,6 +184,7 @@
               <el-date-picker
                 v-model="verification_details.driving_license_check.expiry_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Expiry Date"
               ></el-date-picker>
             </el-form-item>
@@ -340,8 +254,7 @@
         <el-collapse-item name="4" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
             <span>Motor Vehicle Records Check</span>
-            <span
-              style="float: right; padding-right: 10px"
+            <span class="applicant--details__noPlate"
             >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
           </template>
 
@@ -389,6 +302,7 @@
               <el-date-picker
                 v-model="verification_details.motor_vehicle_records_check.manufacture_year"
                 type="year"
+                popper-class="date-popup"
                 placeholder="Year of Manufacture"
               ></el-date-picker>
             </el-form-item>
@@ -471,16 +385,17 @@
             <!--<div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">-->
             <!--Edit-->
             <!--</div>-->
-            <a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
+            <!--<a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
               <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-            </a>
+            </a>-->
           </div>
         </el-collapse-item>
-        <el-collapse-item
-          title="Car Insurance Validity"
-          name="5"
-          v-show="applicant_details.application_type !== 'Driver'"
-        >
+        <el-collapse-item name="5" v-show="applicant_details.application_type !== 'Driver'">
+        <template slot="title">
+            <span>Car Insurance Validity</span>
+            <span class="applicant--details__insurance"
+            >Insurance Number : {{applicant_details.insurance_number}}</span>
+          </template>
           <el-form
             :model="verification_details.car_insurance_validity"
             class="el-col-lg-15 review-details"
@@ -503,6 +418,7 @@
               <el-date-picker
                 v-model="verification_details.car_insurance_validity.issue_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Issue Date"
               ></el-date-picker>
             </el-form-item>
@@ -511,6 +427,7 @@
               <el-date-picker
                 v-model="verification_details.car_insurance_validity.expiry_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Expiry Date"
               ></el-date-picker>
             </el-form-item>
@@ -577,16 +494,15 @@
             <!--<div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">-->
             <!--Edit-->
             <!--</div>-->
-            <a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
+            <!--<a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
               <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-            </a>
+            </a>-->
           </div>
         </el-collapse-item>
-        <el-collapse-item name="6">
+        <el-collapse-item name="6" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
             <span>KRA PIN Verification</span>
-            <span
-              style="float: right; padding-right: 10px"
+            <span class="applicant--details__kraPin"
             >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
           </template>
 
@@ -622,6 +538,7 @@
               <el-date-picker
                 v-model="verification_details.kra_pin_verification.registration_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Registration"
               ></el-date-picker>
             </el-form-item>
@@ -718,9 +635,9 @@ export default {
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
-    criminalReview: function() {
-      return this.verification_details.criminal_records_check.review_status;
-    },
+    //criminalReview: function() {
+    //  return this.verification_details.criminal_records_check.review_status;
+    //},
     drivingReview: function() {
       return this.verification_details.driving_license_check.review_status;
     },
