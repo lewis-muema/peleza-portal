@@ -272,6 +272,33 @@ export default {
   margin-right: 50px;
 }
 
+@media only screen and (max-width: 768px){
+.header-logo {
+    width: auto;
+    height: 42px;
+    margin-top: 10px;
+}
+.el-menu-item {
+    font-size: 10px !important;
+    width: 30%;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.topnav--reupload-alert {
+    margin-top: 15px;
+}
+.nav__session{
+    margin-top: 17px;
+}
+#el-name{
+    font-size: 11px;
+}
+.el-dropdown{
+    min-width: 10px;
+}
+}
+
 @media only screen and (max-width: 480px) {
   .nav__logo {
     height: 35px;

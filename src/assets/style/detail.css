@@ -328,6 +328,24 @@
   margin-right: 10px;
 }
 
+@media only screen and (max-width: 768px){
+  .applicant-details__profile {
+    width: 32%;
+  }
+  .applicant-details__profile_label {
+    font-size: 13px;
+  }
+  .applicant-details__profile_value {
+    font-size: 13px;
+  }
+  .el-card__body{
+    font-size: 13px;
+  }
+  .el-collapse-item__header {
+    font-size: 13px;
+  }
+}
+
 @media only screen and (max-width: 480px){
   .applicant-details__profile{
       width: 100%;
