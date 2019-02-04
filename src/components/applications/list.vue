@@ -236,7 +236,8 @@
                         good_conduct: d.good_conduct ? d.good_conduct : "",
                         insurance_copy: d.insurance_copy ? d.insurance_copy : "",
                         vehicle_photo: d.vehicle_photo ? d.vehicle_photo : "",
-                        vendor_type: d.vendor_type ? d.vendor_type : ""
+                        vendor_type: d.vendor_type ? d.vendor_type : "",
+                        insurance_number: d.insurance_number ? d.insurance_number : ""
                     },
                     verification_details: {
                         identity_check: d.identity_check

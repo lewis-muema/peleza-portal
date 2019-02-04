@@ -204,7 +204,8 @@
                         insurance_copy: d.insurance_copy ? d.insurance_copy : "",
                         vehicle_photo: d.vehicle_photo ? d.vehicle_photo : "",
                         vendor_type: d.vendor_type ? d.vendor_type : "",
-                        inconsistency_message: d.inconsistency_message ? d.inconsistency_message : ""
+                        inconsistency_message: d.inconsistency_message ? d.inconsistency_message : "",
+                        insurance_number: d.insurance_number ? d.insurance_number : ""
                     },
                     verification_details: {
                         identity_check: d.identity_check

@@ -29,6 +29,11 @@
   margin-top: 50px;
 }
 
+.applicant--details__insurance{
+  float: right;
+  padding-right: 10px;
+}
+
 .applicant-details__profile {
   width: 30%;
   padding-right: 0px;

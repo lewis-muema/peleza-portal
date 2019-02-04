@@ -223,107 +223,6 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Owner'">
-          <el-collapse-item
-            title="Criminal Records Check"
-            name="2"
-          >
-            <el-form
-              :model="verification_details.criminal_records_check"
-              class="el-col-lg-15 review-details"
-              v-show="!criminalReview"
-            >
-              <el-form-item label="Name of Applicant" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.criminal_records_check.applicant_name"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="Criminal History" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.criminal_records_check.criminal_history"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item label="Authenticity" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.criminal_records_check.authenticity"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item label="Id Number" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.criminal_records_check.id_no"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item label="Reference Number" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.criminal_records_check.ref_no"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button
-                  type="primary"
-                  class="details-save-button"
-                  @click="updateReview('criminal_records_check', 'Criminal Records Check')"
-                >SAVE</el-button>
-              </el-form-item>
-            </el-form>
-            <div class="el-col-lg-15 review-details" v-show="criminalReview">
-              <div class="el-row">
-                <div class="review-title">Name of Applicant</div>
-                <div
-                  class="review-desc"
-                >{{this.verification_details.criminal_records_check.applicant_name}}</div>
-              </div>
-              <div class="el-row">
-                <div class="review-title">Criminal History</div>
-                <div
-                  class="review-desc"
-                >{{this.verification_details.criminal_records_check.criminal_history}}</div>
-              </div>
-              <div class="el-row">
-                <div class="review-title">Authenticity</div>
-                <div
-                  class="review-desc"
-                >{{this.verification_details.criminal_records_check.authenticity}}</div>
-              </div>
-              <div class="el-row">
-                <div class="review-title">Id Number</div>
-                <div class="review-desc">{{this.verification_details.criminal_records_check.id_no}}</div>
-              </div>
-              <div class="el-row">
-                <div class="review-title">Reference Number</div>
-                <div class="review-desc">{{this.verification_details.criminal_records_check.ref_no}}</div>
-              </div>
-            </div>
-            <div class="el-col-lg-7 review-image">
-              <div
-                class="review-edit"
-                v-show="criminalReview"
-                @click="handleReviewEdit('criminal_records_check')"
-              >Edit</div>
-              <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
-                <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`">
-              </a>
-            </div>
-          </el-collapse-item>
-          <el-form class="applicant--incosistency-wrap">
-            <el-form-item>
-              <el-checkbox
-                v-model="verification_details.criminal_records_check.inconsistency"
-                id="criminal_inconsistency"
-                name="criminal_inconsistency"
-              ></el-checkbox>Mark for Data Inconsistency
-            </el-form-item>
-          </el-form>
-        </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Owner'"
@@ -564,12 +463,12 @@
                 @click="handleReviewEdit('motor_vehicle_records_check')"
               >Edit</div>
 
-              <a
+              <!--<a
                 :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
                 target="_blank"
               >
                 <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-              </a>
+              </a>-->
             </div>
           </el-collapse-item>
           <el-form class="applicant--incosistency-wrap">
@@ -586,7 +485,12 @@
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-          <el-collapse-item title="Car Insurance Validity" name="5">
+        <el-collapse-item name="5">
+        <template slot="title">
+            <span>Car Insurance Validity</span>
+            <span class="applicant--details__insurance"
+            >Insurance Number : {{applicant_details.insurance_number}}</span>
+          </template>
             <el-form
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-15 review-details"
@@ -689,9 +593,9 @@
                 @click="handleReviewEdit('car_insurance_validity')"
                 v-show="insuranceReview"
               >Edit</div>
-              <a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
+              <!--<a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
                 <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-              </a>
+              </a>-->
             </div>
           </el-collapse-item>
           <el-form class="applicant--incosistency-wrap">
@@ -704,7 +608,7 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="applicant--details-wrap">
+        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'">
           <el-collapse-item name="6">
             <template slot="title">
               <span>KRA PIN Verification</span>
@@ -1082,7 +986,7 @@ export default {
 
     checkReviewStatus() {
       if(this.applicant_details.application_type == 'Driver'){
-        return this.identityReview && this.criminalReview && this.drivingReview && this.kraReview;
+        return this.identityReview && this.drivingReview;
       } else if (this.applicant_details.application_type == 'Owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
       } else {
@@ -1210,9 +1114,9 @@ export default {
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
-    criminalReview: function() {
-      return this.verification_details.criminal_records_check.review_status;
-    },
+    //criminalReview: function() {
+    //  return this.verification_details.criminal_records_check.review_status;
+    //},
     drivingReview: function() {
       return this.verification_details.driving_license_check.review_status;
     },
