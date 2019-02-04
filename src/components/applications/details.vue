@@ -812,7 +812,7 @@ export default {
                                 authenticity: "",
                                 id_no: "",
                                 ref_no: "",
-                                review_status: this.applicant_details.application_type == "Owner" ? true : false,
+                                review_status: true,
                                 inconsistency: false
                             }
                 }
@@ -985,14 +985,14 @@ export default {
     },
 
     checkReviewStatus() {
-      if(this.applicant_details.application_type == 'Driver'){
+      if(this.applicant_details.application_type === 'Driver'){
         return this.identityReview && this.drivingReview;
-      } else if (this.applicant_details.application_type == 'Owner') {
+      } else if (this.applicant_details.application_type === 'Owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
       } else {
         let obj = this.verification_details;
         for (var key in obj) {
-          if (obj[key] != null && obj[key]["review_status"] == false) {
+          if (obj[key] !== null && obj[key]["review_status"] === false) {
             return false;
           }
         }
