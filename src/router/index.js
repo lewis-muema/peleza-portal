@@ -12,6 +12,9 @@ import reviewed_detail from "@/components/reviewed/details";
 import inconsistencies_list from "@/components/inconsistencies/list";
 import inconsistencies_details from "@/components/inconsistencies/details";
 
+import driver_list from "@/components/driver-applications/list";
+import driver_details from "@/components/driver-applications/details";
+
 Vue.use(Router);
 
 let router = new Router({
@@ -55,12 +58,22 @@ let router = new Router({
       path: "/inconsistency/:id",
       name: "inconsistency",
       component: inconsistencies_details
+    },
+    {
+      path: "/driver-applications",
+      name: "driver-applications",
+      component: driver_list
+    },
+    {
+      path: "/driver-applications/:id",
+      name: "driver",
+      component: driver_details
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path == "/") {
+  if (to.path === "/") {
     if (!localStorage.authenticated || !JSON.parse(localStorage.authenticated))
       next();
     else next("/applications");
