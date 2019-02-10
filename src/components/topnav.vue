@@ -103,11 +103,14 @@ export default {
     current_route() {
       return this.$route.name;
     },
-    sendy_verifier() {
-      return this.user.external_status === 0;
-    },
     user() {
       return JSON.parse(localStorage.user);
+    },
+    sendy_verifier() {
+      if (this.user.external_status === '0'){
+        return true
+      }
+      return false ;
     },
   },
   watch: {
