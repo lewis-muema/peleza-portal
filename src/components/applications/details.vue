@@ -518,10 +518,22 @@
           <el-collapse-item name="5">
             <template slot="title">
               <span>Car Insurance Validity</span>
-              <span class="applicant--details__insurance"
-                >Insurance Number : {{ applicant_details.insurance_number }}</span
+              <span class="applicant--details__insurance">
+                Insurance Number : {{ applicant_details.insurance_number }}</span
               >
             </template>
+            <div class="el-row">
+              <div class="review-details application-details-ins">Insurance Company: </div>
+              <div class="application-details-ins">
+                {{ this.applicant_details.insurance_name }}
+              </div>
+            </div>
+            <div class="el-row">
+              <div class="review-details application-details-ins">Policy Number: </div>
+              <div class="review-title">
+                {{ this.applicant_details.policy_number }}
+              </div>
+            </div>
             <el-form
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-15 review-details"
@@ -565,12 +577,9 @@
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="Policy Number" :label-width="'25%'">
-                <el-input
-                  v-model="verification_details.car_insurance_validity.policy_number"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
+              <!--<div label="Policy Number" :label-width="'25%'">-->
+                <!--<div>{{ this.applicant_details.policy_number }}</div>-->
+              <!--</div>-->
 
               <el-form-item>
                 <el-button
@@ -615,7 +624,7 @@
               <div class="el-row">
                 <div class="review-title">Policy Number</div>
                 <div class="review-desc">
-                  {{ this.verification_details.car_insurance_validity.policy_number }}
+                  {{ this.applicant_details.policy_number }}
                 </div>
               </div>
             </div>
