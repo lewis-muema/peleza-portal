@@ -518,15 +518,15 @@
           <el-collapse-item name="5">
             <template slot="title">
               <span>Car Insurance Validity</span>
-              <span class="applicant--details__insurance">
-                Insurance Number : {{ applicant_details.insurance_number }}</span
+              <span class="applicant--details__insurance"
+                >Insurance Number : {{ applicant_details.insurance_number }}</span
               >
             </template>
-            <div
-              id="print"
-              class="el-row"
-              v-show="this.applicant_details.application_type !== 'Driver'"
-            >
+            <el-form
+              :model="verification_details.car_insurance_validity"
+              class="el-col-lg-24 review-details"
+              v-show="!insuranceReview"
+            >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver'">
               <div class="review-consent-text">
                 I, {{ this.verification_details.car_insurance_validity.owner_name }} (ID Number
                 {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
@@ -534,7 +534,7 @@
               </div>
               <div class="no-print">
                 <el-button type="primary" class="details-print-button" @click="printInsurance"
-                  >PRINT</el-button
+                >PRINT</el-button
                 >
               </div>
               <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
@@ -544,11 +544,6 @@
               </div>
               <hr />
             </div>
-            <el-form
-              :model="verification_details.car_insurance_validity"
-              class="el-col-lg-15 review-details"
-              v-show="!insuranceReview"
-            >
               <el-form-item label="Name of Owner" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.car_insurance_validity.owner_name"
@@ -587,9 +582,12 @@
                 ></el-input>
               </el-form-item>
 
-              <!--<div label="Policy Number" :label-width="'25%'">-->
-              <!--<div>{{ this.applicant_details.policy_number }}</div>-->
-              <!--</div>-->
+              <el-form-item label="Policy Number" :label-width="'25%'">
+                <el-input
+                  v-model="verification_details.car_insurance_validity.policy_number"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
 
               <el-form-item>
                 <el-button
@@ -600,7 +598,25 @@
                 >
               </el-form-item>
             </el-form>
-            <div class="el-col-lg-15 review-details" v-show="insuranceReview">
+            <div class="el-col-lg-24 review-details" v-show="insuranceReview">
+              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver'">
+                <div class="review-consent-text">
+                  I, {{ this.verification_details.car_insurance_validity.owner_name }} (ID Number
+                  {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
+                  Peleza Ltd verify my insurance documents for authenticity and validity.
+                </div>
+                <div class="no-print">
+                  <el-button type="primary" class="details-print-button" @click="printInsurance"
+                  >PRINT</el-button
+                  >
+                </div>
+                <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
+                <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
+                <div class="review-list">
+                  <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
+                </div>
+                <hr />
+              </div>
               <div class="el-row">
                 <div class="review-title">Name of Owner</div>
                 <div class="review-desc">
@@ -634,13 +650,13 @@
               <div class="el-row">
                 <div class="review-title">Policy Number</div>
                 <div class="review-desc">
-                  {{ this.applicant_details.policy_number }}
+                  {{ this.verification_details.car_insurance_validity.policy_number }}
                 </div>
               </div>
             </div>
             <div class="el-col-lg-7 review-image">
               <div
-                class="review-edit"
+                class="review-edit applicant-edit2"
                 @click="handleReviewEdit('car_insurance_validity')"
                 v-show="insuranceReview"
               >
@@ -954,7 +970,7 @@ export default {
           }
         })
         .catch(error => {
-          // throw new Error('Could not update applicant');
+          throw new Error('Could not update applicant');
           this.$notify.error({
             title: 'update ' + field_title,
             message: 'applicant ' + field_title + ' failed to update',
@@ -1169,9 +1185,9 @@ export default {
         stylesHtml += node.outerHTML;
       }
       const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+              '',
+              '',
+              'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
       );
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
