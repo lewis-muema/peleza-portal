@@ -256,6 +256,9 @@ hr {
   padding: 0;
   margin: 1em 0 30px;
 }
+.applicant-edit2 {
+  margin-top: -500px;
+}
 .review-edit:hover,
 .review-edit:focus {
   color: #2a7fc3;
