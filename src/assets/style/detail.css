@@ -250,7 +250,16 @@
 .review-edit:focus {
   color: #2a7fc3;
 }
-
+.application-details-ins {
+  text-align: right!important;
+  vertical-align: middle;
+  float: left;
+  font-size: 15px;
+  color: #48576a;
+  line-height: 1;
+  padding: 11px 12px 11px 0;
+  box-sizing: border-box;
+}
 .submit-review-button {
   margin-top: 20px;
   padding: 12px;
