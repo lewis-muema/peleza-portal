@@ -1,6 +1,9 @@
 .el-radio {
   margin-left: 15px;
 }
+.el-row {
+  margin-left: 17px;
+}
 
 .applicant-details__back {
   margin-bottom: 20px;
@@ -245,7 +248,14 @@
   color: #f17f3a;
   text-transform: uppercase;
 }
-
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  padding: 0;
+  margin: 1em 0 30px;
+}
 .review-edit:hover,
 .review-edit:focus {
   color: #2a7fc3;
@@ -286,6 +296,7 @@
   margin-top: 15px;
   height: auto;
 }
+
 .review-select {
   width: 100%;
   height: 35px;
