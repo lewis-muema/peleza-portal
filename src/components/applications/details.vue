@@ -522,17 +522,27 @@
                 Insurance Number : {{ applicant_details.insurance_number }}</span
               >
             </template>
-            <div class="el-row">
-              <div class="review-details application-details-ins">Insurance Company: </div>
-              <div class="application-details-ins">
-                {{ this.applicant_details.insurance_name }}
+            <div
+              id="print"
+              class="el-row"
+              v-show="this.applicant_details.application_type !== 'Driver'"
+            >
+              <div class="review-consent-text">
+                I, {{ this.verification_details.car_insurance_validity.owner_name }} (ID Number
+                {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
+                Peleza Ltd verify my insurance documents for authenticity and validity.
               </div>
-            </div>
-            <div class="el-row">
-              <div class="review-details application-details-ins">Policy Number: </div>
-              <div class="review-title">
-                {{ this.applicant_details.policy_number }}
+              <div class="no-print">
+                <el-button type="primary" class="details-print-button" @click="printInsurance"
+                  >PRINT</el-button
+                >
               </div>
+              <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
+              <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
+              <div class="review-list">
+                <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
+              </div>
+              <hr />
             </div>
             <el-form
               :model="verification_details.car_insurance_validity"
@@ -578,7 +588,7 @@
               </el-form-item>
 
               <!--<div label="Policy Number" :label-width="'25%'">-->
-                <!--<div>{{ this.applicant_details.policy_number }}</div>-->
+              <!--<div>{{ this.applicant_details.policy_number }}</div>-->
               <!--</div>-->
 
               <el-form-item>
@@ -1152,6 +1162,32 @@ export default {
 
       this.getPartnerLogs();
     },
+    printInsurance() {
+      const prtHtml = document.getElementById('print').innerHTML;
+      let stylesHtml = '';
+      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
+        stylesHtml += node.outerHTML;
+      }
+      const WinPrint = window.open(
+        '',
+        '',
+        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+      );
+      WinPrint.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          ${stylesHtml}
+        </head>
+        <body>
+          ${prtHtml}
+        </body>
+      </html>`);
+
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    },
   },
   computed: {
     inconsistencyCheck: function() {
@@ -1211,4 +1247,10 @@ export default {
 <style>
 @import '../../assets/style/detail.css';
 @import '../../assets/style/overide.css';
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
 </style>
