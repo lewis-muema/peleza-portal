@@ -526,9 +526,9 @@
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-24 review-details"
               v-show="!insuranceReview"
-            >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver'">
+            >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
               <div class="review-consent-text">
-                I, {{ this.verification_details.car_insurance_validity.owner_name }} (ID Number
+                I, {{ this.applicant_details.partner_name }} (ID Number
                 {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
                 Peleza Ltd verify my insurance documents for authenticity and validity.
               </div>
@@ -599,9 +599,9 @@
               </el-form-item>
             </el-form>
             <div class="el-col-lg-24 review-details" v-show="insuranceReview">
-              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver'">
+              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
                 <div class="review-consent-text">
-                  I, {{ this.verification_details.car_insurance_validity.owner_name }} (ID Number
+                  I, {{ this.applicant_details.partner_name }} (ID Number
                   {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
                   Peleza Ltd verify my insurance documents for authenticity and validity.
                 </div>
