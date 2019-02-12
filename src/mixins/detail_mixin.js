@@ -13,25 +13,22 @@ var DetailMxn = {
         : 'N/A';
     },
     handleReviewEdit(section) {
-      console.log('handling ' + section + ' edit');
       let obj = this.verification_details;
       obj[section]['review_status'] = false;
       this.verification_details = Object.assign({}, this.verification_details, obj);
     },
     createLogStatement(log) {
-      let statement =
-        log.admin_name +
-        ' ' +
-        log.last_activity +
-        ' on ' +
-        moment(log.date_time).format('Do MMM YYYY') +
-        ' at ' +
-        moment(log.date_time).format('HH:mm:ss A');
+      let statement = `${log.admin_name}
+        ' ' 
+        ${log.last_activity}
+        ' on '
+        ${moment(log.date_time).format('Do MMM YYYY')}
+        ' at '
+        ${moment(log.date_time).format('HH:mm:ss A')}`;
       return statement;
     },
     checkProperties(obj) {
       for (var key in obj) {
-        console.log(obj[key]);
         if ((obj[key] == null || obj[key] === '') && obj[key] !== false) {
           return false;
         }
@@ -39,7 +36,6 @@ var DetailMxn = {
       return true;
     },
     handleIdCardChange() {
-      console.log('id card has been changed');
       let files = document.getElementById('id_card')['files'];
 
       if (files.length < 1) {
@@ -47,8 +43,6 @@ var DetailMxn = {
       } else {
         this.id_doc_change = true;
         let name = files[0]['name'];
-        console.log(name);
-
         let obj = this.verification_details;
         obj['identity_check']['id_card'] = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
@@ -71,10 +65,8 @@ var DetailMxn = {
       };
 
       axios
-        .post(PARTNER_BASE_URL + 'peleza/logs/get_partner_logs/', JSON.stringify(payload))
+        .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
         .then(response => {
-          console.log(response);
-
           if (response.data.status === true) {
             this.partner_logs = response.data.logs;
           } else {
@@ -83,8 +75,6 @@ var DetailMxn = {
         })
         .catch(error => {
           throw new Error('Could not update applicant');
-          console.log(error);
-
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
