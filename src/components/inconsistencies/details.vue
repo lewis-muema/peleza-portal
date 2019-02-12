@@ -485,7 +485,7 @@
               <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Peleza International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.
+                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
@@ -559,7 +559,7 @@
               <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Peleza International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.
+                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
