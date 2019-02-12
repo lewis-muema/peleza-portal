@@ -21,9 +21,9 @@ var DetailMxn = {
       let statement = `${log.admin_name}
         ' ' 
         ${log.last_activity}
-        ' on '
+        on
         ${moment(log.date_time).format('Do MMM YYYY')}
-        ' at '
+        at
         ${moment(log.date_time).format('HH:mm:ss A')}`;
       return statement;
     },
