@@ -19,7 +19,6 @@ var DetailMxn = {
     },
     createLogStatement(log) {
       let statement = `${log.admin_name}
-        ' ' 
         ${log.last_activity}
         on
         ${moment(log.date_time).format('Do MMM YYYY')}
