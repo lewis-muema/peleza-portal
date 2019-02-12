@@ -173,10 +173,10 @@
               </el-form-item>
 
               <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
-                              <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
-                              <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
-                              <label for="id_card">Choose a file</label>
-              </el-form-item>-->
+                                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
+                                            <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
+                                            <label for="id_card">Choose a file</label>
+                            </el-form-item>-->
               <el-form-item>
                 <el-button
                   type="primary"
@@ -217,8 +217,8 @@
                 <div class="el-col-lg-8 review-image">
                   <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
                   <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
-                                    <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
-                  </a>-->
+                                                      <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
+                                    </a>-->
                 </div>
               </div>
             </div>
@@ -493,11 +493,11 @@
               </div>
 
               <!--<a
-                :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
-                target="_blank"
-              >
-                <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-              </a>-->
+                              :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
+                              target="_blank"
+                            >
+                              <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
+                            </a>-->
             </div>
           </el-collapse-item>
           <el-form class="applicant--incosistency-wrap">
@@ -524,26 +524,9 @@
             </template>
             <el-form
               :model="verification_details.car_insurance_validity"
-              class="el-col-lg-24 review-details"
+              class="el-col-lg-15 review-details"
               v-show="!insuranceReview"
-            >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
-              <div class="review-consent-text">
-                I, {{ this.applicant_details.partner_name }} (ID Number
-                {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-                Peleza Ltd verify my insurance documents for authenticity and validity.
-              </div>
-              <div class="no-print">
-                <el-button type="primary" class="details-print-button" @click="printInsurance"
-                >PRINT</el-button
-                >
-              </div>
-              <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
-              <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
-              <div class="review-list">
-                <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
-              </div>
-              <hr />
-            </div>
+            >
               <el-form-item label="Name of Owner" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.car_insurance_validity.owner_name"
@@ -598,25 +581,7 @@
                 >
               </el-form-item>
             </el-form>
-            <div class="el-col-lg-24 review-details" v-show="insuranceReview">
-              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
-                <div class="review-consent-text">
-                  I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-                  Peleza Ltd verify my insurance documents for authenticity and validity.
-                </div>
-                <div class="no-print">
-                  <el-button type="primary" class="details-print-button" @click="printInsurance"
-                  >PRINT</el-button
-                  >
-                </div>
-                <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
-                <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
-                <div class="review-list">
-                  <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
-                </div>
-                <hr />
-              </div>
+            <div class="el-col-lg-15 review-details" v-show="insuranceReview">
               <div class="el-row">
                 <div class="review-title">Name of Owner</div>
                 <div class="review-desc">
@@ -656,15 +621,15 @@
             </div>
             <div class="el-col-lg-7 review-image">
               <div
-                class="review-edit applicant-edit2"
+                class="review-edit"
                 @click="handleReviewEdit('car_insurance_validity')"
                 v-show="insuranceReview"
               >
                 Edit
               </div>
               <!--<a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
-                <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-              </a>-->
+                              <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
+                            </a>-->
             </div>
           </el-collapse-item>
           <el-form class="applicant--incosistency-wrap">
@@ -846,7 +811,7 @@ export default {
           expiry_date: '',
           classes: '',
           id_no: '',
-          review_status: this.applicant_details.application_type === 'Owner',
+          review_status: this.applicant_details.application_type === 'Owner' ? true : false,
           inconsistency: false,
         };
       }
@@ -869,7 +834,7 @@ export default {
           expiry_date: '',
           validity: '',
           policy_number: '',
-          review_status: this.applicant_details.application_type === 'Driver',
+          review_status: this.applicant_details.application_type === 'Driver' ? true : false,
           inconsistency: false,
         };
       }
@@ -882,7 +847,7 @@ export default {
           engine_no: '',
           manufacture_year: '',
           caveats: '',
-          review_status: this.applicant_details.application_type === 'Driver',
+          review_status: this.applicant_details.application_type === 'Driver' ? true : false,
           inconsistency: false,
         };
       }
@@ -1178,32 +1143,6 @@ export default {
 
       this.getPartnerLogs();
     },
-    printInsurance() {
-      const prtHtml = document.getElementById('print').innerHTML;
-      let stylesHtml = '';
-      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
-        stylesHtml += node.outerHTML;
-      }
-      const WinPrint = window.open(
-              '',
-              '',
-              'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
-      );
-      WinPrint.document.write(`<!DOCTYPE html>
-      <html>
-        <head>
-          ${stylesHtml}
-        </head>
-        <body>
-          ${prtHtml}
-        </body>
-      </html>`);
-
-      WinPrint.document.close();
-      WinPrint.focus();
-      WinPrint.print();
-      WinPrint.close();
-    },
   },
   computed: {
     inconsistencyCheck: function() {
@@ -1263,10 +1202,4 @@ export default {
 <style>
 @import '../../assets/style/detail.css';
 @import '../../assets/style/overide.css';
-@media print {
-  .no-print,
-  .no-print * {
-    display: none !important;
-  }
-}
 </style>

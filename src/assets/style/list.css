@@ -45,3 +45,78 @@
 .el-date-editor--daterange.el-input {
   width: 220px !important;
 }
+
+.el-date-range-picker{
+  width: 100px;
+}
+.user-pic {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 480px){
+  .stageone__filters{
+    margin-top: 0px;
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(12, 1fr) !important;
+    grid-template-rows: 60px;
+  }
+  .filter_view{
+    grid-column: span 12;
+    width: 30%;
+    margin-left: 33%;  }
+  .mr{
+    grid-column: span 5;
+    text-align: center;
+    font-size: 13px;
+  }
+  .el-date-editor{
+    grid-column: span 7;
+  }
+  .date-picker-pop-up{
+    overflow: auto;
+    min-width: 96% !important;
+    margin-left: 2%;
+  }
+  .el-table__body{
+    width: 800px !important;
+  }
+  .el-table__header{
+    width: 800px !important;
+  }
+  .cell{
+    font-size: 12px;
+  }
+  .user-pic{
+    height: 25px;
+    width: 25px;
+    margin-right: 0px;
+  }
+  .el-submenu__title{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    width: 86% !important;
+    float: right;
+  }
+  .date-popup{
+    width: 96% !important;
+    margin-left: 2% !important;
+  }
+}
+
+@media only screen and (max-width: 375px){
+  .mr{
+    grid-column: span 4;
+  }
+}
+
+@media only screen and (max-width: 320px){
+  .mr{
+    grid-column: span 3;
+  }
+  .el-date-editor{
+    grid-column: span 9;
+  }
+}

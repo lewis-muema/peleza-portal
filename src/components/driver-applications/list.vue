@@ -5,8 +5,8 @@
       <label class="mr">Date Applied</label>
       <el-date-picker
         v-model="date_range"
-        class="date-editor"
         type="daterange"
+        class="date-editor"
         align="right"
         popper-class="date-picker-pop-up"
         placeholder="Pick a range"
@@ -20,7 +20,9 @@
       v-loading.body="loading"
       border
       stripe
+      nnnn
       :default-sort="{ prop: 'date_created', order: 'descending' }"
+      width="100"
     >
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
@@ -31,12 +33,6 @@
         :formatter="formatTime"
         sortable
       ></el-table-column>
-      <el-table-column
-        prop="date_verified"
-        label="DATE VERIFIED"
-        :formatter="formatTime"
-        sortable
-      ></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column
         prop="vendor_type"
@@ -44,9 +40,13 @@
         sortable
         :formatter="getVendorType"
       ></el-table-column>
+
       <el-table-column prop="status" label="STATUS">
-        <template>
-          <span>Reviewed</span>
+        <template slot-scope="scope">
+          <span v-if="filteredData[scope.$index]['review_status'] === '4'">
+            Re-Upload Update
+          </span>
+          <span v-else>Pending</span>
         </template>
       </el-table-column>
     </el-table>
@@ -148,19 +148,20 @@ export default {
     changeDateRange() {
       let vm = this;
       this.filterState = false;
-      this.filteredData = this.searched_applicants;
+      this.filteredData = this.paginated_applicants;
       this.pagination_page = 1;
       let from_date = this.date_range[0];
       let to_date = this.date_range[1];
       from_date = moment(from_date).format('YYYY-MM-DD');
       to_date = moment(to_date).format('YYYY-MM-DD');
+
       this.filteredData = this.applicants.filter(function(applicant) {
         let application_date = moment(applicant.date_created).format('YYYY-MM-DD');
         if (application_date >= from_date && application_date <= to_date) {
           console.log('within');
           return application_date >= from_date && application_date <= to_date;
         } else {
-          vm.empty_state = 'Could not find reviewed applications for the dates.';
+          vm.empty_state = 'Could not find applications for the dates.';
         }
       });
       // this.filteredUserData = this.filteredUserData.filter( user => user.department_id ==  department);
@@ -168,18 +169,16 @@ export default {
     },
     getApplicantsBackground() {
       let vm = this;
-      let final_start_date = null;
-      let final_stop_date = null;
-
       let payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
-        from: final_start_date,
-        to: final_stop_date,
+        from: this.date_range[0],
+        to: this.date_range[1],
       };
+      console.log(payload);
       axios
-        .post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', payload)
+        .post(PARTNER_BASE_URL + 'peleza/applications/list_drivers/', payload)
         .then(response => {
           vm.applicants = response.data.data.partner_list;
         })
@@ -188,53 +187,22 @@ export default {
           throw new Error('Could not get applicants');
         });
     },
-    // getApplicants() {
-    //     let vm = this;
-    //     vm.loading = true;
-    //     vm.empty_state = "Loading...";
-    //     let final_start_date = null;
-    //     let final_stop_date = null;
-    //
-    //     let payload = {
-    //         limit: "all",
-    //         stage: -1,
-    //         state: "all",
-    //         from: final_start_date,
-    //         to: final_stop_date
-    //     };
-    //
-    //     axios
-    //         .post(
-    //             PARTNER_BASE_URL + "peleza/applications/list_reviewed/",
-    //             JSON.stringify(payload)
-    //         )
-    //         .then(response => {
-    //             console.log(response);
-    //             vm.applicants = response.data.applicants;
-    //             vm.empty_state = "No Data";
-    //             vm.loading = false;
-    //         })
-    //         .catch(error => {
-    //             vm.empty_state = "No Data";
-    //             vm.loading = false;
-    //             log(error);
-    //             throw new Error("Could not get applicants");
-    //         });
-    // },
     getApplicants() {
       let vm = this;
       vm.loading = true;
+      vm.empty_state = 'Loading...';
+
+      let payload = {
+        limit: 'all',
+        stage: -1,
+        state: 'all',
+        from: this.date_range[0],
+        to: this.date_range[1],
+      };
       axios
-        .post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', {
-          limit: 'all',
-          stage: -1,
-          state: 'all',
-          from: this.date_range[0],
-          to: this.date_range[1],
-        })
+        .post(PARTNER_BASE_URL + 'peleza/applications/list_drivers/', JSON.stringify(payload))
         .then(response => {
-          console.log(response);
-          vm.applicants = response.data.applicants;
+          vm.applicants = response.data.drivers;
           vm.filteredData = vm.applicants;
           vm.empty_state = 'No Data';
           vm.loading = false;
@@ -246,16 +214,13 @@ export default {
           throw new Error('Could not get applicants');
         });
     },
-
     startVerification(d) {
       console.log(d);
       let verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
-          date_verified: d.date_verified,
           partner_id: d.id,
-          partner_name: d.name,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
@@ -265,10 +230,7 @@ export default {
           insurance_copy: d.insurance_copy ? d.insurance_copy : '',
           vehicle_photo: d.vehicle_photo ? d.vehicle_photo : '',
           vendor_type: d.vendor_type ? d.vendor_type : '',
-          insurance_name: d.insurance_name ? d.insurance_name : '',
           insurance_number: d.insurance_number ? d.insurance_number : '',
-          policy_number: d.policy_number ? d.policy_number : '',
-          verify_consent: d.verify_consent ? d.verify_consent : '',
         },
         verification_details: {
           identity_check: d.identity_check
@@ -278,8 +240,8 @@ export default {
                 dob: '',
                 pob: '',
                 gender: '',
-                id_card: '',
                 review_status: false,
+                inconsistency: false,
               },
           criminal_records_check: d.criminal_records_check
             ? JSON.parse(d.criminal_records_check)
@@ -289,7 +251,8 @@ export default {
                 authenticity: '',
                 id_no: '',
                 ref_no: '',
-                review_status: false,
+                review_status: d.application_type === 'Owner',
+                inconsistency: false,
               },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
@@ -300,7 +263,8 @@ export default {
                 expiry_date: '',
                 classes: '',
                 id_no: '',
-                review_status: false,
+                review_status: d.application_type === 'Owner',
+                inconsistency: false,
               },
           motor_vehicle_records_check: d.motor_vehicle_records_check
             ? JSON.parse(d.motor_vehicle_records_check)
@@ -312,8 +276,8 @@ export default {
                 engine_no: '',
                 manufacture_year: '',
                 caveats: '',
-                owner_kra: '',
-                review_status: false,
+                review_status: d.application_type === 'Driver',
+                inconsistency: false,
               },
           car_insurance_validity: d.car_insurance_validity
             ? JSON.parse(d.car_insurance_validity)
@@ -324,7 +288,8 @@ export default {
                 expiry_date: '',
                 validity: '',
                 policy_number: '',
-                review_status: false,
+                review_status: d.application_type === 'Driver',
+                inconsistency: false,
               },
           kra_pin_verification: d.kra_pin_verification
             ? JSON.parse(d.kra_pin_verification)
@@ -335,12 +300,13 @@ export default {
                 tax_obligations: '',
                 registration_date: '',
                 review_status: false,
+                inconsistency: false,
               },
         },
       };
 
       this.$store.commit('changeVerification', verification);
-      this.$router.push({ name: 'reviewed-applicant', params: { id: d.id } });
+      this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
   },
   computed: {},
