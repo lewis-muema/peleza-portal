@@ -425,8 +425,7 @@
           >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
             <div class="review-consent-text">
               I, {{ this.applicant_details.partner_name }} (ID Number
-              {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-              Peleza Ltd verify my insurance documents for authenticity and validity.
+              {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
             </div>
             <div class="no-print">
               <el-button type="primary" class="details-print-button" @click="printInsurance"
@@ -498,8 +497,7 @@
             <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
               <div class="review-consent-text">
                 I, {{ this.applicant_details.partner_name }} (ID Number
-                {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-                Peleza Ltd verify my insurance documents for authenticity and validity.
+                {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
               </div>
               <div class="no-print">
                 <el-button type="primary" class="details-print-button" @click="printInsurance"
@@ -705,9 +703,9 @@ export default {
         stylesHtml += node.outerHTML;
       }
       const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+              '',
+              '',
+              'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
       );
       WinPrint.document.write(`<!DOCTYPE html>
       <html>

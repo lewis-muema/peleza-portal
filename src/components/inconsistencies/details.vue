@@ -485,8 +485,7 @@
               <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-                  Peleza Ltd verify my insurance documents for authenticity and validity.
+                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
@@ -560,8 +559,7 @@
               <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), agree to have Sendy Ltd and their partner
-                  Peleza Ltd verify my insurance documents for authenticity and validity.
+                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
