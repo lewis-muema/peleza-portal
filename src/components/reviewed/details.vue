@@ -422,7 +422,7 @@
             :model="verification_details.car_insurance_validity"
             class="el-col-lg-15 review-details"
             v-show="!insuranceReview"
-          >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
+          >  <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
             <div class="review-consent-text">
               I, {{ this.applicant_details.partner_name }} (ID Number
               {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
@@ -494,7 +494,7 @@
             </el-form-item>
           </el-form>
           <div class="el-col-lg-24 review-details" v-show="insuranceReview">
-            <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='true'">
+            <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
               <div class="review-consent-text">
                 I, {{ this.applicant_details.partner_name }} (ID Number
                 {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}

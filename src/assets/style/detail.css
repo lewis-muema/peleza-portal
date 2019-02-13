@@ -133,7 +133,7 @@
   height: 50px;
 }
 .details-print-button {
-  margin-top: -55px;
+  margin-top: -100px;
 }
 .el-date-editor.el-input {
   width: 100%;
@@ -158,8 +158,10 @@
 }
 
 .review-consent-text {
-  margin-right: 79px;
+  margin-right: 100px;
   margin-bottom: 14px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .upload-button {
