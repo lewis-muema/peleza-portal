@@ -482,14 +482,21 @@
               class="el-col-lg-15 review-details"
               v-show="!insuranceReview"
             >
-              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
+              <div
+                id="print"
+                class="el-row"
+                v-show="
+                  this.applicant_details.application_type !== 'Driver' &&
+                    this.applicant_details.verify_consent === '1'
+                "
+              >
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
+                  {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
-                  >PRINT</el-button
+                    >PRINT</el-button
                   >
                 </div>
                 <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
@@ -546,6 +553,13 @@
                 ></el-input>
               </el-form-item>
 
+              <el-form-item label="Insurance Cert Number" :label-width="'25%'">
+                <el-input
+                  v-model="verification_details.car_insurance_validity.insurance_cert_number"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+
               <el-form-item>
                 <el-button
                   type="primary"
@@ -556,10 +570,17 @@
               </el-form-item>
             </el-form>
             <div class="el-col-lg-24 review-details" v-show="insuranceReview">
-              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
+              <div
+                id="print"
+                class="el-row"
+                v-show="
+                  this.applicant_details.application_type !== 'Driver' &&
+                    this.applicant_details.verify_consent === '1'
+                "
+              >
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
+                  {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
@@ -609,6 +630,12 @@
                 <div class="review-title">Policy Number</div>
                 <div class="review-desc">
                   {{ this.verification_details.car_insurance_validity.policy_number }}
+                </div>
+              </div>
+              <div class="el-row">
+                <div class="review-title">Insurance Cert Number</div>
+                <div class="review-desc">
+                  {{ this.verification_details.car_insurance_validity.insurance_cert_number }}
                 </div>
               </div>
             </div>

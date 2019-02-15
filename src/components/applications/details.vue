@@ -526,23 +526,33 @@
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-24 review-details"
               v-show="!insuranceReview"
-            > <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
-              <div class="review-consent-text">
-                I, {{ this.applicant_details.partner_name }} (ID Number
-                {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
+            >
+              <div
+                id="print"
+                class="el-row"
+                v-show="
+                  this.applicant_details.application_type !== 'Driver' &&
+                    this.applicant_details.verify_consent === '1'
+                "
+              >
+                <div class="review-consent-text">
+                  I, {{ this.applicant_details.partner_name }} (ID Number
+                  {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
+                </div>
+                <div class="no-print">
+                  <el-button type="primary" class="details-print-button" @click="printInsurance"
+                    >PRINT</el-button
+                  >
+                </div>
+                <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
+                <div>
+                  <b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}
+                </div>
+                <div class="review-list">
+                  <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
+                </div>
+                <hr />
               </div>
-              <div class="no-print">
-                <el-button type="primary" class="details-print-button" @click="printInsurance"
-                >PRINT</el-button
-                >
-              </div>
-              <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
-              <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
-              <div class="review-list">
-                <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
-              </div>
-              <hr />
-            </div>
               <el-form-item label="Name of Owner" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.car_insurance_validity.owner_name"
@@ -588,6 +598,13 @@
                 ></el-input>
               </el-form-item>
 
+              <el-form-item label="Insurance Cert Number" :label-width="'25%'">
+                <el-input
+                  v-model="verification_details.car_insurance_validity.insurance_cert_number"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+
               <el-form-item>
                 <el-button
                   type="primary"
@@ -598,18 +615,27 @@
               </el-form-item>
             </el-form>
             <div class="el-col-lg-24 review-details" v-show="insuranceReview">
-              <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver' && this.applicant_details.verify_consent ==='1'">
+              <div
+                id="print"
+                class="el-row"
+                v-show="
+                  this.applicant_details.application_type !== 'Driver' &&
+                    this.applicant_details.verify_consent === '1'
+                "
+              >
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
-                  {{ this.applicant_details.id_no }}), {{this.appendConsentText()}}
+                  {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
                 </div>
                 <div class="no-print">
                   <el-button type="primary" class="details-print-button" @click="printInsurance"
-                  >PRINT</el-button
+                    >PRINT</el-button
                   >
                 </div>
                 <div><b>Insurance Company: </b>{{ this.applicant_details.insurance_name }}</div>
-                <div><b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}</div>
+                <div>
+                  <b>Insurance Cert Number:</b> {{ this.applicant_details.insurance_number }}
+                </div>
                 <div class="review-list">
                   <b>Policy Number: </b>{{ this.applicant_details.policy_number }}
                 </div>
@@ -649,6 +675,12 @@
                 <div class="review-title">Policy Number</div>
                 <div class="review-desc">
                   {{ this.verification_details.car_insurance_validity.policy_number }}
+                </div>
+              </div>
+              <div class="el-row">
+                <div class="review-title">Insurance Cert Number</div>
+                <div class="review-desc">
+                  {{ this.verification_details.car_insurance_validity.insurance_cert_number }}
                 </div>
               </div>
             </div>
@@ -867,6 +899,7 @@ export default {
           expiry_date: '',
           validity: '',
           policy_number: '',
+          insurance_cert_number: '',
           review_status: this.applicant_details.application_type === 'Driver',
           inconsistency: false,
         };
@@ -1166,8 +1199,6 @@ export default {
         })
         .catch(error => {
           throw new Error('Could not update applicant data inconsistency');
-          console.log(error);
-
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant data inconsistency',
@@ -1183,9 +1214,9 @@ export default {
         stylesHtml += node.outerHTML;
       }
       const WinPrint = window.open(
-              '',
-              '',
-              'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+        '',
+        '',
+        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
       );
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
