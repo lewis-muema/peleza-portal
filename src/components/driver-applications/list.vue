@@ -158,7 +158,6 @@ export default {
       this.filteredData = this.applicants.filter(function(applicant) {
         let application_date = moment(applicant.date_created).format('YYYY-MM-DD');
         if (application_date >= from_date && application_date <= to_date) {
-          console.log('within');
           return application_date >= from_date && application_date <= to_date;
         } else {
           vm.empty_state = 'Could not find applications for the dates.';
@@ -176,7 +175,6 @@ export default {
         from: this.date_range[0],
         to: this.date_range[1],
       };
-      console.log(payload);
       axios
         .post(PARTNER_BASE_URL + 'peleza/applications/list_drivers/', payload)
         .then(response => {
@@ -215,7 +213,6 @@ export default {
         });
     },
     startVerification(d) {
-      console.log(d);
       let verification = {
         applicant_details: {
           application_type: d.application_type,
@@ -237,8 +234,6 @@ export default {
             ? JSON.parse(d.identity_check)
             : {
                 applicant_name: '',
-                dob: '',
-                pob: '',
                 gender: '',
                 review_status: false,
                 inconsistency: false,
@@ -306,7 +301,7 @@ export default {
       };
 
       this.$store.commit('changeVerification', verification);
-      this.$router.push({ name: 'applicant', params: { id: d.id } });
+      this.$router.push({ name: 'driver', params: { id: d.id } });
     },
   },
   computed: {},

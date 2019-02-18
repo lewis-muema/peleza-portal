@@ -71,6 +71,7 @@
       v-if="
         current_route !== 'applicant' &&
           current_route !== 'reviewed-applicant' &&
+          current_route !== 'driver' &&
           current_route !== 'inconsistency'
       "
     >
@@ -107,10 +108,10 @@ export default {
       return JSON.parse(localStorage.user);
     },
     sendy_verifier() {
-      if (this.user.external_status === '0'){
-        return true
+      if (this.user.external_status === '0') {
+        return true;
       }
-      return false ;
+      return false;
     },
   },
   watch: {
@@ -122,7 +123,6 @@ export default {
   },
   methods: {
     loadApplicant(d) {
-      console.log(d);
       let verification = {
         applicant_details: {
           application_type: d.application_type,
