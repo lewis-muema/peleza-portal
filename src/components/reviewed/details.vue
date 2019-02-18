@@ -131,13 +131,13 @@
                     {{ this.verification_details.identity_check.applicant_name }}
                   </div>
                 </div>
-                <div class="el-row">
+                <div class="el-row" v-show="applicant_details.application_type !== 'Driver'">
                   <div class="review-title">Date of Birth</div>
                   <div class="review-desc">
                     {{ formatDate(this.verification_details.identity_check.dob) }}
                   </div>
                 </div>
-                <div class="el-row">
+                <div class="el-row" v-show="applicant_details.application_type !== 'Driver'">
                   <div class="review-title">Place of Birth</div>
                   <div class="review-desc">{{ this.verification_details.identity_check.pob }}</div>
                 </div>
