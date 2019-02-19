@@ -147,23 +147,6 @@
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="Date of Birth" :label-width="'25%'">
-                <el-date-picker
-                  v-model="verification_details.identity_check.dob"
-                  type="date"
-                  popper-class="date-popup"
-                  placeholder="Date of Birth"
-                ></el-date-picker>
-              </el-form-item>
-
-              <el-form-item label="Place of Birth" :label-width="'25%'">
-                <el-input
-                  type="textarea"
-                  :rows="4"
-                  v-model="verification_details.identity_check.pob"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>
 
               <el-form-item label="Gender" :label-width="'25%'">
                 <el-select v-model="verification_details.identity_check.gender" auto-complete="off">
@@ -172,11 +155,6 @@
                 </el-select>
               </el-form-item>
 
-              <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
-                                            <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
-                                            <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
-                                            <label for="id_card">Choose a file</label>
-                            </el-form-item>-->
               <el-form-item>
                 <el-button
                   type="primary"
@@ -196,18 +174,6 @@
                     </div>
                   </div>
                   <div class="el-row">
-                    <div class="review-title">Date of Birth</div>
-                    <div class="review-desc">
-                      {{ formatDate(this.verification_details.identity_check.dob) }}
-                    </div>
-                  </div>
-                  <div class="el-row">
-                    <div class="review-title">Place of Birth</div>
-                    <div class="review-desc">
-                      {{ this.verification_details.identity_check.pob }}
-                    </div>
-                  </div>
-                  <div class="el-row">
                     <div class="review-title">Gender</div>
                     <div class="review-desc">
                       {{ this.verification_details.identity_check.gender }}
@@ -216,9 +182,6 @@
                 </div>
                 <div class="el-col-lg-8 review-image">
                   <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
-                  <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
-                                                      <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
-                                    </a>-->
                 </div>
               </div>
             </div>
@@ -811,7 +774,7 @@ export default {
           expiry_date: '',
           classes: '',
           id_no: '',
-          review_status: this.applicant_details.application_type === 'Owner' ? true : false,
+          review_status: this.applicant_details.application_type === 'Owner',
           inconsistency: false,
         };
       }
@@ -834,7 +797,7 @@ export default {
           expiry_date: '',
           validity: '',
           policy_number: '',
-          review_status: this.applicant_details.application_type === 'Driver' ? true : false,
+          review_status: this.applicant_details.application_type === 'Driver',
           inconsistency: false,
         };
       }
@@ -847,7 +810,7 @@ export default {
           engine_no: '',
           manufacture_year: '',
           caveats: '',
-          review_status: this.applicant_details.application_type === 'Driver' ? true : false,
+          review_status: this.applicant_details.application_type === 'Driver',
           inconsistency: false,
         };
       }
@@ -882,8 +845,6 @@ export default {
 
       let review_json = this.verification_details[field];
       let properties_res = this.checkProperties(review_json);
-      console.log(properties_res);
-
       if (properties_res === true) {
         review_json['review_status'] = true;
       } else {
@@ -893,7 +854,6 @@ export default {
       if (field === 'identity_check') {
         //check if upload happened
         if (this.id_doc_change === true) {
-          console.log('doc upload happened');
           //perform upload
           let upload_res = await this.uploadDocument('id_card');
 
@@ -920,7 +880,6 @@ export default {
       axios
         .post(PARTNER_BASE_URL + 'peleza/applications/update_review/', JSON.stringify(payload))
         .then(response => {
-          console.log(response);
           if (response.data.status === true) {
             this.$notify.success({
               title: 'update ' + field_title,
@@ -972,8 +931,6 @@ export default {
       return axios
         .post(PARTNER_BASE_URL + 'peleza/upload_doc/', data, headers)
         .then(response => {
-          console.log(response.data.file_name);
-
           return response.data.file_name;
         })
         .catch(err => {
@@ -1000,7 +957,6 @@ export default {
       }
     },
     handleIdCardChange() {
-      console.log('id card has been changed');
       let files = document.getElementById('id_card')['files'];
 
       if (files.length < 1) {
@@ -1008,8 +964,6 @@ export default {
       } else {
         this.id_doc_change = true;
         let name = files[0]['name'];
-        console.log(name);
-
         let obj = this.verification_details;
         obj['identity_check']['id_card'] = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
@@ -1055,8 +1009,6 @@ export default {
           JSON.stringify(payload)
         )
         .then(response => {
-          console.log(response);
-
           if (response.data.status === true) {
             this.$notify.success({
               title: 'submit applicant review',
@@ -1072,8 +1024,6 @@ export default {
         })
         .catch(error => {
           throw new Error('Could not update applicant');
-          console.log(error);
-
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
@@ -1116,8 +1066,6 @@ export default {
           JSON.stringify(payload)
         )
         .then(response => {
-          console.log(response);
-
           if (response.data.status === true) {
             this.$notify.success({
               title: 'submit data inconsistency',
@@ -1133,8 +1081,6 @@ export default {
         })
         .catch(error => {
           throw new Error('Could not update applicant data inconsistency');
-          console.log(error);
-
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant data inconsistency',
