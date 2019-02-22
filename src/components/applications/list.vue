@@ -247,17 +247,6 @@ export default {
                 review_status: false,
                 inconsistency: false,
               },
-          criminal_records_check: d.criminal_records_check
-            ? JSON.parse(d.criminal_records_check)
-            : {
-                applicant_name: '',
-                criminal_history: '',
-                authenticity: '',
-                id_no: '',
-                ref_no: '',
-                review_status: d.application_type === 'Owner',
-                inconsistency: false,
-              },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
             : {
