@@ -530,10 +530,7 @@
               <div
                 id="print"
                 class="el-row"
-                v-show="
-                  this.applicant_details.application_type !== 'Driver' &&
-                    this.applicant_details.verify_consent === '1'
-                "
+                v-show="this.applicant_details.application_type !== 'Driver'"
               >
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
@@ -618,10 +615,7 @@
               <div
                 id="print"
                 class="el-row"
-                v-show="
-                  this.applicant_details.application_type !== 'Driver' &&
-                    this.applicant_details.verify_consent === '1'
-                "
+                v-show="this.applicant_details.application_type !== 'Driver'"
               >
                 <div class="review-consent-text">
                   I, {{ this.applicant_details.partner_name }} (ID Number
