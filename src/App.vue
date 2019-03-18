@@ -10,27 +10,30 @@
 </template>
 
 <script>
-import topnav from './components/topnav'
+import topnav from './components/topnav';
 export default {
   name: 'app',
   data() {
     return {
-      authenticated: false
-    }
+      authenticated: false,
+    };
   },
   beforeMount() {
-    this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false;
+    this.authenticated = localStorage.authenticated
+      ? JSON.parse(localStorage.authenticated)
+      : false;
   },
-  mounted() {
-  },
-  components: {topnav},
+  mounted() {},
+  components: { topnav },
   watch: {
     $route() {
-      this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false; // always check the authentication status on route change
+      this.authenticated = localStorage.authenticated
+        ? JSON.parse(localStorage.authenticated)
+        : false; // always check the authentication status on route change
       this.$store.commit('search', ''); // reset search on route change
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="sass">
@@ -39,8 +42,8 @@ export default {
 </style>
 
 <style>
-  .el-button.el-button--primary {
-    background: #1782c5;
-    border-color: #1782c5;
-  }
+.el-button.el-button--primary {
+  background: #1782c5;
+  border-color: #1782c5;
+}
 </style>

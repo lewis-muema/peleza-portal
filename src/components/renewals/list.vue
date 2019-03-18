@@ -39,7 +39,7 @@
 </template>
 <script>
 export default {
-  name: "renewals_list",
+  name: 'renewals_list',
   data() {
     var date = new Date(),
       y = date.getFullYear(),
@@ -48,11 +48,11 @@ export default {
       applicants: [],
       verifying: false,
       applicant: {},
-      empty_state: "Loading...",
+      empty_state: 'Loading...',
       date_range: [new Date(y, m, 1), new Date(y, m + 1, 0)],
       pagination_limit: 40,
       pagination_page: 1,
-      loading: false
+      loading: false,
     };
   },
   beforeMount() {
@@ -64,93 +64,59 @@ export default {
   methods: {
     getApplicantsBackground() {
       let vm = this;
-      // let start = new Date(this.date_range[0]);
-      // let start_date = start.getDate();
-      // let start_month = start.getMonth() + 1;
-      // let start_year = start.getFullYear();
-      //
-      // let final_start_date = start_year + "-" + start_month + "-" + start_date ;
-      //
-      // let stop = new Date(this.date_range[1]);
-      // let stop_date = stop.getDate();
-      // let stop_month = stop.getMonth() + 1;
-      // let stop_year = stop.getFullYear();
-      //
-      // let final_stop_date = stop_year + "-" + stop_month + "-" + stop_date ;
       let final_start_date = null;
       let final_stop_date = null;
 
       let payload = {
-        limit: "all",
+        limit: 'all',
         stage: -1,
-        state: "all",
+        state: 'all',
         from: final_start_date,
-        to: final_stop_date
+        to: final_stop_date,
       };
       axios
-        .post(PARTNER_BASE_URL + "admin/partner_list", payload)
+        .post(`${PARTNER_BASE_URL}admin/partner_list`, payload)
         .then(response => {
           vm.applicants = response.data.data.partner_list;
         })
         .catch(error => {
           log(error);
-          throw new Error("Could not get applicants");
+          throw new Error('Could not get applicants');
         });
     },
     getApplicants() {
       let vm = this;
       vm.loading = true;
-      vm.empty_state = "Loading...";
-      // let final_start_date = null;
-      //
-      // if(this.date_range[0] !== null ) {
-      //   let start = new Date(this.date_range[0]);
-      //   let start_date = start.getDate();
-      //   let start_month = start.getMonth() + 1;
-      //   let start_year = start.getFullYear();
-      //
-      //   final_start_date = start_year + "-" + start_month + "-" + start_date;
-      // }
-      //
-      // let final_stop_date = null;
-      //
-      // if(this.date_range[1] !== null) {
-      //   let stop = new Date(this.date_range[1]);
-      //   let stop_date = stop.getDate();
-      //   let stop_month = stop.getMonth() + 1;
-      //   let stop_year = stop.getFullYear();
-      //   final_stop_date = stop_year + "-" + stop_month + "-" + stop_date;
-      // }
+      vm.empty_state = 'Loading...';
       let final_start_date = null;
       let final_stop_date = null;
 
       let payload = {
-        limit: "all",
+        limit: 'all',
         stage: -1,
-        state: "all",
+        state: 'all',
         from: final_start_date,
-        to: final_stop_date
+        to: final_stop_date,
       };
 
       axios
-        .post(PARTNER_BASE_URL + "admin/partner_list", JSON.stringify(payload))
+        .post(`${PARTNER_BASE_URL}admin/partner_list`, JSON.stringify(payload))
         .then(response => {
-          console.log(response);
           vm.applicants = response.data.data.partner_list;
-          vm.empty_state = "No Data";
+          vm.empty_state = 'No Data';
           vm.loading = false;
         })
         .catch(error => {
-          vm.empty_state = "No Data";
+          vm.empty_state = 'No Data';
           vm.loading = false;
           log(error);
-          throw new Error("Could not get applicants");
+          throw new Error('Could not get applicants');
         });
-    }
+    },
   },
-  computed: {}
+  computed: {},
 };
 </script>
 <style>
-@import "../../assets/style/list.css";
+@import '../../assets/style/list.css';
 </style>

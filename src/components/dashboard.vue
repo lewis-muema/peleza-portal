@@ -1,8 +1,6 @@
-<template>
-  
-</template>
+<template></template>
 <script>
 export default {
-  name: 'dashboard'
-}
+  name: 'dashboard',
+};
 </script>

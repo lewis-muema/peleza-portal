@@ -139,10 +139,8 @@
                 </div>
               </div>
               <div class="el-col-lg-8 review-image">
-                <!--<div class="review-edit" @click="handleReviewEdit('identity_check')">-->
-                <!--Edit-->
-                <!--</div>-->
-                !<a
+                !
+                <a
                   :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`"
                   target="_blank"
                 >
@@ -254,7 +252,8 @@
         <el-collapse-item name="4" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
             <span>Motor Vehicle Records Check</span>
-            <span class="applicant--details__noPlate"
+            <span
+              class="applicant--details__noPlate"
             >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
           </template>
 
@@ -381,19 +380,13 @@
               >{{this.verification_details.motor_vehicle_records_check.owner_kra}}</div>
             </div>
           </div>
-          <div class="el-col-lg-8 review-image">
-            <!--<div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">-->
-            <!--Edit-->
-            <!--</div>-->
-            <!--<a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
-              <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-            </a>-->
-          </div>
+          <div class="el-col-lg-8 review-image"></div>
         </el-collapse-item>
         <el-collapse-item name="5" v-show="applicant_details.application_type !== 'Driver'">
-        <template slot="title">
+          <template slot="title">
             <span>Car Insurance Validity</span>
-            <span class="applicant--details__insurance"
+            <span
+              class="applicant--details__insurance"
             >Insurance Number : {{applicant_details.insurance_number}}</span>
           </template>
           <el-form
@@ -490,20 +483,12 @@
               >{{this.verification_details.car_insurance_validity.policy_number}}</div>
             </div>
           </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">-->
-            <!--Edit-->
-            <!--</div>-->
-            <!--<a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
-              <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-            </a>-->
-          </div>
+          <div class="el-col-lg-7 review-image"></div>
         </el-collapse-item>
         <el-collapse-item name="6" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
             <span>KRA PIN Verification</span>
-            <span class="applicant--details__kraPin"
-            >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
+            <span class="applicant--details__kraPin">KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
           </template>
 
           <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -578,11 +563,7 @@
               >{{formatDate(this.verification_details.kra_pin_verification.registration_date)}}</div>
             </div>
           </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">-->
-            <!--Edit-->
-            <!--</div>-->
-          </div>
+          <div class="el-col-lg-7 review-image"></div>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -590,35 +571,35 @@
 </template>
 
 <script>
-import DetailMxn from "../../mixins/detail_mixin.js";
+import DetailMxn from '../../mixins/detail_mixin.js';
 
 export default {
-  name: "applicant-details",
-  props: ["data", "docs"],
+  name: 'applicant-details',
+  props: ['data', 'docs'],
   mixins: [DetailMxn],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
-      comments: "",
+      comments: '',
       popover_visible: false,
-      reason: "",
+      reason: '',
       lock_ui: false,
       valid_docs: [],
       invalid_docs: [],
       current_verification: this.$store.getters.current_verification,
       applicant_details: {},
       verification_details: {},
-      accordionActiveName: "identity_check",
-      id_card: "",
+      accordionActiveName: 'identity_check',
+      id_card: '',
       id_doc_change: false,
       nok_doc_change: false,
       AWS_URL: window.AWS_URL,
       applicant_review: {
-        status: "",
-        reason: ""
+        status: '',
+        reason: '',
       },
       user: JSON.parse(localStorage.user),
-      partner_logs: []
+      partner_logs: [],
     };
   },
   beforeMount() {
@@ -628,22 +609,18 @@ export default {
   },
   methods: {
     handleBack() {
-      this.$router.push({ name: "reviewed" });
-    }
+      this.$router.push({ name: 'reviewed' });
+    },
   },
   computed: {
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
-    //criminalReview: function() {
-    //  return this.verification_details.criminal_records_check.review_status;
-    //},
     drivingReview: function() {
       return this.verification_details.driving_license_check.review_status;
     },
     motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check
-        .review_status;
+      return this.verification_details.motor_vehicle_records_check.review_status;
     },
     insuranceReview: function() {
       return this.verification_details.car_insurance_validity.review_status;
@@ -655,11 +632,11 @@ export default {
       return this.checkReviewStatus();
     },
     validSubmitStatus: function() {
-      if (this.applicant_review.status == "") {
+      if (this.applicant_review.status === '') {
         return false;
       } else {
-        if (this.applicant_review.status == false) {
-          if (this.applicant_review.reason == "") {
+        if (!this.applicant_review.status) {
+          if (this.applicant_review.reason === '') {
             return false;
           } else {
             return true;
@@ -668,11 +645,11 @@ export default {
           return true;
         }
       }
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 <style>
-@import "../../assets/style/detail.css";
+@import '../../assets/style/detail.css';
 </style>

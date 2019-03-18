@@ -44,10 +44,14 @@
         </div>
       </el-card>
 
-      <el-card header="Data Inconsistency" class="applicant-details__inconsistency-messsage-wrap" v-if="applicant_details.inconsistency_message.length > 0">
-        <div class="applicant-details__inconsistency-message">
-          {{applicant_details.inconsistency_message}}
-        </div>
+      <el-card
+        header="Data Inconsistency"
+        class="applicant-details__inconsistency-messsage-wrap"
+        v-if="applicant_details.inconsistency_message.length > 0"
+      >
+        <div
+          class="applicant-details__inconsistency-message"
+        >{{applicant_details.inconsistency_message}}</div>
       </el-card>
 
       <el-card
@@ -63,12 +67,14 @@
     <div class="applicant-details__data">
       <el-collapse v-model="accordionActiveName">
         <div class="applicant--details-wrap">
-          <el-collapse-item name="1" :class="verification_details.identity_check.inconsistency? 'inconsistent-collapse':''">
+          <el-collapse-item
+            name="1"
+            :class="verification_details.identity_check.inconsistency? 'inconsistent-collapse':''"
+          >
             <template slot="title">
               <span style>Identity Check</span>
               
-              <span class="applicant-details__idNo"
-              >ID Number : {{applicant_details.id_no}}</span>
+              <span class="applicant-details__idNo">ID Number : {{applicant_details.id_no}}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -101,12 +107,6 @@
                   <el-option value="Female">Female</el-option>
                 </el-select>
               </el-form-item>
-
-              <!-- <el-form-item label="Attach Id Card" :label-width="'25%'">
-                              <el-input v-model="verification_details.identity_check.id_card" auto-complete="off" class="upload-input"></el-input>
-                              <input name="id_card" auto-complete="off" v-on:change="handleIdCardChange" class="upload-button inputfile" type="file" id="id_card"/>
-                              <label for="id_card">Choose a file</label>
-              </el-form-item>-->
               <el-form-item>
                 <el-button
                   type="primary"
@@ -148,15 +148,20 @@
               </div>
             </div>
           </el-collapse-item>
-          <div class="applicant--incosistency-mark" v-if="verification_details.identity_check.inconsistency">
-             Marked for Data Inconsistency
-          </div>
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.identity_check.inconsistency"
+          >Marked for Data Inconsistency</div>
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Owner'"
         >
-          <el-collapse-item title="Driving License Check" name="3" :class="verification_details.driving_license_check.inconsistency? 'inconsistent-collapse':''">
+          <el-collapse-item
+            title="Driving License Check"
+            name="3"
+            :class="verification_details.driving_license_check.inconsistency? 'inconsistent-collapse':''"
+          >
             <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
                 <el-input
@@ -251,18 +256,23 @@
               </div>
             </div>
           </el-collapse-item>
-          <div class="applicant--incosistency-mark" v-if="verification_details.driving_license_check.inconsistency">
-             Marked for Data Inconsistency
-          </div>
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.driving_license_check.inconsistency"
+          >Marked for Data Inconsistency</div>
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-          <el-collapse-item name="4" :class="verification_details.motor_vehicle_records_check.inconsistency? 'inconsistent-collapse':''">
+          <el-collapse-item
+            name="4"
+            :class="verification_details.motor_vehicle_records_check.inconsistency? 'inconsistent-collapse':''"
+          >
             <template slot="title">
               <span>Motor Vehicle Records Check</span>
-              <span class="applicant--details__noPlate"
+              <span
+                class="applicant--details__noPlate"
               >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
             </template>
 
@@ -390,7 +400,6 @@
                 v-show="motorReview"
                 @click="handleReviewEdit('motor_vehicle_records_check')"
               >Edit</div>-->
-
               <!--<a
                 :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
                 target="_blank"
@@ -399,22 +408,27 @@
               </a>-->
             </div>
           </el-collapse-item>
-        
-          <div class="applicant--incosistency-mark" v-if="verification_details.motor_vehicle_records_check.inconsistency">
-             Marked for Data Inconsistency
-          </div>
-          
+
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.motor_vehicle_records_check.inconsistency"
+          >Marked for Data Inconsistency</div>
         </div>
         <div
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-        <el-collapse-item name="5" v-show="applicant_details.application_type !== 'Driver'" :class="verification_details.car_insurance_validity.inconsistency? 'inconsistent-collapse':''">
-        <template slot="title">
-            <span>Car Insurance Validity</span>
-            <span class="applicant--details__insurance"
-            >Insurance Number : {{applicant_details.insurance_number}}</span>
-          </template>
+          <el-collapse-item
+            name="5"
+            v-show="applicant_details.application_type !== 'Driver'"
+            :class="verification_details.car_insurance_validity.inconsistency? 'inconsistent-collapse':''"
+          >
+            <template slot="title">
+              <span>Car Insurance Validity</span>
+              <span
+                class="applicant--details__insurance"
+              >Insurance Number : {{applicant_details.insurance_number}}</span>
+            </template>
             <el-form
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-15 review-details"
@@ -522,15 +536,23 @@
               </a>-->
             </div>
           </el-collapse-item>
-          <div class="applicant--incosistency-mark" v-if="verification_details.car_insurance_validity.inconsistency">
-             Marked for Data Inconsistency
-          </div>
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.car_insurance_validity.inconsistency"
+          >Marked for Data Inconsistency</div>
         </div>
-        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'">
-          <el-collapse-item name="6" :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''">
+        <div
+          class="applicant--details-wrap"
+          v-show="applicant_details.application_type !== 'Driver'"
+        >
+          <el-collapse-item
+            name="6"
+            :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''"
+          >
             <template slot="title">
               <span>KRA PIN Verification</span>
-              <span class="applicant--details__kraPin"
+              <span
+                class="applicant--details__kraPin"
               >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
             </template>
 
@@ -616,9 +638,10 @@
               >Edit</div>-->
             </div>
           </el-collapse-item>
-          <div class="applicant--incosistency-mark" v-if="verification_details.kra_pin_verification.inconsistency">
-             Marked for Data Inconsistency
-          </div>
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.kra_pin_verification.inconsistency"
+          >Marked for Data Inconsistency</div>
         </div>
       </el-collapse>
     </div>
@@ -626,35 +649,35 @@
 </template>
 
 <script>
-import DetailMxn from "../../mixins/detail_mixin.js";
+import DetailMxn from '../../mixins/detail_mixin.js';
 
 export default {
-  name: "applicant-details",
-  props: ["data", "docs"],
+  name: 'applicant-details',
+  props: ['data', 'docs'],
   mixins: [DetailMxn],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
-      comments: "",
+      comments: '',
       popover_visible: false,
-      reason: "",
+      reason: '',
       lock_ui: false,
       valid_docs: [],
       invalid_docs: [],
       current_verification: this.$store.getters.current_verification,
       applicant_details: {},
       verification_details: {},
-      accordionActiveName: "identity_check",
-      id_card: "",
+      accordionActiveName: 'identity_check',
+      id_card: '',
       id_doc_change: false,
       nok_doc_change: false,
       AWS_URL: window.AWS_URL,
       applicant_review: {
-        status: "",
-        reason: ""
+        status: '',
+        reason: '',
       },
       user: JSON.parse(localStorage.user),
-      partner_logs: []
+      partner_logs: [],
     };
   },
   beforeMount() {
@@ -663,39 +686,33 @@ export default {
     this.getPartnerLogs();
   },
   methods: {
-    async updateReview(field, field_title = "") {
+    async updateReview(field, field_title = '') {
       //update store
       let verification = {
         applicant_details: this.applicant_details,
-        verification_details: this.verification_details
+        verification_details: this.verification_details,
       };
 
       let review_json = this.verification_details[field];
       let properties_res = this.checkProperties(review_json);
-      console.log(properties_res);
 
-      if (properties_res == true) {
-        review_json["review_status"] = true;
+      if (properties_res) {
+        review_json['review_status'] = true;
       } else {
-        review_json["review_status"] = false;
+        review_json['review_status'] = false;
       }
 
-      if (field == "identity_check") {
+      if (field === 'identity_check') {
         //check if upload happened
-        if (this.id_doc_change == true) {
-          console.log("doc upload happened");
+        if (this.id_doc_change) {
           //perform upload
-          let upload_res = await this.uploadDocument("id_card");
+          let upload_res = await this.uploadDocument('id_card');
 
-          if (upload_res != false) {
-            review_json["id_card"] = upload_res;
+          if (!upload_res) {
+            review_json['id_card'] = upload_res;
             let obj = this.verification_details;
-            obj["identity_check"]["id_card"] = upload_res;
-            this.verification_details = Object.assign(
-              {},
-              this.verification_details,
-              obj
-            );
+            obj['identity_check']['id_card'] = upload_res;
+            this.verification_details = Object.assign({}, this.verification_details, obj);
           }
         }
       }
@@ -708,34 +725,30 @@ export default {
         partner_id: this.applicant_details.partner_id,
         partner_id_no: this.applicant_details.id_no,
         admin_id: JSON.parse(localStorage.user).admin_id,
-        admin_name: JSON.parse(localStorage.user).name
+        admin_name: JSON.parse(localStorage.user).name,
       };
 
       axios
-        .post(
-          PARTNER_BASE_URL + "peleza/applications/update_review/",
-          JSON.stringify(payload)
-        )
+        .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
-          console.log(response);
-          if (response.data.status == true) {
+          if (response.data.status) {
             this.$notify.success({
-              title: "update " + field_title,
-              message: "applicant " + field_title + " updated successfully"
+              title: `update ${field_title}`,
+              message: `applicant ${field_title} updated successfully`,
             });
-            this.$store.commit("changeVerification", verification);
+            this.$store.commit('changeVerification', verification);
           } else {
             this.$notify.error({
-              title: "update " + field_title,
-              message: "applicant " + field_title + " failed to update"
+              title: `update ${field_title}`,
+              message: `applicant ${field_title} failed to update`,
             });
           }
         })
         .catch(error => {
-          throw new Error("Could not update applicant");
+          throw new Error('Could not update applicant');
           this.$notify.error({
-            title: "update " + field_title,
-            message: "applicant " + field_title + " failed to update"
+            title: `update ${field_title}`,
+            message: `applicant ${field_title} failed to update`,
           });
         });
 
@@ -743,7 +756,7 @@ export default {
     },
     async uploadDocument(doc_id) {
       let data = new FormData();
-      let files = document.getElementById(doc_id)["files"];
+      let files = document.getElementById(doc_id)['files'];
 
       if (!files.length) {
         return false;
@@ -753,24 +766,22 @@ export default {
       data.append(doc_id, file);
 
       let fileName = this.sanitizeFilename(file.name);
-      let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + "/";
-      let photoKey = albumPhotosKey + fileName;
+      let albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
+      let photoKey = `${albumPhotosKey}${fileName}`;
 
-      data.append("key", photoKey);
-      data.append("field_name", doc_id);
-      data.append("album", albumPhotosKey);
+      data.append('key', photoKey);
+      data.append('field_name', doc_id);
+      data.append('album', albumPhotosKey);
 
       let headers = {
         headers: {
-          "content-type": "multipart/form-data"
-        }
+          'content-type': 'multipart/form-data',
+        },
       };
 
       return axios
-        .post(PARTNER_BASE_URL + "peleza/upload_doc/", data, headers)
+        .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
         .then(response => {
-          console.log(response.data.file_name);
-
           return response.data.file_name;
         })
         .catch(err => {
@@ -779,70 +790,57 @@ export default {
         });
     },
     handleBack() {
-      this.$router.push({ name: "applications" });
+      this.$router.push({ name: 'applications' });
     },
     sanitizeFilename(name) {
-      let temp_name =
-        new Date().getTime() + name.toLowerCase().replace(/\s/g, "");
+      let temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
       return temp_name;
     },
     getAlbumName(iid) {
-      if (iid == "insurance") {
-        return "insu";
-      } else if (iid == "id_card" || iid == "nok_id_card") {
-        return "id";
-      } else if (iid == "driver") {
-        return "photo";
+      if (iid === 'insurance') {
+        return 'insu';
+      } else if (iid === 'id_card' || iid === 'nok_id_card') {
+        return 'id';
+      } else if (iid === 'driver') {
+        return 'photo';
       } else {
         return iid;
       }
     },
     handleIdCardChange() {
-      console.log("id card has been changed");
-      let files = document.getElementById("id_card")["files"];
+      let files = document.getElementById('id_card')['files'];
 
       if (files.length < 1) {
         this.id_doc_change = false;
       } else {
         this.id_doc_change = true;
-        let name = files[0]["name"];
-        console.log(name);
+        let name = files[0]['name'];
 
         let obj = this.verification_details;
-        obj["identity_check"]["id_card"] = name;
-        this.verification_details = Object.assign(
-          {},
-          this.verification_details,
-          obj
-        );
-
-        //this.verification_details.identity_check.id_card = name;
+        obj['identity_check']['id_card'] = name;
+        this.verification_details = Object.assign({}, this.verification_details, obj);
       }
     },
 
     checkReviewStatus() {
       let obj = this.verification_details;
-      for (var key in obj) {
-        if (obj[key]["review_status"] == false) {
+      for (let key in obj) {
+        if (obj[key]['review_status'] === false) {
           return false;
         }
       }
       return true;
-    }
+    },
   },
   computed: {
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
-    //criminalReview: function() {
-    //  return this.verification_details.criminal_records_check.review_status;
-    //},
     drivingReview: function() {
       return this.verification_details.driving_license_check.review_status;
     },
     motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check
-        .review_status;
+      return this.verification_details.motor_vehicle_records_check.review_status;
     },
     insuranceReview: function() {
       return this.verification_details.car_insurance_validity.review_status;
@@ -854,11 +852,11 @@ export default {
       return this.checkReviewStatus();
     },
     validSubmitStatus: function() {
-      if (this.applicant_review.status == "") {
+      if (this.applicant_review.status === '') {
         return false;
       } else {
-        if (this.applicant_review.status == false) {
-          if (this.applicant_review.reason == "") {
+        if (!this.applicant_review.status) {
+          if (this.applicant_review.reason === '') {
             return false;
           } else {
             return true;
@@ -867,11 +865,11 @@ export default {
           return true;
         }
       }
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 <style>
-@import "../../assets/style/detail.css";
+@import '../../assets/style/detail.css';
 </style>

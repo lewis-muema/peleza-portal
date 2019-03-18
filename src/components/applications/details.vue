@@ -63,7 +63,7 @@
             </select>
           </el-form-item>
 
-          <el-form-item v-show="applicant_review.status == 0 && applicant_review.status != ''">
+          <el-form-item v-show="applicant_review.status === 0 && applicant_review.status !== ''">
             <el-input
               type="textarea"
               :rows="4"
@@ -88,13 +88,12 @@
         class="applicant-details__submit-review"
         v-if="inconsistencyCheck"
       >
-         <el-alert
+        <el-alert
           :title="inconsistency_alert_message"
           type="warning"
           :closable="false"
           v-if="inconsistency_alert_status"
-          >
-        </el-alert>
+        ></el-alert>
         <el-form>
           <el-form-item>
             <el-input
@@ -132,8 +131,7 @@
             <template slot="title">
               <span style>Identity Check</span>
               
-              <span class="applicant-details__idNo"
-              >ID Number : {{applicant_details.id_no}}</span>
+              <span class="applicant-details__idNo">ID Number : {{applicant_details.id_no}}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -334,7 +332,8 @@
           <el-collapse-item name="4">
             <template slot="title">
               <span>Motor Vehicle Records Check</span>
-              <span class="applicant--details__noPlate"
+              <span
+                class="applicant--details__noPlate"
               >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
             </template>
 
@@ -462,13 +461,6 @@
                 v-show="motorReview"
                 @click="handleReviewEdit('motor_vehicle_records_check')"
               >Edit</div>
-
-              <!--<a
-                :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
-                target="_blank"
-              >
-                <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-              </a>-->
             </div>
           </el-collapse-item>
           <el-form class="applicant--incosistency-wrap">
@@ -485,12 +477,13 @@
           class="applicant--details-wrap"
           v-show="applicant_details.application_type !== 'Driver'"
         >
-        <el-collapse-item name="5">
-        <template slot="title">
-            <span>Car Insurance Validity</span>
-            <span class="applicant--details__insurance"
-            >Insurance Number : {{applicant_details.insurance_number}}</span>
-          </template>
+          <el-collapse-item name="5">
+            <template slot="title">
+              <span>Car Insurance Validity</span>
+              <span
+                class="applicant--details__insurance"
+              >Insurance Number : {{applicant_details.insurance_number}}</span>
+            </template>
             <el-form
               :model="verification_details.car_insurance_validity"
               class="el-col-lg-15 review-details"
@@ -608,11 +601,15 @@
             </el-form-item>
           </el-form>
         </div>
-        <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'">
+        <div
+          class="applicant--details-wrap"
+          v-show="applicant_details.application_type !== 'Driver'"
+        >
           <el-collapse-item name="6">
             <template slot="title">
               <span>KRA PIN Verification</span>
-              <span class="applicant--details__kraPin"
+              <span
+                class="applicant--details__kraPin"
               >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
             </template>
 
@@ -714,39 +711,38 @@
 </template>
 
 <script>
-import DetailMxn from "../../mixins/detail_mixin.js";
+import DetailMxn from '../../mixins/detail_mixin.js';
 
 export default {
-  name: "applicant-details",
-  props: ["data", "docs"],
+  name: 'applicant-details',
+  props: ['data', 'docs'],
   mixins: [DetailMxn],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
-      comments: "",
+      comments: '',
       popover_visible: false,
-      reason: "",
+      reason: '',
       lock_ui: false,
       valid_docs: [],
       invalid_docs: [],
       current_verification: this.$store.getters.current_verification,
       applicant_details: {},
       verification_details: {},
-      accordionActiveName: "identity_check",
-      id_card: "",
+      accordionActiveName: 'identity_check',
+      id_card: '',
       id_doc_change: false,
       nok_doc_change: false,
       AWS_URL: window.AWS_URL,
       applicant_review: {
-        status: "",
-        reason: ""
+        status: '',
+        reason: '',
       },
       user: JSON.parse(localStorage.user),
       partner_logs: [],
-      inconsistency_message: "",
+      inconsistency_message: '',
       inconsistency_alert_status: false,
-      inconsistency_alert_message: ""
-
+      inconsistency_alert_message: '',
     };
   },
   beforeMount() {
@@ -756,110 +752,104 @@ export default {
     this.getPartnerLogs();
   },
   methods: {
-    updateRecordNulls(){
-                if(this.verification_details.driving_license_check == null){
-                    this.verification_details.driving_license_check = {
-                                applicant_name: "",
-                                dl_no: "",
-                                date_of_issue: "",
-                                expiry_date: "",
-                                classes: "",
-                                id_no: "",
-                                review_status: this.applicant_details.application_type == "Owner" ? true : false,
-                                inconsistency: false
-                            };
-                }  
-                if(this.verification_details.kra_pin_verification == null) {
-                    this.verification_details.kra_pin_verification = {
-                                validity: "",
-                                name: "",
-                                pin_number: "",
-                                tax_obligations: "",
-                                registration_date: "",
-                                review_status: false,
-                                inconsistency: false
-                            };
-                }
-                if(this.verification_details.car_insurance_validity == null){
-                    this.verification_details.car_insurance_validity = {
-                                owner_name: "",
-                                vehicle_number_plate: "",
-                                issue_date: "",
-                                expiry_date: "",
-                                validity: "",
-                                policy_number: "",
-                                review_status: this.applicant_details.application_type == "Driver" ? true : false,
-                                inconsistency: false
-                            }
-                }
-                if(this.verification_details.motor_vehicle_records_check == null) {
-                    this.verification_details.motor_vehicle_records_check = {
-                                ownership_details: "",
-                                chasis_no: "",
-                                make: "",
-                                body_type: "",
-                                engine_no: "",
-                                manufacture_year: "",
-                                caveats: "",
-                                review_status: this.applicant_details.application_type == "Driver" ? true : false,
-                                inconsistency: false
-                            }
-                }
-                if(this.verification_details.criminal_records_check == null){
-                    this.verification_details.criminal_records_check = {
-                                applicant_name: "",
-                                criminal_history: "",
-                                authenticity: "",
-                                id_no: "",
-                                ref_no: "",
-                                review_status: true,
-                                inconsistency: false
-                            }
-                }
-                if(this.verification_details.identity_check == null) {
-                    this.verification_details.identity_check = {
-                                applicant_name: "",
-                                dob: "",
-                                pob: "",
-                                gender: "",
-                                review_status: false,
-                                inconsistency: false
-                            }
-                }
+    updateRecordNulls() {
+      if (this.verification_details.driving_license_check === null) {
+        this.verification_details.driving_license_check = {
+          applicant_name: '',
+          dl_no: '',
+          date_of_issue: '',
+          expiry_date: '',
+          classes: '',
+          id_no: '',
+          review_status: this.applicant_details.application_type === 'Owner' ? true : false,
+          inconsistency: false,
+        };
+      }
+      if (this.verification_details.kra_pin_verification === null) {
+        this.verification_details.kra_pin_verification = {
+          validity: '',
+          name: '',
+          pin_number: '',
+          tax_obligations: '',
+          registration_date: '',
+          review_status: false,
+          inconsistency: false,
+        };
+      }
+      if (this.verification_details.car_insurance_validity === null) {
+        this.verification_details.car_insurance_validity = {
+          owner_name: '',
+          vehicle_number_plate: '',
+          issue_date: '',
+          expiry_date: '',
+          validity: '',
+          policy_number: '',
+          review_status: this.applicant_details.application_type === 'Driver' ? true : false,
+          inconsistency: false,
+        };
+      }
+      if (this.verification_details.motor_vehicle_records_check == null) {
+        this.verification_details.motor_vehicle_records_check = {
+          ownership_details: '',
+          chasis_no: '',
+          make: '',
+          body_type: '',
+          engine_no: '',
+          manufacture_year: '',
+          caveats: '',
+          review_status: this.applicant_details.application_type == 'Driver' ? true : false,
+          inconsistency: false,
+        };
+      }
+      if (this.verification_details.criminal_records_check == null) {
+        this.verification_details.criminal_records_check = {
+          applicant_name: '',
+          criminal_history: '',
+          authenticity: '',
+          id_no: '',
+          ref_no: '',
+          review_status: true,
+          inconsistency: false,
+        };
+      }
+      if (this.verification_details.identity_check == null) {
+        this.verification_details.identity_check = {
+          applicant_name: '',
+          dob: '',
+          pob: '',
+          gender: '',
+          review_status: false,
+          inconsistency: false,
+        };
+      }
     },
-    async updateReview(field, field_title = "") {
+    async updateReview(field, field_title = '') {
       //update store
       let verification = {
         applicant_details: this.applicant_details,
-        verification_details: this.verification_details
+        verification_details: this.verification_details,
       };
 
       let review_json = this.verification_details[field];
       let properties_res = this.checkProperties(review_json);
-      console.log(properties_res);
 
-      if (properties_res == true) {
-        review_json["review_status"] = true;
+      if (properties_res === true) {
+        review_json['review_status'] = true;
       } else {
-        review_json["review_status"] = false;
+        review_json['review_status'] = false;
       }
 
-      if (field == "identity_check") {
+      if (field === 'identity_check') {
         //check if upload happened
-        if (this.id_doc_change == true) {
-          console.log("doc upload happened");
+        if (this.id_doc_change === true) {
           //perform upload
-          let upload_res = await this.uploadDocument("id_card");
+          let upload_res = await this.uploadDocument('id_card');
 
-          if (upload_res != false) {
-            review_json["id_card"] = upload_res;
+          if (upload_res !== false) {
+            review_json['id_card'] = upload_res;
             let obj = this.verification_details;
-            obj["identity_check"]["id_card"] = upload_res;
-            this.verification_details = Object.assign(
-              {},
-              this.verification_details,
-              obj
-            );
+            obj['identity_check']['id_card'] = upload_res;
+            this.verification_details = Object.assign({}, this.verification_details, obj);
           }
         }
       }
@@ -872,34 +862,31 @@ export default {
         partner_id: this.applicant_details.partner_id,
         partner_id_no: this.applicant_details.id_no,
         admin_id: JSON.parse(localStorage.user).admin_id,
-        admin_name: JSON.parse(localStorage.user).name
+        admin_name: JSON.parse(localStorage.user).name,
       };
 
       axios
-        .post(
-          PARTNER_BASE_URL + "peleza/applications/update_review/",
-          JSON.stringify(payload)
-        )
+        .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
           console.log(response);
-          if (response.data.status == true) {
+          if (response.data.status === true) {
             this.$notify.success({
-              title: "update " + field_title,
-              message: "applicant " + field_title + " updated successfully"
+              title: `update ${field_title}`,
+              message: `applicant ${field_title} updated successfully`,
             });
-            this.$store.commit("changeVerification", verification);
+            this.$store.commit('changeVerification', verification);
           } else {
             this.$notify.error({
-              title: "update " + field_title,
-              message: "applicant " + field_title + " failed to update"
+              title: `update ${field_title}`,
+              message: `applicant ${field_title} failed to update`,
             });
           }
         })
         .catch(error => {
-          throw new Error("Could not update applicant");
+          throw new Error('Could not update applicant');
           this.$notify.error({
-            title: "update " + field_title,
-            message: "applicant " + field_title + " failed to update"
+            title: `update ${field_title}`,
+            message: `applicant ${field_title} failed to update`,
           });
         });
 
@@ -907,7 +894,7 @@ export default {
     },
     async uploadDocument(doc_id) {
       let data = new FormData();
-      let files = document.getElementById(doc_id)["files"];
+      let files = document.getElementById(doc_id)['files'];
 
       if (!files.length) {
         return false;
@@ -917,24 +904,22 @@ export default {
       data.append(doc_id, file);
 
       let fileName = this.sanitizeFilename(file.name);
-      let albumPhotosKey = encodeURIComponent(this.getAlbumName(doc_id)) + "/";
-      let photoKey = albumPhotosKey + fileName;
+      let albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
+      let photoKey = `${albumPhotosKey}${fileName}`;
 
-      data.append("key", photoKey);
-      data.append("field_name", doc_id);
-      data.append("album", albumPhotosKey);
+      data.append('key', photoKey);
+      data.append('field_name', doc_id);
+      data.append('album', albumPhotosKey);
 
       let headers = {
         headers: {
-          "content-type": "multipart/form-data"
-        }
+          'content-type': 'multipart/form-data',
+        },
       };
 
       return axios
-        .post(PARTNER_BASE_URL + "peleza/upload_doc/", data, headers)
+        .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
         .then(response => {
-          console.log(response.data.file_name);
-
           return response.data.file_name;
         })
         .catch(err => {
@@ -943,58 +928,53 @@ export default {
         });
     },
     handleBack() {
-      this.$router.push({ name: "applications" });
+      this.$router.push({ name: 'applications' });
     },
     sanitizeFilename(name) {
-      let temp_name =
-        new Date().getTime() + name.toLowerCase().replace(/\s/g, "");
+      let temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
       return temp_name;
     },
     getAlbumName(iid) {
-      if (iid == "insurance") {
-        return "insu";
-      } else if (iid == "id_card" || iid == "nok_id_card") {
-        return "id";
-      } else if (iid == "driver") {
-        return "photo";
+      if (iid === 'insurance') {
+        return 'insu';
+      } else if (iid === 'id_card' || iid === 'nok_id_card') {
+        return 'id';
+      } else if (iid === 'driver') {
+        return 'photo';
       } else {
         return iid;
       }
     },
     handleIdCardChange() {
-      console.log("id card has been changed");
-      let files = document.getElementById("id_card")["files"];
-
+      let files = document.getElementById('id_card')['files'];
       if (files.length < 1) {
         this.id_doc_change = false;
       } else {
         this.id_doc_change = true;
-        let name = files[0]["name"];
-        console.log(name);
-
+        let name = files[0]['name'];
         let obj = this.verification_details;
-        obj["identity_check"]["id_card"] = name;
-        this.verification_details = Object.assign(
-          {},
-          this.verification_details,
-          obj
-        );
-
-        //this.verification_details.identity_check.id_card = name;
+        obj['identity_check']['id_card'] = name;
+        this.verification_details = Object.assign({}, this.verification_details, obj);
       }
     },
 
     checkReviewStatus() {
-      if(this.applicant_details.application_type === 'Driver'){
+      if (this.applicant_details.application_type === 'Driver') {
         return this.identityReview && this.drivingReview;
       } else if (this.applicant_details.application_type === 'Owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
       } else if (this.applicant_details.application_type === 'Driver and owner') {
-        return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview && this.drivingReview;
+        return (
+          this.identityReview &&
+          this.motorReview &&
+          this.insuranceReview &&
+          this.kraReview &&
+          this.drivingReview
+        );
       } else {
         let obj = this.verification_details;
-        for (var key in obj) {
-          if (obj[key] !== null && obj[key]["review_status"] === false) {
+        for (let key in obj) {
+          if (obj[key] !== null && obj[key]['review_status'] === false) {
             return false;
           }
         }
@@ -1007,36 +987,32 @@ export default {
         partner_id: this.applicant_details.partner_id,
         applicant_review: this.applicant_review,
         admin_id: JSON.parse(localStorage.user).admin_id,
-        admin_name: JSON.parse(localStorage.user).name
+        admin_name: JSON.parse(localStorage.user).name,
       };
       axios
         .post(
-          PARTNER_BASE_URL + "peleza/applications/submit_applicant_review/",
+          `${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`,
           JSON.stringify(payload)
         )
         .then(response => {
-          console.log(response);
-
-          if (response.data.status == true) {
+          if (response.data.status === true) {
             this.$notify.success({
-              title: "submit applicant review",
-              message: response.data.message
+              title: 'submit applicant review',
+              message: response.data.message,
             });
             this.handleBack();
           } else {
             this.$notify.error({
-              title: "submit applicant review",
-              message: response.data.message
+              title: 'submit applicant review',
+              message: response.data.message,
             });
           }
         })
         .catch(error => {
-          throw new Error("Could not update applicant");
-          console.log(error);
-
+          throw new Error('Could not update applicant');
           this.$notify.error({
-            title: "submit applicant review",
-            message: "failed to update applicant review"
+            title: 'submit applicant review',
+            message: 'failed to update applicant review',
           });
         });
       this.getPartnerLogs();
@@ -1049,82 +1025,75 @@ export default {
       this.inconsistency_alert_message = '';
       // reset alert status
 
-      if(!this.validInconsistency){
+      if (!this.validInconsistency) {
         //break
         //check if message is set
-        if(!this.validSubmitStatus){
-          this.inconsistency_alert_message = 'review all sections before you can submit inconsistency';
+        if (!this.validSubmitStatus) {
+          this.inconsistency_alert_message =
+            'review all sections before you can submit inconsistency';
         } else {
-          this.inconsistency_alert_message = 'include a detailed inconsistency message to guide the applicant';
+          this.inconsistency_alert_message =
+            'include a detailed inconsistency message to guide the applicant';
         }
         this.inconsistency_alert_status = true;
         return 0;
       }
-     
+
       let payload = {
         partner_id: this.applicant_details.partner_id,
         inconsistency_message: this.inconsistency_message,
         verification_details: this.verification_details,
         admin_id: JSON.parse(localStorage.user).admin_id,
-        admin_name: JSON.parse(localStorage.user).name
+        admin_name: JSON.parse(localStorage.user).name,
       };
       axios
         .post(
-          PARTNER_BASE_URL + "peleza/applications/submit_data_inconsitency/",
+          `${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`,
           JSON.stringify(payload)
         )
         .then(response => {
-          console.log(response);
-
-          if (response.data.status == true) {
+          if (response.data.status === true) {
             this.$notify.success({
-              title: "submit data inconsistency",
-              message: response.data.message
+              title: 'submit data inconsistency',
+              message: response.data.message,
             });
             this.handleBack();
           } else {
             this.$notify.error({
-              title: "submit data inconsistency",
-              message: response.data.message
+              title: 'submit data inconsistency',
+              message: response.data.message,
             });
           }
         })
         .catch(error => {
-          throw new Error("Could not update applicant data inconsistency");
-          console.log(error);
-
+          throw new Error('Could not update applicant data inconsistency');
           this.$notify.error({
-            title: "submit applicant review",
-            message: "failed to update applicant data inconsistency"
+            title: 'submit applicant review',
+            message: 'failed to update applicant data inconsistency',
           });
         });
 
       this.getPartnerLogs();
-    }
+    },
   },
   computed: {
     inconsistencyCheck: function() {
-        let obj = this.verification_details;
-          for (var key in obj) {
-            
-            if (obj[key] != null && obj[key]["inconsistency"] == true) {
-              return true;
-            }
-          }
-          return false
+      let obj = this.verification_details;
+      for (let key in obj) {
+        if (obj[key] != null && obj[key]['inconsistency'] === true) {
+          return true;
+        }
+      }
+      return false;
     },
     identityReview: function() {
       return this.verification_details.identity_check.review_status;
     },
-    //criminalReview: function() {
-    //  return this.verification_details.criminal_records_check.review_status;
-    //},
     drivingReview: function() {
       return this.verification_details.driving_license_check.review_status;
     },
     motorReview: function() {
-      return  this.verification_details.motor_vehicle_records_check
-        .review_status;
+      return this.verification_details.motor_vehicle_records_check.review_status;
     },
     insuranceReview: function() {
       return this.verification_details.car_insurance_validity.review_status;
@@ -1133,17 +1102,19 @@ export default {
       return this.verification_details.kra_pin_verification.review_status;
     },
     validInconsistency: function() {
-      return this.inconsistencyCheck && this.inconsistency_message !== "" && this.checkReviewStatus();
+      return (
+        this.inconsistencyCheck && this.inconsistency_message !== '' && this.checkReviewStatus()
+      );
     },
     validSubmit: function() {
       return this.checkReviewStatus() && !this.inconsistencyCheck;
     },
     validSubmitStatus: function() {
-      if (this.applicant_review.status == "") {
+      if (this.applicant_review.status === '') {
         return false;
       } else {
-        if (this.applicant_review.status == false) {
-          if (this.applicant_review.reason == "") {
+        if (this.applicant_review.status === false) {
+          if (this.applicant_review.reason === '') {
             return false;
           } else {
             return true;
@@ -1152,12 +1123,12 @@ export default {
           return true;
         }
       }
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 <style>
-@import "../../assets/style/detail.css";
-@import "../../assets/style/overide.css";
+@import '../../assets/style/detail.css';
+@import '../../assets/style/overide.css';
 </style>
