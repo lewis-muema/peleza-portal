@@ -43,10 +43,11 @@ const DetailMxn = {
       } else {
         this.id_doc_change = true;
         const name = files[0].name;
-
         const obj = this.verification_details;
         obj.identity_check.id_card = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
+
+        // this.verification_details.identity_check.id_card = name;
       }
     },
 
@@ -72,7 +73,8 @@ const DetailMxn = {
             this.partner_logs = [];
           }
         })
-        .catch(() => {
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
@@ -89,18 +91,49 @@ const DetailMxn = {
       }
       if (iid === 'driver') {
         return 'photo';
+        // eslint-disable-next-line no-else-return
+      } else {
+        return iid;
       }
-      return iid;
     },
 
     checkReviewStatus() {
       const obj = this.verification_details;
       for (const key in obj) {
-        if (!obj[key].review_status) {
+        if (obj[key].review_status === false) {
           return false;
         }
       }
       return true;
+    },
+    appendConsentText() {
+      return 'hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Peleza International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.';
+    },
+    printInsurance() {
+      const prtHtml = document.getElementById('print').innerHTML;
+      let stylesHtml = '';
+      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
+        stylesHtml += node.outerHTML;
+      }
+      const WinPrint = window.open(
+        '',
+        '',
+        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0',
+      );
+      WinPrint.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          ${stylesHtml}
+        </head>
+        <body>
+          ${prtHtml}
+        </body>
+      </html>`);
+
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
     },
   },
   computed: {},

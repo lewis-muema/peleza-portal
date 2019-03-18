@@ -183,6 +183,7 @@ export default {
           application_type: d.application_type,
           date_created: d.date_created,
           partner_id: d.id,
+          partner_name: d.name,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
@@ -193,7 +194,10 @@ export default {
           vehicle_photo: d.vehicle_photo ? d.vehicle_photo : '',
           vendor_type: d.vendor_type ? d.vendor_type : '',
           inconsistency_message: d.inconsistency_message ? d.inconsistency_message : '',
+          insurance_name: d.insurance_name ? d.insurance_name : '',
           insurance_number: d.insurance_number ? d.insurance_number : '',
+          policy_number: d.policy_number ? d.policy_number : '',
+          verify_consent: d.verify_consent ? d.verify_consent : '',
         },
         verification_details: {
           identity_check: d.identity_check
@@ -213,7 +217,7 @@ export default {
                 authenticity: '',
                 id_no: '',
                 ref_no: '',
-                review_status: d.application_type === 'Owner' ? true : false,
+                review_status: d.application_type === 'Owner',
               },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
@@ -224,7 +228,7 @@ export default {
                 expiry_date: '',
                 classes: '',
                 id_no: '',
-                review_status: d.application_type === 'Owner' ? true : false,
+                review_status: d.application_type === 'Owner',
               },
           motor_vehicle_records_check: d.motor_vehicle_records_check
             ? JSON.parse(d.motor_vehicle_records_check)
@@ -236,7 +240,7 @@ export default {
                 engine_no: '',
                 manufacture_year: '',
                 caveats: '',
-                review_status: d.application_type === 'Driver' ? true : false,
+                review_status: d.application_type === 'Driver',
               },
           car_insurance_validity: d.car_insurance_validity
             ? JSON.parse(d.car_insurance_validity)
@@ -247,7 +251,7 @@ export default {
                 expiry_date: '',
                 validity: '',
                 policy_number: '',
-                review_status: d.application_type === 'Driver' ? true : false,
+                review_status: d.application_type === 'Driver',
               },
           kra_pin_verification: d.kra_pin_verification
             ? JSON.parse(d.kra_pin_verification)

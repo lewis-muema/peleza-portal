@@ -20,10 +20,11 @@
       v-loading.body="loading"
       border
       stripe
-      :default-sort="{prop: 'date_created', order: 'descending'}"
+      nnnn
+      :default-sort="{ prop: 'date_created', order: 'descending' }"
       width="100"
     >
-      <template slot="empty">{{empty_state}}</template>
+      <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
       <el-table-column
@@ -33,11 +34,18 @@
         sortable
       ></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
-      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
+      <el-table-column
+        prop="vendor_type"
+        label="Vendor Type"
+        sortable
+        :formatter="getVendorType"
+      ></el-table-column>
 
       <el-table-column prop="status" label="STATUS">
         <template slot-scope="scope">
-          <span v-if="filteredData[scope.$index]['review_status'] === '4'">Re-Upload Update</span>
+          <span v-if="filteredData[scope.$index]['review_status'] === '4'">
+            Re-Upload Update
+          </span>
           <span v-else>Pending</span>
         </template>
       </el-table-column>
@@ -75,9 +83,7 @@ export default {
         to_date: '',
       },
       verifying: false,
-      filterState: false,
       applicant: {},
-      filterData: {},
       empty_state: 'Loading...',
       date_range: [new Date(y, m, 1), new Date(y, m + 1, 0)],
       picker_options: {
@@ -157,6 +163,7 @@ export default {
           vm.empty_state = 'Could not find applications for the dates.';
         }
       });
+      // this.filteredUserData = this.filteredUserData.filter( user => user.department_id ==  department);
       this.filterState = true;
     },
     getApplicantsBackground() {
@@ -169,7 +176,7 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
+        .post(PARTNER_BASE_URL + 'peleza/applications/list_drivers/', payload)
         .then(response => {
           vm.applicants = response.data.data.partner_list;
         })
@@ -191,9 +198,9 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, JSON.stringify(payload))
+        .post(PARTNER_BASE_URL + 'peleza/applications/list_drivers/', JSON.stringify(payload))
         .then(response => {
-          vm.applicants = response.data.applicants;
+          vm.applicants = response.data.drivers;
           vm.filteredData = vm.applicants;
           vm.empty_state = 'No Data';
           vm.loading = false;
@@ -211,7 +218,6 @@ export default {
           application_type: d.application_type,
           date_created: d.date_created,
           partner_id: d.id,
-          partner_name: d.name,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
@@ -222,19 +228,25 @@ export default {
           vehicle_photo: d.vehicle_photo ? d.vehicle_photo : '',
           vendor_type: d.vendor_type ? d.vendor_type : '',
           insurance_number: d.insurance_number ? d.insurance_number : '',
-          insurance_name: d.insurance_name ? d.insurance_name : '',
-          policy_number: d.policy_number ? d.policy_number : '',
-          verify_consent: d.verify_consent ? d.verify_consent : '',
         },
         verification_details: {
           identity_check: d.identity_check
             ? JSON.parse(d.identity_check)
             : {
                 applicant_name: '',
-                dob: '',
-                pob: '',
                 gender: '',
                 review_status: false,
+                inconsistency: false,
+              },
+          criminal_records_check: d.criminal_records_check
+            ? JSON.parse(d.criminal_records_check)
+            : {
+                applicant_name: '',
+                criminal_history: '',
+                authenticity: '',
+                id_no: '',
+                ref_no: '',
+                review_status: d.application_type === 'Owner',
                 inconsistency: false,
               },
           driving_license_check: d.driving_license_check
@@ -289,7 +301,7 @@ export default {
       };
 
       this.$store.commit('changeVerification', verification);
-      this.$router.push({ name: 'applicant', params: { id: d.id } });
+      this.$router.push({ name: 'driver', params: { id: d.id } });
     },
   },
   computed: {},

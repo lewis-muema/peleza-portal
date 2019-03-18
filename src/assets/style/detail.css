@@ -1,6 +1,9 @@
 .el-radio {
   margin-left: 15px;
 }
+.el-row {
+  margin-left: 17px;
+}
 
 .applicant-details__back {
   margin-bottom: 20px;
@@ -29,7 +32,7 @@
   margin-top: 50px;
 }
 
-.applicant--details__insurance{
+.applicant--details__insurance {
   float: right;
   padding-right: 10px;
 }
@@ -99,7 +102,7 @@
 }
 
 .inconsistent-collapse {
-  border: 1px solid #f17e3a !important
+  border: 1px solid #f17e3a !important;
 }
 .el-collapse-item is-active {
   margin-bottom: 20px;
@@ -129,6 +132,9 @@
   width: 120px;
   height: 50px;
 }
+.details-print-button {
+  margin-top: -100px;
+}
 .el-date-editor.el-input {
   width: 100%;
 }
@@ -136,6 +142,26 @@
 .upload-input {
   width: 80%;
   display: inline-block;
+}
+
+.review-desc2 {
+  margin-top: -10px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.review-list {
+  margin-bottom: 30px;
+}
+.details-print-button {
+  float: right;
+}
+
+.review-consent-text {
+  margin-right: 100px;
+  margin-bottom: 14px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .upload-button {
@@ -224,12 +250,31 @@
   color: #f17f3a;
   text-transform: uppercase;
 }
-
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  padding: 0;
+  margin: 1em 0 30px;
+}
+.applicant-edit2 {
+  /*margin-top: -500px;*/
+}
 .review-edit:hover,
 .review-edit:focus {
   color: #2a7fc3;
 }
-
+.application-details-ins {
+  text-align: right!important;
+  vertical-align: middle;
+  float: left;
+  font-size: 15px;
+  color: #48576a;
+  line-height: 1;
+  padding: 11px 12px 11px 0;
+  box-sizing: border-box;
+}
 .submit-review-button {
   margin-top: 20px;
   padding: 12px;
@@ -243,7 +288,8 @@
   color: #2a7fc3;
   border: 1px solid #2a7fc3;
 }
-.submit-review-button-disabled, .submit-review-button-disabled:hover,
+.submit-review-button-disabled,
+.submit-review-button-disabled:hover,
 .submit-review-button-disabled:focus {
   color: #555;
   background-color: #d1dbe5 !important;
@@ -255,6 +301,7 @@
   margin-top: 15px;
   height: auto;
 }
+
 .review-select {
   width: 100%;
   height: 35px;
@@ -314,26 +361,26 @@
   font-size: 14px;
 }
 .applicant-details__idNo {
-  float: right; 
-  padding-right: 10px
+  float: right;
+  padding-right: 10px;
 }
 
 .applicant--details__kraPin {
-  float: right; 
-  padding-right: 10px
+  float: right;
+  padding-right: 10px;
 }
 .applicant--details__noPlate {
-  float: right; 
-  padding-right: 10px
+  float: right;
+  padding-right: 10px;
 }
-.user-pic{
+.user-pic {
   height: 40px;
   width: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
   .applicant-details__profile {
     width: 32%;
   }
@@ -343,7 +390,7 @@
   .applicant-details__profile_value {
     font-size: 13px;
   }
-  .el-card__body{
+  .el-card__body {
     font-size: 13px;
   }
   .el-collapse-item__header {
@@ -351,39 +398,39 @@
   }
 }
 
-@media only screen and (max-width: 480px){
-  .applicant-details__profile{
-      width: 100%;
+@media only screen and (max-width: 480px) {
+  .applicant-details__profile {
+    width: 100%;
   }
   .applicant-details__data {
-      width: 100%;
+    width: 100%;
   }
-  .el-collapse-item__header{
-      height: 55px;
-      font-size: 13px;
-      line-height: 32px;
+  .el-collapse-item__header {
+    height: 55px;
+    font-size: 13px;
+    line-height: 32px;
   }
-  .applicant-details__idNo{
-      float: left;
-      padding-left: 22px;
-      padding-right: 75px; 
-  }
-  .applicant--details__kraPin{
+  .applicant-details__idNo {
     float: left;
-    padding-left: 22px; 
+    padding-left: 22px;
+    padding-right: 75px;
   }
-  .applicant--details__noPlate{
+  .applicant--details__kraPin {
     float: left;
-    padding-left: 22px; 
+    padding-left: 22px;
   }
-  .el-form-item__label{
+  .applicant--details__noPlate {
+    float: left;
+    padding-left: 22px;
+  }
+  .el-form-item__label {
     text-align: center;
     font-size: 12px;
   }
-  .review-details{
+  .review-details {
     width: 100% !important;
   }
-  .el-input{
+  .el-input {
     float: right;
     width: 95%;
   }
@@ -398,29 +445,28 @@
   .el-picker-panel {
     left: 0px !important;
   }
-  .applicant-details__profile_label{
+  .applicant-details__profile_label {
     font-size: 12px;
   }
-  .applicant-details__profile_value{
+  .applicant-details__profile_value {
     font-size: 12px;
   }
-  .applicant-details__back_text{
+  .applicant-details__back_text {
     font-size: 12px;
   }
   .applicant-details__back_image {
     width: 13px;
   }
-  .logs-list{
+  .logs-list {
     font-size: 13px;
   }
-  .user-pic{
+  .user-pic {
     height: 25px;
     width: 25px;
     margin-right: 0px;
   }
-  .date-popup{
+  .date-popup {
     width: 96% !important;
     margin-left: 2% !important;
   }
 }
-

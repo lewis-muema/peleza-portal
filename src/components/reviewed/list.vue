@@ -208,6 +208,7 @@ export default {
           date_created: d.date_created,
           date_verified: d.date_verified,
           partner_id: d.id,
+          partner_name: d.name,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
@@ -217,7 +218,10 @@ export default {
           insurance_copy: d.insurance_copy ? d.insurance_copy : '',
           vehicle_photo: d.vehicle_photo ? d.vehicle_photo : '',
           vendor_type: d.vendor_type ? d.vendor_type : '',
+          insurance_name: d.insurance_name ? d.insurance_name : '',
           insurance_number: d.insurance_number ? d.insurance_number : '',
+          policy_number: d.policy_number ? d.policy_number : '',
+          verify_consent: d.verify_consent ? d.verify_consent : '',
         },
         verification_details: {
           identity_check: d.identity_check

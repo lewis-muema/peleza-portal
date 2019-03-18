@@ -23,6 +23,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.13",
     "now": "^11.5.2",
+    "prettier": "^1.16.4",
     "underscore": "^1.9.1",
     "vue": "^2.3.3",
     "vue-pdf": "^1.2.4",

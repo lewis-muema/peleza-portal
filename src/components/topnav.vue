@@ -8,22 +8,30 @@
         <el-menu-item
           class="ml"
           index="/applications"
-          :class="{'is-active':(current_route === 'applications')}"
+          :class="{ 'is-active': current_route === 'applications' }"
           exact
           replace
         >Applications</el-menu-item>
         <el-menu-item
-          :class="{'is-active':(current_route === 'inconsistencies')}"
+          :class="{ 'is-active': current_route === 'inconsistencies' }"
           index="/inconsistencies"
           exact
           replace
         >Inconsistencies</el-menu-item>
         <el-menu-item
-          :class="{'is-active':(current_route === 'reviewed')}"
+          :class="{ 'is-active': current_route === 'reviewed' }"
           index="/reviewed"
           exact
           replace
         >Reviewed</el-menu-item>
+        <el-menu-item
+          v-if="sendy_verifier"
+          :class="{ 'is-active': current_route === 'driver-applications' }"
+          index="/driver-applications"
+          exact
+          replace
+        >Drivers</el-menu-item>
+        <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
       </div>
       <el-dropdown class="topnav--reupload-alert">
         <span class="el-dropdown-link">
@@ -35,7 +43,9 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="applicant in applicants" :key="applicant">
-            <a @click="loadApplicant(applicant)">Applicant review updated on {{applicant.date_time}}</a>
+            <a
+              @click="loadApplicant(applicant)"
+            >Applicant review updated on {{ applicant.date_time }}</a>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -50,7 +60,12 @@
     </el-menu>
     <div
       class="row"
-      v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant' && current_route !== 'inconsistency'"
+      v-if="
+        current_route !== 'applicant' &&
+          current_route !== 'reviewed-applicant' &&
+          current_route !== 'driver' &&
+          current_route !== 'inconsistency'
+      "
     >
       <div class="nav-search">
         <input
@@ -71,6 +86,7 @@ export default {
     return {
       search_term: '',
       applicants: 0,
+      hideDrivers: true,
     };
   },
   mounted() {
@@ -82,6 +98,12 @@ export default {
     },
     user() {
       return JSON.parse(localStorage.user);
+    },
+    sendy_verifier() {
+      if (this.user.external_status === '0') {
+        return true;
+      }
+      return false;
     },
   },
   watch: {
@@ -127,7 +149,7 @@ export default {
                 authenticity: '',
                 id_no: '',
                 ref_no: '',
-                review_status: d.application_type === 'Owner' ? true : false,
+                review_status: d.application_type === 'Owner',
                 inconsistency: false,
               },
           driving_license_check: d.driving_license_check
@@ -139,7 +161,7 @@ export default {
                 expiry_date: '',
                 classes: '',
                 id_no: '',
-                review_status: d.application_type === 'Owner' ? true : false,
+                review_status: d.application_type === 'Owner',
                 inconsistency: false,
               },
           motor_vehicle_records_check: d.motor_vehicle_records_check
@@ -152,7 +174,7 @@ export default {
                 engine_no: '',
                 manufacture_year: '',
                 caveats: '',
-                review_status: d.application_type === 'Driver' ? true : false,
+                review_status: d.application_type === 'Driver',
                 inconsistency: false,
               },
           car_insurance_validity: d.car_insurance_validity
@@ -164,7 +186,7 @@ export default {
                 expiry_date: '',
                 validity: '',
                 policy_number: '',
-                review_status: d.application_type === 'Driver' ? true : false,
+                review_status: d.application_type === 'Driver',
                 inconsistency: false,
               },
           kra_pin_verification: d.kra_pin_verification
