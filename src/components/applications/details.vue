@@ -130,7 +130,7 @@
           <el-collapse-item name="1">
             <template slot="title">
               <span style>Identity Check</span>
-              
+
               <span class="applicant-details__idNo">ID Number : {{ applicant_details.id_no }}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
