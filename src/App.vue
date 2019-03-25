@@ -10,29 +10,27 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import topnav from './components/topnav';
+
 export default {
   name: 'app',
+  components: { topnav },
   data() {
     return {
       authenticated: false,
     };
   },
-  beforeMount() {
-    this.authenticated = localStorage.authenticated
-      ? JSON.parse(localStorage.authenticated)
-      : false;
-  },
-  mounted() {},
-  components: { topnav },
   watch: {
     $route() {
-      this.authenticated = localStorage.authenticated
-        ? JSON.parse(localStorage.authenticated)
-        : false; // always check the authentication status on route change
+      this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false; // always check the authentication status on route change
       this.$store.commit('search', ''); // reset search on route change
     },
   },
+  beforeMount() {
+    this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false;
+  },
+  mounted() {},
 };
 </script>
 

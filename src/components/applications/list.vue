@@ -12,28 +12,28 @@
         placeholder="Pick a range"
         :picker-options="picker_options"
         @change="changeDateRange"
-      ></el-date-picker>
+      />
     </div>
     <el-table
-      :data="searched_applicants"
-      @row-click="startVerification"
       v-loading.body="loading"
+      :data="searched_applicants"
       border
       stripe
+      @row-click="startVerification"
       :default-sort="{prop: 'date_created', order: 'descending'}"
       width="100"
     >
-      <template slot="empty">{{empty_state}}</template>
-      <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
-      <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
+      <template slot="empty">{{ empty_state }}</template>
+      <el-table-column prop="id_no" label="ID NUMBER"/>
+      <el-table-column prop="kra_pin" label="KRA PIN"/>
       <el-table-column
         prop="date_created"
         label="APPLICATION DATE"
         :formatter="formatTime"
         sortable
-      ></el-table-column>
-      <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
-      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
+      />
+      <el-table-column prop="application_type" label="APPLICATION TYPE"/>
+      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"/>
 
       <el-table-column prop="status" label="STATUS">
         <template slot-scope="scope">
@@ -43,29 +43,29 @@
       </el-table-column>
     </el-table>
     <template slot="empty">{{ empty_state }}</template>
-    <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
+    <div v-if="searched_applicants.length >= pagination_limit" class="pagination mt mb">
       <el-pagination
         layout="total, sizes, prev, pager, next, jumper"
         :total="searched_applicants.length"
         :page-size="pagination_limit"
         :current-page.sync="pagination_page"
-        @current-change="changePage"
         :page-sizes="[10, 20, 50, 100]"
+        @current-change="changePage"
         @size-change="changeSize"
-      ></el-pagination>
+      />
     </div>
   </div>
 </template>
 <script>
-import ListMxn from '../../mixins/list_mixin.js';
+import ListMxn from '../../mixins/list_mixin';
 
 export default {
-  name: 'applicants_list',
+  name: 'ApplicantsList',
   mixins: [ListMxn],
   data() {
-    var date = new Date(),
-      y = date.getFullYear(),
-      m = date.getMonth();
+    const date = new Date();
+    const y = date.getFullYear();
+    const m = date.getMonth();
     return {
       applicants: [],
       filteredData: [],
@@ -132,6 +132,7 @@ export default {
       vendor_types: VENDOR_TYPES,
     };
   },
+  computed: {},
   beforeMount() {
     this.getApplicants();
     setInterval(() => {
@@ -140,7 +141,7 @@ export default {
   },
   methods: {
     changeDateRange() {
-      let vm = this;
+      const vm = this;
       this.filterState = false;
       this.filteredData = this.paginated_applicants;
       this.pagination_page = 1;
@@ -149,8 +150,8 @@ export default {
       from_date = moment(from_date).format('YYYY-MM-DD');
       to_date = moment(to_date).format('YYYY-MM-DD');
 
-      this.filteredData = this.applicants.filter(function(applicant) {
-        let application_date = moment(applicant.date_created).format('YYYY-MM-DD');
+      this.filteredData = this.applicants.filter(applicant => {
+        const application_date = moment(applicant.date_created).format('YYYY-MM-DD');
         if (application_date >= from_date && application_date <= to_date) {
           return application_date >= from_date && application_date <= to_date;
         } else {
@@ -160,8 +161,8 @@ export default {
       this.filterState = true;
     },
     getApplicantsBackground() {
-      let vm = this;
-      let payload = {
+      const vm = this;
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -171,19 +172,19 @@ export default {
       axios
         .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
         .then(response => {
-          vm.applicants = response.data.data.partner_list;
+          vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          /* log(error);
-          throw new Error('Could not get applicants'); */
+          console.log(error);
+          throw new Error('Could not get applicants');
         });
     },
     getApplicants() {
-      let vm = this;
+      const vm = this;
       vm.loading = true;
       vm.empty_state = 'Loading...';
 
-      let payload = {
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -191,7 +192,7 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, JSON.stringify(payload))
+        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants`, JSON.stringify(payload))
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;
@@ -201,12 +202,12 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          /* log(error);
-          throw new Error('Could not get applicants'); */
+          console.log(error);
+          throw new Error('Could not get applicants');
         });
     },
     startVerification(d) {
-      let verification = {
+      const verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
@@ -291,11 +292,7 @@ export default {
       this.$store.commit('changeVerification', verification);
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
-    sayHello() {
-      return 'hello';
-    },
   },
-  computed: {},
 };
 </script>
 <style>

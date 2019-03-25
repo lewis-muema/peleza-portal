@@ -58,10 +58,20 @@
     <h1>SENDY PARTNER VERIFICATION PORTAL</h1>
     <el-form :model="login_form" ref="login_form" @submit="login" :rules="rules">
       <el-form-item label="Email" prop="email">
-        <el-input placeholder="e.g. sendyer@sendy.co.ke" v-model="login_form.email" type="email"></el-input>
+        <el-input
+          placeholder="e.g. sendyer@sendy.co.ke"
+          v-model="login_form.email"
+          type="email"
+          ref="emailInputField"
+        ></el-input>
       </el-form-item>
       <el-form-item label="Password" prop="password">
-        <el-input placeholder="Your Password" v-model="login_form.password" type="password"></el-input>
+        <el-input
+          placeholder="Your Password"
+          v-model="login_form.password"
+          type="password"
+          ref="passwordInputField"
+        ></el-input>
       </el-form-item>
       <el-button
         type="primary"
@@ -104,7 +114,7 @@ export default {
   },
   methods: {
     login() {
-      let vm = this;
+      const vm = this;
 
       this.$refs.login_form.validate(valid => {
         if (valid) {
@@ -116,6 +126,7 @@ export default {
               password: vm.login_form.password,
             })
             .then(response => {
+              console.log(response);
               if (response.data.status) {
                 localStorage.setItem('authenticated', JSON.stringify(true));
                 localStorage.setItem('user', JSON.stringify(response.data.data));

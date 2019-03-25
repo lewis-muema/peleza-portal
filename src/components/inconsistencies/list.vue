@@ -1,7 +1,7 @@
 <template xmlns:router-link="">
   <div class="stageone">
     <div class="stageone__filters">
-      <div class="filter_view">Count : {{searched_applicants.length}}</div>
+      <div class="filter_view">Count : {{ searched_applicants.length }}</div>
       <label class="mr">Date Applied</label>
       <el-date-picker
         v-model="date_range"
@@ -22,7 +22,7 @@
       stripe
       :default-sort="{prop: 'date_created', order: 'descending'}"
     >
-      <template slot="empty">{{empty_state}}</template>
+      <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
       <el-table-column
@@ -55,15 +55,15 @@
   </div>
 </template>
 <script>
-import ListMxn from '../../mixins/list_mixin.js';
+import ListMxn from '../../mixins/list_mixin';
 
 export default {
   name: 'inconsistencies_list',
   mixins: [ListMxn],
   data() {
-    var date = new Date(),
-      y = date.getFullYear(),
-      m = date.getMonth();
+    const date = new Date();
+    const y = date.getFullYear();
+    const m = date.getMonth();
     return {
       applicants: [],
       filteredData: [],
@@ -128,6 +128,7 @@ export default {
       vendor_types: VENDOR_TYPES,
     };
   },
+  computed: {},
   beforeMount() {
     this.getApplicants();
     setInterval(() => {
@@ -136,7 +137,7 @@ export default {
   },
   methods: {
     changeDateRange() {
-      let vm = this;
+      const vm = this;
       this.filterState = false;
       this.filteredData = this.searched_applicants;
       this.pagination_page = 1;
@@ -145,8 +146,8 @@ export default {
       from_date = moment(from_date).format('YYYY-MM-DD');
       to_date = moment(to_date).format('YYYY-MM-DD');
 
-      this.filteredData = this.applicants.filter(function(applicant) {
-        let application_date = moment(applicant.date_created).format('YYYY-MM-DD');
+      this.filteredData = this.applicants.filter(applicant => {
+        const application_date = moment(applicant.date_created).format('YYYY-MM-DD');
         if (application_date >= from_date && application_date <= to_date) {
           return application_date >= from_date && application_date <= to_date;
         } else {
@@ -156,11 +157,11 @@ export default {
       this.filterState = true;
     },
     getApplicantsBackground() {
-      let vm = this;
-      let final_start_date = null;
-      let final_stop_date = null;
+      const vm = this;
+      const final_start_date = null;
+      const final_stop_date = null;
 
-      let payload = {
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -170,15 +171,15 @@ export default {
       axios
         .post(`${PARTNER_BASE_URL}peleza/applications/list_inconsistencies/`, payload)
         .then(response => {
-          vm.applicants = response.data.data.partner_list;
+          vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
     startVerification(d) {
-      let verification = {
+      const verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
@@ -270,7 +271,7 @@ export default {
       this.$router.push({ name: 'inconsistency', params: { id: d.id } });
     },
     getApplicants() {
-      let vm = this;
+      const vm = this;
       vm.loading = true;
       axios
         .post(`${PARTNER_BASE_URL}peleza/applications/list_inconsistencies/`, {
@@ -289,12 +290,11 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
   },
-  computed: {},
 };
 </script>
 <style>

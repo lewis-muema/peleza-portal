@@ -796,12 +796,12 @@
 </template>
 
 <script>
-import DetailMxn from '../../mixins/detail_mixin.js';
+import DetailMxn from '../../mixins/detail_mixin';
 
 export default {
   name: 'applicant-details',
-  props: ['data', 'docs'],
   mixins: [DetailMxn],
+  props: ['data', 'docs'],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
@@ -830,6 +830,54 @@ export default {
       inconsistency_alert_message: '',
     };
   },
+  computed: {
+    inconsistencyCheck() {
+      const obj = this.verification_details;
+      for (const key in obj) {
+        if (obj[key] != null && obj[key]['inconsistency'] === true) {
+          return true;
+        }
+      }
+      return false;
+    },
+    identityReview() {
+      return this.verification_details.identity_check.review_status;
+    },
+    drivingReview() {
+      return this.verification_details.driving_license_check.review_status;
+    },
+    motorReview() {
+      return this.verification_details.motor_vehicle_records_check.review_status;
+    },
+    insuranceReview() {
+      return this.verification_details.car_insurance_validity.review_status;
+    },
+    kraReview() {
+      return this.verification_details.kra_pin_verification.review_status;
+    },
+    validInconsistency() {
+      return this.inconsistencyCheck && this.inconsistency_message !== '' && this.checkReviewStatus();
+    },
+    validSubmit() {
+      return this.checkReviewStatus() && !this.inconsistencyCheck;
+    },
+    validSubmitStatus() {
+      if (this.applicant_review.status === '') {
+        return false;
+      } else {
+        if (this.applicant_review.status === false) {
+          if (this.applicant_review.reason === '') {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }
+    },
+  },
+  watch: {},
   beforeMount() {
     this.applicant_details = this.current_verification.applicant_details;
     this.verification_details = this.current_verification.verification_details;
@@ -910,14 +958,14 @@ export default {
       }
     },
     async updateReview(field, field_title = '') {
-      //update store
-      let verification = {
+      // update store
+      const verification = {
         applicant_details: this.applicant_details,
         verification_details: this.verification_details,
       };
 
-      let review_json = this.verification_details[field];
-      let properties_res = this.checkProperties(review_json);
+      const review_json = this.verification_details[field];
+      const properties_res = this.checkProperties(review_json);
 
       if (properties_res === true) {
         review_json['review_status'] = true;
@@ -926,23 +974,23 @@ export default {
       }
 
       if (field === 'identity_check') {
-        //check if upload happened
+        // check if upload happened
         if (this.id_doc_change === true) {
-          //perform upload
-          let upload_res = await this.uploadDocument('id_card');
+          // perform upload
+          const upload_res = await this.uploadDocument('id_card');
 
           if (upload_res !== false) {
             review_json['id_card'] = upload_res;
-            let obj = this.verification_details;
+            const obj = this.verification_details;
             obj['identity_check']['id_card'] = upload_res;
             this.verification_details = Object.assign({}, this.verification_details, obj);
           }
         }
       }
 
-      //update db
+      // update db
 
-      let payload = {
+      const payload = {
         review_section: field,
         review_json: JSON.stringify(review_json),
         partner_id: this.applicant_details.partner_id,
@@ -969,35 +1017,35 @@ export default {
           }
         })
         .catch(error => {
-          throw new Error('Could not update applicant');
           this.$notify.error({
             title: `update ${field_title}`,
             message: `applicant ${field_title} failed to update`,
           });
+          throw new Error('Could not update applicant');
         });
 
       this.getPartnerLogs();
     },
     async uploadDocument(doc_id) {
-      let data = new FormData();
-      let files = document.getElementById(doc_id)['files'];
+      const data = new FormData();
+      const files = document.getElementById(doc_id)['files'];
 
       if (!files.length) {
         return false;
       }
 
-      let file = files[0];
+      const file = files[0];
       data.append(doc_id, file);
 
-      let fileName = this.sanitizeFilename(file.name);
-      let albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
-      let photoKey = `${albumPhotosKey}${fileName}`;
+      const fileName = this.sanitizeFilename(file.name);
+      const albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
+      const photoKey = `${albumPhotosKey}${fileName}`;
 
       data.append('key', photoKey);
       data.append('field_name', doc_id);
       data.append('album', albumPhotosKey);
 
-      let headers = {
+      const headers = {
         headers: {
           'content-type': 'multipart/form-data',
         },
@@ -1005,9 +1053,7 @@ export default {
 
       return axios
         .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
-        .then(response => {
-          return response.data.file_name;
-        })
+        .then(response => response.data.file_name)
         .catch(err => {
           console.error(err);
           return false;
@@ -1017,7 +1063,7 @@ export default {
       this.$router.push({ name: 'applications' });
     },
     sanitizeFilename(name) {
-      let temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
+      const temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
       return temp_name;
     },
     getAlbumName(iid) {
@@ -1032,13 +1078,13 @@ export default {
       }
     },
     handleIdCardChange() {
-      let files = document.getElementById('id_card')['files'];
+      const files = document.getElementById('id_card')['files'];
       if (files.length < 1) {
         this.id_doc_change = false;
       } else {
         this.id_doc_change = true;
-        let name = files[0]['name'];
-        let obj = this.verification_details;
+        const name = files[0]['name'];
+        const obj = this.verification_details;
         obj['identity_check']['id_card'] = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
       }
@@ -1050,16 +1096,10 @@ export default {
       } else if (this.applicant_details.application_type === 'Owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
       } else if (this.applicant_details.application_type === 'Driver and owner') {
-        return (
-          this.identityReview &&
-          this.motorReview &&
-          this.insuranceReview &&
-          this.kraReview &&
-          this.drivingReview
-        );
+        return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview && this.drivingReview;
       } else {
-        let obj = this.verification_details;
-        for (let key in obj) {
+        const obj = this.verification_details;
+        for (const key in obj) {
           if (obj[key] !== null && obj[key]['review_status'] === false) {
             return false;
           }
@@ -1069,17 +1109,14 @@ export default {
     },
 
     submitApplicantReview() {
-      let payload = {
+      const payload = {
         partner_id: this.applicant_details.partner_id,
         applicant_review: this.applicant_review,
         admin_id: JSON.parse(localStorage.user).admin_id,
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(
-          `${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`,
-          JSON.stringify(payload)
-        )
+        .post(`${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({
@@ -1095,37 +1132,35 @@ export default {
           }
         })
         .catch(error => {
-          throw new Error('Could not update applicant');
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
           });
+          throw new Error('Could not update applicant');
         });
       this.getPartnerLogs();
     },
     submitDataInconsistency() {
-      //change status of application to inconsistency
-      //mark the sections to inconsistency
-      //send email to partner with reupload link
+      // change status of application to inconsistency
+      // mark the sections to inconsistency
+      // send email to partner with reupload link
       this.inconsistency_alert_status = false;
       this.inconsistency_alert_message = '';
       // reset alert status
 
       if (!this.validInconsistency) {
-        //break
-        //check if message is set
+        // break
+        // check if message is set
         if (!this.validSubmitStatus) {
-          this.inconsistency_alert_message =
-            'review all sections before you can submit inconsistency';
+          this.inconsistency_alert_message = 'review all sections before you can submit inconsistency';
         } else {
-          this.inconsistency_alert_message =
-            'include a detailed inconsistency message to guide the applicant';
+          this.inconsistency_alert_message = 'include a detailed inconsistency message to guide the applicant';
         }
         this.inconsistency_alert_status = true;
         return 0;
       }
 
-      let payload = {
+      const payload = {
         partner_id: this.applicant_details.partner_id,
         inconsistency_message: this.inconsistency_message,
         verification_details: this.verification_details,
@@ -1133,10 +1168,7 @@ export default {
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(
-          `${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`,
-          JSON.stringify(payload)
-        )
+        .post(`${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({
@@ -1152,11 +1184,11 @@ export default {
           }
         })
         .catch(error => {
-          throw new Error('Could not update applicant data inconsistency');
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant data inconsistency',
           });
+          throw new Error('Could not update applicant data inconsistency');
         });
 
       this.getPartnerLogs();
@@ -1167,11 +1199,7 @@ export default {
       for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
         stylesHtml += node.outerHTML;
       }
-      const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
-      );
+      const WinPrint = window.open('', '', 'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0');
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
         <head>
@@ -1188,56 +1216,6 @@ export default {
       WinPrint.close();
     },
   },
-  computed: {
-    inconsistencyCheck: function() {
-      let obj = this.verification_details;
-      for (let key in obj) {
-        if (obj[key] != null && obj[key]['inconsistency'] === true) {
-          return true;
-        }
-      }
-      return false;
-    },
-    identityReview: function() {
-      return this.verification_details.identity_check.review_status;
-    },
-    drivingReview: function() {
-      return this.verification_details.driving_license_check.review_status;
-    },
-    motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check.review_status;
-    },
-    insuranceReview: function() {
-      return this.verification_details.car_insurance_validity.review_status;
-    },
-    kraReview: function() {
-      return this.verification_details.kra_pin_verification.review_status;
-    },
-    validInconsistency: function() {
-      return (
-        this.inconsistencyCheck && this.inconsistency_message !== '' && this.checkReviewStatus()
-      );
-    },
-    validSubmit: function() {
-      return this.checkReviewStatus() && !this.inconsistencyCheck;
-    },
-    validSubmitStatus: function() {
-      if (this.applicant_review.status === '') {
-        return false;
-      } else {
-        if (this.applicant_review.status === false) {
-          if (this.applicant_review.reason === '') {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }
-    },
-  },
-  watch: {},
 };
 </script>
 <style>

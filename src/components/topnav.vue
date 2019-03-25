@@ -89,9 +89,6 @@ export default {
       hideDrivers: true,
     };
   },
-  mounted() {
-    this.getInconsisntenciesUpdates();
-  },
   computed: {
     current_route() {
       return this.$route.name;
@@ -113,9 +110,12 @@ export default {
       });
     },
   },
+  mounted() {
+    this.getInconsisntenciesUpdates();
+  },
   methods: {
     loadApplicant(d) {
-      let verification = {
+      const verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
@@ -210,16 +210,11 @@ export default {
       this.$router.replace('/');
     },
     search(ev) {
-      this.$store.commit(
-        'search',
-        ev.target.value
-          .split(' ')
-          .join('')
-          .toLowerCase()
-      );
+      // prettier-ignore
+      this.$store.commit('search', ev.target.value.split(' ').join('').toLowerCase());
     },
     getInconsisntenciesUpdates() {
-      let payload = {};
+      const payload = {};
       axios
         .post(`${PARTNER_BASE_URL}peleza/applications/list_updated_inconsistencies/`, payload)
         .then(response => {

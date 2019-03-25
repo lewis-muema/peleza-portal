@@ -4,17 +4,14 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-destructuring */
 import Vue from 'vue';
-// import sinon from 'sinon';
 import axios from 'axios';
-// import flushPromises from 'flush-promises';
+import moxios from 'moxios';
 import { expect, chai } from 'chai';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import moment from 'moment';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
-import App from '../../../../src/App.vue';
-import router from '../../../../src/router';
 
 const applicationDetails = require('../../../../src/components/applications/list.vue');
 
@@ -22,15 +19,16 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 Vue.use(ElementUI, { locale });
 Vue.use(Vuex);
-describe('lists-test', () => {
+describe('applications-lists-test', () => {
   let store;
   let getters;
 
   beforeEach(() => {
-    /* getters = { current_verification: () => [] };
+    moxios.install(axios);
+    getters = { current_verification: () => [] };
     store = new Vuex.Store({
       getters,
-    }); */
+    });
     window.axios = axios;
     global.moment = moment;
     global.BASE_URL = process.env.BASE_URL;
@@ -71,18 +69,91 @@ describe('lists-test', () => {
       'Foot Soldier',
     ];
   });
-  it('Partner list loads ', async () => {
-    // const wrapper = shallowMount(Getters, { store, localVue });
-    const wrapper = shallowMount(applicationDetails, { sync: false });
-    expect(wrapper.vm.$data.filterState).equal(false);
-    expect(wrapper.vm.sayHello()).equal('hello');
-    wrapper.vm.getApplicants();
-    await flushPromises();
-    expect(wrapper.vm.empty_state).equal('No Data');
-
-    // const p = wrapper.find('p');
-    // expect(p.text()).toBe(getters.current_verification());
-    // expect(wrapper1).toBe('hello');
-    // assert.equal(applicationDetails(), 'hello');
+  afterEach(() => {
+    moxios.uninstall();
   });
+  it('Gets the applicants list', (done) => {
+    const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+    wrapper.vm.getApplicants();
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request
+        .respondWith({
+          status: 200,
+          response: {
+            status: true,
+            applicants: [],
+          },
+        })
+        .then(() => {
+          expect(wrapper.vm.empty_state).equal('No Data');
+          done();
+        });
+    });
+  });
+
+  it('Populates partner list to a data element as an array', (done) => {
+    const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+    wrapper.vm.getApplicants();
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request
+        .respondWith({
+          status: 200,
+          response: {
+            status: true,
+            applicants: [],
+          },
+        })
+        .then(() => {
+          expect(wrapper.vm.filteredData).to.be.an('array');
+          done();
+        });
+    });
+  });
+  it('Fetches partner applcation in the background', (done) => {
+    const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+    wrapper.vm.getApplicantsBackground();
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request
+        .respondWith({
+          status: 200,
+          response: {
+            status: true,
+            applicants: [],
+          },
+        })
+        .then(() => {
+          expect(wrapper.vm.applicants).to.be.an('array');
+          done();
+        });
+    });
+  });
+  it('Set the date range accurately', () => {
+    const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+    wrapper.vm.changeDateRange();
+    expect(wrapper.vm.date_range[0]).to.be.a('date');
+    expect(wrapper.vm.date_range[1]).to.be.a('date');
+  });
+  // it('Fails when no applications are found within the date range', (done) => {
+  //   const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+  //   wrapper.vm.getApplicants();
+  //   moxios.wait(() => {
+  //     const request = moxios.requests.mostRecent();
+  //     request
+  //       .respondWith({
+  //         status: 200,
+  //         response: {
+  //           status: true,
+  //           applicants: [],
+  //         },
+  //       })
+  //       .then(() => {
+  //         wrapper.vm.changeDateRange();
+  //         expect(wrapper.vm.empty_state).equal('Could not find applications for the dates.');
+  //         done();
+  //       });
+  //   });
+  // });
 });

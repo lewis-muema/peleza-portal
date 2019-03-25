@@ -59,7 +59,7 @@
         <el-collapse-item name="1">
           <template slot="title">
             <span style>Identity Check</span>
-            
+
             <span class="applicant-details__idNo">ID Number : {{ applicant_details.id_no }}</span>
           </template>
           <el-form :model="verification_details.identity_check" v-show="!identityReview">
@@ -98,7 +98,7 @@
               <input
                 name="id_card"
                 auto-complete="off"
-                v-on:change="handleIdCardChange"
+                @change="handleIdCardChange"
                 class="upload-button inputfile"
                 type="file"
                 id="id_card"
@@ -256,7 +256,7 @@
             <span>Motor Vehicle Records Check</span>
             <span
               class="applicant--details__noPlate"
-            >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
+            >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
           </template>
 
           <el-form
@@ -391,7 +391,7 @@
             <span>Car Insurance Validity</span>
             <span
               class="applicant--details__insurance"
-            >Insurance Number : {{applicant_details.insurance_number}}</span>
+            >Insurance Number : {{ applicant_details.insurance_number }}</span>
           </template>
           <el-form
             :model="verification_details.car_insurance_validity"
@@ -559,7 +559,9 @@
         <el-collapse-item name="6" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
             <span>KRA PIN Verification</span>
-            <span class="applicant--details__kraPin">KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
+            <span
+              class="applicant--details__kraPin"
+            >KRA PIN NUMBER : {{ applicant_details.kra_pin }}</span>
           </template>
 
           <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -644,12 +646,12 @@
 </template>
 
 <script>
-import DetailMxn from '../../mixins/detail_mixin.js';
+import DetailMxn from '../../mixins/detail_mixin';
 
 export default {
   name: 'applicant-details',
-  props: ['data', 'docs'],
   mixins: [DetailMxn],
+  props: ['data', 'docs'],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
@@ -675,6 +677,38 @@ export default {
       partner_logs: [],
     };
   },
+  computed: {
+    identityReview() {
+      return this.verification_details.identity_check.review_status;
+    },
+    drivingReview() {
+      return this.verification_details.driving_license_check.review_status;
+    },
+    motorReview() {
+      return this.verification_details.motor_vehicle_records_check.review_status;
+    },
+    insuranceReview() {
+      return this.verification_details.car_insurance_validity.review_status;
+    },
+    kraReview() {
+      return this.verification_details.kra_pin_verification.review_status;
+    },
+    validSubmit() {
+      return this.checkReviewStatus();
+    },
+    validSubmitStatus() {
+      if (this.applicant_review.status === '') {
+        return false;
+      } else {
+        if (!this.applicant_review.status) {
+          return this.applicant_review.reason !== '';
+        } else {
+          return true;
+        }
+      }
+    },
+  },
+  watch: {},
   beforeMount() {
     this.applicant_details = this.current_verification.applicant_details;
     this.verification_details = this.current_verification.verification_details;
@@ -690,11 +724,7 @@ export default {
       for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
         stylesHtml += node.outerHTML;
       }
-      const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
-      );
+      const WinPrint = window.open('', '', 'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0');
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
         <head>
@@ -711,38 +741,6 @@ export default {
       WinPrint.close();
     },
   },
-  computed: {
-    identityReview: function() {
-      return this.verification_details.identity_check.review_status;
-    },
-    drivingReview: function() {
-      return this.verification_details.driving_license_check.review_status;
-    },
-    motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check.review_status;
-    },
-    insuranceReview: function() {
-      return this.verification_details.car_insurance_validity.review_status;
-    },
-    kraReview: function() {
-      return this.verification_details.kra_pin_verification.review_status;
-    },
-    validSubmit: function() {
-      return this.checkReviewStatus();
-    },
-    validSubmitStatus: function() {
-      if (this.applicant_review.status === '') {
-        return false;
-      } else {
-        if (!this.applicant_review.status) {
-          return this.applicant_review.reason !== '';
-        } else {
-          return true;
-        }
-      }
-    },
-  },
-  watch: {},
 };
 </script>
 <style>

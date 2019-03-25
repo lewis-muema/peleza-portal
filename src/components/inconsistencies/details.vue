@@ -75,7 +75,7 @@
           >
             <template slot="title">
               <span style>Identity Check</span>
-              
+
               <span class="applicant-details__idNo">ID Number : {{ applicant_details.id_no }}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
@@ -279,7 +279,7 @@
               <span>Motor Vehicle Records Check</span>
               <span
                 class="applicant--details__noPlate"
-              >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
+              >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
             </template>
 
             <el-form
@@ -439,7 +439,7 @@
               <span>Car Insurance Validity</span>
               <span
                 class="applicant--details__insurance"
-              >Insurance Number : {{applicant_details.insurance_number}}</span>
+              >Insurance Number : {{ applicant_details.insurance_number }}</span>
             </template>
             <el-form
               :model="verification_details.car_insurance_validity"
@@ -638,7 +638,7 @@
               <span>KRA PIN Verification</span>
               <span
                 class="applicant--details__kraPin"
-              >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
+              >KRA PIN NUMBER : {{ applicant_details.kra_pin }}</span>
             </template>
 
             <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -736,12 +736,12 @@
 </template>
 
 <script>
-import DetailMxn from '../../mixins/detail_mixin.js';
+import DetailMxn from '../../mixins/detail_mixin';
 
 export default {
   name: 'applicant-details',
-  props: ['data', 'docs'],
   mixins: [DetailMxn],
+  props: ['data', 'docs'],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
@@ -767,6 +767,42 @@ export default {
       partner_logs: [],
     };
   },
+  computed: {
+    identityReview() {
+      return this.verification_details.identity_check.review_status;
+    },
+    drivingReview() {
+      return this.verification_details.driving_license_check.review_status;
+    },
+    motorReview() {
+      return this.verification_details.motor_vehicle_records_check.review_status;
+    },
+    insuranceReview() {
+      return this.verification_details.car_insurance_validity.review_status;
+    },
+    kraReview() {
+      return this.verification_details.kra_pin_verification.review_status;
+    },
+    validSubmit() {
+      return this.checkReviewStatus();
+    },
+    validSubmitStatus() {
+      if (this.applicant_review.status === '') {
+        return false;
+      } else {
+        if (!this.applicant_review.status) {
+          if (this.applicant_review.reason === '') {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }
+    },
+  },
+  watch: {},
   beforeMount() {
     this.applicant_details = this.current_verification.applicant_details;
     this.verification_details = this.current_verification.verification_details;
@@ -774,14 +810,14 @@ export default {
   },
   methods: {
     async updateReview(field, field_title = '') {
-      //update store
-      let verification = {
+      // update store
+      const verification = {
         applicant_details: this.applicant_details,
         verification_details: this.verification_details,
       };
 
-      let review_json = this.verification_details[field];
-      let properties_res = this.checkProperties(review_json);
+      const review_json = this.verification_details[field];
+      const properties_res = this.checkProperties(review_json);
 
       if (properties_res) {
         review_json['review_status'] = true;
@@ -790,23 +826,23 @@ export default {
       }
 
       if (field === 'identity_check') {
-        //check if upload happened
+        // check if upload happened
         if (this.id_doc_change) {
-          //perform upload
-          let upload_res = await this.uploadDocument('id_card');
+          // perform upload
+          const upload_res = await this.uploadDocument('id_card');
 
           if (!upload_res) {
             review_json['id_card'] = upload_res;
-            let obj = this.verification_details;
+            const obj = this.verification_details;
             obj['identity_check']['id_card'] = upload_res;
             this.verification_details = Object.assign({}, this.verification_details, obj);
           }
         }
       }
 
-      //update db
+      // update db
 
-      let payload = {
+      const payload = {
         review_section: field,
         review_json: JSON.stringify(review_json),
         partner_id: this.applicant_details.partner_id,
@@ -832,35 +868,35 @@ export default {
           }
         })
         .catch(error => {
-          throw new Error('Could not update applicant');
           this.$notify.error({
             title: `update ${field_title}`,
             message: `applicant ${field_title} failed to update`,
           });
+          throw new Error('Could not update applicant');
         });
 
       this.getPartnerLogs();
     },
     async uploadDocument(doc_id) {
-      let data = new FormData();
-      let files = document.getElementById(doc_id)['files'];
+      const data = new FormData();
+      const files = document.getElementById(doc_id)['files'];
 
       if (!files.length) {
         return false;
       }
 
-      let file = files[0];
+      const file = files[0];
       data.append(doc_id, file);
 
-      let fileName = this.sanitizeFilename(file.name);
-      let albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
-      let photoKey = `${albumPhotosKey}${fileName}`;
+      const fileName = this.sanitizeFilename(file.name);
+      const albumPhotosKey = `${encodeURIComponent(this.getAlbumName(doc_id))}/`;
+      const photoKey = `${albumPhotosKey}${fileName}`;
 
       data.append('key', photoKey);
       data.append('field_name', doc_id);
       data.append('album', albumPhotosKey);
 
-      let headers = {
+      const headers = {
         headers: {
           'content-type': 'multipart/form-data',
         },
@@ -868,9 +904,7 @@ export default {
 
       return axios
         .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
-        .then(response => {
-          return response.data.file_name;
-        })
+        .then(response => response.data.file_name)
         .catch(err => {
           console.error(err);
           return false;
@@ -880,7 +914,7 @@ export default {
       this.$router.push({ name: 'applications' });
     },
     sanitizeFilename(name) {
-      let temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
+      const temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
       return temp_name;
     },
     getAlbumName(iid) {
@@ -895,23 +929,23 @@ export default {
       }
     },
     handleIdCardChange() {
-      let files = document.getElementById('id_card')['files'];
+      const files = document.getElementById('id_card')['files'];
 
       if (files.length < 1) {
         this.id_doc_change = false;
       } else {
         this.id_doc_change = true;
-        let name = files[0]['name'];
+        const name = files[0]['name'];
 
-        let obj = this.verification_details;
+        const obj = this.verification_details;
         obj['identity_check']['id_card'] = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
       }
     },
 
     checkReviewStatus() {
-      let obj = this.verification_details;
-      for (let key in obj) {
+      const obj = this.verification_details;
+      for (const key in obj) {
         if (obj[key]['review_status'] === false) {
           return false;
         }
@@ -924,11 +958,7 @@ export default {
       for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
         stylesHtml += node.outerHTML;
       }
-      const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
-      );
+      const WinPrint = window.open('', '', 'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0');
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
         <head>
@@ -945,42 +975,6 @@ export default {
       WinPrint.close();
     },
   },
-  computed: {
-    identityReview: function() {
-      return this.verification_details.identity_check.review_status;
-    },
-    drivingReview: function() {
-      return this.verification_details.driving_license_check.review_status;
-    },
-    motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check.review_status;
-    },
-    insuranceReview: function() {
-      return this.verification_details.car_insurance_validity.review_status;
-    },
-    kraReview: function() {
-      return this.verification_details.kra_pin_verification.review_status;
-    },
-    validSubmit: function() {
-      return this.checkReviewStatus();
-    },
-    validSubmitStatus: function() {
-      if (this.applicant_review.status === '') {
-        return false;
-      } else {
-        if (!this.applicant_review.status) {
-          if (this.applicant_review.reason === '') {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }
-    },
-  },
-  watch: {},
 };
 </script>
 <style>

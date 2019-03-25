@@ -8,7 +8,7 @@
       stripe
       :default-sort="{prop: 'date_created', order: 'descending'}"
     >
-      <template slot="empty">{{empty_state}}</template>
+      <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
       <el-table-column
@@ -41,9 +41,9 @@
 export default {
   name: 'renewals_list',
   data() {
-    var date = new Date(),
-      y = date.getFullYear(),
-      m = date.getMonth();
+    const date = new Date();
+    const y = date.getFullYear();
+    const m = date.getMonth();
     return {
       applicants: [],
       verifying: false,
@@ -55,6 +55,7 @@ export default {
       loading: false,
     };
   },
+  computed: {},
   beforeMount() {
     this.getApplicants();
     setInterval(() => {
@@ -63,11 +64,11 @@ export default {
   },
   methods: {
     getApplicantsBackground() {
-      let vm = this;
-      let final_start_date = null;
-      let final_stop_date = null;
+      const vm = this;
+      const final_start_date = null;
+      const final_stop_date = null;
 
-      let payload = {
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -77,21 +78,21 @@ export default {
       axios
         .post(`${PARTNER_BASE_URL}admin/partner_list`, payload)
         .then(response => {
-          vm.applicants = response.data.data.partner_list;
+          vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
     getApplicants() {
-      let vm = this;
+      const vm = this;
       vm.loading = true;
       vm.empty_state = 'Loading...';
-      let final_start_date = null;
-      let final_stop_date = null;
+      const final_start_date = null;
+      const final_stop_date = null;
 
-      let payload = {
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -102,19 +103,18 @@ export default {
       axios
         .post(`${PARTNER_BASE_URL}admin/partner_list`, JSON.stringify(payload))
         .then(response => {
-          vm.applicants = response.data.data.partner_list;
+          vm.applicants = response.data.applicants;
           vm.empty_state = 'No Data';
           vm.loading = false;
         })
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
   },
-  computed: {},
 };
 </script>
 <style>
