@@ -2,40 +2,35 @@
   <div>
     <el-menu theme="dark" :default-active="current_route" mode="horizontal" router class="nav">
       <span class="nav__logo el-menu-item">
-        <img src="../assets/sendy-logo-white.png" class="header-logo" />
+        <img src="../assets/sendy-logo-white.png" class="header-logo">
       </span>
       <div class="nav__links">
-        <!-- <el-menu-item index="/">Dashboard</el-menu-item> -->
         <el-menu-item
           class="ml"
           index="/applications"
           :class="{ 'is-active': current_route === 'applications' }"
           exact
           replace
-          >Applications</el-menu-item
-        >
+        >Applications</el-menu-item>
         <el-menu-item
           :class="{ 'is-active': current_route === 'inconsistencies' }"
           index="/inconsistencies"
           exact
           replace
-          >Inconsistencies</el-menu-item
-        >
+        >Inconsistencies</el-menu-item>
         <el-menu-item
           :class="{ 'is-active': current_route === 'reviewed' }"
           index="/reviewed"
           exact
           replace
-          >Reviewed</el-menu-item
-        >
+        >Reviewed</el-menu-item>
         <el-menu-item
           v-if="sendy_verifier"
           :class="{ 'is-active': current_route === 'driver-applications' }"
           index="/driver-applications"
           exact
           replace
-          >Drivers</el-menu-item
-        >
+        >Drivers</el-menu-item>
         <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
       </div>
       <el-dropdown class="topnav--reupload-alert">
@@ -48,19 +43,16 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="applicant in applicants" :key="applicant">
-            <a @click="loadApplicant(applicant)">
-              Applicant review updated on {{ applicant.date_time }}
-            </a>
+            <a
+              @click="loadApplicant(applicant)"
+            >Applicant review updated on {{ applicant.date_time }}</a>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
       <el-submenu index="6" class="nav__session">
         <template slot="title">
-          <img
-            class="user-pic"
-            :src="`http://care.sendyit.com/customer/include/team/${user.pic}`"
-          />
+          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`">
           <span id="el-name">{{ user.name }}</span>
         </template>
         <div class="el-menu-item el-dropdown" @click="logout">Logout</div>
@@ -82,7 +74,7 @@
           placeholder="Search ID / KRA PIN / VENDOR TYPE"
           v-model="search_term"
           @input="search"
-        />
+        >
       </div>
     </div>
   </div>
@@ -96,9 +88,6 @@ export default {
       applicants: 0,
       hideDrivers: true,
     };
-  },
-  mounted() {
-    this.getInconsisntenciesUpdates();
   },
   computed: {
     current_route() {
@@ -121,9 +110,12 @@ export default {
       });
     },
   },
+  mounted() {
+    this.getInconsisntenciesUpdates();
+  },
   methods: {
     loadApplicant(d) {
-      let verification = {
+      const verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
@@ -210,7 +202,6 @@ export default {
               },
         },
       };
-
       this.$store.commit('changeVerification', verification);
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
@@ -219,18 +210,13 @@ export default {
       this.$router.replace('/');
     },
     search(ev) {
-      this.$store.commit(
-        'search',
-        ev.target.value
-          .split(' ')
-          .join('')
-          .toLowerCase()
-      );
+      // prettier-ignore
+      this.$store.commit('search', ev.target.value.split(' ').join('').toLowerCase());
     },
     getInconsisntenciesUpdates() {
-      let payload = {};
+      const payload = {};
       axios
-        .post(PARTNER_BASE_URL + 'peleza/applications/list_updated_inconsistencies/', payload)
+        .post(`${PARTNER_BASE_URL}peleza/applications/list_updated_inconsistencies/`, payload)
         .then(response => {
           this.applicants = response.data.applicants;
         })

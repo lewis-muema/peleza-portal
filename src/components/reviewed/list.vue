@@ -20,7 +20,7 @@
       v-loading.body="loading"
       border
       stripe
-      :default-sort="{ prop: 'date_created', order: 'descending' }"
+      :default-sort="{prop: 'date_created', order: 'descending'}"
     >
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
@@ -31,19 +31,9 @@
         :formatter="formatTime"
         sortable
       ></el-table-column>
-      <el-table-column
-        prop="date_verified"
-        label="DATE VERIFIED"
-        :formatter="formatTime"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatTime" sortable></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
-      <el-table-column
-        prop="vendor_type"
-        label="Vendor Type"
-        sortable
-        :formatter="getVendorType"
-      ></el-table-column>
+      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
       <el-table-column prop="status" label="STATUS">
         <template>
           <span>Reviewed</span>
@@ -65,15 +55,15 @@
   </div>
 </template>
 <script>
-import ListMxn from '../../mixins/list_mixin.js';
+import ListMxn from '../../mixins/list_mixin';
 
 export default {
   name: 'applicants_list',
   mixins: [ListMxn],
   data() {
-    var date = new Date(),
-      y = date.getFullYear(),
-      m = date.getMonth();
+    const date = new Date();
+    const y = date.getFullYear();
+    const m = date.getMonth();
     return {
       applicants: [],
       filteredData: [],
@@ -138,6 +128,7 @@ export default {
       vendor_types: VENDOR_TYPES,
     };
   },
+  computed: {},
   beforeMount() {
     this.getApplicants();
     setInterval(() => {
@@ -146,7 +137,7 @@ export default {
   },
   methods: {
     changeDateRange() {
-      let vm = this;
+      const vm = this;
       this.filterState = false;
       this.filteredData = this.searched_applicants;
       this.pagination_page = 1;
@@ -154,24 +145,22 @@ export default {
       let to_date = this.date_range[1];
       from_date = moment(from_date).format('YYYY-MM-DD');
       to_date = moment(to_date).format('YYYY-MM-DD');
-      this.filteredData = this.applicants.filter(function(applicant) {
-        let application_date = moment(applicant.date_created).format('YYYY-MM-DD');
+      this.filteredData = this.applicants.filter(applicant => {
+        const application_date = moment(applicant.date_created).format('YYYY-MM-DD');
         if (application_date >= from_date && application_date <= to_date) {
-          console.log('within');
           return application_date >= from_date && application_date <= to_date;
         } else {
           vm.empty_state = 'Could not find reviewed applications for the dates.';
         }
       });
-      // this.filteredUserData = this.filteredUserData.filter( user => user.department_id ==  department);
       this.filterState = true;
     },
     getApplicantsBackground() {
-      let vm = this;
-      let final_start_date = null;
-      let final_stop_date = null;
+      const vm = this;
+      const final_start_date = null;
+      const final_stop_date = null;
 
-      let payload = {
+      const payload = {
         limit: 'all',
         stage: -1,
         state: 'all',
@@ -179,53 +168,20 @@ export default {
         to: final_stop_date,
       };
       axios
-        .post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', payload)
+        .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, payload)
         .then(response => {
-          vm.applicants = response.data.data.partner_list;
+          vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
-    // getApplicants() {
-    //     let vm = this;
-    //     vm.loading = true;
-    //     vm.empty_state = "Loading...";
-    //     let final_start_date = null;
-    //     let final_stop_date = null;
-    //
-    //     let payload = {
-    //         limit: "all",
-    //         stage: -1,
-    //         state: "all",
-    //         from: final_start_date,
-    //         to: final_stop_date
-    //     };
-    //
-    //     axios
-    //         .post(
-    //             PARTNER_BASE_URL + "peleza/applications/list_reviewed/",
-    //             JSON.stringify(payload)
-    //         )
-    //         .then(response => {
-    //             console.log(response);
-    //             vm.applicants = response.data.applicants;
-    //             vm.empty_state = "No Data";
-    //             vm.loading = false;
-    //         })
-    //         .catch(error => {
-    //             vm.empty_state = "No Data";
-    //             vm.loading = false;
-    //             log(error);
-    //             throw new Error("Could not get applicants");
-    //         });
-    // },
     getApplicants() {
-      let vm = this;
+      const vm = this;
       vm.loading = true;
       axios
-        .post(PARTNER_BASE_URL + 'peleza/applications/list_reviewed/', {
+        .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, {
           limit: 'all',
           stage: -1,
           state: 'all',
@@ -233,7 +189,6 @@ export default {
           to: this.date_range[1],
         })
         .then(response => {
-          console.log(response);
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;
           vm.empty_state = 'No Data';
@@ -242,14 +197,13 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          log(error);
+          console.log(error);
           throw new Error('Could not get applicants');
         });
     },
 
     startVerification(d) {
-      console.log(d);
-      let verification = {
+      const verification = {
         applicant_details: {
           application_type: d.application_type,
           date_created: d.date_created,
@@ -343,7 +297,6 @@ export default {
       this.$router.push({ name: 'reviewed-applicant', params: { id: d.id } });
     },
   },
-  computed: {},
 };
 </script>
 <style>
