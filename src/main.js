@@ -33,6 +33,7 @@ Vue.use(ElementUI, { locale });
 window.axios = axios;
 window.moment = moment;
 window.BASE_URL = process.env.BASE_URL;
+window.AUTH_URL = process.env.AUTH_URL;
 window.PARTNER_BASE_URL = process.env.PARTNER_BASE_URL;
 window.NODE_PARTNER_API = process.env.NODE_PARTNER_API;
 window.rbmq_link = process.env.rbmq_link;
@@ -45,45 +46,23 @@ window.NODE_API_SWITCH = process.env.NODE_API_SWITCH;
 
 window.AWS_URL = 'https://s3-eu-west-1.amazonaws.com/sendy-partner-docs/';
 window.MISSING_PHOTO_URL = 'https://placehold.it/300/300';
-window.VENDOR_TYPES = [
-  'Bike',
-  'Pick Up',
-  'Van',
-  'Laundry',
-  'Cooler Van',
-  '3T Truck',
-  'Donation',
-  'Intercity',
-  'Cab',
-  '5T Truck',
-  'Boda Boda',
-  'Tuk Tuk',
-  '7T Truck',
-  '10T Truck',
-  'Promotion',
-  'Donation',
-  '14T Truck',
-  '20T Truck',
-  '24T Truck',
-  '28T Truck',
-  'Foot Soldier',
-];
-window.log = function (x) {
+window.VENDOR_TYPES = ['Bike', 'Pick Up', 'Van', 'Laundry', 'Cooler Van', '3T Truck', 'Donation', 'Intercity', 'Cab', '5T Truck', 'Boda Boda', 'Tuk Tuk', '7T Truck', '10T Truck', 'Promotion', 'Donation', '14T Truck', '20T Truck', '24T Truck', '28T Truck', 'Foot Soldier'];
+window.log = function(x) {
   console.log(x);
 };
-window.debug = function (m, x) {
+window.debug = function(m, x) {
   console.debug(m, x);
 };
-window.error = function (m, x) {
+window.error = function(m, x) {
   console.error(m, x);
 };
-window.warn = function (m, x) {
+window.warn = function(m, x) {
   console.warn(m, x);
 };
-window.empty = function (value) {
+window.empty = function(value) {
   return value == null || value.length === 0 || Object.getOwnPropertyNames(value).length === 0;
 };
-window.isNumeric = function (n) {
+window.isNumeric = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 window.$eventBus = EventBus;

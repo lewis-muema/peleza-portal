@@ -170,7 +170,8 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_drivers/`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_drivers/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_drivers/`, payload)
         .then(response => {
           vm.applicants = response.data.data.partner_list;
         })
@@ -192,7 +193,8 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_drivers/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_drivers/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_drivers/`, JSON.stringify(payload))
         .then(response => {
           vm.applicants = response.data.drivers;
           vm.filteredData = vm.applicants;

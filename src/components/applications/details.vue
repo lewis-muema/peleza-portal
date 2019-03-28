@@ -1000,7 +1000,8 @@ export default {
       };
 
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/peleza/applications/update_review/`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
           console.log(response);
           if (response.data.status === true) {
@@ -1051,13 +1052,16 @@ export default {
         },
       };
 
-      return axios
-        .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
-        .then(response => response.data.file_name)
-        .catch(err => {
-          console.error(err);
-          return false;
-        });
+      return (
+        axios
+          .post(`${AUTH_URL}rider/peleza/upload_doc/`, data, { headers: { 'content-type': 'multipart/form-data', Authorization: localStorage.token } })
+          // .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
+          .then(response => response.data.file_name)
+          .catch(err => {
+            console.error(err);
+            return false;
+          })
+      );
     },
     handleBack() {
       this.$router.push({ name: 'applications' });

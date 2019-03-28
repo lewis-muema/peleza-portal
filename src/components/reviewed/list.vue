@@ -168,7 +168,8 @@ export default {
         to: final_stop_date,
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_reviewed/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, payload)
         .then(response => {
           vm.applicants = response.data.applicants;
         })
@@ -180,14 +181,22 @@ export default {
     getApplicants() {
       const vm = this;
       vm.loading = true;
+      const payload = {
+        limit: 'all',
+        stage: -1,
+        state: 'all',
+        from: this.date_range[0],
+        to: this.date_range[1],
+      };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, {
-          limit: 'all',
-          stage: -1,
-          state: 'all',
-          from: this.date_range[0],
-          to: this.date_range[1],
-        })
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_reviewed/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_reviewed/`, {
+        //   limit: 'all',
+        //   stage: -1,
+        //   state: 'all',
+        //   from: this.date_range[0],
+        //   to: this.date_range[1],
+        // })
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;

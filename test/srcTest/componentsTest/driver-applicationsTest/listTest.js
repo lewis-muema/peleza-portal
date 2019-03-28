@@ -12,13 +12,27 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import moment from 'moment';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
+import VueRouter from 'vue-router';
+import 'mock-local-storage';
 
 const applicationDetails = require('../../../../src/components/driver-applications/list.vue');
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueRouter);
 Vue.use(ElementUI, { locale });
 Vue.use(Vuex);
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/applications',
+      name: 'applications',
+    },
+  ],
+});
+
 describe('driver-applications-lists-test', () => {
   let store;
   let getters;
@@ -32,6 +46,7 @@ describe('driver-applications-lists-test', () => {
     window.axios = axios;
     global.moment = moment;
     global.BASE_URL = process.env.BASE_URL;
+    global.AUTH_URL = process.env.AUTH_URL;
     global.PARTNER_BASE_URL = process.env.PARTNER_BASE_URL;
     global.NODE_PARTNER_API = process.env.NODE_PARTNER_API;
     global.rbmq_link = process.env.rbmq_link;
@@ -51,7 +66,12 @@ describe('driver-applications-lists-test', () => {
     moxios.uninstall();
   });
   it('Skip the test because the drivers applications tab is not in use', () => {
-    const wrapper = shallowMount(applicationDetails, { sync: false, store, localVue });
+    const wrapper = shallowMount(applicationDetails, {
+      sync: false,
+      store,
+      localVue,
+      router,
+    });
     wrapper.vm.getApplicants();
     // moxios.wait(() => {
     //   const request = moxios.requests.mostRecent();

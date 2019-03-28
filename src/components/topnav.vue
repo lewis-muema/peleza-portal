@@ -42,7 +42,7 @@
           </el-badge>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="applicant in applicants" :key="applicant">
+          <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
             <a
               @click="loadApplicant(applicant)"
             >Applicant review updated on {{ applicant.date_time }}</a>
