@@ -7,7 +7,7 @@
     <div class="applicant-details__profile">
       <el-card class="applicant-details__profile__personal-details">
         <div class="applicant-details__profile_content">
-          <img :src="applicant_details.driver_photo" class="applicant-details__profile_image">
+          <!--<img :src="applicant_details.driver_photo" class="applicant-details__profile_image">-->
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">ID NUMBER</div>
@@ -50,7 +50,10 @@
       </el-card>
       <el-card header="Activity Log" class="applicant-details__profile__personal-details">
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()" :key="log">{{ createLogStatement(log) }}</li>
+          <li
+            v-for="log in partner_logs.slice().reverse()"
+            :key="log.index"
+          >{{ createLogStatement(log) }}</li>
         </ul>
       </el-card>
     </div>
@@ -139,12 +142,11 @@
                 </div>
               </div>
               <div class="el-col-lg-8 review-image">
-                !
                 <a
                   :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`"
                   target="_blank"
                 >
-                  <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`">
+                  <!-- <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"> -->
                 </a>
               </div>
             </div>

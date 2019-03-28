@@ -283,7 +283,6 @@ export default {
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-
         // .post(`${PARTNER_BASE_URL}peleza/applications/list_inconsistencies/`, {
         //   limit: 'all',
         //   stage: -1,

@@ -65,7 +65,8 @@ const DetailMxn = {
       };
 
       axios
-        .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
+      .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/logs/get_partner_logs/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
         .then((response) => {
           if (response.data.status) {
             this.partner_logs = response.data.logs;

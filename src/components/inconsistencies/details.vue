@@ -7,7 +7,7 @@
     <div class="applicant-details__profile">
       <el-card class="applicant-details__profile__personal-details">
         <div class="applicant-details__profile_content">
-          <img :src="applicant_details.driver_photo" class="applicant-details__profile_image">
+          <!--<img :src="applicant_details.driver_photo" class="applicant-details__profile_image">-->
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">ID NUMBER</div>
@@ -60,7 +60,10 @@
         v-show="partner_logs.length > 0"
       >
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()" :key="log">{{ createLogStatement(log) }}</li>
+          <li
+            v-for="log in partner_logs.slice().reverse()"
+            :key="log.index"
+          >{{ createLogStatement(log) }}</li>
         </ul>
       </el-card>
     </div>
@@ -915,7 +918,7 @@ export default {
       );
     },
     handleBack() {
-      this.$router.push({ name: 'applications' });
+      this.$router.push({ name: 'inconsistencies' });
     },
     sanitizeFilename(name) {
       const temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
