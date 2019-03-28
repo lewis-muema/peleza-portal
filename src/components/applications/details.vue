@@ -7,7 +7,7 @@
     <div class="applicant-details__profile">
       <el-card class="applicant-details__profile__personal-details">
         <div class="applicant-details__profile_content">
-          <img :src="applicant_details.driver_photo" class="applicant-details__profile_image">
+          <!--<img :src="applicant_details.driver_photo" class="applicant-details__profile_image">-->
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">ID NUMBER</div>
