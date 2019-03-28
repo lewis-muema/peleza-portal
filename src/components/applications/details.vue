@@ -7,7 +7,7 @@
     <div class="applicant-details__profile">
       <el-card class="applicant-details__profile__personal-details">
         <div class="applicant-details__profile_content">
-          <img :src="applicant_details.driver_photo" class="applicant-details__profile_image">
+          <!-- <img :src="applicant_details.driver_photo" class="applicant-details__profile_image"> -->
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">ID NUMBER</div>
@@ -1003,7 +1003,6 @@ export default {
         .post(`${AUTH_URL}rider/peleza/applications/update_review/`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
         // .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
-          console.log(response);
           if (response.data.status === true) {
             this.$notify.success({
               title: `update ${field_title}`,
@@ -1120,7 +1119,8 @@ export default {
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/peleza/applications/submit_applicant_review/`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({
@@ -1172,7 +1172,8 @@ export default {
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/peleza/applications/submit_applicant_review/`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({

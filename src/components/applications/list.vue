@@ -195,7 +195,7 @@ export default {
       };
       axios
         // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
-        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;
@@ -203,7 +203,6 @@ export default {
           vm.loading = false;
         })
         .catch(error => {
-          console.log(payload);
           vm.empty_state = 'No Data';
           vm.loading = false;
           console.log(error);
