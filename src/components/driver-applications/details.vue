@@ -120,7 +120,10 @@
         v-show="partner_logs.length > 0"
       >
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()" :key="log">{{ createLogStatement(log) }}</li>
+          <li
+            v-for="log in partner_logs.slice().reverse()"
+            :key="log.index"
+          >{{ createLogStatement(log) }}</li>
         </ul>
       </el-card>
     </div>
@@ -900,7 +903,8 @@ export default {
       };
 
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/update_review/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({
@@ -950,13 +954,16 @@ export default {
         },
       };
 
-      return axios
-        .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
-        .then(response => response.data.file_name)
-        .catch(err => {
-          console.error(err);
-          return false;
-        });
+      return (
+        axios
+          .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/upload_doc/`, data, { headers: { 'content-type': 'multipart/form-data', Authorization: localStorage.token } })
+          // .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
+          .then(response => response.data.file_name)
+          .catch(err => {
+            console.error(err);
+            return false;
+          })
+      );
     },
     handleBack() {
       this.$router.push({ name: 'applications' });
@@ -1018,7 +1025,8 @@ export default {
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/submit_applicant_review/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/submit_applicant_review/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({
@@ -1070,7 +1078,8 @@ export default {
         admin_name: JSON.parse(localStorage.user).name,
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/submit_data_inconsitency/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status === true) {
             this.$notify.success({

@@ -39,5 +39,7 @@ module.exports = {
     'vue/require-prop-types': 'off',
     'no-console': 'off',
     'vue/html-closing-bracket-spacing': 'off',
+    'space-before-function-paren': 'off',
+    'no-param-reassign': 'off',
   },
 };

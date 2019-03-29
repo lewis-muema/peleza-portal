@@ -118,41 +118,50 @@ export default {
 
       this.$refs.login_form.validate(valid => {
         if (valid) {
-          console.log('valid!');
-          vm.logging_in = true;
-          axios
-            .post(`${BASE_URL}login/verify`, {
-              email: vm.login_form.email,
-              password: vm.login_form.password,
-            })
-            .then(response => {
-              console.log(response);
-              if (response.data.status) {
-                localStorage.setItem('authenticated', JSON.stringify(true));
-                localStorage.setItem('user', JSON.stringify(response.data.data));
-                this.$router.push({ name: 'applications' });
-              } else {
-                this.$notify.error({
-                  title: 'Error logging in',
-                  message: 'Invalid credentials',
-                });
-              }
-              vm.logging_in = false;
-            })
-            .catch(error => {
-              vm.logging_in = false;
-              this.$notify.error({
-                title: 'Error logging in',
-                message: 'Backend error',
-              });
-              log(error);
-              throw new Error('Could not log in user');
-            });
+          this.sumbitLoginData();
         } else {
           console.log('invalid');
           return;
         }
       });
+    },
+    sumbitLoginData() {
+      const vm = this;
+      console.log('valid!');
+      vm.logging_in = true;
+      axios
+        .post(`${AUTH_URL}verify/login`, {
+          email: vm.login_form.email,
+          password: vm.login_form.password,
+        })
+        .then(response => {
+          const baseString = response.data.split('.')[1];
+          const decodedString = atob(baseString);
+          const parsedDecodedString = JSON.parse(decodedString);
+          localStorage.setItem('authenticated', JSON.stringify(true));
+          localStorage.setItem('user', JSON.stringify(parsedDecodedString.payload));
+          localStorage.setItem('token', response.data);
+          this.$router.push({ name: 'applications' });
+          // if (response.data.status) {
+          //   localStorage.setItem('authenticated', JSON.stringify(true));
+          //   localStorage.setItem('user', JSON.stringify(response.data.data));
+          //   this.$router.push({ name: 'applications' });
+          // } else {
+          //   this.$notify.error({
+          //     title: 'Error logging in',
+          //     message: 'Invalid credentials',
+          //   });
+          // }
+          vm.logging_in = false;
+        })
+        .catch(error => {
+          vm.logging_in = false;
+          this.$notify.error({
+            title: 'Error logging in',
+            message: 'Invalid credentials',
+          });
+          throw new Error('Could not log in user');
+        });
     },
   },
 };
