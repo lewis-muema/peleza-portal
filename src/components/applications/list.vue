@@ -139,6 +139,7 @@ export default {
       this.getApplicantsBackground();
     }, 600000);
   },
+
   methods: {
     changeDateRange() {
       const vm = this;
@@ -170,7 +171,8 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants/`, payload, { headers: { Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
         })
@@ -192,7 +194,8 @@ export default {
         to: this.date_range[1],
       };
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants`, JSON.stringify(payload))
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;
@@ -288,7 +291,6 @@ export default {
               },
         },
       };
-
       this.$store.commit('changeVerification', verification);
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },

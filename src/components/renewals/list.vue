@@ -76,7 +76,8 @@ export default {
         to: final_stop_date,
       };
       axios
-        .post(`${PARTNER_BASE_URL}admin/partner_list`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/admin/partner_list`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}admin/partner_list`, payload)
         .then(response => {
           vm.applicants = response.data.applicants;
         })
@@ -101,7 +102,8 @@ export default {
       };
 
       axios
-        .post(`${PARTNER_BASE_URL}admin/partner_list`, JSON.stringify(payload))
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/admin/partner_list`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}admin/partner_list`, JSON.stringify(payload))
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.empty_state = 'No Data';

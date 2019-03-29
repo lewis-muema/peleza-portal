@@ -42,7 +42,7 @@
           </el-badge>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="applicant in applicants" :key="applicant">
+          <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
             <a
               @click="loadApplicant(applicant)"
             >Applicant review updated on {{ applicant.date_time }}</a>
@@ -216,7 +216,8 @@ export default {
     getInconsisntenciesUpdates() {
       const payload = {};
       axios
-        .post(`${PARTNER_BASE_URL}peleza/applications/list_updated_inconsistencies/`, payload)
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_updated_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/applications/list_updated_inconsistencies/`, payload)
         .then(response => {
           this.applicants = response.data.applicants;
         })

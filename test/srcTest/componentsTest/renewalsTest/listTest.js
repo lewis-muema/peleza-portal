@@ -12,13 +12,27 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import moment from 'moment';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
+import VueRouter from 'vue-router';
+import 'mock-local-storage';
 
 const applicationDetails = require('../../../../src/components/renewals/list.vue');
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueRouter);
 Vue.use(ElementUI, { locale });
 Vue.use(Vuex);
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/applications',
+      name: 'applications',
+    },
+  ],
+});
+
 describe('Renewals-lists-test', () => {
   let store;
   let getters;
@@ -27,11 +41,32 @@ describe('Renewals-lists-test', () => {
     moxios.install(axios);
     getters = { current_verification: () => [] };
     store = new Vuex.Store({
-      getters,
+      state: {
+        current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
+        search_term: '',
+      },
+      mutations: {
+        changeVerification(state, current_verification) {
+          Object.assign(state.current_verification, current_verification);
+          localStorage.current_verification = JSON.stringify(current_verification);
+        },
+        resetVerification(state) {
+          Object.assign(state.current_verification, {});
+          localStorage.current_verification = JSON.stringify({});
+        },
+        search(state, search_term) {
+          state.search_term = search_term;
+        },
+      },
+      getters: {
+        current_verification: state => state.current_verification,
+        search_term: state => state.search_term,
+      },
     });
     window.axios = axios;
     global.moment = moment;
     global.BASE_URL = process.env.BASE_URL;
+    global.AUTH_URL = process.env.AUTH_URL;
     global.PARTNER_BASE_URL = process.env.PARTNER_BASE_URL;
     global.NODE_PARTNER_API = process.env.NODE_PARTNER_API;
     global.rbmq_link = process.env.rbmq_link;

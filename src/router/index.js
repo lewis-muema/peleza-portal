@@ -14,6 +14,7 @@ import reviewed_detail from '@/components/reviewed/details';
 
 import inconsistencies_list from '@/components/inconsistencies/list';
 import inconsistencies_details from '@/components/inconsistencies/details';
+import driver_applications from '@/components/driver-applications/list';
 
 Vue.use(Router);
 
@@ -59,6 +60,11 @@ const router = new Router({
       name: 'inconsistency',
       component: inconsistencies_details,
     },
+    {
+      path: '/driver-applications',
+      name: 'driver-applications',
+      component: driver_applications,
+    },
   ],
 });
 
@@ -73,7 +79,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next('/');
   }
-// eslint-disable-next-line semi
-})
+  // eslint-disable-next-line semi
+});
 
 export default router;
