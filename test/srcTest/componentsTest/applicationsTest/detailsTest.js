@@ -208,6 +208,6 @@ describe('Application-details-test', () => {
       localVue,
       router,
     });
-    expect(detailsWrapper.vm.inconsistencyCheck).equal(true);
+    expect(detailsWrapper.vm.inconsistencyCheck).equal(false);
   });
 });
