@@ -836,7 +836,6 @@ export default {
   computed: {
     inconsistencyCheck() {
       const obj = this.verification_details;
-      console.log(obj.identity_check.applicant_name);
       for (const key in obj) {
         if (obj[key] != null && obj[key]['inconsistency'] === true) {
           return true;
