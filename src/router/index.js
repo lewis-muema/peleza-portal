@@ -15,6 +15,7 @@ import reviewed_detail from '@/components/reviewed/details';
 import inconsistencies_list from '@/components/inconsistencies/list';
 import inconsistencies_details from '@/components/inconsistencies/details';
 import driver_applications from '@/components/driver-applications/list';
+import driver_details from '@/components/driver-applications/details';
 
 Vue.use(Router);
 
@@ -64,6 +65,11 @@ const router = new Router({
       path: '/driver-applications',
       name: 'driver-applications',
       component: driver_applications,
+    },
+    {
+      path: '/driver',
+      name: 'driver',
+      component: driver_details,
     },
   ],
 });

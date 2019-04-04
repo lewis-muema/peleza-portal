@@ -66,6 +66,37 @@ describe('Application-details-test', () => {
       good_conduct: null,
       vendor_type: '2',
     },
+    {
+      id: '96',
+      name: 'Nyakundi Dervine',
+      driver_photo: 'd4fpy7tspc-10.png',
+      application_type: 'Owner',
+      kra_pin: 'A234765345Z',
+      date_created: '2019-01-25 10:53:06',
+      date_verified: '2019-01-25 13:41:01',
+      id_no: '34507898',
+      nok_id: null,
+      peleza_approval_id: '32',
+      identity_check: '{"applicant_name":"Dervine","dob":"2019-01-27T21:00:00.000Z","pob":"dervine","gender":"Female","review_status":true,"inconsistency":true}',
+      criminal_records_check: '{"applicant_name":"","criminal_history":"","authenticity":"","id_no":"","ref_no":"","review_status":true,"inconsistency":false}',
+      driving_license_check: '{"applicant_name":"","dl_no":"","date_of_issue":"","expiry_date":"","classes":"","id_no":"","review_status":true,"inconsistency":false}',
+      motor_vehicle_records_check: '{"ownership_details":"SASAS","chasis_no":"3333","make":"SWDWD","body_type":"SWDW","engine_no":"233","manufacture_year":"2009-12-31T21:00:00.000Z","caveats":"DWD","review_status":true,"inconsistency":true}',
+      car_insurance_validity: '{"owner_name":"dededeq","vehicle_number_plate":"dwde","issue_date":"2019-01-27T21:00:00.000Z","expiry_date":"2019-01-30T21:00:00.000Z","validity":"dede","policy_number":"55655","review_status":true,"inconsistency":true}',
+      kra_pin_verification: '{"validity":"dede","name":"dede","pin_number":"A22222","tax_obligations":"edec","registration_date":"2019-01-26T21:00:00.000Z","review_status":true,"inconsistency":false}',
+      next_of_kin: '',
+      recommendation_status: '0',
+      inconsistency_message: null,
+      review_status: '3',
+      vehicle_reg_no: 'KPB 345G',
+      insurance_copy: 'dxfnat28au-10--282-29.png',
+      vehicle_photo: 'xehnwmvukk-10.png',
+      insurance_number: null,
+      insurance_name: '',
+      policy_number: null,
+      verify_consent: null,
+      good_conduct: null,
+      vendor_type: '1',
+    },
   ];
 
   beforeEach(() => {
@@ -169,5 +200,14 @@ describe('Application-details-test', () => {
       router,
     });
     expect(detailsWrapper.vm.current_verification).to.be.an('object');
+  });
+  it('Check if details list loads data from localStorage', () => {
+    const detailsWrapper = shallowMount(applicationDetails, {
+      sync: false,
+      store,
+      localVue,
+      router,
+    });
+    expect(detailsWrapper.vm.inconsistencyCheck).equal(true);
   });
 });
