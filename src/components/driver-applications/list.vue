@@ -176,8 +176,15 @@ export default {
           vm.applicants = response.data.data.partner_list;
         })
         .catch(error => {
-          /* log(error);
-          throw new Error('Could not get applicants'); */
+          if (error.response.status === 403) {
+            this.$notify.warning({
+              title: 'Your session has expired',
+              message: 'Kindly log in again',
+            });
+            localStorage.clear();
+            this.$router.replace('/');
+          }
+          throw new Error('Could not get applicants');
         });
     },
     getApplicants() {
@@ -204,8 +211,15 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          /* log(error);
-          throw new Error('Could not get applicants'); */
+          if (error.response.status === 403) {
+            this.$notify.warning({
+              title: 'Your session has expired',
+              message: 'Kindly log in again',
+            });
+            localStorage.clear();
+            this.$router.replace('/');
+          }
+          throw new Error('Could not get applicants');
         });
     },
     startVerification(d) {
