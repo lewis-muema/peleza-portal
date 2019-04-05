@@ -966,7 +966,7 @@ export default {
       );
     },
     handleBack() {
-      this.$router.push({ name: 'applications' });
+      this.$router.push({ name: 'driver-applications' });
     },
     sanitizeFilename(name) {
       const temp_name = new Date().getTime() + name.toLowerCase().replace(/\s/g, '');
