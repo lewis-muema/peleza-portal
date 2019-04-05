@@ -175,7 +175,14 @@ export default {
           vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          console.log(error);
+          if (error.response.status === 403) {
+            this.$notify.warning({
+              title: 'Your session has expired',
+              message: 'Kindly log in again',
+            });
+            localStorage.clear();
+            this.$router.replace('/');
+          }
           throw new Error('Could not get applicants');
         });
     },
@@ -299,7 +306,14 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          console.log(error);
+          if (error.response.status === 403) {
+            this.$notify.warning({
+              title: 'Your session has expired',
+              message: 'Kindly log in again',
+            });
+            localStorage.clear();
+            this.$router.replace('/');
+          }
           throw new Error('Could not get applicants');
         });
     },
