@@ -2,7 +2,7 @@ module.exports = {
   NODE_ENV: '"production"',
   ENVIRONMENT: '"production"',
   DEBUG_MODE: false,
-  AUTH_URL: '"https://auth.sendyit.com/"',
+  AUTH_URL: '"https://newauth.sendyit.com/"',
   BASE_URL: '"https://rider.sendyit.com/admin_partner_api/v5/admin/"',
   PARTNER_BASE_URL: '"https://rider.sendyit.com/admin_partner_api/v5/"',
   NODE_PARTNER_API: '"https://rider.sendyit.com/node_partner_api/v1/"',
