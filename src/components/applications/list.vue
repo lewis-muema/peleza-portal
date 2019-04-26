@@ -169,6 +169,10 @@ export default {
         state: 'all',
         from: this.date_range[0],
         to: this.date_range[1],
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
       axios
         // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
@@ -199,7 +203,12 @@ export default {
         state: 'all',
         from: this.date_range[0],
         to: this.date_range[1],
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
+      console.log(payload);
       axios
         // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })

@@ -74,6 +74,10 @@ export default {
         state: 'all',
         from: final_start_date,
         to: final_stop_date,
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/admin/partner_list`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
@@ -106,6 +110,10 @@ export default {
         state: 'all',
         from: final_start_date,
         to: final_stop_date,
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
 
       axios

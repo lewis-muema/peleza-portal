@@ -167,6 +167,10 @@ export default {
         state: 'all',
         from: final_start_date,
         to: final_stop_date,
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
@@ -287,6 +291,10 @@ export default {
         state: 'all',
         from: this.date_range[0],
         to: this.date_range[1],
+        admin: {
+          admin_id: JSON.parse(localStorage.user).admin_id,
+          name: JSON.parse(localStorage.user).name,
+        },
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
