@@ -208,7 +208,6 @@ export default {
           name: JSON.parse(localStorage.user).name,
         },
       };
-      console.log(payload);
       axios
         // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
