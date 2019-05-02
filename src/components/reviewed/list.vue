@@ -24,7 +24,7 @@
     >
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
-      <el-table-column prop="kra_pin" label="KRA PIN"></el-table-column>
+      <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
       <el-table-column
         prop="date_created"
         label="APPLICATION DATE"
