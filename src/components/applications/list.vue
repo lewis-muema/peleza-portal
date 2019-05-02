@@ -25,7 +25,7 @@
     >
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"/>
-      <el-table-column prop="kra_pin" label="KRA PIN"/>
+      <el-table-column prop="kra_pin" label="KRA PIN/TIN"/>
       <el-table-column
         prop="date_created"
         label="APPLICATION DATE"
@@ -238,6 +238,7 @@ export default {
           date_created: d.date_created,
           partner_id: d.id,
           partner_name: d.name,
+          partner_country: d.country,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
