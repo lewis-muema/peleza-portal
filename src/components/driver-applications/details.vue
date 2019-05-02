@@ -15,7 +15,7 @@
           </div>
 
           <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">{{taxPayerNameIdentifier}}</div>
+            <div class="applicant-details__profile_label">{{ taxPayerNameIdentifier }}</div>
             <div class="applicant-details__profile_value">{{ applicant_details.kra_pin }}</div>
           </div>
           <div class="applicant-details__profile_row">
@@ -427,7 +427,7 @@
               </div>
 
               <div class="el-row">
-                <div class="review-title">{{taxPayerNameIdentifier}} Number of Owner</div>
+                <div class="review-title">{{ taxPayerNameIdentifier }} Number of Owner</div>
                 <div
                   class="review-desc"
                 >{{ this.verification_details.motor_vehicle_records_check.owner_kra }}</div>
@@ -592,10 +592,10 @@
         >
           <el-collapse-item name="6">
             <template slot="title">
-              <span>{{taxPayerNameIdentifier}} Verification</span>
+              <span>{{ taxPayerNameIdentifier }} Verification</span>
               <span
                 class="applicant--details__kraPin"
-              >{{taxPayerNameIdentifier}} NUMBER : {{ applicant_details.kra_pin }}</span>
+              >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
             </template>
 
             <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -782,9 +782,9 @@ export default {
       }
     },
 
-    taxPayerNameIdentifier(){
-      if('country' in this.applicant_details){
-        if(this.applicant_details.country === 'Kenya'){
+    taxPayerNameIdentifier() {
+      if ('country' in this.applicant_details) {
+        if (this.applicant_details.country === 'Kenya') {
           return 'KRA PIN';
         }
       }
