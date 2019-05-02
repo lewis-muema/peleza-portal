@@ -805,7 +805,7 @@ export default {
       }
     },
 
-    taxPayerNameIdentifier(){
+    taxPayerNameIdentifier() {
       if ('country' in this.applicant_details) {
         if (this.applicant_details.country === 'Kenya') {
           return 'KRA PIN';
