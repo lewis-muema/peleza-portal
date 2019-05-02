@@ -241,6 +241,7 @@ export default {
           date_verified: d.date_verified,
           partner_id: d.id,
           partner_name: d.name,
+          partner_country: d.country,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,

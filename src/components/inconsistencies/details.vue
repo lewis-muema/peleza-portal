@@ -15,7 +15,7 @@
           </div>
 
           <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">KRA PIN</div>
+            <div class="applicant-details__profile_label">{{taxPayerNameIdentifier}}</div>
             <div class="applicant-details__profile_value">{{ applicant_details.kra_pin }}</div>
           </div>
           <div class="applicant-details__profile_row">
@@ -403,7 +403,7 @@
               </div>
 
               <div class="el-row">
-                <div class="review-title">KRA Pin Number of Owner</div>
+                <div class="review-title">{{taxPayerNameIdentifier}} Number of Owner</div>
                 <div
                   class="review-desc"
                 >{{ this.verification_details.motor_vehicle_records_check.owner_kra }}</div>
@@ -638,10 +638,10 @@
             :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''"
           >
             <template slot="title">
-              <span>KRA PIN Verification</span>
+              <span>{{taxPayerNameIdentifier}} Verification</span>
               <span
                 class="applicant--details__kraPin"
-              >KRA PIN NUMBER : {{ applicant_details.kra_pin }}</span>
+              >{{taxPayerNameIdentifier}} NUMBER : {{ applicant_details.kra_pin }}</span>
             </template>
 
             <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -658,7 +658,7 @@
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="Pin Number" :label-width="'25%'">
+              <el-form-item label="PIN/TIN Number" :label-width="'25%'">
                 <el-input
                   v-model="verification_details.kra_pin_verification.pin_number"
                   auto-complete="off"
@@ -685,7 +685,7 @@
                 <el-button
                   type="primary"
                   class="details-save-button"
-                  @click="updateReview('kra_pin_verification', 'KRA Pin Verification')"
+                  @click="updateReview('kra_pin_verification', `${taxPayerNameIdentifier} Verification`)"
                 >SAVE</el-button>
               </el-form-item>
             </el-form>
@@ -702,7 +702,7 @@
                 <div class="review-desc">{{ this.verification_details.kra_pin_verification.name }}</div>
               </div>
               <div class="el-row">
-                <div class="review-title">Pin Number</div>
+                <div class="review-title">{{taxPayerNameIdentifier}}</div>
                 <div
                   class="review-desc"
                 >{{ this.verification_details.kra_pin_verification.pin_number }}</div>
@@ -803,6 +803,15 @@ export default {
           return true;
         }
       }
+    },
+
+    taxPayerNameIdentifier(){
+      if('country' in this.applicant_details){
+        if(this.applicant_details.country === 'Kenya'){
+          return 'KRA PIN';
+        }
+      }
+      return 'TIN';
     },
   },
   watch: {},
