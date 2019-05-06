@@ -98,7 +98,6 @@ describe('Application-details-test', () => {
       vendor_type: '1',
     },
   ];
-
   beforeEach(() => {
     moxios.install(axios);
     store = new Vuex.Store({
