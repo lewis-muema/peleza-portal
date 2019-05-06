@@ -1062,7 +1062,6 @@ export default {
           'content-type': 'multipart/form-data',
         },
       };
-
       return (
         axios
           .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/upload_doc/`, data, { headers: { 'content-type': 'multipart/form-data', Authorization: localStorage.token } })
