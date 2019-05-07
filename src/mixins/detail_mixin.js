@@ -1,8 +1,12 @@
-//detail mixin contains common methods computed properties across the details components
+/* eslint-disable no-nested-ternary */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-undef */
+// detail mixin contains common methods computed properties across the details components
 
-var DetailMxn = {
-  created: function() {
-    //call functions you want to execute when mixin is loaded into a component
+const DetailMxn = {
+  created() {
+    // call functions you want to execute when mixin is loaded into a component
   },
   methods: {
     getVendorType(vendor) {
@@ -13,40 +17,37 @@ var DetailMxn = {
         : 'N/A';
     },
     handleReviewEdit(section) {
-      let obj = this.verification_details;
-      obj[section]['review_status'] = false;
+      const obj = this.verification_details;
+      obj[section].review_status = false;
       this.verification_details = Object.assign({}, this.verification_details, obj);
     },
     createLogStatement(log) {
-      let statement = `${log.admin_name}
-        ${log.last_activity}
-        on
-        ${moment(log.date_time).format('Do MMM YYYY')}
-        at
-        ${moment(log.date_time).format('HH:mm:ss A')}`;
+      const statement = `${log.admin_name} ${log.last_activity} on ${moment(log.date_time).format(
+        'Do MMM YYYY',
+      )} at ${moment(log.date_time).format('HH:mm:ss A')}`;
       return statement;
     },
     checkProperties(obj) {
-      for (var key in obj) {
-        if ((obj[key] == null || obj[key] === '') && obj[key] !== false) {
+      for (const key in obj) {
+        if ((obj[key] === null || obj[key] === '') && !obj[key]) {
           return false;
         }
       }
       return true;
     },
     handleIdCardChange() {
-      let files = document.getElementById('id_card')['files'];
+      const files = document.getElementById('id_card').files;
 
       if (files.length < 1) {
         this.id_doc_change = false;
       } else {
         this.id_doc_change = true;
-        let name = files[0]['name'];
-        let obj = this.verification_details;
-        obj['identity_check']['id_card'] = name;
+        const name = files[0].name;
+        const obj = this.verification_details;
+        obj.identity_check.id_card = name;
         this.verification_details = Object.assign({}, this.verification_details, obj);
 
-        //this.verification_details.identity_check.id_card = name;
+        // this.verification_details.identity_check.id_card = name;
       }
     },
 
@@ -59,43 +60,48 @@ var DetailMxn = {
     },
 
     getPartnerLogs() {
-      let payload = {
+      const payload = {
         partner_id: this.applicant_details.partner_id,
       };
 
       axios
-        .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
-        .then(response => {
-          if (response.data.status === true) {
+      .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/logs/get_partner_logs/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        // .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
+        .then((response) => {
+          if (response.data.status) {
             this.partner_logs = response.data.logs;
           } else {
             this.partner_logs = [];
           }
         })
-        .catch(error => {
-          throw new Error('Could not update applicant');
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
           });
+          throw new Error('Could not update applicant');
         });
     },
     getAlbumName(iid) {
       if (iid === 'insurance') {
         return 'insu';
-      } else if (iid === 'id_card' || iid === 'nok_id_card') {
+      }
+      if (iid === 'id_card' || iid === 'nok_id_card') {
         return 'id';
-      } else if (iid === 'driver') {
+      }
+      if (iid === 'driver') {
         return 'photo';
+        // eslint-disable-next-line no-else-return
       } else {
         return iid;
       }
     },
 
     checkReviewStatus() {
-      let obj = this.verification_details;
-      for (var key in obj) {
-        if (obj[key]['review_status'] === false) {
+      const obj = this.verification_details;
+      for (const key in obj) {
+        if (obj[key].review_status === false) {
           return false;
         }
       }
@@ -113,7 +119,7 @@ var DetailMxn = {
       const WinPrint = window.open(
         '',
         '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0'
+        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0',
       );
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
