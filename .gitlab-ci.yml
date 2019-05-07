@@ -20,4 +20,4 @@ unit test:
   stage: test
   script:
     - npm install --progress=false
-#    - npm test
+    - npm test
