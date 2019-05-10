@@ -146,6 +146,26 @@ describe('Application-details-test', () => {
     moxios.uninstall();
   });
   it('Loads applicant details into localStorage', done => {
+    localStorage.user = JSON.stringify({
+      admin_type: '0',
+      admin_id: '0',
+      ecommerce_only: '0',
+      status: '1',
+      email: 'marketing@sendy.co.ke',
+      agent_extension: '0',
+      external_status: '1',
+      cop_id: null,
+      name: 'Marketing',
+      post: 'Marketing',
+      dev: '1',
+      pic: 'eggy.png',
+      privilege: '{"view_new_feature": false, "record_mpesa": false, "chat": false, "approve_partners": true, "approve_postpay": false, "record_cheques": false, "record_partner_withdrawal": false, "record_promo_code": false, "record_user": false, "record_pass_change": false, "approve_prepay_billing": false, "approve_postpay_billing": true, "change_account_manager": false, "location_proximity": false, "reassign_orders": false}',
+      send_dept_id: '7',
+      role: '1',
+      phone: '',
+      show_ecommerce: '0',
+      allowed_orders: '',
+    });
     const listWrapper = shallowMount(listDetails, {
       sync: false,
       store,

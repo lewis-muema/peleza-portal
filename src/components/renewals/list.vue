@@ -1,7 +1,7 @@
 <template xmlns:router-link="">
   <div class="stageone">
     <el-table
-      :data="paginated_applicants"
+      :data="paginated_partners"
       @row-click="startVerification"
       v-loading.body="loading"
       border
@@ -50,12 +50,18 @@ export default {
       applicant: {},
       empty_state: 'Loading...',
       date_range: [new Date(y, m, 1), new Date(y, m + 1, 0)],
-      pagination_limit: 40,
+      pagination_limit: 10,
       pagination_page: 1,
       loading: false,
     };
   },
-  computed: {},
+  computed: {
+    paginated_partners() {
+      const from = (this.pagination_page - 1) * this.pagination_limit;
+      const to = this.pagination_page * this.pagination_limit;
+      return this.searched_applicants.slice(from, to);
+    },
+  },
   beforeMount() {
     this.getApplicants();
     setInterval(() => {

@@ -15,7 +15,7 @@
       />
     </div>
     <el-table
-      :data="searched_applicants"
+      :data="paginated_partners"
       v-loading.body="loading"
       @row-click="startVerification"
       border
@@ -125,13 +125,19 @@ export default {
           },
         ],
       },
-      pagination_limit: 40,
+      pagination_limit: 10,
       pagination_page: 1,
       loading: false,
       vendor_types: VENDOR_TYPES,
     };
   },
-  computed: {},
+  computed: {
+    paginated_partners() {
+      const from = (this.pagination_page - 1) * this.pagination_limit;
+      const to = this.pagination_page * this.pagination_limit;
+      return this.searched_applicants.slice(from, to);
+    },
+  },
   beforeMount() {
     this.getApplicants();
     setInterval(() => {
