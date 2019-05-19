@@ -266,7 +266,7 @@ hr {
   color: #2a7fc3;
 }
 .application-details-ins {
-  text-align: right!important;
+  text-align: right !important;
   vertical-align: middle;
   float: left;
   font-size: 15px;
@@ -360,6 +360,7 @@ hr {
   color: #555;
   font-size: 14px;
 }
+
 .applicant-details__idNo {
   float: right;
   padding-right: 10px;
@@ -373,6 +374,29 @@ hr {
   float: right;
   padding-right: 10px;
 }
+
+.applicant--details__kraPin,
+.applicant--details__noPlate,
+.applicant-details__idNo,
+.applicant--details__insurance {
+  width: 300px;
+  text-overflow: ellipsis;
+  height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.hidden-hover {
+  position: absolute;
+  right: 80px;
+  margin-top: 35px;
+  background-color: #0000004f;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .user-pic {
   height: 40px;
   width: 40px;
@@ -423,6 +447,19 @@ hr {
     float: left;
     padding-left: 22px;
   }
+
+  .applicant--details__kraPin,
+  .applicant--details__noPlate,
+  .applicant-details__idNo,
+  .applicant--details__insurance {
+    width: 300px;
+    text-overflow: ellipsis;
+    height: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+  }
+
   .el-form-item__label {
     text-align: center;
     font-size: 12px;
