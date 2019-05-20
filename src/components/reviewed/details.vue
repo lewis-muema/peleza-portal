@@ -62,8 +62,15 @@
         <el-collapse-item name="1">
           <template slot="title">
             <span style>Identity Check</span>
-
-            <span class="applicant-details__idNo">ID Number : {{ applicant_details.id_no }}</span>
+            <span
+              class="applicant-details__idNo"
+              @mouseover="showDets(1)"
+              @mouseout="showDets(0)"
+            >ID Number : {{ applicant_details.id_no }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 1"
+            >ID Number : {{ applicant_details.id_no }}</span>
           </template>
           <el-form :model="verification_details.identity_check" v-show="!identityReview">
             <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -258,6 +265,12 @@
             <span>Motor Vehicle Records Check</span>
             <span
               class="applicant--details__noPlate"
+              @mouseover="showDets(2)"
+              @mouseout="showDets(0)"
+            >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 2"
             >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
           </template>
 
@@ -393,6 +406,12 @@
             <span>Car Insurance Validity</span>
             <span
               class="applicant--details__insurance"
+              @mouseover="showDets(3)"
+              @mouseout="showDets(0)"
+            >Insurance Number : {{ applicant_details.insurance_number }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 3"
             >Insurance Number : {{ applicant_details.insurance_number }}</span>
           </template>
           <el-form
@@ -563,6 +582,12 @@
             <span>{{ taxPayerNameIdentifier }} Verification</span>
             <span
               class="applicant--details__kraPin"
+              @mouseover="showDets(4)"
+              @mouseout="showDets(0)"
+            >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 4"
             >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
           </template>
 
@@ -677,6 +702,7 @@ export default {
       },
       user: JSON.parse(localStorage.user),
       partner_logs: [],
+      showHoverVal: 0,
     };
   },
   computed: {
@@ -750,6 +776,9 @@ export default {
       WinPrint.focus();
       WinPrint.print();
       WinPrint.close();
+    },
+    showDets(val) {
+      this.showHoverVal = val;
     },
   },
 };
