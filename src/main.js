@@ -46,7 +46,7 @@ window.NODE_API_SWITCH = process.env.NODE_API_SWITCH;
 
 window.AWS_URL = 'https://s3-eu-west-1.amazonaws.com/sendy-partner-docs/';
 window.MISSING_PHOTO_URL = 'https://placehold.it/300/300';
-window.VENDOR_TYPES = ['Bike', 'Pick Up', 'Van', 'Laundry', 'Cooler Van', '3T Truck', 'Donation', 'Intercity', 'Cab', '5T Truck', 'Boda Boda', 'Tuk Tuk', '7T Truck', '10T Truck', 'Promotion', 'Donation', '14T Truck', '20T Truck', '24T Truck', '28T Truck', 'Foot Soldier'];
+window.VENDOR_TYPES = ['Bike', 'Pick Up', 'Van', 'Laundry', 'Cooler Van', '3T Truck', 'Donation', 'Intercity', 'Cab', '5T Truck', 'Boda Boda', 'Tuk Tuk', '7T Truck', '10T Truck', 'Promotion', 'Donation', '14T Truck', '20T Truck', '24T Truck', '28T Truck', 'Runner', 'Economy Runner', 'Economy Bike', 'Standard Bike', 'Freight'];
 window.log = function(x) {
   console.log(x);
 };
