@@ -7,39 +7,39 @@
     <div class="applicant-details__profile">
       <el-card class="applicant-details__profile__personal-details">
         <div class="applicant-details__profile_content">
-          <img :src="applicant_details.driver_photo" class="applicant-details__profile_image">
+          <!--<img :src="applicant_details.driver_photo" class="applicant-details__profile_image">-->
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">ID NUMBER</div>
-            <div class="applicant-details__profile_value">{{applicant_details.id_no}}</div>
+            <div class="applicant-details__profile_value">{{ applicant_details.id_no }}</div>
           </div>
 
           <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">KRA PIN</div>
-            <div class="applicant-details__profile_value">{{applicant_details.kra_pin}}</div>
+            <div class="applicant-details__profile_label">{{ taxPayerNameIdentifier }}</div>
+            <div class="applicant-details__profile_value">{{ applicant_details.kra_pin }}</div>
           </div>
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">DATE OF APPLICATION</div>
             <div
               class="applicant-details__profile_value"
-            >{{formatDate(applicant_details.date_created)}}</div>
+            >{{ formatDate(applicant_details.date_created) }}</div>
           </div>
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">DATE VERIFIED</div>
             <div
               class="applicant-details__profile_value"
-            >{{formatDate(applicant_details.date_verified)}}</div>
+            >{{ formatDate(applicant_details.date_verified) }}</div>
           </div>
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">APPLICATION TYPE</div>
-            <div class="applicant-details__profile_value">{{applicant_details.application_type}}</div>
+            <div class="applicant-details__profile_value">{{ applicant_details.application_type }}</div>
           </div>
 
           <div class="applicant-details__profile_row">
             <div class="applicant-details__profile_label">VENDOR TYPE</div>
             <div
               class="applicant-details__profile_value"
-            >{{ getVendorType(applicant_details.vendor_type)}}</div>
+            >{{ getVendorType(applicant_details.vendor_type) }}</div>
           </div>
 
           <div class="applicant-details__profile_row">
@@ -50,7 +50,10 @@
       </el-card>
       <el-card header="Activity Log" class="applicant-details__profile__personal-details">
         <ul class="logs-list">
-          <li v-for="log in partner_logs.slice().reverse()">{{createLogStatement(log)}}</li>
+          <li
+            v-for="log in partner_logs.slice().reverse()"
+            :key="log.index"
+          >{{ createLogStatement(log) }}</li>
         </ul>
       </el-card>
     </div>
@@ -59,8 +62,15 @@
         <el-collapse-item name="1">
           <template slot="title">
             <span style>Identity Check</span>
-            
-            <span style="float: right; padding-right: 10px">ID Number : {{applicant_details.id_no}}</span>
+            <span
+              class="applicant-details__idNo"
+              @mouseover="showDets(1)"
+              @mouseout="showDets(0)"
+            >ID Number : {{ applicant_details.id_no }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 1"
+            >ID Number : {{ applicant_details.id_no }}</span>
           </template>
           <el-form :model="verification_details.identity_check" v-show="!identityReview">
             <el-form-item label="Name of Applicant" :label-width="'25%'">
@@ -73,6 +83,7 @@
               <el-date-picker
                 v-model="verification_details.identity_check.dob"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Birth"
               ></el-date-picker>
             </el-form-item>
@@ -97,7 +108,7 @@
               <input
                 name="id_card"
                 auto-complete="off"
-                v-on:change="handleIdCardChange"
+                @change="handleIdCardChange"
                 class="upload-button inputfile"
                 type="file"
                 id="id_card"
@@ -120,124 +131,32 @@
                   <div class="review-title">Name of Applicant</div>
                   <div
                     class="review-desc"
-                  >{{this.verification_details.identity_check.applicant_name}}</div>
+                  >{{ this.verification_details.identity_check.applicant_name }}</div>
                 </div>
-                <div class="el-row">
+                <div class="el-row" v-show="applicant_details.application_type !== 'Driver'">
                   <div class="review-title">Date of Birth</div>
                   <div
                     class="review-desc"
-                  >{{formatDate(this.verification_details.identity_check.dob)}}</div>
+                  >{{ formatDate(this.verification_details.identity_check.dob) }}</div>
                 </div>
-                <div class="el-row">
+                <div class="el-row" v-show="applicant_details.application_type !== 'Driver'">
                   <div class="review-title">Place of Birth</div>
-                  <div class="review-desc">{{this.verification_details.identity_check.pob}}</div>
+                  <div class="review-desc">{{ this.verification_details.identity_check.pob }}</div>
                 </div>
                 <div class="el-row">
                   <div class="review-title">Gender</div>
-                  <div class="review-desc">{{this.verification_details.identity_check.gender}}</div>
+                  <div class="review-desc">{{ this.verification_details.identity_check.gender }}</div>
                 </div>
               </div>
               <div class="el-col-lg-8 review-image">
-                <!--<div class="review-edit" @click="handleReviewEdit('identity_check')">-->
-                <!--Edit-->
-                <!--</div>-->
                 <a
                   :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`"
                   target="_blank"
                 >
-                  <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`">
+                  <!-- <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"> -->
                 </a>
               </div>
             </div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item
-          title="Criminal Records Check"
-          name="2"
-          v-show="applicant_details.application_type !== 'Owner'"
-        >
-          <el-form
-            :model="verification_details.criminal_records_check"
-            class="el-col-lg-15 review-details"
-            v-show="!criminalReview"
-          >
-            <el-form-item label="Name of Applicant" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.applicant_name"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="Criminal History" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.criminal_history"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Authenticity" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.authenticity"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Id Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.id_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item label="Reference Number" :label-width="'25%'">
-              <el-input
-                v-model="verification_details.criminal_records_check.ref_no"
-                auto-complete="off"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item>
-              <el-button
-                type="primary"
-                class="details-save-button"
-                @click="updateReview('criminal_records_check', 'Criminal Records Check')"
-              >SAVE</el-button>
-            </el-form-item>
-          </el-form>
-          <div class="el-col-lg-15 review-details" v-show="criminalReview">
-            <div class="el-row">
-              <div class="review-title">Name of Applicant</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.applicant_name}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Criminal History</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.criminal_history}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Authenticity</div>
-              <div
-                class="review-desc"
-              >{{this.verification_details.criminal_records_check.authenticity}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Id Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.id_no}}</div>
-            </div>
-            <div class="el-row">
-              <div class="review-title">Reference Number</div>
-              <div class="review-desc">{{this.verification_details.criminal_records_check.ref_no}}</div>
-            </div>
-          </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit"  v-show="criminalReview" @click="handleReviewEdit('criminal_records_check')">-->
-            <!--Edit-->
-            <!--</div>-->
-            <a :href="`${AWS_URL}gc/${this.applicant_details.good_conduct}`" target="_blank">
-              <img :src="`${AWS_URL}gc/${this.applicant_details.good_conduct}`">
-            </a>
           </div>
         </el-collapse-item>
         <el-collapse-item
@@ -263,6 +182,7 @@
               <el-date-picker
                 v-model="verification_details.driving_license_check.date_of_issue"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Issue"
               ></el-date-picker>
             </el-form-item>
@@ -271,6 +191,7 @@
               <el-date-picker
                 v-model="verification_details.driving_license_check.expiry_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Expiry Date"
               ></el-date-picker>
             </el-form-item>
@@ -303,31 +224,33 @@
                 <div class="review-title">Name of Applicant</div>
                 <div
                   class="review-desc"
-                >{{this.verification_details.driving_license_check.applicant_name}}</div>
+                >{{ this.verification_details.driving_license_check.applicant_name }}</div>
               </div>
               <div class="el-row">
                 <div class="review-title">DL Number</div>
-                <div class="review-desc">{{this.verification_details.driving_license_check.dl_no}}</div>
+                <div class="review-desc">{{ this.verification_details.driving_license_check.dl_no }}</div>
               </div>
               <div class="el-row">
                 <div class="review-title">Date of Issue</div>
                 <div
                   class="review-desc"
-                >{{formatDate(this.verification_details.driving_license_check.date_of_issue)}}</div>
+                >{{ formatDate(this.verification_details.driving_license_check.date_of_issue) }}</div>
               </div>
               <div class="el-row">
                 <div class="review-title">Expiry Date</div>
                 <div
                   class="review-desc"
-                >{{formatDate(this.verification_details.driving_license_check.expiry_date)}}</div>
+                >{{ formatDate(this.verification_details.driving_license_check.expiry_date) }}</div>
               </div>
               <div class="el-row">
                 <div class="review-title">Classes</div>
-                <div class="review-desc">{{this.verification_details.driving_license_check.classes}}</div>
+                <div
+                  class="review-desc"
+                >{{ this.verification_details.driving_license_check.classes }}</div>
               </div>
               <div class="el-row">
                 <div class="review-title">ID Number</div>
-                <div class="review-desc">{{this.verification_details.driving_license_check.id_no}}</div>
+                <div class="review-desc">{{ this.verification_details.driving_license_check.id_no }}</div>
               </div>
             </div>
             <div class="el-col-lg-8 review-image">
@@ -341,8 +264,14 @@
           <template slot="title">
             <span>Motor Vehicle Records Check</span>
             <span
-              style="float: right; padding-right: 10px"
-            >Number Plate : {{applicant_details.vehicle_reg_no}}</span>
+              class="applicant--details__noPlate"
+              @mouseover="showDets(2)"
+              @mouseout="showDets(0)"
+            >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 2"
+            >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
           </template>
 
           <el-form
@@ -389,6 +318,7 @@
               <el-date-picker
                 v-model="verification_details.motor_vehicle_records_check.manufacture_year"
                 type="year"
+                popper-class="date-popup"
                 placeholder="Year of Manufacture"
               ></el-date-picker>
             </el-form-item>
@@ -400,7 +330,7 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item label="KRA Pin Number of Owner" :label-width="'25%'">
+            <el-form-item label="PIN/TIN of Owner" :label-width="'25%'">
               <el-input
                 v-model="verification_details.motor_vehicle_records_check.owner_kra"
                 auto-complete="off"
@@ -421,78 +351,107 @@
               <div class="review-title">Ownership Details and Address</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.ownership_details}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.ownership_details }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Vehicle Make</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.make}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.make }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Vehicle Body Type</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.body_type}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.body_type }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Engine No</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.engine_no}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.engine_no }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Chasis No</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.chasis_no}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.chasis_no }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Year of Manufacture</div>
-              <div
-                class="review-desc"
-              >{{formatYear(this.verification_details.motor_vehicle_records_check.manufacture_year)}}</div>
+              <div class="review-desc">
+                {{
+                formatYear(this.verification_details.motor_vehicle_records_check.manufacture_year)
+                }}
+              </div>
             </div>
             <div class="el-row">
               <div class="review-title">Caveats</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.caveats}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.caveats }}</div>
             </div>
 
             <div class="el-row">
-              <div class="review-title">KRA Pin Number of Owner</div>
+              <div class="review-title">{{ taxPayerNameIdentifier }} Number of Owner</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.motor_vehicle_records_check.owner_kra}}</div>
+              >{{ this.verification_details.motor_vehicle_records_check.owner_kra }}</div>
             </div>
           </div>
-          <div class="el-col-lg-8 review-image">
-            <!--<div class="review-edit" v-show="motorReview" @click="handleReviewEdit('motor_vehicle_records_check')">-->
-            <!--Edit-->
-            <!--</div>-->
-            <a :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`" target="_blank">
-              <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-            </a>
-          </div>
+          <div class="el-col-lg-8 review-image"></div>
         </el-collapse-item>
-        <el-collapse-item
-          title="Car Insurance Validity"
-          name="5"
-          v-show="applicant_details.application_type !== 'Driver'"
-        >
+        <el-collapse-item name="5" v-show="applicant_details.application_type !== 'Driver'">
+          <template slot="title">
+            <span>Car Insurance Validity</span>
+            <span
+              class="applicant--details__insurance"
+              @mouseover="showDets(3)"
+              @mouseout="showDets(0)"
+            >Insurance Number : {{ applicant_details.insurance_number }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 3"
+            >Insurance Number : {{ applicant_details.insurance_number }}</span>
+          </template>
           <el-form
             :model="verification_details.car_insurance_validity"
             class="el-col-lg-15 review-details"
             v-show="!insuranceReview"
           >
+            <div
+              id="print"
+              class="el-row"
+              v-show="this.applicant_details.application_type !== 'Driver'"
+            >
+              <div class="review-consent-text">
+                I, {{ this.applicant_details.partner_name }} (ID Number
+                {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
+              </div>
+              <div class="no-print">
+                <el-button type="primary" class="details-print-button" @click="printInsurance">PRINT</el-button>
+              </div>
+              <div>
+                <b>Insurance Company:</b>
+                {{ this.applicant_details.insurance_name }}
+              </div>
+              <div>
+                <b>Insurance Cert Number:</b>
+                {{ this.applicant_details.insurance_number }}
+              </div>
+              <div class="review-list">
+                <b>Policy Number:</b>
+                {{ this.applicant_details.policy_number }}
+              </div>
+              <hr>
+            </div>
             <el-form-item label="Name of Owner" :label-width="'25%'">
               <el-input
                 v-model="verification_details.car_insurance_validity.owner_name"
                 auto-complete="off"
               ></el-input>
             </el-form-item>
-            <el-form-item label="Vehicle Number Plate" :label-width="'25%'">
+            <el-form-item label="Vehiclee" :label-width="'25%'">
               <el-input
                 v-model="verification_details.car_insurance_validity.vehicle_number_plate"
                 auto-complete="off"
@@ -503,6 +462,7 @@
               <el-date-picker
                 v-model="verification_details.car_insurance_validity.issue_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Issue Date"
               ></el-date-picker>
             </el-form-item>
@@ -511,6 +471,7 @@
               <el-date-picker
                 v-model="verification_details.car_insurance_validity.expiry_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Expiry Date"
               ></el-date-picker>
             </el-form-item>
@@ -529,6 +490,13 @@
               ></el-input>
             </el-form-item>
 
+            <el-form-item label="Insurance Cert Number" :label-width="'25%'">
+              <el-input
+                v-model="verification_details.car_insurance_validity.insurance_cert_number"
+                auto-complete="off"
+              ></el-input>
+            </el-form-item>
+
             <el-form-item>
               <el-button
                 type="primary"
@@ -537,57 +505,90 @@
               >SAVE</el-button>
             </el-form-item>
           </el-form>
-          <div class="el-col-lg-15 review-details" v-show="insuranceReview">
+          <div class="el-col-lg-24 review-details" v-show="insuranceReview">
+            <div
+              id="print"
+              class="el-row"
+              v-show="this.applicant_details.application_type !== 'Driver'"
+            >
+              <div class="review-consent-text">
+                I, {{ this.applicant_details.partner_name }} (ID Number
+                {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}
+              </div>
+              <div class="no-print">
+                <el-button type="primary" class="details-print-button" @click="printInsurance">PRINT</el-button>
+              </div>
+              <div>
+                <b>Insurance Company:</b>
+                {{ this.applicant_details.insurance_name }}
+              </div>
+              <div>
+                <b>Insurance Cert Number:</b>
+                {{ this.applicant_details.insurance_number }}
+              </div>
+              <div class="review-list">
+                <b>Policy Number:</b>
+                {{ this.applicant_details.policy_number }}
+              </div>
+              <hr>
+            </div>
             <div class="el-row">
               <div class="review-title">Name of Owner</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.car_insurance_validity.owner_name}}</div>
+              >{{ this.verification_details.car_insurance_validity.owner_name }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Vehicle Number Plate</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.car_insurance_validity.vehicle_number_plate}}</div>
+              >{{ this.verification_details.car_insurance_validity.vehicle_number_plate }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Issue Date</div>
               <div
                 class="review-desc"
-              >{{formatDate(this.verification_details.car_insurance_validity.issue_date)}}</div>
+              >{{ formatDate(this.verification_details.car_insurance_validity.issue_date) }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Expiry Date</div>
               <div
                 class="review-desc"
-              >{{formatDate(this.verification_details.car_insurance_validity.expiry_date)}}</div>
+              >{{ formatDate(this.verification_details.car_insurance_validity.expiry_date) }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Validity</div>
-              <div class="review-desc">{{this.verification_details.car_insurance_validity.validity}}</div>
+              <div
+                class="review-desc"
+              >{{ this.verification_details.car_insurance_validity.validity }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Policy Number</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.car_insurance_validity.policy_number}}</div>
+              >{{ this.verification_details.car_insurance_validity.policy_number }}</div>
+            </div>
+            <div class="el-row">
+              <div class="review-title">Insurance Cert Number</div>
+              <div
+                class="review-desc"
+              >{{ this.verification_details.car_insurance_validity.insurance_cert_number }}</div>
             </div>
           </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit" @click="handleReviewEdit('car_insurance_validity')" v-show="insuranceReview">-->
-            <!--Edit-->
-            <!--</div>-->
-            <a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
-              <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-            </a>
-          </div>
+          <div class="el-col-lg-7 review-image"></div>
         </el-collapse-item>
-        <el-collapse-item name="6">
+        <el-collapse-item name="6" v-show="applicant_details.application_type !== 'Driver'">
           <template slot="title">
-            <span>KRA PIN Verification</span>
+            <span>{{ taxPayerNameIdentifier }} Verification</span>
             <span
-              style="float: right; padding-right: 10px"
-            >KRA PIN NUMBER : {{applicant_details.kra_pin}}</span>
+              class="applicant--details__kraPin"
+              @mouseover="showDets(4)"
+              @mouseout="showDets(0)"
+            >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
+            <span
+              class="hidden-hover"
+              v-if="showHoverVal === 4"
+            >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
           </template>
 
           <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -604,7 +605,7 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item label="Pin Number" :label-width="'25%'">
+            <el-form-item label="PIN/TIN" :label-width="'25%'">
               <el-input
                 v-model="verification_details.kra_pin_verification.pin_number"
                 auto-complete="off"
@@ -622,6 +623,7 @@
               <el-date-picker
                 v-model="verification_details.kra_pin_verification.registration_date"
                 type="date"
+                popper-class="date-popup"
                 placeholder="Date of Registration"
               ></el-date-picker>
             </el-form-item>
@@ -630,7 +632,7 @@
               <el-button
                 type="primary"
                 class="details-save-button"
-                @click="updateReview('kra_pin_verification', 'KRA Pin Verification')"
+                @click="updateReview('kra_pin_verification', `${taxPayerNameIdentifier} Verification`)"
               >SAVE</el-button>
             </el-form-item>
           </el-form>
@@ -638,34 +640,32 @@
           <div class="el-col-lg-15 review-details" v-show="kraReview">
             <div class="el-row">
               <div class="review-title">Validity</div>
-              <div class="review-desc">{{this.verification_details.kra_pin_verification.validity}}</div>
+              <div class="review-desc">{{ this.verification_details.kra_pin_verification.validity }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Name</div>
-              <div class="review-desc">{{this.verification_details.kra_pin_verification.name}}</div>
+              <div class="review-desc">{{ this.verification_details.kra_pin_verification.name }}</div>
             </div>
             <div class="el-row">
-              <div class="review-title">Pin Number</div>
-              <div class="review-desc">{{this.verification_details.kra_pin_verification.pin_number}}</div>
+              <div class="review-title">{{ taxPayerNameIdentifier }}</div>
+              <div
+                class="review-desc"
+              >{{ this.verification_details.kra_pin_verification.pin_number }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Tax Obligations</div>
               <div
                 class="review-desc"
-              >{{this.verification_details.kra_pin_verification.tax_obligations}}</div>
+              >{{ this.verification_details.kra_pin_verification.tax_obligations }}</div>
             </div>
             <div class="el-row">
               <div class="review-title">Date of Registration</div>
               <div
                 class="review-desc"
-              >{{formatDate(this.verification_details.kra_pin_verification.registration_date)}}</div>
+              >{{ formatDate(this.verification_details.kra_pin_verification.registration_date) }}</div>
             </div>
           </div>
-          <div class="el-col-lg-7 review-image">
-            <!--<div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">-->
-            <!--Edit-->
-            <!--</div>-->
-          </div>
+          <div class="el-col-lg-7 review-image"></div>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -673,37 +673,79 @@
 </template>
 
 <script>
-import DetailMxn from "../../mixins/detail_mixin.js";
+import DetailMxn from '../../mixins/detail_mixin';
 
 export default {
-  name: "applicant-details",
-  props: ["data", "docs"],
+  name: 'applicant-details',
   mixins: [DetailMxn],
+  props: ['data', 'docs'],
   data() {
     return {
       vendor_types: VENDOR_TYPES,
-      comments: "",
+      comments: '',
       popover_visible: false,
-      reason: "",
+      reason: '',
       lock_ui: false,
       valid_docs: [],
       invalid_docs: [],
       current_verification: this.$store.getters.current_verification,
       applicant_details: {},
       verification_details: {},
-      accordionActiveName: "identity_check",
-      id_card: "",
+      accordionActiveName: 'identity_check',
+      id_card: '',
       id_doc_change: false,
       nok_doc_change: false,
       AWS_URL: window.AWS_URL,
       applicant_review: {
-        status: "",
-        reason: ""
+        status: '',
+        reason: '',
       },
       user: JSON.parse(localStorage.user),
-      partner_logs: []
+      partner_logs: [],
+      showHoverVal: 0,
     };
   },
+  computed: {
+    identityReview() {
+      return this.verification_details.identity_check.review_status;
+    },
+    drivingReview() {
+      return this.verification_details.driving_license_check.review_status;
+    },
+    motorReview() {
+      return this.verification_details.motor_vehicle_records_check.review_status;
+    },
+    insuranceReview() {
+      return this.verification_details.car_insurance_validity.review_status;
+    },
+    kraReview() {
+      return this.verification_details.kra_pin_verification.review_status;
+    },
+    validSubmit() {
+      return this.checkReviewStatus();
+    },
+    validSubmitStatus() {
+      if (this.applicant_review.status === '') {
+        return false;
+      } else {
+        if (!this.applicant_review.status) {
+          return this.applicant_review.reason !== '';
+        } else {
+          return true;
+        }
+      }
+    },
+
+    taxPayerNameIdentifier() {
+      if ('country' in this.applicant_details) {
+        if (this.applicant_details.country === 'Kenya') {
+          return 'KRA PIN';
+        }
+      }
+      return 'TIN';
+    },
+  },
+  watch: {},
   beforeMount() {
     this.applicant_details = this.current_verification.applicant_details;
     this.verification_details = this.current_verification.verification_details;
@@ -711,51 +753,42 @@ export default {
   },
   methods: {
     handleBack() {
-      this.$router.push({ name: "reviewed" });
-    }
-  },
-  computed: {
-    identityReview: function() {
-      return this.verification_details.identity_check.review_status;
+      this.$router.push({ name: 'reviewed' });
     },
-    criminalReview: function() {
-      return this.verification_details.criminal_records_check.review_status;
-    },
-    drivingReview: function() {
-      return this.verification_details.driving_license_check.review_status;
-    },
-    motorReview: function() {
-      return this.verification_details.motor_vehicle_records_check
-        .review_status;
-    },
-    insuranceReview: function() {
-      return this.verification_details.car_insurance_validity.review_status;
-    },
-    kraReview: function() {
-      return this.verification_details.kra_pin_verification.review_status;
-    },
-    validSubmit: function() {
-      return this.checkReviewStatus();
-    },
-    validSubmitStatus: function() {
-      if (this.applicant_review.status == "") {
-        return false;
-      } else {
-        if (this.applicant_review.status == false) {
-          if (this.applicant_review.reason == "") {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          return true;
-        }
+    printInsurance() {
+      const prtHtml = document.getElementById('print').innerHTML;
+      let stylesHtml = '';
+      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
+        stylesHtml += node.outerHTML;
       }
-    }
+      const WinPrint = window.open('', '', 'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+      WinPrint.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          ${stylesHtml}
+        </head>
+        <body>
+          ${prtHtml}
+        </body>
+      </html>`);
+
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    },
+    showDets(val) {
+      this.showHoverVal = val;
+    },
   },
-  watch: {}
 };
 </script>
 <style>
-@import "../../assets/style/detail.css";
+@import '../../assets/style/detail.css';
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
 </style>

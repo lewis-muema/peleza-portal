@@ -1,8 +1,11 @@
-<template>
-  
-</template>
+<template></template>
 <script>
 export default {
-  name: 'dashboard'
-}
+  name: 'dashboard',
+  data() {
+    return {
+      name: 'dashboard',
+    };
+  },
+};
 </script>
