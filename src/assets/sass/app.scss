@@ -6,6 +6,12 @@ body {
     font: caption;
     height: 100%;
 }
+#app {
+
+    overflow-y: scroll;
+    height: 100%;
+
+}
 
 .m{
     &t {
