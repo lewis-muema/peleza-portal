@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "chai-as-promised": "^7.1.1",
     "element-ui": "^1.4.2",
     "flush-promises": "^1.0.2",
@@ -77,7 +77,7 @@
     "http-proxy-middleware": "^0.19.0",
     "jsdom": "^14.0.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.2",
     "mocha-webpack": "^1.1.0",
     "mock-local-storage": "^1.1.8",
     "moxios": "^0.4.0",
@@ -103,7 +103,7 @@
     "vue-template-compiler": "^2.3.3",
     "vuex-mock-store": "0.0.7",
     "webpack": "^3.12.0",
-    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0"
   },
