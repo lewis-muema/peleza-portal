@@ -135,12 +135,15 @@ export default {
           password: vm.login_form.password,
         })
         .then(response => {
-          const baseString = response.data.split('.')[1];
+          const refreshToken = response.data.refresh_token;
+          const accessToken  = response.data.access_token;
+          const baseString = accessToken.split('.')[1];
           const decodedString = atob(baseString);
           const parsedDecodedString = JSON.parse(decodedString);
           localStorage.setItem('authenticated', JSON.stringify(true));
           localStorage.setItem('user', JSON.stringify(parsedDecodedString.payload));
-          localStorage.setItem('token', response.data);
+          localStorage.setItem('token', accessToken);
+          localStorage.setItem('refresh_token', refreshToken);
           this.$router.push({ name: 'applications' });
           // if (response.data.status) {
           //   localStorage.setItem('authenticated', JSON.stringify(true));
