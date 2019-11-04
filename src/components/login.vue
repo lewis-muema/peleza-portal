@@ -136,7 +136,7 @@ export default {
         })
         .then(response => {
           const refreshToken = response.data.refresh_token;
-          const accessToken  = response.data.access;
+          const accessToken  = response.data.access_token;
           const baseString = accessToken.split('.')[1];
           const decodedString = atob(baseString);
           const parsedDecodedString = JSON.parse(decodedString);
