@@ -3,8 +3,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable func-names */
 /* eslint-disable prefer-destructuring */
-/* eslint-disable */
-
 import Vue from 'vue';
 import axios from 'axios';
 import moxios from 'moxios';

@@ -3,8 +3,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable func-names */
 /* eslint-disable prefer-destructuring */
-/* eslint-disable */
-
 import { expect } from 'chai';
 import { shallowMount } from '@vue/test-utils';
 
