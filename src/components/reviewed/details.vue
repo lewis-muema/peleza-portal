@@ -674,10 +674,11 @@
 
 <script>
 import DetailMxn from '../../mixins/detail_mixin';
+import Timezone from '../../mixins/timezone';
 
 export default {
   name: 'applicant-details',
-  mixins: [DetailMxn],
+  mixins: [DetailMxn, Timezone],
   props: ['data', 'docs'],
   data() {
     return {

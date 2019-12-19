@@ -12,7 +12,8 @@ const ListMxn = {
   },
   methods: {
     formatTime(row, column) {
-      return moment(row.date_created).format('Do MMM YYYY, h:mm:ss a');
+      const localDate = this.convertToUTCToLocal(row.date_created);
+      return moment(localDate).format('Do MMM YYYY, h:mm:ss a');
     },
     changeSize(val) {
       this.pagination_page = 1;
