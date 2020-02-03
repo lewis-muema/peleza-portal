@@ -22,7 +22,7 @@ const DetailMxn = {
       this.verification_details = Object.assign({}, this.verification_details, obj);
     },
     createLogStatement(log) {
-      const localDate = this.convertToUTCToLocal(log.date_time);
+      const localDate = this.formatDateToLocal(log.date_time);
       const statement = `${log.admin_name} ${log.last_activity} on ${moment(localDate).format(
         'Do MMM YYYY',
       )} at ${moment(localDate).format('HH:mm:ss A')}`;
@@ -53,7 +53,7 @@ const DetailMxn = {
     },
 
     formatDate(date) {
-      const localDate = this.convertToUTCToLocal(date);
+      const localDate = this.formatDateToLocal(date);
       return moment(localDate).format('Do MMM YYYY');
     },
 

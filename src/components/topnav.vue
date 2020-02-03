@@ -45,7 +45,7 @@
           <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
             <a
               @click="loadApplicant(applicant)"
-            >Applicant review updated on {{ convertToUTCToLocal(applicant.date_time) }}</a>
+            >Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -80,11 +80,11 @@
   </div>
 </template>
 <script>
-import Timezone from '../mixins/timezone';
+import TimezoneMxn from '../mixins/timezone_mixin';
 
 export default {
   name: 'topnav',
-  mixins: [Timezone],
+  mixins: [TimezoneMxn],
   data() {
     return {
       search_term: '',
