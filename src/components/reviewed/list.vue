@@ -56,11 +56,11 @@
 </template>
 <script>
 import ListMxn from '../../mixins/list_mixin';
-import Timezone from '../../mixins/timezone';
+import TimezoneMxn from '../../mixins/timezone_mixin';
 
 export default {
   name: 'applicants_list',
-  mixins: [ListMxn, Timezone],
+  mixins: [ListMxn, TimezoneMxn],
   data() {
     const date = new Date();
     const y = date.getFullYear();
