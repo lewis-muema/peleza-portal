@@ -22,9 +22,10 @@ const DetailMxn = {
       this.verification_details = Object.assign({}, this.verification_details, obj);
     },
     createLogStatement(log) {
-      const statement = `${log.admin_name} ${log.last_activity} on ${moment(log.date_time).format(
+      const localDate = this.formatDateToLocal(log.date_time);
+      const statement = `${log.admin_name} ${log.last_activity} on ${moment(localDate).format(
         'Do MMM YYYY',
-      )} at ${moment(log.date_time).format('HH:mm:ss A')}`;
+      )} at ${moment(localDate).format('HH:mm:ss A')}`;
       return statement;
     },
     checkProperties(obj) {
@@ -52,7 +53,8 @@ const DetailMxn = {
     },
 
     formatDate(date) {
-      return moment(date).format('Do MMM YYYY');
+      const localDate = this.formatDateToLocal(date);
+      return moment(localDate).format('Do MMM YYYY');
     },
 
     formatYear(date) {
