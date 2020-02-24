@@ -28,10 +28,11 @@
 </template>
 <script>
 import ListMxn from '../../mixins/list_mixin';
+import TimezoneMxn from '../../mixins/timezone_mixin';
 
 export default {
   name: 'ApplicantsList',
-  mixins: [ListMxn],
+  mixins: [ListMxn, TimezoneMxn],
   data() {
     const date = new Date();
     const y = date.getFullYear();

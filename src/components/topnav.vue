@@ -21,7 +21,7 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
-            <a @click="loadApplicant(applicant)">Applicant review updated on {{ applicant.date_time }}</a>
+            <a @click="loadApplicant(applicant)">Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -42,8 +42,11 @@
   </div>
 </template>
 <script>
+import TimezoneMxn from '../mixins/timezone_mixin';
+
 export default {
   name: 'topnav',
+  mixins: [TimezoneMxn],
   data() {
     return {
       search_term: '',
