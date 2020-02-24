@@ -10,11 +10,7 @@ const DetailMxn = {
   },
   methods: {
     getVendorType(vendor) {
-      return vendor !== null
-        ? vendor === '0'
-          ? 'Unknown'
-          : this.vendor_types[Number(vendor) - 1]
-        : 'N/A';
+      return vendor !== null ? (vendor === '0' ? 'Unknown' : this.vendor_types[Number(vendor) - 1]) : 'N/A';
     },
     handleReviewEdit(section) {
       const obj = this.verification_details;
@@ -23,9 +19,7 @@ const DetailMxn = {
     },
     createLogStatement(log) {
       const localDate = this.formatDateToLocal(log.date_time);
-      const statement = `${log.admin_name} ${log.last_activity} on ${moment(localDate).format(
-        'Do MMM YYYY',
-      )} at ${moment(localDate).format('HH:mm:ss A')}`;
+      const statement = `${log.admin_name} ${log.last_activity} on ${moment(localDate).format('Do MMM YYYY')} at ${moment(localDate).format('HH:mm:ss A')}`;
       return statement;
     },
     checkProperties(obj) {
@@ -67,9 +61,8 @@ const DetailMxn = {
       };
 
       axios
-      .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/logs/get_partner_logs/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-        // .post(`${PARTNER_BASE_URL}peleza/logs/get_partner_logs/`, JSON.stringify(payload))
-        .then((response) => {
+        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/logs/get_partner_logs/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        .then(response => {
           if (response.data.status) {
             this.partner_logs = response.data.logs;
           } else {
@@ -77,7 +70,7 @@ const DetailMxn = {
           }
         })
         // eslint-disable-next-line no-unused-vars
-        .catch((error) => {
+        .catch(error => {
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
@@ -110,7 +103,7 @@ const DetailMxn = {
       return true;
     },
     appendConsentText() {
-      return 'hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Peleza International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.';
+      return 'hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Verify portal International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.';
     },
     printInsurance() {
       const prtHtml = document.getElementById('print').innerHTML;
@@ -118,11 +111,7 @@ const DetailMxn = {
       for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
         stylesHtml += node.outerHTML;
       }
-      const WinPrint = window.open(
-        '',
-        '',
-        'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0',
-      );
+      const WinPrint = window.open('', '', 'left=0,top=0,margin-top=30000px,width=800,height=900,toolbar=0,scrollbars=0,status=0');
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
         <head>

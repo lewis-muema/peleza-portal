@@ -3,34 +3,13 @@
     <div class="stageone__filters">
       <div class="filter_view">Count : {{ searched_applicants.length }}</div>
       <label class="mr">Date Applied</label>
-      <el-date-picker
-        v-model="date_range"
-        type="daterange"
-        class="date-editor"
-        align="right"
-        popper-class="date-picker-pop-up"
-        placeholder="Pick a range"
-        :picker-options="picker_options"
-        @change="changeDateRange"
-      ></el-date-picker>
+      <el-date-picker v-model="date_range" type="daterange" class="date-editor" align="right" popper-class="date-picker-pop-up" placeholder="Pick a range" :picker-options="picker_options" @change="changeDateRange"></el-date-picker>
     </div>
-    <el-table
-      :data="paginated_partners"
-      @row-click="startVerification"
-      v-loading.body="loading"
-      border
-      stripe
-      :default-sort="{prop: 'date_created', order: 'descending'}"
-    >
+    <el-table :data="paginated_partners" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort="{ prop: 'date_created', order: 'descending' }">
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
-      <el-table-column
-        prop="date_created"
-        label="APPLICATION DATE"
-        :formatter="formatTime"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
       <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatTime" sortable></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
@@ -42,15 +21,7 @@
     </el-table>
     <template slot="empty">{{ empty_state }}</template>
     <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
-      <el-pagination
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="searched_applicants.length"
-        :page-size="pagination_limit"
-        :current-page.sync="pagination_page"
-        @current-change="changePage"
-        :page-sizes="[10, 20, 50, 100]"
-        @size-change="changeSize"
-      ></el-pagination>
+      <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="searched_applicants.length" :page-size="pagination_limit" :current-page.sync="pagination_page" @current-change="changePage" :page-sizes="[10, 20, 50, 100]" @size-change="changeSize"></el-pagination>
     </div>
   </div>
 </template>
@@ -181,7 +152,6 @@ export default {
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-        // .post(`${PARTNER_BASE_URL}peleza/applications/list_inconsistencies/`, payload)
         .then(response => {
           vm.applicants = response.data.applicants;
         })
@@ -306,13 +276,6 @@ export default {
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-        // .post(`${PARTNER_BASE_URL}peleza/applications/list_inconsistencies/`, {
-        //   limit: 'all',
-        //   stage: -1,
-        //   state: 'all',
-        //   from: this.date_range[0],
-        //   to: this.date_range[1],
-        // })
         .then(response => {
           vm.applicants = response.data.applicants;
           vm.filteredData = vm.applicants;
