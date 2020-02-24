@@ -7,9 +7,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    current_verification: localStorage.current_verification
-      ? JSON.parse(localStorage.current_verification)
-      : {},
+    current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
     search_term: '',
   },
   mutations: {
