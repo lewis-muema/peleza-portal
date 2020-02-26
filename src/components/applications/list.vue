@@ -3,37 +3,15 @@
     <div class="stageone__filters">
       <div class="filter_view">Count : {{ searched_applicants.length }}</div>
       <label class="mr">Date Applied</label>
-      <el-date-picker
-        v-model="date_range"
-        type="daterange"
-        class="date-editor"
-        align="right"
-        popper-class="date-picker-pop-up"
-        placeholder="Pick a range"
-        :picker-options="picker_options"
-        @change="changeDateRange"
-      />
+      <el-date-picker v-model="date_range" type="daterange" class="date-editor" align="right" popper-class="date-picker-pop-up" placeholder="Pick a range" :picker-options="picker_options" @change="changeDateRange" />
     </div>
-    <el-table
-      v-loading.body="loading"
-      :data="paginated_partners"
-      border
-      stripe
-      @row-click="startVerification"
-      :default-sort="{prop: 'date_created', order: 'descending'}"
-      width="100"
-    >
+    <el-table v-loading.body="loading" :data="paginated_partners" border stripe @row-click="startVerification" :default-sort="{ prop: 'date_created', order: 'descending' }" width="100">
       <template slot="empty">{{ empty_state }}</template>
-      <el-table-column prop="id_no" label="ID NUMBER"/>
-      <el-table-column prop="kra_pin" label="KRA PIN/TIN"/>
-      <el-table-column
-        prop="date_created"
-        label="APPLICATION DATE"
-        :formatter="formatTime"
-        sortable
-      />
-      <el-table-column prop="application_type" label="APPLICATION TYPE"/>
-      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"/>
+      <el-table-column prop="id_no" label="ID NUMBER" />
+      <el-table-column prop="kra_pin" label="KRA PIN/TIN" />
+      <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable />
+      <el-table-column prop="application_type" label="APPLICATION TYPE" />
+      <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType" />
 
       <el-table-column prop="status" label="STATUS">
         <template slot-scope="scope">
@@ -44,15 +22,7 @@
     </el-table>
     <template slot="empty">{{ empty_state }}</template>
     <div v-if="searched_applicants.length >= pagination_limit" class="pagination mt mb">
-      <el-pagination
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="searched_applicants.length"
-        :page-size="pagination_limit"
-        :current-page.sync="pagination_page"
-        :page-sizes="[10, 20, 50, 100]"
-        @current-change="changePage"
-        @size-change="changeSize"
-      />
+      <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="searched_applicants.length" :page-size="pagination_limit" :current-page.sync="pagination_page" :page-sizes="[10, 20, 50, 100]" @current-change="changePage" @size-change="changeSize" />
     </div>
   </div>
 </template>
@@ -182,7 +152,6 @@ export default {
         },
       };
       axios
-        // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants/`, payload, { headers: { Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
@@ -216,7 +185,6 @@ export default {
         },
       };
       axios
-        // .post(`${PARTNER_BASE_URL}peleza/applications/list_applicants/`, payload)
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_applicants`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
