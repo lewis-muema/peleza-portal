@@ -12,7 +12,13 @@ const ListMxn = {
   },
   methods: {
     formatTime(row, column) {
-      const localDate = this.formatDateToLocal(row.date_created);
+      const UTCDate = this.convertToUTC(row.date_created);
+      const localDate = this.formatDateToLocal(UTCDate);
+      return moment(localDate).format('Do MMM YYYY, h:mm:ss a');
+    },
+    formatVerified(row) {
+      const UTCDate = this.convertToUTC(row.date_verified);
+      const localDate = this.formatDateToLocal(UTCDate);
       return moment(localDate).format('Do MMM YYYY, h:mm:ss a');
     },
     changeSize(val) {
