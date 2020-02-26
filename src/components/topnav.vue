@@ -2,35 +2,13 @@
   <div>
     <el-menu theme="dark" :default-active="current_route" mode="horizontal" router class="nav">
       <span class="nav__logo el-menu-item">
-        <img src="../assets/sendy-logo-white.png" class="header-logo">
+        <img src="../assets/sendy-logo-white.png" class="header-logo" />
       </span>
       <div class="nav__links">
-        <el-menu-item
-          class="ml"
-          index="/applications"
-          :class="{ 'is-active': current_route === 'applications' }"
-          exact
-          replace
-        >Applications</el-menu-item>
-        <el-menu-item
-          :class="{ 'is-active': current_route === 'inconsistencies' }"
-          index="/inconsistencies"
-          exact
-          replace
-        >Inconsistencies</el-menu-item>
-        <el-menu-item
-          :class="{ 'is-active': current_route === 'reviewed' }"
-          index="/reviewed"
-          exact
-          replace
-        >Reviewed</el-menu-item>
-        <el-menu-item
-          v-if="sendy_verifier"
-          :class="{ 'is-active': current_route === 'driver-applications' }"
-          index="/driver-applications"
-          exact
-          replace
-        >Drivers</el-menu-item>
+        <el-menu-item class="ml" index="/applications" :class="{ 'is-active': current_route === 'applications' }" exact replace>Applications</el-menu-item>
+        <el-menu-item :class="{ 'is-active': current_route === 'inconsistencies' }" index="/inconsistencies" exact replace>Inconsistencies</el-menu-item>
+        <el-menu-item :class="{ 'is-active': current_route === 'reviewed' }" index="/reviewed" exact replace>Reviewed</el-menu-item>
+        <el-menu-item v-if="sendy_verifier" :class="{ 'is-active': current_route === 'driver-applications' }" index="/driver-applications" exact replace>Drivers</el-menu-item>
         <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
       </div>
       <el-dropdown class="topnav--reupload-alert">
@@ -43,38 +21,22 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
-            <a
-              @click="loadApplicant(applicant)"
-            >Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
+            <a @click="loadApplicant(applicant)">Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
       <el-submenu index="6" class="nav__session">
         <template slot="title">
-          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`">
+          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`" />
           <span id="el-name">{{ user.name }}</span>
         </template>
         <div class="el-menu-item el-dropdown" @click="logout">Logout</div>
       </el-submenu>
     </el-menu>
-    <div
-      class="row"
-      v-if="
-        current_route !== 'applicant' &&
-          current_route !== 'reviewed-applicant' &&
-          current_route !== 'driver' &&
-          current_route !== 'inconsistency'
-      "
-    >
+    <div class="row" v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant' && current_route !== 'driver' && current_route !== 'inconsistency'">
       <div class="nav-search">
-        <input
-          class="nav__search"
-          type="search"
-          placeholder="Search ID / KRA PIN / VENDOR TYPE"
-          v-model="search_term"
-          @input="search"
-        >
+        <input class="nav__search" type="search" placeholder="Search ID / KRA PIN / VENDOR TYPE" v-model="search_term" @input="search" />
       </div>
     </div>
   </div>
@@ -232,7 +194,6 @@ export default {
       };
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/list_updated_inconsistencies/`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-        // .post(`${PARTNER_BASE_URL}peleza/applications/list_updated_inconsistencies/`, payload)
         .then(response => {
           this.applicants = response.data.applicants;
         })
