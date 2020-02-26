@@ -9,8 +9,13 @@
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
-      <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
-      <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatTime" sortable></el-table-column>
+      <el-table-column
+        prop="date_created"
+        label="APPLICATION DATE "
+        :formatter="formatTime"
+        sortable
+      ></el-table-column>
+      <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatVerified" sortable></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
       <el-table-column prop="status" label="STATUS">
