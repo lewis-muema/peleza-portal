@@ -892,7 +892,6 @@ export default {
 
       axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/update_review/`, JSON.stringify(payload), { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
-        // .post(`${PARTNER_BASE_URL}peleza/applications/update_review/`, JSON.stringify(payload))
         .then(response => {
           if (response.data.status) {
             this.$notify.success({
@@ -945,7 +944,6 @@ export default {
       return (
         axios
           .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/upload_doc/`, data, { headers: { 'content-type': 'multipart/form-data', Authorization: localStorage.token } })
-          // .post(`${PARTNER_BASE_URL}peleza/upload_doc/`, data, headers)
           .then(response => response.data.file_name)
           .catch(err => {
             console.error(err);
