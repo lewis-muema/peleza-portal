@@ -71,6 +71,7 @@ const DetailMxn = {
         })
         // eslint-disable-next-line no-unused-vars
         .catch(error => {
+          this.errorObj = error.response;
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',

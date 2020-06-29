@@ -19,7 +19,7 @@
 .applicant-details__back_text {
   margin-top: 0px;
   display: inline-block;
-  position: absolute;
+  position: relative;
   font-size: 20px;
   margin-left: 2px;
   font-weight: 300;

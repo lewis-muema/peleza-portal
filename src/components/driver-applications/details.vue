@@ -1,5 +1,6 @@
 <template>
   <div class="applicant-details">
+    <errorHandler :error="errorObj" v-if="errorObj" />
     <div class="applicant-details__back" @click="handleBack">
       <img src="../../assets/left-arrow.png" class="applicant-details__back_image">
       <div class="applicant-details__back_text">Back</div>
@@ -725,9 +726,11 @@
 <script>
 import DetailMxn from '../../mixins/detail_mixin';
 import TimezoneMxn from '../../mixins/timezone_mixin';
+import errorHandler from '../errorHandler.vue';
 
 export default {
   name: 'applicant-details',
+  components: { errorHandler },
   mixins: [DetailMxn, TimezoneMxn],
   props: ['data', 'docs'],
   data() {
@@ -757,6 +760,7 @@ export default {
       inconsistency_alert_status: false,
       inconsistency_alert_message: '',
       showHoverVal: 0,
+      errorObj: '',
     };
   },
   computed: {
@@ -955,6 +959,7 @@ export default {
           }
         })
         .catch(error => {
+          this.errorObj = error.response;
           this.$notify.error({
             title: `update ${field_title}`,
             message: `applicant ${field_title} failed to update`,
@@ -994,6 +999,7 @@ export default {
           .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/upload_doc/`, data, { headers: { 'content-type': 'multipart/form-data', Authorization: localStorage.token } })
           .then(response => response.data.file_name)
           .catch(err => {
+            this.errorObj = error.response;
             log(err);
             return false;
           })
@@ -1075,6 +1081,7 @@ export default {
           }
         })
         .catch(error => {
+          this.errorObj = error.response;
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant review',
@@ -1127,6 +1134,7 @@ export default {
           }
         })
         .catch(error => {
+          this.errorObj = error.response;
           this.$notify.error({
             title: 'submit applicant review',
             message: 'failed to update applicant data inconsistency',

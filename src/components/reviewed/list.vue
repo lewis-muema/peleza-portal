@@ -1,5 +1,6 @@
 <template xmlns:router-link="">
   <div class="stageone">
+    <errorHandler :error="errorObj" v-if="errorObj" />
     <div class="stageone__filters">
       <div class="filter_view">Count : {{ searched_applicants.length }}</div>
       <label class="mr">Date Applied</label>
@@ -9,12 +10,7 @@
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
-      <el-table-column
-        prop="date_created"
-        label="APPLICATION DATE "
-        :formatter="formatTime"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="date_created" label="APPLICATION DATE " :formatter="formatTime" sortable></el-table-column>
       <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatVerified" sortable></el-table-column>
       <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
@@ -33,9 +29,11 @@
 <script>
 import ListMxn from '../../mixins/list_mixin';
 import TimezoneMxn from '../../mixins/timezone_mixin';
+import errorHandler from '../errorHandler.vue';
 
 export default {
   name: 'applicants_list',
+  components: { errorHandler },
   mixins: [ListMxn, TimezoneMxn],
   data() {
     const date = new Date();
@@ -103,6 +101,7 @@ export default {
       pagination_page: 1,
       loading: false,
       vendor_types: VENDOR_TYPES,
+      errorObj: '',
     };
   },
   computed: {
@@ -160,15 +159,7 @@ export default {
           vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
     getApplicants() {
@@ -196,15 +187,7 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
 

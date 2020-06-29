@@ -1,22 +1,11 @@
 <template xmlns:router-link="">
   <div class="stageone">
-    <el-table
-      :data="paginated_partners"
-      @row-click="startVerification"
-      v-loading.body="loading"
-      border
-      stripe
-      :default-sort="{prop: 'date_created', order: 'descending'}"
-    >
+    <errorHandler :error="errorObj" v-if="errorObj" />
+    <el-table :data="paginated_partners" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort="{ prop: 'date_created', order: 'descending' }">
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
-      <el-table-column
-        prop="date_created"
-        label="APPLICATION DATE"
-        :formatter="formatTime"
-        sortable
-      ></el-table-column>
+      <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable></el-table-column>
       <el-table-column prop="status" label="STATUS">
         <template>
           <span>Pending</span>
@@ -25,21 +14,16 @@
     </el-table>
     <template slot="empty">{{ empty_state }}</template>
     <div class="pagination mt mb" v-if="searched_applicants.length >= pagination_limit">
-      <el-pagination
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="searched_applicants.length"
-        :page-size="pagination_limit"
-        :current-page.sync="pagination_page"
-        @current-change="changePage"
-        :page-sizes="[10, 20, 50, 100]"
-        @size-change="changeSize"
-      ></el-pagination>
+      <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="searched_applicants.length" :page-size="pagination_limit" :current-page.sync="pagination_page" @current-change="changePage" :page-sizes="[10, 20, 50, 100]" @size-change="changeSize"></el-pagination>
     </div>
   </div>
 </template>
 <script>
+import errorHandler from '../errorHandler.vue';
+
 export default {
   name: 'renewals_list',
+  components: { errorHandler },
   data() {
     const date = new Date();
     const y = date.getFullYear();
@@ -53,6 +37,7 @@ export default {
       pagination_limit: 10,
       pagination_page: 1,
       loading: false,
+      errorObj: '',
     };
   },
   computed: {
@@ -92,15 +77,7 @@ export default {
           vm.applicants = response.data.applicants;
         })
         .catch(error => {
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
     getApplicants() {
@@ -133,15 +110,7 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
   },
