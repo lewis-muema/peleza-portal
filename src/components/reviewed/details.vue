@@ -1,5 +1,6 @@
 <template>
   <div class="applicant-details">
+    <errorHandler :error="errorObj" v-if="errorObj" />
     <div class="applicant-details__back" @click="handleBack">
       <img src="../../assets/left-arrow.png" class="applicant-details__back_image">
       <div class="applicant-details__back_text">Back</div>
@@ -675,9 +676,11 @@
 <script>
 import DetailMxn from '../../mixins/detail_mixin';
 import TimezoneMxn from '../../mixins/timezone_mixin';
+import errorHandler from '../errorHandler.vue';
 
 export default {
   name: 'applicant-details',
+  components: { errorHandler },
   mixins: [DetailMxn, TimezoneMxn],
   props: ['data', 'docs'],
   data() {
@@ -704,6 +707,7 @@ export default {
       user: JSON.parse(localStorage.user),
       partner_logs: [],
       showHoverVal: 0,
+      errorObj: '',
     };
   },
   computed: {

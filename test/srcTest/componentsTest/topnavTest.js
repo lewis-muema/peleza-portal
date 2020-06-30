@@ -192,8 +192,14 @@ describe('Top-nav-test', () => {
       router,
     });
     wrapper.vm.logout();
-    expect(localStorage.user).equal(undefined);
-    expect(localStorage.authenticated).equal(undefined);
-    expect(localStorage.token).equal(undefined);
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith(applicantsData).then(() => {
+        expect(localStorage.user).equal(undefined);
+        expect(localStorage.authenticated).equal(undefined);
+        expect(localStorage.token).equal(undefined);
+        done();
+      });
+    });
   });
 });

@@ -70,10 +70,6 @@ window.AWS_URL = 'https://s3-eu-west-1.amazonaws.com/sendy-partner-docs/';
 
 Vue.prototype.$store = store;
 
-console.log('ENV', process.env.NODE_ENV);
-console.log('BASE URL', process.env.BASE_URL);
-console.log('PARTNER BASE URL', process.env.PARTNER_BASE_URL);
-
 Vue.prototype.$lightbox = {
   open(src, rotation) {
     if (!src) return;

@@ -24,11 +24,9 @@ const ListMxn = {
       this.pagination_limit = val;
     },
     changePage() {
-      console.log('Page changed to', this.pagination_page);
       const from = (this.pagination_page - 1) * this.pagination_limit;
       const to = this.pagination_page * this.pagination_limit;
       const paginated_applicants = this.searched_applicants.slice(from, to);
-      console.log(from, to, paginated_applicants);
     },
     changeDateRange() {
       this.pagination_page = 1;

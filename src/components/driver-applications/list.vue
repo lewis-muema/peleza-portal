@@ -1,5 +1,6 @@
 <template xmlns:router-link="">
   <div class="stageone">
+    <errorHandler :error="errorObj" v-if="errorObj" />
     <div class="stageone__filters">
       <div class="filter_view">Count : {{ searched_applicants.length }}</div>
       <label class="mr">Date Applied</label>
@@ -29,9 +30,11 @@
 <script>
 import ListMxn from '../../mixins/list_mixin';
 import TimezoneMxn from '../../mixins/timezone_mixin';
+import errorHandler from '../errorHandler.vue';
 
 export default {
   name: 'ApplicantsList',
+  components: { errorHandler },
   mixins: [ListMxn, TimezoneMxn],
   data() {
     const date = new Date();
@@ -99,6 +102,7 @@ export default {
       pagination_page: 1,
       loading: false,
       vendor_types: VENDOR_TYPES,
+      errorObj: '',
     };
   },
   computed: {
@@ -155,15 +159,7 @@ export default {
           vm.applicants = response.data.data.partner_list;
         })
         .catch(error => {
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
     getApplicants() {
@@ -193,15 +189,7 @@ export default {
         .catch(error => {
           vm.empty_state = 'No Data';
           vm.loading = false;
-          if (error.response.status === 403) {
-            this.$notify.warning({
-              title: 'Your session has expired',
-              message: 'Kindly log in again',
-            });
-            localStorage.clear();
-            this.$router.replace('/');
-          }
-          throw new Error('Could not get applicants');
+          this.errorObj = error.response;
         });
     },
     startVerification(d) {

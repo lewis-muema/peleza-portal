@@ -171,8 +171,10 @@ export default {
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
     logout() {
-      localStorage.clear();
-      this.$router.replace('/');
+      axios.post(`${AUTH_URL}logout`, { refresh_token: localStorage.refresh_token }).then(response => {
+        localStorage.clear();
+        this.$router.replace('/');
+      });
     },
     search(ev) {
       // prettier-ignore
