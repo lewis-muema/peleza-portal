@@ -13,3 +13,7 @@
     color: #555;
 }
 
+.el-collapse-item__header__arrow {
+    color: #0E4266;
+    font-size: 15px;
+}
