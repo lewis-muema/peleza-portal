@@ -197,6 +197,7 @@ export default {
     startVerification(d) {
       const verification = {
         applicant_details: {
+          applicant_username: d.name,
           application_type: d.application_type,
           date_created: d.date_created,
           partner_id: d.id,
@@ -274,6 +275,13 @@ export default {
                 registration_date: '',
                 review_status: false,
                 inconsistency: false,
+              },
+          good_conduct: d.good_conduct
+            ? JSON.parse(d.good_conduct)
+            : {
+                reference_number: '',
+                date_of_issue: '',
+                number_of_offences: '',
               },
         },
       };
