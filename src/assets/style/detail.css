@@ -27,9 +27,9 @@
 }
 
 .applicant-details {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 50px;
+  margin-left: 0;
+  margin-top: 0;
+  background: #FAFDFF;
 }
 
 .applicant--details__insurance {
@@ -38,11 +38,11 @@
 }
 
 .applicant-details__profile {
-  width: 30%;
+  width: 25%;
   padding-right: 0px;
-  margin-right: 15px;
   display: inline-block;
   float: left;
+  background: #FAFDFF;
 }
 
 .applicant-details__profile_image {
@@ -54,12 +54,10 @@
 }
 
 .applicant-details__data {
-  width: 65%;
+  width: 75%;
   display: inline-block;
-  /*overflow: scroll;*/
-  /*margin-right: -40px;*/
-  /*padding-right: 40px;*/
   height: auto;
+  background: #FFFFFF;
 }
 
 .applicant-details__profile_label {
@@ -78,8 +76,9 @@
 
 .el-card.applicant-details__profile__personal-details {
   overflow: hidden;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  background-color: inherit;
+  box-shadow: none;
+  border: none;
 }
 .el-card.applicant-details__submit-review {
   overflow: hidden;
@@ -162,6 +161,8 @@
   margin-bottom: 14px;
   text-align: justify;
   text-justify: inter-word;
+  font-size: 14px;
+  letter-spacing: 0.03em;
 }
 
 .upload-button {
@@ -180,7 +181,7 @@
   z-index: -1;
 }
 
-.inputfile + label {
+.inputfile+label {
   font-size: 14px;
   font-weight: 300;
   color: white;
@@ -194,8 +195,8 @@
   text-transform: uppercase;
 }
 
-.inputfile:focus + label,
-.inputfile + label:hover {
+.inputfile:focus+label,
+.inputfile+label:hover {
   background: #fff;
   color: #1782c5;
   border: 1px solid;
@@ -506,4 +507,158 @@ hr {
     width: 96% !important;
     margin-left: 2% !important;
   }
+}
+
+.el-button.el-button--primary.back-button {
+  background: #fafdff;
+  display: block;
+  border-color: #3d6ca8;
+  letter-spacing: 0.04em;
+  color: #3d6ca8;
+  font-size: 14px;
+}
+
+.applicant-details__profile_content {
+  margin-top: 3em;
+}
+
+.applicant-details__application_type {
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+  color: #000000;
+}
+
+.applicant-details__application_type_value {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 125%;
+  color: #0f4176;
+}
+
+.applicant-name {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+}
+
+.applicant-details__application_type_identity {
+  font-size: 16px;
+  line-height: 28px;
+  display: flex;
+  letter-spacing: 0.02em;
+  margin-top: 10px;
+}
+
+.applicant-details__application_date {
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.identity-label {
+  color: #c0c4cc;
+  margin-left: 10px;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.el-button.el-button--primary.status-button {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1f4e84;
+  background: #c2dcf6;
+  border-radius: 116px;
+  height: 20px;
+  padding: 0px 12px;
+  border-color: #c2dcf6;
+}
+
+.activity-logs>.el-card__header {
+  font-weight: 600 !important;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: none;
+}
+
+.statement-log {
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  letter-spacing: 0.03em;
+  color: #000000;
+}
+
+.statement-time {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #c0c4cc;
+}
+
+.applicant-vehicle {
+  display: flex;
+}
+
+.verification-header {
+  font-size: 24px;
+  line-height: 133%;
+  letter-spacing: 0.02em;
+}
+
+.verification-content>.el-card__body {
+  padding: 20px 0;
+}
+
+.verification-wrap {
+  background: #e8f3fc;
+  border-radius: 6px;
+  border: none;
+}
+
+.verification-wrap>.el-collapse-item__header {
+  background: #e8f3fc;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #909399;
+  text-transform: none
+}
+
+.applicant-details__data_holder {
+  padding: 0 5em;
+}
+
+.verification-collapse {
+  margin-top: 2em;
+}
+
+.verification-wrap>.el-collapse-item__wrap {
+  background: #FAFDFF !important;
+  border-top: none;
+}
+
+.insurance-label {
+  font-size: 16px;
+  color: #909399;
+}
+
+.insurance-value {
+  font-size: 16px;
+  color: #212121;
+  margin-left: 8px;
+}
+
+.insurance-divider {
+  border-top: 1px solid #DCDFE6;
+}
+
+.insurance-subtitle {
+  font-size: 16px;
+  color: #909399;
 }
