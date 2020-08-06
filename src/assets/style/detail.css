@@ -139,8 +139,9 @@
 }
 
 .upload-input {
-  width: 80%;
+  width: 100%;
   display: inline-block;
+  margin-bottom: 6px;
 }
 
 .review-desc2 {
@@ -579,6 +580,12 @@ hr {
   border-color: #c2dcf6;
 }
 
+.el-button.el-button--primary.status-button.inconsistent-status {
+  background: #E9E3AB;
+  color: #786D11;
+  border-color: #E9E3AB;
+}
+
 .activity-logs>.el-card__header {
   font-weight: 600 !important;
   font-size: 20px;
@@ -661,4 +668,13 @@ hr {
 .insurance-subtitle {
   font-size: 16px;
   color: #909399;
+}
+
+.el-collapse-item__header__arrow {
+  color: #0e4266;
+  font-size: 15px;
+}
+
+.upload-btn+label {
+  width: 18%;
 }

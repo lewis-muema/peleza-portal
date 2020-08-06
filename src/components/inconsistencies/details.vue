@@ -1,47 +1,42 @@
 <template>
   <div class="applicant-details">
     <errorHandler :error="errorObj" v-if="errorObj" />
-    <div class="applicant-details__back" @click="handleBack">
-      <img src="../../assets/left-arrow.png" class="applicant-details__back_image">
-      <div class="applicant-details__back_text">Back</div>
-    </div>
     <div class="applicant-details__profile">
+      <div class="applicant-details-holder">
       <el-card class="applicant-details__profile__personal-details">
+        <el-button type="primary back-button" @click="handleBack"><i class="fa fa-arrow-left el-icon-right back-icon"></i> Back to List</el-button>
         <div class="applicant-details__profile_content">
-          <!--<img :src="applicant_details.driver_photo" class="applicant-details__profile_image">-->
+          <div class="applicant-details__profile_content">
+            <div class="applicant-details__application_type">Application Type</div>
+            <div class="applicant-details__application_type_value">{{ applicant_details.application_type }}</div>
+          </div>
+          <div class="applicant-details__profile_content">
+            <div class="applicant-details__application_type applicant-name">{{ applicant_details.applicant_username }}</div>
+            <div class="applicant-details__application_type_identity">
+              <span>{{ applicant_details.id_no }}</span>
+              <span class="identity-label">National ID</span>
+            </div>
+             <div class="applicant-details__application_type_identity">
+              <span>{{ applicant_details.kra_pin }}</span>
+              <span class="identity-label">{{ taxPayerNameIdentifier }} Number</span>
+            </div>
+            <div class="applicant-details__application_type_identity text-uppercase ">{{ applicant_details.partner_country }}</div>
+          </div>
+          <div class="applicant-details__profile_content" v-if="applicant_details.application_type !== 'Owner'">
+            <div class="applicant-details__application_date">
+              <span class="applicant-vehicle">{{ getVendorType(applicant_details.vendor_type) }}</span>
 
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">ID NUMBER</div>
-            <div class="applicant-details__profile_value">{{ applicant_details.id_no }}</div>
+              <span>{{ applicant_details.vehicle_reg_no }}</span>
+              <span class="identity-label">Assigned Vehicle</span>
+            </div>
           </div>
-
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">{{ taxPayerNameIdentifier }}</div>
-            <div class="applicant-details__profile_value">{{ applicant_details.kra_pin }}</div>
+          <div class="applicant-details__profile_content">
+            <div class="applicant-details__application_date">
+              <span>{{ formatDate(applicant_details.date_created) }}</span>
+              <span class="identity-label">Application Date</span>
+            </div>
           </div>
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">DATE OF APPLICATION</div>
-            <div
-              class="applicant-details__profile_value"
-            >{{ formatDate(applicant_details.date_created) }}</div>
-          </div>
-
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">APPLICATION TYPE</div>
-            <div class="applicant-details__profile_value">{{ applicant_details.application_type }}</div>
-          </div>
-
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">VENDOR TYPE</div>
-            <div
-              class="applicant-details__profile_value"
-            >{{ getVendorType(applicant_details.vendor_type) }}</div>
-          </div>
-
-          <div class="applicant-details__profile_row">
-            <div class="applicant-details__profile_label">STATUS</div>
-            <div class="applicant-details__profile_value">Inconsistent</div>
-          </div>
+          <el-button type="primary status-button inconsistent-status"> Inconsistent</el-button>
         </div>
       </el-card>
 
@@ -54,49 +49,38 @@
           class="applicant-details__inconsistency-message"
         >{{ applicant_details.inconsistency_message }}</div>
       </el-card>
+        <el-card header="Activity" class="applicant-details__profile__personal-details activity-logs" v-show="partner_logs.length > 0">
+            <ul class="logs-list">
+              <li v-for="log in partner_logs.slice().reverse()" :key="log.index">
+                <span class="statement-log">{{ createLogStatement(log).statement }} </span>
+                <span class="statement-time">{{ createLogStatement(log).date }} </span>
+                <span class="statement-time">{{ createLogStatement(log).time }} </span>
 
-      <el-card
-        header="Activity Log"
-        class="applicant-details__profile__personal-details"
-        v-show="partner_logs.length > 0"
-      >
-        <ul class="logs-list">
-          <li
-            v-for="log in partner_logs.slice().reverse()"
-            :key="log.index"
-          >{{ createLogStatement(log) }}</li>
-        </ul>
-      </el-card>
+                <span></span>
+              </li>
+            </ul>
+          </el-card>
     </div>
+   </div>
     <div class="applicant-details__data">
-      <el-collapse v-model="accordionActiveName">
+     <div class="applicant-details__data_holder">
+        <el-card class="applicant-details__profile__personal-details verification-content">
+          <span class="verification-header">Verify {{ applicant_details.application_type }} Details</span>
+        </el-card>
+      <el-collapse class="verification-collapse" v-model="accordionActiveName">
         <div class="applicant--details-wrap">
-          <el-collapse-item
-            name="1"
-            :class="
-              verification_details.identity_check.inconsistency ? 'inconsistent-collapse' : ''
-            "
-          >
+          <el-collapse-item name="1" :class="verification_details.identity_check.inconsistency ?'inconsistent-collapse' : '' " class="verification-wrap" >
             <template slot="title">
               <span style>Identity Check</span>
-              <span
-                class="applicant-details__idNo"
-                @mouseover="showDets(1)"
-                @mouseout="showDets(0)"
-              >ID Number : {{ applicant_details.id_no }}</span>
-              <span
-                class="hidden-hover"
-                v-if="showHoverVal === 1"
-              >ID Number : {{ applicant_details.id_no }}</span>
             </template>
             <el-form :model="verification_details.identity_check" v-show="!identityReview">
-              <el-form-item label="Name of Applicant" :label-width="'25%'">
+              <el-form-item label="Name of Applicant">
                 <el-input
                   v-model="verification_details.identity_check.applicant_name"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="Date of Birth" :label-width="'25%'">
+              <el-form-item label="Date of Birth">
                 <el-date-picker
                   v-model="verification_details.identity_check.dob"
                   type="date"
@@ -105,7 +89,7 @@
                 ></el-date-picker>
               </el-form-item>
 
-              <el-form-item label="Place of Birth" :label-width="'25%'">
+              <el-form-item label="Place of Birth">
                 <el-input
                   type="textarea"
                   :rows="4"
@@ -114,7 +98,7 @@
                 ></el-input>
               </el-form-item>
 
-              <el-form-item label="Gender" :label-width="'25%'">
+              <el-form-item label="Gender">
                 <el-select v-model="verification_details.identity_check.gender" auto-complete="off">
                   <el-option value="Male">Male</el-option>
                   <el-option value="Female">Female</el-option>
@@ -153,10 +137,7 @@
                   </div>
                 </div>
                 <div class="el-col-lg-8 review-image">
-                  <!--<div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>-->
-                  <!-- <a :href="`${AWS_URL}id/${verification_details.identity_check.id_card}`" target="_blank">
-                                    <img :src="`${AWS_URL}id/${verification_details.identity_check.id_card}`"/>
-                  </a>-->
+
                 </div>
               </div>
             </div>
@@ -174,7 +155,8 @@
             title="Driving License Check"
             name="3"
             :class="verification_details.driving_license_check.inconsistency? 'inconsistent-collapse':''"
-          >
+            class="verification-wrap"
+>
             <el-form :model="verification_details.driving_license_check" v-show="!drivingReview">
               <el-form-item label="Name of Applicant" :label-width="'25%'">
                 <el-input
@@ -285,18 +267,10 @@
           <el-collapse-item
             name="4"
             :class="verification_details.motor_vehicle_records_check.inconsistency? 'inconsistent-collapse':''"
-          >
+            class="verification-wrap"
+>
             <template slot="title">
               <span>Motor Vehicle Records Check</span>
-              <span
-                class="applicant--details__noPlate"
-                @mouseover="showDets(2)"
-                @mouseout="showDets(0)"
-              >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
-              <span
-                class="hidden-hover"
-                v-if="showHoverVal === 2"
-              >Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
             </template>
 
             <el-form
@@ -424,17 +398,7 @@
               </div>
             </div>
             <div class="el-col-lg-8 review-image">
-              <!--<div
-                class="review-edit"
-                v-show="motorReview"
-                @click="handleReviewEdit('motor_vehicle_records_check')"
-              >Edit</div>-->
-              <!--<a
-                :href="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`"
-                target="_blank"
-              >
-                <img :src="`${AWS_URL}vehicle/${this.applicant_details.vehicle_photo}`">
-              </a>-->
+
             </div>
           </el-collapse-item>
 
@@ -451,18 +415,10 @@
             name="5"
             v-show="applicant_details.application_type !== 'Driver'"
             :class="verification_details.car_insurance_validity.inconsistency? 'inconsistent-collapse':''"
-          >
+            class="verification-wrap"
+>
             <template slot="title">
               <span>Car Insurance Validity</span>
-              <span
-                class="applicant--details__insurance"
-                @mouseover="showDets(3)"
-                @mouseout="showDets(0)"
-              >Insurance Number : {{ applicant_details.insurance_number }}</span>
-              <span
-                class="hidden-hover"
-                v-if="showHoverVal === 3"
-              >Insurance Number : {{ applicant_details.insurance_number }}</span>
             </template>
             <el-form
               :model="verification_details.car_insurance_validity"
@@ -576,19 +532,21 @@
                     @click="printInsurance"
                   >PRINT</el-button>
                 </div>
-                <div>
-                  <b>Insurance Company:</b>
-                  {{ this.applicant_details.insurance_name }}
-                </div>
-                <div>
-                  <b>Insurance Cert Number:</b>
-                  {{ this.applicant_details.insurance_number }}
-                </div>
-                <div class="review-list">
-                  <b>Policy Number:</b>
-                  {{ this.applicant_details.policy_number }}
-                </div>
-                <hr>
+               <div>
+                    <b class="insurance-label">Insurance Company:</b>
+                    <span class="insurance-value">{{ applicant_details.insurance_name }}</span>
+                  </div>
+                  <div>
+                    <b class="insurance-label">Insurance Cert Number:</b>
+                    {{ applicant_details.insurance_number }}
+                  </div>
+                  <div class="review-list">
+                    <b class="insurance-label">Policy Number:</b>
+                    {{ applicant_details.policy_number }}
+                  </div>
+                  <hr class="insurance-divider" />
+                  <b class="insurance-subtitle">Authorization to verify Insurance Certificate:</b>
+                  <hr class="insurance-divider" />
               </div>
               <div class="el-row">
                 <div class="review-title">Name of Owner</div>
@@ -634,14 +592,6 @@
               </div>
             </div>
             <div class="el-col-lg-7 review-image">
-              <!--<div
-                class="review-edit"
-                @click="handleReviewEdit('car_insurance_validity')"
-                v-show="insuranceReview"
-              >Edit</div>-->
-              <!--<a :href="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`" target="_blank">
-                <img :src="`${AWS_URL}insu/${this.applicant_details.insurance_copy}`">
-              </a>-->
             </div>
           </el-collapse-item>
           <div
@@ -649,25 +599,65 @@
             v-if="verification_details.car_insurance_validity.inconsistency"
           >Marked for Data Inconsistency</div>
         </div>
-        <div
-          class="applicant--details-wrap"
-          v-show="applicant_details.application_type !== 'Driver'"
-        >
+        <div class="applicant--details-wrap">
           <el-collapse-item
             name="6"
             :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''"
-          >
+            class="verification-wrap"
+>
+            <template slot="title">
+              <span>Good Conduct Certificate Verification</span>
+            </template>
+              <el-form :model="verification_details.good_conduct_verification" v-show="!goodConductReview">
+                <el-form-item label="Reference Number">
+                  <el-input v-model="verification_details.good_conduct.reference_number" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Date Issued">
+                  <el-date-picker v-model="verification_details.good_conduct.date_of_issue" auto-complete="off" type="date" popper-class="date-popup" placeholder="Date Issued"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="Number of offences">
+                  <br />
+                  <el-input-number v-model="verification_details.good_conduct.number_of_offences" auto-complete="off" :min="0"></el-input-number>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" class="details-save-button" @click="updateReview('good_conduct', 'good_conduct')">SAVE</el-button>
+                </el-form-item>
+              </el-form>
+            <div class="el-col-lg-15 review-details" v-show="goodConductReview">
+              <div class="el-row">
+                <div class="review-title">Reference Number</div>
+                <div
+                  class="review-desc"
+                >{{ this.verification_details.good_conduct.reference_number }}</div>
+              </div>
+              <div class="el-row">
+                <div class="review-title">Date Issued</div>
+                <div class="review-desc">{{ this.verification_details.good_conduct.date_of_issue }}</div>
+              </div>
+              <div class="el-row">
+                <div class="review-title">Number of Offences</div>
+                <div
+                  class="review-desc"
+                >{{ this.verification_details.good_conduct.number_of_offences }}</div>
+              </div>
+            </div>
+            <div class="el-col-lg-7 review-image">
+
+            </div>
+          </el-collapse-item>
+          <div
+            class="applicant--incosistency-mark"
+            v-if="verification_details.kra_pin_verification.inconsistency"
+          >Marked for Data Inconsistency</div>
+        </div>
+         <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Driver'">
+          <el-collapse-item
+            name="7"
+            :class="verification_details.kra_pin_verification.inconsistency? 'inconsistent-collapse':''"
+            class="verification-wrap"
+>
             <template slot="title">
               <span>{{ taxPayerNameIdentifier }} Verification</span>
-              <span
-                class="applicant--details__kraPin"
-                @mouseover="showDets(4)"
-                @mouseout="showDets(0)"
-              >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
-              <span
-                class="hidden-hover"
-                v-if="showHoverVal === 4"
-              >{{ taxPayerNameIdentifier }} NUMBER : {{ applicant_details.kra_pin }}</span>
             </template>
 
             <el-form :model="verification_details.kra_pin_verification" v-show="!kraReview">
@@ -747,11 +737,6 @@
               </div>
             </div>
             <div class="el-col-lg-7 review-image">
-              <!--<div
-                class="review-edit"
-                @click="handleReviewEdit('kra_pin_verification')"
-                v-show="kraReview"
-              >Edit</div>-->
             </div>
           </el-collapse-item>
           <div
@@ -760,6 +745,7 @@
           >Marked for Data Inconsistency</div>
         </div>
       </el-collapse>
+     </div>
     </div>
   </div>
 </template>
@@ -816,6 +802,9 @@ export default {
     },
     kraReview() {
       return this.verification_details.kra_pin_verification.review_status;
+    },
+    goodConductReview() {
+      return this.verification_details.good_conduct.review_status;
     },
     validSubmit() {
       return this.checkReviewStatus();
