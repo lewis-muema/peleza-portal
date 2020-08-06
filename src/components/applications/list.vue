@@ -282,6 +282,8 @@ export default {
                 reference_number: '',
                 date_of_issue: '',
                 number_of_offences: '',
+                review_status: false,
+                inconsistency: false,
               },
         },
       };

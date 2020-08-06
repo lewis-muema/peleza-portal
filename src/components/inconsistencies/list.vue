@@ -250,6 +250,14 @@ export default {
                 registration_date: '',
                 review_status: false,
               },
+           good_conduct: d.good_conduct
+            ? JSON.parse(d.good_conduct)
+            : {
+                reference_number: '',
+                date_of_issue: '',
+                number_of_offences: '',
+                review_status: false,
+              },
         },
       };
 
