@@ -8,12 +8,16 @@
           <div class="applicant-details__profile_content">
             <div class="applicant-details__application_type">Application Type</div>
             <div class="applicant-details__application_type_value">{{ applicant_details.application_type }}</div>
-          </div>
+           </div>
           <div class="applicant-details__profile_content">
             <div class="applicant-details__application_type applicant-name">{{ applicant_details.applicant_username }}</div>
             <div class="applicant-details__application_type_identity">
               <span>{{ applicant_details.id_no }}</span>
               <span class="identity-label">National ID</span>
+            </div>
+            <div class="applicant-details__application_type_identity">
+              <span>{{ applicant_details.kra_pin }}</span>
+              <span class="identity-label">{{ taxPayerNameIdentifier }} Number</span>
             </div>
             <div class="applicant-details__application_type_identity text-uppercase ">{{ applicant_details.partner_country }}</div>
           </div>
@@ -406,8 +410,7 @@
               <template slot="title">
                 <span>Certificate of Good Conduct</span>
               </template>
-
-              <el-form :model="verification_details.good_conduct_verification">
+              <el-form :model="verification_details.good_conduct_verification" v-show="!goodConductReview">
                 <el-form-item label="Reference Number">
                   <el-input v-model="verification_details.good_conduct.reference_number" auto-complete="off"></el-input>
                 </el-form-item>
@@ -423,33 +426,25 @@
                 </el-form-item>
               </el-form>
 
-              <div class="el-col-lg-15 review-details" v-show="kraReview">
+              <div class="el-col-lg-15 review-details" v-show="goodConductReview">
                 <div class="el-row">
-                  <div class="review-title">Validity</div>
-                  <div class="review-desc">{{ this.verification_details.kra_pin_verification.validity }}</div>
+                  <div class="review-title">Reference Number</div>
+                  <div class="review-desc">{{ this.verification_details.good_conduct.reference_number }}</div>
                 </div>
                 <div class="el-row">
-                  <div class="review-title">Name</div>
-                  <div class="review-desc">{{ this.verification_details.kra_pin_verification.name }}</div>
+                  <div class="review-title">Date Issued</div>
+                  <div class="review-desc">{{ this.verification_details.good_conduct.date_of_issue }}</div>
                 </div>
                 <div class="el-row">
-                  <div class="review-title">{{ taxPayerNameIdentifier }} Number</div>
-                  <div class="review-desc">{{ this.verification_details.kra_pin_verification.pin_number }}</div>
-                </div>
-                <div class="el-row">
-                  <div class="review-title">Tax Obligations</div>
-                  <div class="review-desc">{{ this.verification_details.kra_pin_verification.tax_obligations }}</div>
-                </div>
-                <div class="el-row">
-                  <div class="review-title">Date of Registration</div>
-                  <div class="review-desc">{{ formatDate(this.verification_details.kra_pin_verification.registration_date) }}</div>
+                  <div class="review-title">Number of Offences</div>
+                  <div class="review-desc">{{ this.verification_details.good_conduct.number_of_offences }}</div>
                 </div>
               </div>
               <div class="el-col-lg-7 review-image">
-                <div class="review-edit" @click="handleReviewEdit('kra_pin_verification')" v-show="kraReview">Edit</div>
+                <div class="review-edit" @click="handleReviewEdit('good_conduct')" v-show="goodConductReview">Edit</div>
               </div>
               <el-form class="applicant--incosistency-wrap">
-                <el-form-item> <el-checkbox v-model="verification_details.kra_pin_verification.inconsistency" name="kra_pin_inconsistsency" id="kra_pin_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
+                <el-form-item> <el-checkbox v-model="verification_details.good_conduct.inconsistency" name="kra_pin_inconsistsency" id="kra_pin_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
               </el-form>
             </el-collapse-item>
           </div>
@@ -581,6 +576,9 @@ export default {
     },
     insuranceReview() {
       return this.verification_details.car_insurance_validity.review_status;
+    },
+    goodConductReview() {
+      return this.verification_details.good_conduct.review_status;
     },
     kraReview() {
       return this.verification_details.kra_pin_verification.review_status;
