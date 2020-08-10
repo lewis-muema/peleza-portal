@@ -38,18 +38,22 @@
           <el-card header="Submit Applicant" class="applicant-details__submit-review" v-if="validSubmit">
             <el-form>
               <el-form-item>
-                <select v-model="applicant_review.status" auto-complete="off" placeholder class="review-select">
-                  <option value disabled selected>Review Applicant</option>
-                  <option value="1" label="Recommended"></option>
-                  <option value="0" label="Not Recommended"></option>
-                </select>
+                 <el-select v-model="applicant_review.status" placeholder="Please select" clearable class="select-review">
+                  <el-option
+                    v-for="item in recommendationOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+>
+                  </el-option>
+                </el-select>
               </el-form-item>
 
               <el-form-item v-show="applicant_review.status === 0 && applicant_review.status !== ''">
                 <el-input type="textarea" :rows="4" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="submit-review-button" @click="submitApplicantReview" :disabled="!validSubmitStatus">SUBMIT</el-button>
+                <el-button type="primary" class="submit-review-button" @click="submitApplicantReview" :disabled="!validSubmitStatus">Submit</el-button>
               </el-form-item>
             </el-form>
           </el-card>
@@ -60,7 +64,7 @@
                 <el-input type="textarea" :rows="4" placeholder="Reason" class="review-reason" v-model="inconsistency_message"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitDataInconsistency" :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'">SUBMIT</el-button>
+                <el-button type="primary" @click="submitDataInconsistency" :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'">Submit</el-button>
               </el-form-item>
             </el-form>
           </el-card>
@@ -556,6 +560,16 @@ export default {
     };
   },
   computed: {
+    recommendationOptions() {
+    const options = [{
+          value: '1',
+          label: 'Recommended',
+        }, {
+          value: '0',
+          label: 'Not Recommended',
+        }];
+      return options;
+    },
     inconsistencyCheck() {
       const obj = this.verification_details;
       for (const key in obj) {

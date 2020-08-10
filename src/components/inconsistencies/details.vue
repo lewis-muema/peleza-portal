@@ -38,13 +38,12 @@
           </div>
           <el-button type="primary status-button inconsistent-status"> Inconsistent</el-button>
         </div>
-      </el-card>
 
       <el-card
         header="Data Inconsistency"
         class="applicant-details__inconsistency-messsage-wrap"
         v-if="applicant_details.inconsistency_message.length > 0"
-      >
+        >
         <div
           class="applicant-details__inconsistency-message"
         >{{ applicant_details.inconsistency_message }}</div>
@@ -59,9 +58,10 @@
                 <span></span>
               </li>
             </ul>
-          </el-card>
-    </div>
-   </div>
+        </el-card>
+    </el-card>
+  </div>
+</div>
     <div class="applicant-details__data">
      <div class="applicant-details__data_holder">
         <el-card class="applicant-details__profile__personal-details verification-content">
@@ -277,7 +277,7 @@
               :model="verification_details.motor_vehicle_records_check"
               v-show="!motorReview"
               class="el-col-lg-15 review-details"
-            >
+>
               <el-form-item label="Ownership Details and Address" :label-width="'25%'">
                 <el-input
                   type="textarea"

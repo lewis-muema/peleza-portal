@@ -1,6 +1,7 @@
 .el-radio {
   margin-left: 15px;
 }
+
 .el-row {
   margin-left: 17px;
 }
@@ -29,7 +30,7 @@
 .applicant-details {
   margin-left: 0;
   margin-top: 0;
-  background: #FAFDFF;
+  background: #fafdff;
 }
 
 .applicant--details__insurance {
@@ -42,7 +43,7 @@
   padding-right: 0px;
   display: inline-block;
   float: left;
-  background: #FAFDFF;
+  background: #f2f6fc;
 }
 
 .applicant-details__profile_image {
@@ -57,7 +58,7 @@
   width: 75%;
   display: inline-block;
   height: auto;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 .applicant-details__profile_label {
@@ -80,11 +81,29 @@
   box-shadow: none;
   border: none;
 }
+
 .el-card.applicant-details__submit-review {
   overflow: hidden;
-  border-radius: 20px;
   margin-bottom: 20px;
-  background: #f3f3f3;
+  margin-top: 20px;
+  background: #f2f6fc;
+  box-shadow: none;
+  border: none;
+}
+
+.applicant-details__submit-review>.el-card__header {
+  text-transform: none;
+  border: none;
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  color: #303133;
+  padding: 18px 0px;
+}
+
+.applicant-details__submit-review>.el-card__body {
+  padding: 0;
 }
 
 .el-collapse {
@@ -103,6 +122,7 @@
 .inconsistent-collapse {
   border: 1px solid #f17e3a !important;
 }
+
 .el-collapse-item is-active {
   margin-bottom: 20px;
   border: 1px solid #d1dbe5;
@@ -125,15 +145,18 @@
   background: #fefefe !important;
   border-bottom: none;
 }
+
 .details-save-button {
   float: right;
   margin-right: 5px;
   width: 120px;
   height: 50px;
 }
+
 .details-print-button {
   margin-top: -100px;
 }
+
 .el-date-editor.el-input {
   width: 100%;
 }
@@ -153,6 +176,7 @@
 .review-list {
   margin-bottom: 30px;
 }
+
 .details-print-button {
   float: right;
 }
@@ -173,6 +197,7 @@
   text-align: right;
   margin-top: -5px;
 }
+
 .inputfile {
   width: 0.1px;
   height: 0.1px;
@@ -203,6 +228,7 @@
   border: 1px solid;
   border-color: #1782c5;
 }
+
 .upload-button button {
   width: 95%;
   padding: 11px;
@@ -217,6 +243,7 @@
   margin-left: -400%;
   text-align: left;
 }
+
 .el-select {
   width: 100%;
 }
@@ -227,14 +254,17 @@
   font-size: 15px;
   margin-top: 10px;
 }
+
 .review-desc {
   margin-top: 10px;
   font-size: 14px;
   display: inline-block;
 }
+
 .review-details {
   display: inline-block;
 }
+
 .review-image {
   display: inline-block;
   float: right;
@@ -244,6 +274,7 @@
   width: 100%;
   height: auto;
 }
+
 .review-edit {
   text-align: right;
   font-size: 15px;
@@ -252,6 +283,7 @@
   color: #f17f3a;
   text-transform: uppercase;
 }
+
 hr {
   display: block;
   height: 1px;
@@ -260,13 +292,16 @@ hr {
   padding: 0;
   margin: 1em 0 30px;
 }
+
 .applicant-edit2 {
   /*margin-top: -500px;*/
 }
+
 .review-edit:hover,
 .review-edit:focus {
   color: #2a7fc3;
 }
+
 .application-details-ins {
   text-align: right !important;
   vertical-align: middle;
@@ -277,11 +312,18 @@ hr {
   padding: 11px 12px 11px 0;
   box-sizing: border-box;
 }
+
 .submit-review-button {
-  margin-top: 20px;
-  padding: 12px;
-  border: 1px solid #2a7fc3;
+  border: 1px solid #3D6CA8;
+  width: 112px;
+  height: 48px;
+  background: #3D6CA8 !important;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #FFFFFF !important;
 }
+
 .submit-review-button:hover,
 .submit-review-button:focus {
   margin-top: 20px;
@@ -290,6 +332,7 @@ hr {
   color: #2a7fc3;
   border: 1px solid #2a7fc3;
 }
+
 .submit-review-button-disabled,
 .submit-review-button-disabled:hover,
 .submit-review-button-disabled:focus {
@@ -309,6 +352,12 @@ hr {
   height: 35px;
   background: #fff;
   font-size: 14px;
+  border: 1px solid #909399;
+  border-radius: 6px;
+  height: 44px;
+  letter-spacing: 0.03em;
+  color: #909399;
+  padding: 9px;
 }
 
 .logs-list {
@@ -327,6 +376,7 @@ hr {
   line-height: 25px;
   color: #333;
 }
+
 .applicant--incosistency-wrap {
   margin-left: 10px;
   color: #555;
@@ -337,6 +387,7 @@ hr {
   text-align: right;
   padding-right: 12px;
 }
+
 .applicant--incosistency-mark {
   margin-left: 10px;
   color: #555;
@@ -349,15 +400,35 @@ hr {
   position: relative;
   font-size: 14px;
 }
+
 .applicant--incosistency-wrap .el-checkbox {
   margin-right: 10px;
 }
+
 .applicant-details__inconsistency-messsage-wrap {
   overflow: hidden;
   border-radius: 20px;
   margin-bottom: 20px;
-  background: #f3f3f3;
+  background: #f2f6fc;
+  margin-top: 20px;
+  box-shadow: none;
+  border: none;
 }
+
+.applicant-details__inconsistency-messsage-wrap>.el-card__header {
+  text-transform: none;
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  color: #303133;
+  padding: 18px 0px;
+}
+
+.applicant-details__inconsistency-messsage-wrap>.el-card__body {
+  padding: 20px 0;
+}
+
 .applicant-details__inconsistency-message {
   color: #555;
   font-size: 14px;
@@ -372,6 +443,7 @@ hr {
   float: right;
   padding-right: 10px;
 }
+
 .applicant--details__noPlate {
   float: right;
   padding-right: 10px;
@@ -410,15 +482,19 @@ hr {
   .applicant-details__profile {
     width: 32%;
   }
+
   .applicant-details__profile_label {
     font-size: 13px;
   }
+
   .applicant-details__profile_value {
     font-size: 13px;
   }
+
   .el-card__body {
     font-size: 13px;
   }
+
   .el-collapse-item__header {
     font-size: 13px;
   }
@@ -428,23 +504,28 @@ hr {
   .applicant-details__profile {
     width: 100%;
   }
+
   .applicant-details__data {
     width: 100%;
   }
+
   .el-collapse-item__header {
     height: 55px;
     font-size: 13px;
     line-height: 32px;
   }
+
   .applicant-details__idNo {
     float: left;
     padding-left: 22px;
     padding-right: 75px;
   }
+
   .applicant--details__kraPin {
     float: left;
     padding-left: 22px;
   }
+
   .applicant--details__noPlate {
     float: left;
     padding-left: 22px;
@@ -466,44 +547,56 @@ hr {
     text-align: center;
     font-size: 12px;
   }
+
   .review-details {
     width: 100% !important;
   }
+
   .el-input {
     float: right;
     width: 95%;
   }
+
   .el-date-editor {
     float: right;
     width: 95% !important;
   }
+
   .el-textarea__inner {
     float: right;
     width: 95% !important;
   }
+
   .el-picker-panel {
     left: 0px !important;
   }
+
   .applicant-details__profile_label {
     font-size: 12px;
   }
+
   .applicant-details__profile_value {
     font-size: 12px;
   }
+
   .applicant-details__back_text {
     font-size: 12px;
   }
+
   .applicant-details__back_image {
     width: 13px;
   }
+
   .logs-list {
     font-size: 13px;
   }
+
   .user-pic {
     height: 25px;
     width: 25px;
     margin-right: 0px;
   }
+
   .date-popup {
     width: 96% !important;
     margin-left: 2% !important;
@@ -581,9 +674,9 @@ hr {
 }
 
 .el-button.el-button--primary.status-button.inconsistent-status {
-  background: #E9E3AB;
-  color: #786D11;
-  border-color: #E9E3AB;
+  background: #e9e3ab;
+  color: #786d11;
+  border-color: #e9e3ab;
 }
 
 .activity-logs>.el-card__header {
@@ -633,8 +726,8 @@ hr {
   background: #e8f3fc;
   font-size: 20px;
   letter-spacing: 0.02em;
-  color: #909399;
-  text-transform: none
+  color: #606266;
+  text-transform: none;
 }
 
 .applicant-details__data_holder {
@@ -646,7 +739,7 @@ hr {
 }
 
 .verification-wrap>.el-collapse-item__wrap {
-  background: #FAFDFF !important;
+  background: #fafdff !important;
   border-top: none;
 }
 
@@ -662,7 +755,7 @@ hr {
 }
 
 .insurance-divider {
-  border-top: 1px solid #DCDFE6;
+  border-top: 1px solid #dcdfe6;
 }
 
 .insurance-subtitle {
@@ -677,4 +770,21 @@ hr {
 
 .upload-btn+label {
   width: 18%;
+}
+
+.select-review {
+  height: 44px;
+  background: #ffffff;
+  border: 1px solid #909399;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.select-review .el-input .el-input__icon {
+  color: #3D6CA8;
+
+}
+
+.el-card applicant-details__inconsistency-messsage-wrap>.el-card__header {
+  padding: 18px 0;
 }
