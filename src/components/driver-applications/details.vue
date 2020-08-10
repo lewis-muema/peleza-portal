@@ -4,108 +4,90 @@
     <div class="applicant-details__profile">
      <div class="applicant-details-holder">
        <el-card class="applicant-details__profile__personal-details">
-         <el-button type="primary back-button" @click="handleBack"><i class="fa fa-arrow-left el-icon-right back-icon"></i> Back to List</el-button>
-         <div class="applicant-details__profile_content">
-            <div class="applicant-details__application_type">Application Type</div>
-            <div class="applicant-details__application_type_value">{{ applicant_details.application_type }}</div>
-           </div>
-          <div class="applicant-details__profile_content">
-            <div class="applicant-details__application_type applicant-name">{{ applicant_details.applicant_username }}</div>
-            <div class="applicant-details__application_type_identity">
-              <span>{{ applicant_details.id_no }}</span>
-              <span class="identity-label">National ID</span>
-            </div>
-            <div class="applicant-details__application_type_identity">
-              <span>{{ applicant_details.kra_pin === null ? 'N/A' : applicant_details.kra_pin }}</span>
-              <span class="identity-label">{{ taxPayerNameIdentifier }} Number</span>
-            </div>
-            <div class="applicant-details__application_type_identity text-uppercase ">{{ applicant_details.partner_country }}</div>
-          </div>
-          <div class="applicant-details__profile_content" v-if="applicant_details.application_type !== 'Owner'">
-            <div class="applicant-details__application_date">
-              <span class="applicant-vehicle">{{ getVendorType(applicant_details.vendor_type) }}</span>
-              <span>{{ applicant_details.vehicle_reg_no === "" ? 'N/A' : applicant_details.vehicle_reg_no }}</span>
-              <span class="identity-label">Assigned Vehicle</span>
-            </div>
-          </div>
-          <div class="applicant-details__profile_content">
-            <div class="applicant-details__application_date">
-              <span>{{ formatDate(applicant_details.date_created) }}</span>
-              <span class="identity-label">Application Date</span>
-            </div>
-          </div>
-          <el-button type="primary status-button"> Applied</el-button>
-      </el-card>
+            <el-button type="primary back-button" @click="handleBack"><i class="fa fa-arrow-left el-icon-right back-icon"></i> Back to List</el-button>
+            <div class="applicant-details__profile_content">
+                <div class="applicant-details__application_type">Application Type</div>
+                <div class="applicant-details__application_type_value">{{ applicant_details.application_type }}</div>
+              </div>
+              <div class="applicant-details__profile_content">
+                <div class="applicant-details__application_type applicant-name">{{ applicant_details.applicant_username }}</div>
+                <div class="applicant-details__application_type_identity">
+                  <span>{{ applicant_details.id_no }}</span>
+                  <span class="identity-label">National ID</span>
+                </div>
+                <div class="applicant-details__application_type_identity">
+                  <span>{{ applicant_details.kra_pin === null ? 'N/A' : applicant_details.kra_pin }}</span>
+                  <span class="identity-label">{{ taxPayerNameIdentifier }} Number</span>
+                </div>
+                <div class="applicant-details__application_type_identity text-uppercase ">{{ applicant_details.partner_country }}</div>
+              </div>
+              <div class="applicant-details__profile_content" v-if="applicant_details.application_type !== 'Owner'">
+                <div class="applicant-details__application_date">
+                  <span class="applicant-vehicle">{{ getVendorType(applicant_details.vendor_type) }}</span>
+                  <span>{{ applicant_details.vehicle_reg_no === "" ? 'N/A' : applicant_details.vehicle_reg_no }}</span>
+                  <span class="identity-label">Assigned Vehicle</span>
+                </div>
+              </div>
+              <div class="applicant-details__profile_content">
+                <div class="applicant-details__application_date">
+                  <span>{{ formatDate(applicant_details.date_created) }}</span>
+                  <span class="identity-label">Application Date</span>
+                </div>
+              </div>
+              <el-button type="primary status-button"> Applied</el-button>
+            <el-card header="Submit Applicant" class="applicant-details__submit-review" v-if="!validSubmit">
+              <el-form>
+                  <el-form-item>
+                      <el-select v-model="applicant_review.status" placeholder="Please select" clearable class="select-review">
+                      <el-option
+                      v-for="item in recommendationOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                      >
+                      </el-option>
+                  </el-select>
+                  </el-form-item>
 
-      <el-card
-        header="Submit Applicant"
-        class="applicant-details__submit-review"
-        v-if="validSubmit"
+                  <el-form-item v-show="applicant_review.status === 0 && applicant_review.status !== ''">
+                  <el-input type="textarea" :rows="4" placeholder="Reason" class="review-reason" v-model="applicant_review.reason"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                  <el-button type="primary" class="submit-review-button" @click="submitApplicantReview" :disabled="!validSubmitStatus">Submit</el-button>
+                  </el-form-item>
+              </el-form>
+          </el-card>
+
+          <el-card
+            header="Data Inconsistency"
+            class="applicant-details__submit-review"
+            v-if="inconsistencyCheck"
 >
-        <el-form>
-          <el-form-item>
-            <select
-              v-model="applicant_review.status"
-              auto-complete="off"
-              placeholder
-              class="review-select"
-            >
-              <option value disabled selected>Review Applicant</option>
-              <option value="1" label="Recommended"></option>
-              <option value="0" label="Not Recommended"></option>
-            </select>
-          </el-form-item>
-
-          <el-form-item v-show="applicant_review.status === 0 && applicant_review.status !== ''">
-            <el-input
-              type="textarea"
-              :rows="4"
-              placeholder="Reason"
-              class="review-reason"
-              v-model="applicant_review.reason"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              class="submit-review-button"
-              @click="submitApplicantReview"
-              :disabled="!validSubmitStatus"
-            >SUBMIT</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-
-      <el-card
-        header="Data Inconsistency"
-        class="applicant-details__submit-review"
-        v-if="inconsistencyCheck"
->
-        <el-alert
-          :title="inconsistency_alert_message"
-          type="warning"
-          :closable="false"
-          v-if="inconsistency_alert_status"
-        ></el-alert>
-        <el-form>
-          <el-form-item>
-            <el-input
-              type="textarea"
-              :rows="4"
-              placeholder="Reason"
-              class="review-reason"
-              v-model="inconsistency_message"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              @click="submitDataInconsistency"
-              :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'"
-            >SUBMIT</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
+            <el-alert
+              :title="inconsistency_alert_message"
+              type="warning"
+              :closable="false"
+              v-if="inconsistency_alert_status"
+            ></el-alert>
+            <el-form>
+              <el-form-item>
+                <el-input
+                  type="textarea"
+                  :rows="4"
+                  placeholder="Reason"
+                  class="review-reason"
+                  v-model="inconsistency_message"
+                ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  @click="submitDataInconsistency"
+                  :class="validInconsistency ? 'submit-review-button' : 'submit-review-button-disabled'"
+                >Submit</el-button>
+              </el-form-item>
+            </el-form>
+          </el-card>
         <el-card header="Activity" class="applicant-details__profile__personal-details activity-logs" v-show="partner_logs.length > 0">
             <ul class="logs-list">
               <li v-for="log in partner_logs.slice().reverse()" :key="log.index">
@@ -116,9 +98,10 @@
                 <span></span>
               </li>
             </ul>
-          </el-card>
-      </div>
+        </el-card>
+      </el-card>
     </div>
+  </div>
     <div class="applicant-details__data">
      <div class="applicant-details__data_holder">
        <el-card class="applicant-details__profile__personal-details verification-content">
@@ -789,6 +772,16 @@ export default {
     };
   },
   computed: {
+    recommendationOptions() {
+    const options = [{
+          value: '1',
+          label: 'Recommended',
+        }, {
+          value: '0',
+          label: 'Not Recommended',
+        }];
+      return options;
+    },
     inconsistencyCheck() {
       const obj = this.verification_details;
       for (const key in obj) {
