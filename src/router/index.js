@@ -47,6 +47,16 @@ const router = new Router({
       component: reviewed_detail,
     },
     {
+      path: '/reviewed/recommended',
+      name: 'recommended',
+      component: reviewed_list,
+    },
+    {
+      path: '/reviewed/not-recommended',
+      name: 'not-recommended',
+      component: reviewed_list,
+    },
+    {
       path: '/renewals',
       name: 'renewals',
       component: renewals_list,

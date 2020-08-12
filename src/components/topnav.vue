@@ -1,45 +1,53 @@
 <template>
-  <div>
-    <el-menu theme="dark" :default-active="current_route" mode="horizontal" router class="nav">
-      <span class="nav__logo el-menu-item">
-        <img src="../assets/sendy-logo-white.png" class="header-logo" />
-      </span>
-      <div class="nav__links">
-        <el-menu-item class="ml" index="/applications" :class="{ 'is-active': current_route === 'applications' }" exact replace>Applications</el-menu-item>
-        <el-menu-item :class="{ 'is-active': current_route === 'inconsistencies' }" index="/inconsistencies" exact replace>Inconsistencies</el-menu-item>
-        <el-menu-item :class="{ 'is-active': current_route === 'reviewed' }" index="/reviewed" exact replace>Reviewed</el-menu-item>
-        <el-menu-item v-if="sendy_verifier" :class="{ 'is-active': current_route === 'driver-applications' }" index="/driver-applications" exact replace>Drivers</el-menu-item>
-        <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
-      </div>
-      <el-dropdown class="topnav--reupload-alert">
-        <span class="el-dropdown-link">
-          <el-badge :value="applicants.length" :max="99" class="item">
-            <el-button size="small">
-              <i class="el-icon-bell el-icon--right"></i>
-            </el-button>
-          </el-badge>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
-            <a @click="loadApplicant(applicant)">Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-
-      <el-submenu index="6" class="nav__session">
-        <template slot="title">
-          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`" />
-          <span id="el-name">{{ user.name }}</span>
-        </template>
-        <div class="el-menu-item el-dropdown" @click="logout">Logout</div>
-      </el-submenu>
-    </el-menu>
-    <div class="row" v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant' && current_route !== 'driver' && current_route !== 'inconsistency'">
-      <div class="nav-search">
-        <input class="nav__search" type="search" placeholder="Search ID / KRA PIN / VENDOR TYPE" v-model="search_term" @input="search" />
-      </div>
-    </div>
-  </div>
+  <el-col :xs="24" :sm="5" :md="5" :lg="5" :xl="1">
+    <el-aside class="side-navigation">
+      <el-container class="side-content">
+        <el-card shadow="never" class="images-container text-center">
+          <div class="image-holder">
+            <el-col :md="4" :lg="5" :xl="1">
+              <img src="https://s3-eu-west-1.amazonaws.com/images.sendyit.com/web_platform/appicons/SendyAppIcon_512px.png" class="image" />
+            </el-col>
+            <el-col :md="19" :lg="15" :xl="1" class="logo-text">
+              <span class="">Verify Portal</span>
+            </el-col>
+          </div>
+        </el-card>
+        <el-row class="tac">
+          <el-col>
+            <h5 class="nav-header">PARTNER APPLICATIONS</h5>
+            <el-menu :default-active="current_route" :router="true" class="el-menu-vertical-demo">
+              <template v-for="(link, index) in links">
+                <el-menu-item class="nav-text" v-if="!link.hasChild" :index="`${link.name}`" :key="index" :route="{name: link.name}">
+                  <i :class="`${link.icon}`"></i>
+                  <span>{{ link.text }}</span>
+                </el-menu-item>
+                <el-submenu class="nav-text" v-if="link.hasChild" :index="`${link.name}`" :key="index">
+                  <template slot="title">
+                    <i :class="`${link.icon}`"></i>
+                    <span>{{ link.text }}</span>
+                  </template>
+                  <el-menu-item-group class="sub-nav">
+                    <template v-for="(sub, i) in link.subMenu">
+                      <el-menu-item class="sub-nav-text" :index="`${link.name}-${sub.name}`" :key="i" :route="{name: sub.name}">{{ sub.text }}</el-menu-item>
+                    </template>
+                  </el-menu-item-group>
+                </el-submenu>
+              </template>
+            </el-menu>
+             <el-menu :default-active="current_route" class="el-menu-vertical-demo footer-links">
+               <el-divider></el-divider>
+               <template v-for="(link, index) in footerLinks">
+                  <el-menu-item class="nav-text" v-if="!link.hasChild" @click="logout()" :index="`${link.name}`" :key="index">
+                  <i :class="`${link.icon}`"></i>
+                  <span>{{ link.text }}</span>
+                </el-menu-item>
+               </template>
+             </el-menu>
+          </el-col>
+        </el-row>
+      </el-container>
+    </el-aside>
+  </el-col>
 </template>
 <script>
 import TimezoneMxn from '../mixins/timezone_mixin';
@@ -52,6 +60,46 @@ export default {
       search_term: '',
       applicants: 0,
       hideDrivers: true,
+      links: [
+        {
+          icon: 'el-icon-menu',
+          text: 'Pending',
+          name: 'applications',
+          hasChild: false,
+        },
+        {
+          icon: 'el-icon-menu',
+          text: 'Inconsistencies',
+          name: 'inconsistencies',
+          hasChild: false,
+        },
+        {
+          icon: 'el-icon-menu',
+          text: 'Reviewed',
+          name: 'reviewed',
+          hasChild: true,
+          subMenu: [
+            {
+              icon: 'mdi-message-outline',
+              text: 'Recommended',
+              name: 'recommended',
+            },
+            {
+              icon: 'mdi-message-outline',
+              text: 'Not Recommended',
+              name: 'not-recommended',
+            },
+          ],
+        },
+      ],
+      footerLinks: [
+        {
+          icon: 'el-icon-menu',
+          text: 'Logout',
+          name: 'logout',
+          hasChild: false,
+        },
+      ],
     };
   },
   computed: {
