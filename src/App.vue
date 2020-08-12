@@ -1,42 +1,42 @@
 <template>
   <div id="app">
-    <header v-if="authenticated">
-      <topnav/>
-    </header>
-    <main>
-      <router-view></router-view>
-    </main>
+    <el-container>
+      <el-container>
+        <topnav v-if="authenticated" />
+        <mainContent :authenticated="authenticated" />
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line import/no-unresolved
 import topnav from './components/topnav';
+import mainContent from './components/maincontent.vue';
 
 export default {
   name: 'app',
-  components: { topnav },
-  data() {
+  components: { topnav, mainContent },
+  data () {
     return {
       authenticated: false,
     };
   },
   watch: {
-    $route() {
+    $route () {
       this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false; // always check the authentication status on route change
       this.$store.commit('search', ''); // reset search on route change
     },
   },
-  beforeMount() {
+  beforeMount () {
     this.authenticated = localStorage.authenticated ? JSON.parse(localStorage.authenticated) : false;
   },
-  mounted() {},
+  mounted () { },
 };
 </script>
 
 <style lang="sass">
-@import './assets/sass/app.scss';
-
+@import './assets/sass/app.scss'
 </style>
 
 <style>
