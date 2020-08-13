@@ -2,8 +2,8 @@
   <div id="app">
     <el-container>
       <el-container>
-        <topnav v-if="authenticated" />
-        <mainContent :authenticated="authenticated" />
+        <topnav v-if="authenticated && !isSingleView" />
+        <mainContent :authenticated="authenticated" :is-single-view="isSingleView" />
       </el-container>
     </el-container>
   </div>
@@ -21,6 +21,12 @@ export default {
     return {
       authenticated: false,
     };
+  },
+  computed: {
+    isSingleView() {
+     return Object.keys(this.$route.params).length !== 0;
+    },
+
   },
   watch: {
     $route () {
