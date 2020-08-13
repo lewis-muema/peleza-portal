@@ -1,11 +1,6 @@
 <template xmlns:router-link="">
   <div class="stageone">
     <errorHandler :error="errorObj" v-if="errorObj" />
-    <div class="stageone__filters">
-      <div class="filter_view">Count : {{ searched_applicants.length }}</div>
-      <label class="mr">Date Applied</label>
-      <el-date-picker v-model="date_range" class="date-editor" type="daterange" align="right" popper-class="date-picker-pop-up" placeholder="Pick a range" :picker-options="picker_options" @change="changeDateRange"></el-date-picker>
-    </div>
     <el-table :data="paginated_partners" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort="{ prop: 'date_created', order: 'descending' }">
       <template slot="empty">{{ empty_state }}</template>
       <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>

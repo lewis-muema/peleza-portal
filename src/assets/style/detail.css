@@ -30,7 +30,7 @@
 .applicant-details {
   margin-left: 0;
   margin-top: 0;
-  background: #fafdff;
+  background: #F2F6FC;
 }
 
 .applicant--details__insurance {
@@ -43,7 +43,8 @@
   padding-right: 0px;
   display: inline-block;
   float: left;
-  background: #f2f6fc;
+  background: #F2F6FC;
+  padding-top: 1em;
 }
 
 .applicant-details__profile_image {
@@ -59,6 +60,7 @@
   display: inline-block;
   height: auto;
   background: #ffffff;
+  padding-top: 1em;
 }
 
 .applicant-details__profile_label {
@@ -146,6 +148,9 @@
   border-bottom: none;
 }
 
+.el-collapse-item__header {
+  background-color: #e8f3fc;
+}
 .details-save-button {
   float: right;
   margin-right: 5px;
@@ -604,7 +609,7 @@ hr {
 }
 
 .el-button.el-button--primary.back-button {
-  background: #fafdff;
+  background: #f2f6fc;
   display: block;
   border-color: #3d6ca8;
   letter-spacing: 0.04em;
