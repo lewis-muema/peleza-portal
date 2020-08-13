@@ -18,13 +18,55 @@
     width: 100% !important;
 }
 
-.single-view-holder {
+.el-select.applicant-select {
+    width: 196px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 1px solid #C0C4CC;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.el-main.single-view-holder {
     background: #ffffff !important;
     padding-top: 0 !important;
+    padding: 0 !important;
+}
+
+.demo-input-suffix>.el-input--prefix>.el-input__prefix>.el-input__icon {
+    width: 0 !important;
+    color: #606266 !important;
+    font-size: 20px !important;
+}
+
+.nav-search-input {
+    width: 320px;
+    height: 40px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #C0C4CC !important;
+    box-sizing: border-box;
+    border-radius: 6px;
 }
 
 .el-container.side-content {
     padding: 20px;
+    display: block;
+}
+
+.el-date-range-picker.has-sidebar {
+    min-width: 600px !important;
+    width: 200px !important;
+    top: 149px !important;
+}
+
+.applicant-select>.el-input--suffix>.el-input__inner {
+    border: none !important;
+}
+
+.el-input__prefix,
+.el-input__suffix {
+    height: 50% !important;
+    ;
 }
 
 .el-card__body>.image-holder {
@@ -76,6 +118,7 @@
 
 .el-menu {
     background: #ffffff !important;
+    border: none !important;
 }
 
 .el-submenu .el-menu {
@@ -115,7 +158,26 @@
 }
 
 .filter-holder {
-    padding: 0 20px 23px 20px;
+    padding: 0 15px 23px 20px;
+}
+
+.el-range-input {
+    border: none;
+    width: 40%;
+    text-align: center;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+li:focus {
+    outline: none;
+}
+
+
+.el-range-separator {
+    line-height: 2;
 }
 
 .filter-holder h5 {
@@ -130,7 +192,9 @@
 
 .filter-inputs {
     display: inline-flex;
+    width: 100%;
 }
+
 .nav-search input {
     padding: 8px 16px;
     width: 320px;
