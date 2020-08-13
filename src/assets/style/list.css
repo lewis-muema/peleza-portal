@@ -12,11 +12,10 @@
 
 .stageone__filters {
   float: right;
-  margin-bottom: 15px !important;
-  width: 65% !important;
-  display: inline-block !important;
+  padding: 0;
+  width: 100% !important;
+  display: inline-flex !important;
   text-align: right;
-  margin-top: -85px;
 }
 
 .filter_view {
@@ -39,14 +38,19 @@
 }
 
 .date-editor {
-  width: 25% !important;
+  width: 90% !important;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1px solid #C0C4CC;
+  border-radius: 6px;
+  display: inline-flex;
 }
 
 .el-date-editor--daterange.el-input {
   width: 220px !important;
 }
 
-.el-date-range-picker{
+.el-date-range-picker {
   width: 100px;
 }
 .user-pic {
@@ -55,68 +59,78 @@
   margin-right: 10px;
 }
 
-@media only screen and (max-width: 480px){
-  .stageone__filters{
+@media only screen and (max-width: 480px) {
+  .stageone__filters {
     margin-top: 0px;
     width: 100% !important;
     display: grid !important;
     grid-template-columns: repeat(12, 1fr) !important;
     grid-template-rows: 60px;
   }
-  .filter_view{
+  .filter_view {
     grid-column: span 12;
     width: 30%;
-    margin-left: 33%;  }
-  .mr{
+    margin-left: 33%;
+  }
+  .mr {
     grid-column: span 5;
     text-align: center;
     font-size: 13px;
   }
-  .el-date-editor{
+
+  .el-date-editor {
     grid-column: span 7;
   }
-  .date-picker-pop-up{
+
+  .date-picker-pop-up {
     overflow: auto;
     min-width: 96% !important;
     margin-left: 2%;
   }
-  .el-table__body{
+
+  .el-table__body {
     width: 800px !important;
   }
-  .el-table__header{
+
+  .el-table__header {
     width: 800px !important;
   }
-  .cell{
+
+  .cell {
     font-size: 12px;
   }
-  .user-pic{
+
+  .user-pic {
     height: 25px;
     width: 25px;
     margin-right: 0px;
   }
-  .el-submenu__title{
+
+  .el-submenu__title {
     padding-left: 0px !important;
     padding-right: 0px !important;
     width: 86% !important;
     float: right;
   }
-  .date-popup{
+
+  .date-popup {
     width: 96% !important;
     margin-left: 2% !important;
   }
 }
 
-@media only screen and (max-width: 375px){
-  .mr{
+@media only screen and (max-width: 375px) {
+  .mr {
     grid-column: span 4;
   }
 }
 
-@media only screen and (max-width: 320px){
-  .mr{
+@media only screen and (max-width: 320px) {
+  .mr {
     grid-column: span 3;
   }
-  .el-date-editor{
+
+  .el-date-editor {
     grid-column: span 9;
   }
 }
