@@ -50,8 +50,23 @@ const generalMxn = {
                 hasChild: false,
             }],
             linkDetails: null,
-            routeTitle: 'Applicants',
-
+            routeTitle: 'Pending',
+            options: [{
+                value: 'all',
+                label: 'All Applicants',
+            }, {
+                value: 'owners',
+                label: 'Owners',
+            }, {
+                value: 'driver',
+                label: 'Driver',
+            }, {
+                value: 'driver-owner',
+                label: 'Driver & Owner',
+            }, {
+                value: 'vehicle',
+                label: 'New Vehicles',
+            }],
         };
     },
     watch: {
