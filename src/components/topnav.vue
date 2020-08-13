@@ -51,55 +51,17 @@
 </template>
 <script>
 import TimezoneMxn from '../mixins/timezone_mixin';
+import GeneralMxn from '../mixins/general_mixin';
+
 
 export default {
   name: 'topnav',
-  mixins: [TimezoneMxn],
+  mixins: [TimezoneMxn, GeneralMxn],
   data() {
     return {
       search_term: '',
       applicants: 0,
       hideDrivers: true,
-      links: [
-        {
-          icon: 'el-icon-menu',
-          text: 'Pending',
-          name: 'applications',
-          hasChild: false,
-        },
-        {
-          icon: 'el-icon-menu',
-          text: 'Inconsistencies',
-          name: 'inconsistencies',
-          hasChild: false,
-        },
-        {
-          icon: 'el-icon-menu',
-          text: 'Reviewed',
-          name: 'reviewed',
-          hasChild: true,
-          subMenu: [
-            {
-              icon: 'mdi-message-outline',
-              text: 'Recommended',
-              name: 'recommended',
-            },
-            {
-              icon: 'mdi-message-outline',
-              text: 'Not Recommended',
-              name: 'not-recommended',
-            },
-          ],
-        },
-      ],
-      footerLinks: [
-        {
-          icon: 'el-icon-menu',
-          text: 'Logout',
-          name: 'logout',
-          hasChild: false,
-        },
-      ],
     };
   },
   computed: {
