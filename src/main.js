@@ -18,7 +18,7 @@ import moment from 'moment';
 
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
-import './styles.scss';
+import 'element-ui/lib/theme-default/index.css';
 
 import App from './App';
 import router from './router';
