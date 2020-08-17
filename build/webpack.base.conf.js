@@ -3,6 +3,7 @@ const utils = require('./utils');
 const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
@@ -24,8 +25,7 @@ module.exports = {
     },
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig,
@@ -52,10 +52,11 @@ module.exports = {
         },
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
         },
       },
     ],
