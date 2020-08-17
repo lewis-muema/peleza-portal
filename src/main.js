@@ -17,9 +17,8 @@ import axios from 'axios';
 import moment from 'moment';
 
 import ElementUI from 'element-ui';
-import 'element-theme-default';
 import locale from 'element-ui/lib/locale/lang/en';
-import 'element-ui/lib/theme-chalk/index.css';
+import './styles.scss';
 
 import App from './App';
 import router from './router';
