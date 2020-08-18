@@ -1,15 +1,15 @@
-.el-aside.side-navigation {
+.side-navigation {
     width: 100% !important;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
     min-height: 100vh;
 }
 
-.el-main.main-content {
+.main-content {
     width: 100%;
     min-height: 100vh;
 }
 
-.el-main.main-holder {
+.main-holder {
     padding-top: 2px;
     background: #f2f6fc;
 }
@@ -25,9 +25,10 @@
     border: 1px solid #C0C4CC;
     box-sizing: border-box;
     border-radius: 6px;
+    margin-right: 3em;
 }
 
-.el-main.single-view-holder {
+.single-view-holder {
     background: #ffffff !important;
     padding-top: 0 !important;
     padding: 0 !important;
@@ -48,8 +49,8 @@
     border-radius: 6px;
 }
 
-.el-container.side-content {
-    padding: 20px;
+.side-content {
+    padding: 20px 30px;
     display: block;
 }
 
@@ -59,7 +60,7 @@
     top: 149px !important;
 }
 
-.applicant-select>.el-input--suffix>.el-input__inner {
+.applicant-select>.el-input>.el-input__inner {
     border: none !important;
 }
 
@@ -131,11 +132,14 @@
     color: #303133 !important;
     height: 56px !important;
     line-height: 50px !important;
+    display: inline-flex;
+    width: 100%;
 }
 
 .el-icon-menu {
     color: #909399 !important;
     font-size: 18px !important;
+    line-height: 3 !important;
 }
 
 .el-menu-item-group.sub-nav {
@@ -152,8 +156,8 @@
 }
 
 .el-menu.footer-links {
-    border-top: 2px solid #ebeef5;
-    margin-top: 18em;
+    border-top: 2px solid #ebeef5 !important;
+    margin-top: 25em;
     padding-top: 1em;
 }
 
@@ -202,4 +206,81 @@ li:focus {
     border: 1px solid #c0c4cc;
     box-sizing: border-box;
     border-radius: 6px;
+}
+
+.el-date-editor--daterange.el-input>.el-input__inner {
+    border: none;
+    height: 41px !important;
+}
+
+.nav-text>.applicant-count,
+.nav-text>.el-submenu__title>.applicant-count,
+.sub-nav-text>.applicant-count {
+    width: 20%;
+    font-size: 14px;
+    text-align: right;
+    letter-spacing: 0.03em;
+    color: #C0C4CC;
+}
+
+.nav-text>.applicant-type,
+.nav-text>.el-submenu__title>.applicant-type,
+.sub-nav-text>.applicant-type {
+    width: 80%;
+}
+
+.nav-text.el-submenu>.el-submenu__title {
+    display: inline-flex;
+    width: 100%;
+}
+
+.el-submenu__icon-arrow {
+    display: none !important;
+    ;
+}
+
+.nav-text.el-submenu {
+    display: block;
+}
+
+.sub-nav-text {
+    display: inline-flex;
+}
+
+.el-table {
+    border: none !important;
+}
+
+.el-table--border td,
+.el-table--border th {
+    border-right: none !important;
+}
+
+.el-table th {
+    background-color: #ffffff !important;
+}
+
+.el-table__footer-wrapper thead div,
+.el-table__header-wrapper thead div {
+    background-color: #ffffff !important;
+    color: #1f2d3d;
+}
+
+.el-table th {
+    height: 48px !important;
+    ;
+}
+
+.el-table td {
+    height: 56px !important;
+}
+
+.el-table th>.cell {
+    line-height: 24px !important;
+    color: #606266;
+}
+
+.el-table .cell {
+    letter-spacing: 0.03em !important;
+    color: #303133 !important;
 }

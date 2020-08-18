@@ -1,7 +1,7 @@
 <template>
   <el-col :xs="24" :sm="5" :md="5" :lg="5" :xl="1">
-    <el-aside class="side-navigation">
-      <el-container class="side-content">
+    <div class="side-navigation">
+      <div class="side-content">
         <el-card shadow="never" class="images-container text-center">
           <div class="image-holder">
             <el-col :md="4" :lg="5" :xl="1">
@@ -17,25 +17,29 @@
             <h5 class="nav-header">PARTNER APPLICATIONS</h5>
             <el-menu :default-active="current_route" :router="true" class="el-menu-vertical-demo">
               <template v-for="(link, index) in links">
-                <el-menu-item class="nav-text" v-if="!link.hasChild" :index="`${link.name}`" :key="index" :route="{name: link.name}">
+                <el-menu-item class="nav-text " v-if="!link.hasChild" :index="`${link.name}`" :key="index" :route="{name: link.name}">
                   <i :class="`${link.icon}`"></i>
-                  <span>{{ link.text }}</span>
+                  <span class="applicant-type">{{ link.text }}</span>
+                    <span class="applicant-count">400</span>
                 </el-menu-item>
                 <el-submenu class="nav-text" v-if="link.hasChild" :index="`${link.name}`" :key="index">
                   <template slot="title">
                     <i :class="`${link.icon}`"></i>
-                    <span>{{ link.text }}</span>
+                    <div class="applicant-type">{{ link.text }}</div>
+                    <div class="applicant-count text-right">400</div>
                   </template>
                   <el-menu-item-group class="sub-nav">
                     <template v-for="(sub, i) in link.subMenu">
-                      <el-menu-item class="sub-nav-text" :index="`${link.name}-${sub.name}`" :key="i" :route="{name: sub.name}">{{ sub.text }}</el-menu-item>
+                      <el-menu-item class="sub-nav-text" :index="`${link.name}/${sub.name}`" :key="i" :route="{name: sub.name}">
+                        <div class="applicant-type">{{ sub.text }}</div>
+                        <div class="applicant-count text-right">400</div>
+                        </el-menu-item>
                     </template>
                   </el-menu-item-group>
                 </el-submenu>
               </template>
             </el-menu>
              <el-menu :default-active="current_route" class="el-menu-vertical-demo footer-links">
-               <el-divider></el-divider>
                <template v-for="(link, index) in footerLinks">
                   <el-menu-item class="nav-text" v-if="!link.hasChild" @click="logout()" :index="`${link.name}`" :key="index">
                   <i :class="`${link.icon}`"></i>
@@ -45,8 +49,8 @@
              </el-menu>
           </el-col>
         </el-row>
-      </el-container>
-    </el-aside>
+      </div>
+    </div>
   </el-col>
 </template>
 <script>

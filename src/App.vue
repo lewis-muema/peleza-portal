@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-container>
+    <div>
         <topnav v-if="authenticated && !isSingleView" />
         <mainContent :authenticated="authenticated" :is-single-view="isSingleView" />
-      </el-container>
-    </el-container>
+    </div>
   </div>
 </template>
 
