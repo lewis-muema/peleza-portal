@@ -1,15 +1,15 @@
 <template xmlns:router-link="">
   <div class="stageone">
     <errorHandler :error="errorObj" v-if="errorObj" />
-    <el-table v-loading.body="loading" :data="paginated_partners" border stripe @row-click="startVerification" :default-sort="{ prop: 'date_created', order: 'descending' }" width="100">
+    <el-table v-loading.body="loading" :data="paginated_partners" @row-click="startVerification" :default-sort="{ prop: 'date_created', order: 'descending' }" width="100">
       <template slot="empty">{{ empty_state }}</template>
-      <el-table-column prop="id_no" label="ID NUMBER" />
-      <el-table-column prop="kra_pin" label="KRA PIN/TIN" />
-      <el-table-column prop="date_created" label="APPLICATION DATE" :formatter="formatTime" sortable />
-      <el-table-column prop="application_type" label="APPLICATION TYPE" />
+      <el-table-column prop="id_no" label="ID No" />
+      <el-table-column prop="kra_pin" label="KRA PIN/ TIN" />
+      <el-table-column prop="date_created" label="Application Date" :formatter="formatTime" sortable />
+      <el-table-column prop="application_type" label="Application type" />
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType" />
 
-      <el-table-column prop="status" label="STATUS">
+      <el-table-column prop="status" label="Status">
         <template slot-scope="scope">
           <span v-if="filteredData[scope.$index]['review_status'] === '4'">Re-Upload Update</span>
           <span v-else>Pending</span>

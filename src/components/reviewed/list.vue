@@ -3,13 +3,13 @@
     <errorHandler :error="errorObj" v-if="errorObj" />
     <el-table :data="paginated_partners" @row-click="startVerification" v-loading.body="loading" border stripe :default-sort="{ prop: 'date_created', order: 'descending' }">
       <template slot="empty">{{ empty_state }}</template>
-      <el-table-column prop="id_no" label="ID NUMBER"></el-table-column>
+      <el-table-column prop="id_no" label="ID Number"></el-table-column>
       <el-table-column prop="kra_pin" label="KRA PIN/TIN"></el-table-column>
-      <el-table-column prop="date_created" label="APPLICATION DATE " :formatter="formatTime" sortable></el-table-column>
-      <el-table-column prop="date_verified" label="DATE VERIFIED" :formatter="formatVerified" sortable></el-table-column>
-      <el-table-column prop="application_type" label="APPLICATION TYPE"></el-table-column>
+      <el-table-column prop="date_created" label="Application Date " :formatter="formatTime" sortable></el-table-column>
+      <el-table-column prop="date_verified" label="Date Verified" :formatter="formatVerified" sortable></el-table-column>
+      <el-table-column prop="application_type" label="Application Type"></el-table-column>
       <el-table-column prop="vendor_type" label="Vendor Type" sortable :formatter="getVendorType"></el-table-column>
-      <el-table-column prop="status" label="STATUS">
+      <el-table-column prop="status" label="Status">
         <template>
           <span>Reviewed</span>
         </template>
