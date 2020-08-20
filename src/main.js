@@ -90,6 +90,7 @@ Vue.prototype.$lightbox = {
 window.app = new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
 });

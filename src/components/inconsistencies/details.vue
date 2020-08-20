@@ -1,5 +1,5 @@
 <template>
-  <div class="applicant-details">
+  <div class="applicant-details" v-if="!loading">
     <errorHandler :error="errorObj" v-if="errorObj" />
     <div class="applicant-details__profile">
       <div class="applicant-details-holder">
@@ -769,7 +769,7 @@ export default {
       lock_ui: false,
       valid_docs: [],
       invalid_docs: [],
-      current_verification: this.$store.getters.current_verification,
+      current_verification: {},
       applicant_details: {},
       verification_details: {},
       accordionActiveName: 'identity_check',
@@ -785,6 +785,7 @@ export default {
       partner_logs: [],
       showHoverVal: 0,
       errorObj: '',
+      loading: false,
     };
   },
   computed: {
@@ -835,10 +836,14 @@ export default {
     },
   },
   watch: {},
-  beforeMount() {
-    this.applicant_details = this.current_verification.applicant_details;
-    this.verification_details = this.current_verification.verification_details;
+  async beforeMount() {
+    this.loading = true;
+    this.current_verification = await this.$store.getters.current_verification;
+    this.applicant_details = await this.current_verification.applicant_details;
+    this.verification_details = await this.current_verification.verification_details;
+    this.updateRecordNulls();
     this.getPartnerLogs();
+    this.loading = false;
   },
   methods: {
     async updateReview(field, field_title = '') {
