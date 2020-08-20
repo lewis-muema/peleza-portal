@@ -6,9 +6,15 @@
 import Vue from 'vue';
 import axios from 'axios';
 import moxios from 'moxios';
-import { expect, chai } from 'chai';
+import {
+  expect,
+  chai,
+} from 'chai';
 import Vuex from 'vuex';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import {
+  shallowMount,
+  createLocalVue,
+} from '@vue/test-utils';
 import moment from 'moment';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
@@ -21,52 +27,50 @@ const applicationDetails = require('../../../../src/components/applications/deta
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueRouter);
-Vue.use(ElementUI, { locale });
+Vue.use(ElementUI, {
+  locale,
+});
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  routes: [
-    {
-      path: '/applicant',
-      name: 'applicant',
-    },
-  ],
+  routes: [{
+    path: '/applicant',
+    name: 'applicant',
+  }],
 });
 
 describe('Reviewed-details-test', () => {
   let store;
-  const returnedResponse = [
-    {
-      id: '217',
-      name: 'Dervine Test',
-      driver_photo: null,
-      application_type: 'Owner',
-      kra_pin: 'A345678987L',
-      date_created: '2019-03-26 14:10:24',
-      id_no: '43526755',
-      nok_id: null,
-      peleza_approval_id: null,
-      identity_check: null,
-      criminal_records_check: null,
-      driving_license_check: null,
-      motor_vehicle_records_check: null,
-      car_insurance_validity: null,
-      kra_pin_verification: null,
-      next_of_kin: null,
-      recommendation_status: null,
-      review_status: null,
-      vehicle_reg_no: 'KCT 786Y',
-      insurance_copy: null,
-      insurance_number: 'A234567898tr666',
-      insurance_name: 'AMACO',
-      policy_number: '3245678987',
-      verify_consent: '1',
-      vehicle_photo: null,
-      good_conduct: null,
-      vendor_type: '2',
-    },
-  ];
+  const returnedResponse = [{
+    id: '217',
+    name: 'Dervine Test',
+    driver_photo: null,
+    application_type: 'Owner',
+    kra_pin: 'A345678987L',
+    date_created: '2019-03-26 14:10:24',
+    id_no: '43526755',
+    nok_id: null,
+    peleza_approval_id: null,
+    identity_check: null,
+    criminal_records_check: null,
+    driving_license_check: null,
+    motor_vehicle_records_check: null,
+    car_insurance_validity: null,
+    kra_pin_verification: null,
+    next_of_kin: null,
+    recommendation_status: null,
+    review_status: null,
+    vehicle_reg_no: 'KCT 786Y',
+    insurance_copy: null,
+    insurance_number: 'A234567898tr666',
+    insurance_name: 'AMACO',
+    policy_number: '3245678987',
+    verify_consent: '1',
+    vehicle_photo: null,
+    good_conduct: null,
+    vendor_type: '2',
+  }];
 
   beforeEach(() => {
     moxios.install(axios);
@@ -114,32 +118,6 @@ describe('Reviewed-details-test', () => {
   });
   afterEach(() => {
     moxios.uninstall();
-  });
-  it('Loads applicant details into localStorage', done => {
-    const listWrapper = shallowMount(listDetails, {
-      sync: false,
-      store,
-      localVue,
-      router,
-    });
-    listWrapper.vm.getApplicants();
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request
-        .respondWith({
-          status: 200,
-          response: {
-            status: true,
-            applicants: returnedResponse,
-          },
-        })
-        .then(() => {
-          listWrapper.vm.startVerification(listWrapper.vm.applicants[0]);
-          expect(JSON.parse(localStorage.current_verification).applicant_details.id_no).equal('43526755');
-          expect(JSON.parse(localStorage.current_verification)).to.be.an('object');
-          done();
-        });
-    });
   });
   it('Check if details list loads data from localStorage', () => {
     localStorage.user = JSON.stringify({

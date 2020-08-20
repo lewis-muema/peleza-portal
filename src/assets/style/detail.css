@@ -167,10 +167,6 @@
   width: 100%;
 }
 
-.block>.date-editor>.el-input__inner {
-  border: none !important;
-  height: 41px !important;
-}
 
 .el-date-editor--daterange.el-input>el-input__inner {
   border: 3px solid red;
