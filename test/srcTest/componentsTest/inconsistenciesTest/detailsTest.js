@@ -115,32 +115,6 @@ describe('Inconsistencies-details-test', () => {
   afterEach(() => {
     moxios.uninstall();
   });
-  it('Loads applicant details into localStorage', done => {
-    const listWrapper = shallowMount(listDetails, {
-      sync: false,
-      store,
-      localVue,
-      router,
-    });
-    listWrapper.vm.getApplicants();
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request
-        .respondWith({
-          status: 200,
-          response: {
-            status: true,
-            applicants: returnedResponse,
-          },
-        })
-        .then(() => {
-          listWrapper.vm.startVerification(listWrapper.vm.applicants[0]);
-          expect(JSON.parse(localStorage.current_verification).applicant_details.id_no).equal('43526755');
-          expect(JSON.parse(localStorage.current_verification)).to.be.an('object');
-          done();
-        });
-    });
-  });
   it('Check if details list loads data from localStorage', () => {
     localStorage.user = JSON.stringify({
       admin_type: '0',

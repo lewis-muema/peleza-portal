@@ -1,7 +1,12 @@
 .side-navigation {
     width: 100% !important;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
-    min-height: 100vh;
+    min-height: 114vh;
+    background: #ffffff;
+}
+
+.app-holder {
+    background: #f2f6fc
 }
 
 .main-content {
@@ -40,9 +45,12 @@
     font-size: 20px !important;
 }
 
+.nav-search {
+    padding: 12px 0
+}
 .nav-search-input {
     width: 320px;
-    height: 40px;
+    height: 44px;
     background: #FFFFFF;
     border-bottom: 1px solid #C0C4CC !important;
     box-sizing: border-box;
@@ -202,15 +210,14 @@ li:focus {
 .nav-search input {
     padding: 8px 16px;
     width: 320px;
-    height: 40px;
+    height: 44px;
     border: 1px solid #c0c4cc;
     box-sizing: border-box;
     border-radius: 6px;
 }
 
 .el-date-editor--daterange.el-input>.el-input__inner {
-    border: none;
-    height: 41px !important;
+    height: 44px !important;
 }
 
 .nav-text>.applicant-count,
@@ -283,4 +290,110 @@ li:focus {
 .el-table .cell {
     letter-spacing: 0.03em !important;
     color: #303133 !important;
+}
+
+.stageone {
+    padding: 0 15px 23px 20px;
+}
+
+.applicants-holder {
+    background: #ffffff;
+    height: auto
+}
+
+.empty {
+    text-align: center;
+    padding-bottom: 3em;
+}
+
+.empty-image {
+    width: 30%;
+}
+
+.empty-text {
+    line-height: 28px;
+    color: #0F4176;
+}
+
+.empty-text-count {
+    line-height: 28px;
+    color: #527CBD
+}
+
+.el-table .cell,
+.el-table th>div {
+    padding-left: 9px !important;
+    padding-right: 0 !important;
+}
+
+.applicant-status {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    height: 20px;
+    border-radius: 116px;
+    padding-left: 16px;
+}
+
+.applicant-status.pending {
+    color: #0F4176;
+    background: #C2DCF6;
+    width: 76px;
+}
+
+.applicant-status.inconsistencies {
+    color: #786D11;
+    background: #E9E3AB;
+    width: 137px;
+}
+
+.applicant-status.recommended {
+    color: #1E7D11;
+    background: #C8EAC4;
+    width: 114px;
+}
+
+.applicant-status.not,
+.applicant-status.not-recommended {
+    color: #D2212A;
+    background: #FDD8DA;
+    width: 150px;
+}
+
+.right-filters {
+    float: right;
+    padding: 0;
+    width: 100% !important;
+    display: inline-flex !important;
+    text-align: right
+}
+
+.applicant-arrow {
+    color: #527CBD;
+}
+
+.pagination {
+    padding: 1em 0 3em 0;
+}
+
+.el-pager li,
+.el-pagination .btn-next,
+.el-pagination .btn-prev {
+    min-width: 38px !important;
+    height: 38px !important;
+    line-height: 32px !important;
+}
+
+.el-pagination .el-select .el-input input,
+.el-pagination__total {
+    height: 38px !important;
+    line-height: 38px !important;
+
+}
+
+.el-pagination__editor {
+    line-height: 26px !important;
+    width: 38px !important;
 }

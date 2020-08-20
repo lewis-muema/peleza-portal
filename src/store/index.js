@@ -9,6 +9,8 @@ const store = new Vuex.Store({
   state: {
     current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
     search_term: '',
+    dateRange: '',
+    applicantionType: '',
   },
   mutations: {
     changeVerification(state, current_verification) {
@@ -22,10 +24,19 @@ const store = new Vuex.Store({
     search(state, search_term) {
       state.search_term = search_term;
     },
+    setDateRange(state, dateRange) {
+      state.dateRange = dateRange;
+    },
+    setApplicantionType(state, applicantionType) {
+      state.applicantionType = applicantionType;
+    },
   },
   getters: {
     current_verification: state => state.current_verification,
     search_term: state => state.search_term,
+    getDateRange: state => state.dateRange,
+    getApplicantionType: state => state.applicantionType,
+
   },
 });
 

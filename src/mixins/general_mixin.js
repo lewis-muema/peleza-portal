@@ -51,20 +51,21 @@ const generalMxn = {
             }],
             linkDetails: null,
             routeTitle: 'Pending',
+            routeIDName: null,
             options: [{
                 value: 'all',
                 label: 'All Applicants',
             }, {
-                value: 'owners',
+                value: 'Owner',
                 label: 'Owners',
             }, {
-                value: 'driver',
+                value: 'Driver',
                 label: 'Driver',
             }, {
-                value: 'driver-owner',
+                value: 'Driver and owner',
                 label: 'Driver & Owner',
             }, {
-                value: 'vehicle',
+                value: 'Vehicle',
                 label: 'New Vehicles',
             }],
         };
@@ -75,6 +76,7 @@ const generalMxn = {
         },
         linkDetails(data) {
             this.routeTitle = data.title;
+            this.routeIDName = data.name;
         },
     },
     methods: {

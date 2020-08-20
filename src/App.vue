@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <div>
+  <div id="app" class="app-holder">
+    <div class="app-holder">
         <topnav v-if="authenticated && !isSingleView" />
         <mainContent :authenticated="authenticated" :is-single-view="isSingleView" />
     </div>
