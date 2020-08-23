@@ -17,6 +17,7 @@ const router = new VueRouter({
     routes: [{
         path: '/applications',
         name: 'applications',
+        title: 'Pending',
     }],
 });
 

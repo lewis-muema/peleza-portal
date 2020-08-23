@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     search_term: '',
     dateRange: '',
     applicantionType: '',
+    applicantCount: '',
   },
   mutations: {
     changeVerification(state, current_verification) {
@@ -30,13 +31,16 @@ const store = new Vuex.Store({
     setApplicantionType(state, applicantionType) {
       state.applicantionType = applicantionType;
     },
+    setApplicantionCount(state, applicantCount) {
+      state.applicantCount = applicantCount;
+    },
   },
   getters: {
     current_verification: state => state.current_verification,
     search_term: state => state.search_term,
     getDateRange: state => state.dateRange,
     getApplicantionType: state => state.applicantionType,
-
+    getApplicantCount: state => state.applicantCount,
   },
 });
 

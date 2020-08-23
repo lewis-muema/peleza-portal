@@ -40,7 +40,7 @@ const router = new VueRouter({
     }],
 });
 
-describe('Reviewed-lists-test', () => {
+describe('applicant-lists-test', () => {
     let store;
     const returnedResponse = [{
             id: '206',
@@ -144,6 +144,8 @@ describe('Reviewed-lists-test', () => {
                 search_term: '',
                 applicantionType: '',
                 current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
+                applicantCount: 10,
+
             },
             mutations: {
                 changeVerification(state, current_verification) {
@@ -157,6 +159,9 @@ describe('Reviewed-lists-test', () => {
                 search(state, search_term) {
                     state.search_term = search_term;
                 },
+                setApplicantionCount(state, applicantCount) {
+                    state.applicantCount = applicantCount;
+                },
             },
 
             getters: {
@@ -164,6 +169,8 @@ describe('Reviewed-lists-test', () => {
                 getApplicantionType: (state) => state.applicantionType,
                 search_term: (state) => state.search_term,
                 current_verification: state => state.current_verification,
+                getApplicantCount: state => state.applicantCount,
+
             },
         });
         window.axios = axios;
@@ -188,7 +195,7 @@ describe('Reviewed-lists-test', () => {
     afterEach(() => {
         moxios.uninstall();
     });
-    it('Gets the reviewed applicants list', done => {
+    it('Gets the applicants list', done => {
         const wrapper = shallowMount(applicationDetails, {
             sync: false,
             store,
@@ -224,21 +231,21 @@ describe('Reviewed-lists-test', () => {
         });
         wrapper.vm.getApplicants();
         moxios.wait(() => {
-          const request = moxios.requests.mostRecent();
-          request
-            .respondWith({
-              status: 200,
-              response: {
-                status: true,
-                applicants: returnedResponse,
-              },
-            })
-            .then(() => {
-              expect(wrapper.vm.filteredData).to.be.an('array');
-              expect(wrapper.vm.empty_state).equal('No Data');
-              expect(wrapper.vm.filteredData[0].id).equal('206');
-        done();
-            });
+            const request = moxios.requests.mostRecent();
+            request
+                .respondWith({
+                    status: 200,
+                    response: {
+                        status: true,
+                        applicants: returnedResponse,
+                    },
+                })
+                .then(() => {
+                    expect(wrapper.vm.filteredData).to.be.an('array');
+                    expect(wrapper.vm.empty_state).equal('No Data');
+                    expect(wrapper.vm.filteredData[0].id).equal('206');
+                    done();
+                });
         });
     });
     it('Fetches reviewed applicants list in the background', done => {
@@ -250,30 +257,30 @@ describe('Reviewed-lists-test', () => {
         });
         wrapper.vm.getApplicantsBackground();
         moxios.wait(() => {
-          const request = moxios.requests.mostRecent();
-          request
-            .respondWith({
-              status: 200,
-              response: {
-                status: true,
-                applicants: returnedResponse,
-              },
-            })
-            .then(() => {
-              expect(wrapper.vm.applicants).to.be.an('array');
-        done();
-            });
+            const request = moxios.requests.mostRecent();
+            request
+                .respondWith({
+                    status: 200,
+                    response: {
+                        status: true,
+                        applicants: returnedResponse,
+                    },
+                })
+                .then(() => {
+                    expect(wrapper.vm.applicants).to.be.an('array');
+                    done();
+                });
         });
     });
     it('Set the date range accurately', () => {
-    const wrapper = shallowMount(applicationDetails, {
-        sync: false,
-        store,
-        localVue,
-        router,
-    });
-    wrapper.vm.changeDateRange();
-    expect(wrapper.vm.date_range[0]).to.equal('2020-07-31T21:00:00.000Z');
-    expect(wrapper.vm.date_range[1]).to.equal('2020-08-30T21:00:00.000Z');
+        const wrapper = shallowMount(applicationDetails, {
+            sync: false,
+            store,
+            localVue,
+            router,
+        });
+        wrapper.vm.changeDateRange();
+        expect(wrapper.vm.date_range[0]).to.equal('2020-07-31T21:00:00.000Z');
+        expect(wrapper.vm.date_range[1]).to.equal('2020-08-30T21:00:00.000Z');
     });
 });

@@ -227,7 +227,7 @@ li:focus {
     font-size: 14px;
     text-align: right;
     letter-spacing: 0.03em;
-    color: #C0C4CC;
+    color: #2d5c95;
 }
 
 .nav-text>.applicant-type,
@@ -396,4 +396,8 @@ li:focus {
 .el-pagination__editor {
     line-height: 26px !important;
     width: 38px !important;
+}
+
+.applicant-details__profile__personal-details>.el-card__body {
+    padding: 20px 20px 20px 50px;
 }
