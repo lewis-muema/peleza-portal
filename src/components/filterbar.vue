@@ -106,7 +106,7 @@ export default {
     },
     pageTitle() {
       const routeDetails = this.routeDetails(this.routeName);
-      return routeDetails.title;
+      return routeDetails === null ? 'Applicants' : routeDetails.title;
     },
   },
   watch: {
