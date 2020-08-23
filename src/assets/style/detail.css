@@ -160,7 +160,15 @@
 }
 
 .details-print-button {
-  margin-top: -100px;
+  width: 15em;
+  background: #FAFDFF !important;
+  border-radius: 6px;
+  font-weight: 600;
+  align-items: center;
+  letter-spacing: 0.04em;
+  color: #3D6CA8;
+  align-items: center;
+
 }
 
 .el-date-editor.el-input {
@@ -189,7 +197,7 @@
 }
 
 .details-print-button {
-  float: right;
+  /* float: right; */
 }
 
 .review-consent-text {
@@ -684,11 +692,30 @@ hr {
   border-color: #c2dcf6;
 }
 
-.el-button.el-button--primary.status-button.inconsistent-status {
+.el-button.el-button--primary.status-button.inconsistencies {
   background: #e9e3ab;
   color: #786d11;
   border-color: #e9e3ab;
 }
+
+.el-button.el-button--primary.status-button.pending {
+  background: #C2DCF6;
+  color: #0F4176;
+  border-color: #C2DCF6;
+}
+
+.el-button.el-button--primary.status-button.recommended {
+  border-color: #C8EAC4;
+  color: #1E7D11;
+  background: #C8EAC4;
+}
+
+.el-button.el-button--primary.status-button.not {
+  border-color: #FDD8DA;
+  color: #D2212A;
+  background: #FDD8DA;
+}
+
 
 .activity-logs>.el-card__header {
   font-weight: 600 !important;
@@ -696,6 +723,11 @@ hr {
   letter-spacing: 0.02em;
   color: #000000;
   text-transform: none;
+}
+
+.activity-logs>.el-card__body {
+  padding: 20px 0;
+  ;
 }
 
 .statement-log {
@@ -798,4 +830,8 @@ hr {
 
 .el-card applicant-details__inconsistency-messsage-wrap>.el-card__header {
   padding: 18px 0;
+}
+
+.insurance-acceptance {
+  color: #527CBD;
 }

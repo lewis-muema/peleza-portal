@@ -1,7 +1,6 @@
 <template>
   <section class="filter-holder ">
-    <h5>{{ routeTitle }}</h5>
-
+    <h5>{{ pageTitle }}</h5>
     <div class="filter-inputs">
       <div class="nav-search">
         <div class="demo-input-suffix">
@@ -105,6 +104,10 @@ export default {
     routeName() {
       return this.$route.name;
     },
+    pageTitle() {
+      const routeDetails = this.routeDetails(this.routeName);
+      return routeDetails.title;
+    },
   },
   watch: {
     $route() {
@@ -114,6 +117,9 @@ export default {
     },
     type() {
       this.$store.commit('setApplicantionType', this.type);
+    },
+    routeTitle(title) {
+      this.routeTitle = title;
     },
   },
  async  mounted() {
