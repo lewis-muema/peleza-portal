@@ -72,6 +72,7 @@ export default {
       categoryChange: false,
       applicationType: '',
       search_term: '',
+      route: '',
     };
   },
   computed: {
@@ -88,10 +89,15 @@ export default {
       const routeDetails = this.routeDetails(this.current_route);
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.routeClass = routeDetails.text;
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.route = routeDetails;
       return routeDetails.name === 'applications' ? 'pending' : routeDetails.name;
     },
     endPoint() {
       return `list_${this.category}`;
+    },
+    singleView() {
+      return this.route.singleView;
     },
   },
   watch: {
@@ -111,8 +117,9 @@ export default {
     async subCategory(name) {
       await this.init();
     },
-    getSearchTerm(term) {
+    async getSearchTerm(term) {
       this.search_term = term;
+      this.showSearchedApplicants(term);
     },
   },
   async beforeMount() {
@@ -126,6 +133,19 @@ export default {
       setInterval(() => {
         this.getApplicantsBackground();
       }, 600000);
+    },
+     async  showSearchedApplicants(searchTerm) {
+        const searchedApplicants = this.searchApplicants(searchTerm, this.searched_applicants);
+        if (searchTerm !== '') {
+          this.filteredData = searchedApplicants;
+        } else {
+         this.filteredData = this.searched_applicants;
+        const data = await this.filterByDate(this.filteredData);
+        const filteredApplicants = await this.filterByType(data);
+
+        this.filteredData = filteredApplicants;
+        this.empty_state = filteredApplicants.length === 0 ? 'No applications to show on this list.' : '';
+        }
     },
     async changeApplicationType(type) {
       this.filterState = false;
@@ -215,7 +235,7 @@ export default {
       await axios
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/${this.endPoint}`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
-          vm.applicants = response.data.applicants;
+          vm.applicants = this.category === 'drivers' ? response.data.drivers : response.data.applicants;
           if (typeof this.subCategory !== 'undefined' && this.subCategory !== 'reviewed') {
             const recommendationStatus = this.subCategory === 'recommended' ? '1' : '0';
             vm.applicants = vm.applicants.filter(applicant => applicant.recommendation_status === recommendationStatus);
@@ -244,7 +264,8 @@ export default {
       return status === '1' ? 'recommended' : 'not recommended';
     },
     determineDuration(row) {
-      const localDate = this.convertToLocalTime(row.date_created);
+      const utcDate = this.convertToUTC(row.date_created);
+      const localDate = this.convertToLocalTime(utcDate);
       const duration = this.checkTime(localDate);
 
       const displayDate = moment(localDate).fromNow();
@@ -253,14 +274,17 @@ export default {
       return formattedDate;
     },
     startVerification(d) {
+      console.log(this.category);
       const verification = {
         applicant_details: {
           applicant_username: d.name,
           application_type: d.application_type,
           date_created: d.date_created,
+          date_verified: d.date_verified,
           partner_id: d.id,
           partner_name: d.name,
           partner_country: d.country,
+          recommendation_status: d.recommendation_status,
           id_no: d.id_no,
           kra_pin: d.kra_pin,
           driver_photo: d.driver_photo ? `${AWS_URL}photo/${d.driver_photo}` : MISSING_PHOTO_URL,
@@ -270,6 +294,7 @@ export default {
           insurance_copy: d.insurance_copy ? d.insurance_copy : '',
           vehicle_photo: d.vehicle_photo ? d.vehicle_photo : '',
           vendor_type: d.vendor_type ? d.vendor_type : '',
+          inconsistency_message: d.inconsistency_message ? d.inconsistency_message : '',
           insurance_number: d.insurance_number ? d.insurance_number : '',
           insurance_name: d.insurance_name ? d.insurance_name : '',
           policy_number: d.policy_number ? d.policy_number : '',
@@ -284,7 +309,18 @@ export default {
                 pob: '',
                 gender: '',
                 review_status: false,
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
+              },
+          criminal_records_check: d.criminal_records_check
+            ? JSON.parse(d.criminal_records_check)
+            : {
+                applicant_name: '',
+                criminal_history: '',
+                authenticity: '',
+                id_no: '',
+                ref_no: '',
+                review_status: d.application_type === 'Owner',
+                inconsistency: this.category === 'inconsistencies',
               },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
@@ -296,7 +332,7 @@ export default {
                 classes: '',
                 id_no: '',
                 review_status: d.application_type === 'Owner',
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
               },
           motor_vehicle_records_check: d.motor_vehicle_records_check
             ? JSON.parse(d.motor_vehicle_records_check)
@@ -309,7 +345,7 @@ export default {
                 manufacture_year: '',
                 caveats: '',
                 review_status: d.application_type === 'Driver',
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
               },
           car_insurance_validity: d.car_insurance_validity
             ? JSON.parse(d.car_insurance_validity)
@@ -321,7 +357,7 @@ export default {
                 validity: '',
                 policy_number: '',
                 review_status: d.application_type === 'Driver',
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
               },
           kra_pin_verification: d.kra_pin_verification
             ? JSON.parse(d.kra_pin_verification)
@@ -332,7 +368,7 @@ export default {
                 tax_obligations: '',
                 registration_date: '',
                 review_status: false,
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
               },
           good_conduct: d.good_conduct
             ? JSON.parse(d.good_conduct)
@@ -341,12 +377,12 @@ export default {
                 date_of_issue: '',
                 number_of_offences: '',
                 review_status: false,
-                inconsistency: false,
+                inconsistency: this.category === 'inconsistencies',
               },
         },
       };
       this.$store.commit('changeVerification', verification);
-      this.$router.push({ name: 'applicant', params: { id: d.id } });
+      this.$router.push({ name: `${this.singleView}`, params: { id: d.id } });
     },
   },
 };

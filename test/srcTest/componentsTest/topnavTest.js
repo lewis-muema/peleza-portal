@@ -105,6 +105,7 @@ describe('Top-nav-test', () => {
       state: {
         current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
         search_term: '',
+        applicantCount: 10,
       },
       mutations: {
         changeVerification(state, current_verification) {
@@ -118,10 +119,15 @@ describe('Top-nav-test', () => {
         search(state, search_term) {
           state.search_term = search_term;
         },
+        setApplicantionCount(state, applicantCount) {
+          state.applicantCount = applicantCount;
+        },
       },
       getters: {
         current_verification: state => state.current_verification,
         search_term: state => state.search_term,
+        getApplicantCount: state => state.applicantCount,
+
       },
     });
     window.axios = axios;

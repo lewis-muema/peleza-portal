@@ -20,19 +20,18 @@
                 <el-menu-item class="nav-text " v-if="!link.hasChild" :index="`${link.name}`" :key="index" :route="{ name: link.name }">
                   <i :class="`${link.icon}`"></i>
                   <span class="applicant-type">{{ link.text }}</span>
-                  <span class="applicant-count">400</span>
+                  <span class="applicant-count" v-show="current_route === link.name">{{ applicantCount }}</span>
                 </el-menu-item>
                 <el-submenu class="nav-text" v-if="link.hasChild" :index="`${link.name}`" :key="index" :route="{ name: link.name }">
                   <template slot="title">
                     <i :class="`${link.icon}`"></i>
                     <div class="applicant-type">{{ link.text }}</div>
-                    <div class="applicant-count text-right">400</div>
                   </template>
                   <el-menu-item-group class="sub-nav" :router="true">
                     <template v-for="(sub, i) in link.subMenu">
                       <el-menu-item class="sub-nav-text" :index="`${link.name}/${sub.name}`" :key="i" :route="{ name: sub.name }">
                         <div class="applicant-type">{{ sub.text }}</div>
-                        <div class="applicant-count text-right">400</div>
+                        <div class="applicant-count text-right" v-show="current_route === sub.name">{{ applicantCount }}</div>
                       </el-menu-item>
                     </template>
                   </el-menu-item-group>
@@ -54,6 +53,7 @@
   </el-col>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import TimezoneMxn from '../mixins/timezone_mixin';
 import GeneralMxn from '../mixins/general_mixin';
 
@@ -65,9 +65,11 @@ export default {
       search_term: '',
       applicants: 0,
       hideDrivers: true,
+      applicantCount: '',
     };
   },
   computed: {
+    ...mapGetters({ getApplicantCount: 'getApplicantCount' }),
     current_route() {
       return this.$route.name;
     },
@@ -85,7 +87,11 @@ export default {
     $route() {
       this.$nextTick(() => {
         this.search_term = '';
+        this.applicantCount = '';
       });
+    },
+    getApplicantCount(count) {
+      this.applicantCount = count;
     },
   },
   mounted() {

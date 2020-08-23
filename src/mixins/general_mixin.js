@@ -6,6 +6,7 @@ const generalMxn = {
                     text: 'Pending',
                     name: 'applications',
                     title: 'Pending',
+                    singleView: 'applicant',
                     hasChild: false,
                 },
                 {
@@ -13,6 +14,15 @@ const generalMxn = {
                     text: 'Inconsistencies',
                     name: 'inconsistencies',
                     title: 'Inconsistencies',
+                    singleView: 'inconsistency',
+                    hasChild: false,
+                },
+                {
+                    icon: 'el-icon-menu',
+                    text: 'Drivers',
+                    name: 'driver-applications',
+                    title: 'Driver Applicants',
+                    singleView: 'driver',
                     hasChild: false,
                 },
                 {
@@ -20,25 +30,30 @@ const generalMxn = {
                     text: 'Reviewed',
                     name: 'reviewed',
                     title: 'Reviewed -  All Applications',
+                    singleView: 'reviewed-applicant',
                     hasChild: true,
                     subMenu: [{
                             icon: 'mdi-message-outline',
                             text: 'All',
                             name: 'reviewed',
                             title: 'Reviewed - All Applications',
+                            singleView: 'reviewed-applicant',
+
                         },
                         {
                             icon: 'mdi-message-outline',
                             text: 'Recommended',
                             name: 'recommended',
                             title: 'Reviewed - Recommended',
+                            singleView: 'reviewed-applicant',
+
                         },
                         {
                             icon: 'mdi-message-outline',
                             text: 'Not Recommended',
                             name: 'not-recommended',
                             title: 'Reviewed - Not Recommended',
-
+                            singleView: 'reviewed-applicant',
                         },
                     ],
                 },
@@ -94,6 +109,9 @@ const generalMxn = {
             linkDetails = linkArr.length > 0 ? linkArr[0] : null;
             this.linkDetails = linkDetails;
             return this.linkDetails;
+        },
+        capitalizeFirstLetter(string) {
+            return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
         },
 
     },

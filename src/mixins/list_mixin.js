@@ -45,16 +45,22 @@ const ListMxn = {
     getLastActivity(row, column) {
       return row.last_activity ? (row.last_activity.length > 0 ? row.last_activity : 'N/A') : 'N/A';
     },
-  },
-  computed: {
-    searched_applicants() {
-      return this.applicants.filter(applicant => {
+    searchApplicants(searchTerm, array) {
+      const data = array.filter(applicant => {
         const searchable_string = (applicant.id_no + applicant.kra_pin + this.getVendorTypeName(applicant.vendor_type))
           .split(' ')
           .join('')
           .toLowerCase();
-        return searchable_string.indexOf(this.$store.getters.search_term) > -1;
+        return searchable_string.indexOf(searchTerm) > -1;
       });
+      // this.filteredData = data;
+      return data;
+    },
+  },
+  computed: {
+    searched_applicants() {
+      this.$store.commit('setApplicantionCount', this.applicants.length);
+      return this.searchApplicants(this.$store.getters.search_term, this.applicants);
     },
     paginated_applicants() {
       const from = (this.pagination_page - 1) * this.pagination_limit;
