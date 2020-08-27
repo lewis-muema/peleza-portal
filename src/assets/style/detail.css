@@ -30,7 +30,7 @@
 .applicant-details {
   margin-left: 0;
   margin-top: 0;
-  background: #F2F6FC;
+  background: #f2f6fc;
 }
 
 .applicant--details__insurance {
@@ -43,7 +43,7 @@
   padding-right: 0px;
   display: inline-block;
   float: left;
-  background: #F2F6FC;
+  background: #f2f6fc;
   padding-top: 1em;
 }
 
@@ -161,20 +161,18 @@
 
 .details-print-button {
   width: 15em;
-  background: #FAFDFF !important;
+  background: #fafdff !important;
   border-radius: 6px;
   font-weight: 600;
   align-items: center;
   letter-spacing: 0.04em;
-  color: #3D6CA8;
+  color: #3d6ca8;
   align-items: center;
-
 }
 
 .el-date-editor.el-input {
   width: 100%;
 }
-
 
 .el-date-editor--daterange.el-input>el-input__inner {
   border: 3px solid red;
@@ -333,14 +331,14 @@ hr {
 }
 
 .submit-review-button {
-  border: 1px solid #3D6CA8;
+  border: 1px solid #3d6ca8;
   width: 112px;
   height: 48px;
-  background: #3D6CA8 !important;
+  background: #3d6ca8 !important;
   border-radius: 4px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 .submit-review-button:hover,
@@ -478,6 +476,9 @@ hr {
   overflow: hidden;
   white-space: nowrap;
   text-align: right;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: #c0c4cc;
 }
 
 .hidden-hover {
@@ -699,23 +700,22 @@ hr {
 }
 
 .el-button.el-button--primary.status-button.pending {
-  background: #C2DCF6;
-  color: #0F4176;
-  border-color: #C2DCF6;
+  background: #c2dcf6;
+  color: #0f4176;
+  border-color: #c2dcf6;
 }
 
 .el-button.el-button--primary.status-button.recommended {
-  border-color: #C8EAC4;
-  color: #1E7D11;
-  background: #C8EAC4;
+  border-color: #c8eac4;
+  color: #1e7d11;
+  background: #c8eac4;
 }
 
 .el-button.el-button--primary.status-button.not {
-  border-color: #FDD8DA;
-  color: #D2212A;
-  background: #FDD8DA;
+  border-color: #fdd8da;
+  color: #d2212a;
+  background: #fdd8da;
 }
-
 
 .activity-logs>.el-card__header {
   font-weight: 600 !important;
@@ -727,7 +727,6 @@ hr {
 
 .activity-logs>.el-card__body {
   padding: 20px 0;
-  ;
 }
 
 .statement-log {
@@ -824,8 +823,7 @@ hr {
 }
 
 .select-review .el-input .el-input__icon {
-  color: #3D6CA8;
-
+  color: #3d6ca8;
 }
 
 .el-card applicant-details__inconsistency-messsage-wrap>.el-card__header {
@@ -833,5 +831,16 @@ hr {
 }
 
 .insurance-acceptance {
-  color: #527CBD;
+  color: #527cbd;
+}
+
+.inconsistency-header {
+  border: 1px solid #c9531b;
+}
+
+.marked-inconsistent {
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: #A83A12;
+  margin: 0 16px;
 }
