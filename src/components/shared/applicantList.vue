@@ -134,18 +134,18 @@ export default {
         this.getApplicantsBackground();
       }, 600000);
     },
-     async  showSearchedApplicants(searchTerm) {
-        const searchedApplicants = this.searchApplicants(searchTerm, this.searched_applicants);
-        if (searchTerm !== '') {
-          this.filteredData = searchedApplicants;
-        } else {
-         this.filteredData = this.searched_applicants;
+    async showSearchedApplicants(searchTerm) {
+      const searchedApplicants = this.searchApplicants(searchTerm, this.searched_applicants);
+      if (searchTerm !== '') {
+        this.filteredData = searchedApplicants;
+      } else {
+        this.filteredData = this.searched_applicants;
         const data = await this.filterByDate(this.filteredData);
         const filteredApplicants = await this.filterByType(data);
 
         this.filteredData = filteredApplicants;
         this.empty_state = filteredApplicants.length === 0 ? 'No applications to show on this list.' : '';
-        }
+      }
     },
     async changeApplicationType(type) {
       this.filterState = false;
@@ -284,6 +284,7 @@ export default {
           partner_id: d.id,
           partner_name: d.name,
           partner_country: d.country,
+          partnerPhone: d.phone,
           recommendation_status: d.recommendation_status,
           id_no: d.id_no,
           kra_pin: d.kra_pin,

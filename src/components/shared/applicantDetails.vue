@@ -913,7 +913,31 @@ export default {
         return true;
       }
     },
+    sendSMSNotification(type, phoneNo) {
+      let message = '';
 
+      if (this.applicant_review.status === '1') {
+        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Congratulations! Your application to join Sendy has been verified. We will contact you soon for Sendy training`;
+      } else {
+        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Sorry! Your application to join Sendy was unsuccessful.`;
+      }
+
+      const payload = {
+        send_sms: true,
+        user_phone: phoneNo,
+        message,
+      };
+      axios
+        .post(`${AUTH_URL}customers/Sendy/sendysmsapi`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
+        .then(response => response)
+        .catch(error => {
+          this.errorObj = error.response;
+          this.$notify.error({
+            title: 'submit applicant review',
+            message: 'failed to send applicant sms notification',
+          });
+        });
+    },
     submitApplicantReview() {
       const payload = {
         partner_id: this.applicant_details.partner_id,
@@ -925,6 +949,7 @@ export default {
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/submit_applicant_review/`, JSON.stringify(payload), { headers: { Authorization: localStorage.token } })
         .then(response => {
           if (response.data.status === true) {
+            this.sendSMSNotification(this.applicant_details.application_type, this.applicant_details.partnerPhone);
             this.$notify.success({
               title: 'submit applicant review',
               message: response.data.message,
