@@ -20,7 +20,7 @@
       <el-table-column v-else prop="date_verified" label="Reviewed Date" :formatter="determineDuration" sortable />
       <el-table-column prop="status" label="Status">
         <template slot-scope="scope">
-          <span v-if="filteredData[scope.$index]['review_status'] === '4'">Re-Upload Update</span>
+          <span class="applicant-status resolved" v-if="filteredData[scope.$index]['review_status'] === '4'">Resolved</span>
           <div class="applicant-status" :class="getApplicantStatus(filteredData[scope.$index])" v-else>{{ getApplicantStatus(filteredData[scope.$index]) }}</div>
         </template>
       </el-table-column>
@@ -91,7 +91,7 @@ export default {
       this.routeClass = routeDetails.text;
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.route = routeDetails;
-      return routeDetails.name === 'applications' ? 'pending' : routeDetails.name;
+      return this.category === 'applicants' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;
     },
     endPoint() {
       return `list_${this.category}`;
@@ -236,9 +236,9 @@ export default {
         .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/${this.endPoint}`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = this.category === 'drivers' ? response.data.drivers : response.data.applicants;
-          if (typeof this.subCategory !== 'undefined' && this.subCategory !== 'reviewed') {
-            const recommendationStatus = this.subCategory === 'recommended' ? '1' : '0';
-            vm.applicants = vm.applicants.filter(applicant => applicant.recommendation_status === recommendationStatus);
+          if (typeof this.subCategory !== 'undefined') {
+            const data = this.filterApplicants(this.category, this.subCategory, vm.applicants);
+            vm.applicants = data;
           }
           vm.filteredData = vm.applicants;
           vm.empty_state = 'No Data';
@@ -252,6 +252,25 @@ export default {
     },
     getApplicantStatus(name) {
       return this.applicantStatus === 'reviewed' ? this.recommendationStatus(name) : this.applicantStatus;
+    },
+    filterApplicants(category, subCategory, applicants) {
+      let data = [];
+      switch (category) {
+        case 'applicants':
+          // eslint-disable-next-line no-case-declarations
+          const applicationType = subCategory === 'driver-owner' ? 'Driver and owner' : this.capitalizeFirstLetter(subCategory);
+          data = applicants.filter(applicant => applicant.application_type === applicationType);
+          break;
+        case 'reviewed':
+          // eslint-disable-next-line no-case-declarations
+          const recommendationStatus = subCategory === 'recommended' ? '1' : '0';
+          data = subCategory !== 'reviewed' ? applicants.filter(applicant => applicant.recommendation_status === recommendationStatus) : applicants;
+          break;
+        default:
+          // eslint-disable-next-line no-self-assign
+          data = applicants;
+      }
+      return data;
     },
     checkTime(date) {
       const currentTime = moment();

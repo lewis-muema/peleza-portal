@@ -15,21 +15,21 @@
         <el-row class="tac">
           <el-col>
             <h5 class="nav-header">PARTNER APPLICATIONS</h5>
-            <el-menu :default-active="current_route" :router="true" class="el-menu-vertical-demo">
+            <el-menu :default-active="current_route" :router="true" class="el-menu-vertical-demo" :default-openeds="['pending']">
               <template v-for="(link, index) in links">
                 <el-menu-item class="nav-text " v-if="!link.hasChild" :index="`${link.name}`" :key="index" :route="{ name: link.name }">
                   <i :class="`${link.icon}`"></i>
                   <span class="applicant-type">{{ link.text }}</span>
                   <span class="applicant-count" v-show="current_route === link.name">{{ applicantCount }}</span>
                 </el-menu-item>
-                <el-submenu class="nav-text" v-if="link.hasChild" :index="`${link.name}`" :key="index" :route="{ name: link.name }">
+                <el-submenu class="submenu-text" v-if="link.hasChild" :index="`${link.name}`" :key="index" :route="{ name: link.name }">
                   <template slot="title">
                     <i :class="`${link.icon}`"></i>
                     <div class="applicant-type">{{ link.text }}</div>
                   </template>
                   <el-menu-item-group class="sub-nav" :router="true">
                     <template v-for="(sub, i) in link.subMenu">
-                      <el-menu-item class="sub-nav-text" :index="`${link.name}/${sub.name}`" :key="i" :route="{ name: sub.name }">
+                      <el-menu-item class="sub-nav-text" :class="{ 'is-active': sub.name === current_route }" :index="`${link.name}/${sub.name}`" :key="i" :route="{ name: sub.name }">
                         <div class="applicant-type">{{ sub.text }}</div>
                         <div class="applicant-count text-right" v-show="current_route === sub.name">{{ applicantCount }}</div>
                       </el-menu-item>
@@ -226,3 +226,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.el-submenu__title {
+  display: inline-flex !important;
+}
+</style>

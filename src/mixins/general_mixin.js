@@ -3,11 +3,35 @@ const generalMxn = {
         return {
             links: [{
                     icon: 'el-icon-menu',
-                    text: 'Pending',
-                    name: 'applications',
-                    title: 'Pending',
+                    text: 'Pending Applicants',
+                    name: 'pending',
+                    title: 'Pending Applicants',
                     singleView: 'applicant',
-                    hasChild: false,
+                    hasChild: true,
+                    subMenu: [{
+                            icon: 'mdi-message-outline',
+                            text: 'Drivers',
+                            name: 'driver-applications',
+                            title: 'Pending Driver Applicants',
+                            singleView: 'driver',
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Owners',
+                            name: 'owner',
+                            title: 'Pending Owner Applicants',
+                            singleView: 'applicant',
+
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Driver and Owner',
+                            name: 'driver-owner',
+                            title: 'Pending Driver and Owner Applicants',
+                            singleView: 'applicant',
+
+                        },
+                    ],
                 },
                 {
                     icon: 'el-icon-menu',
@@ -15,14 +39,6 @@ const generalMxn = {
                     name: 'inconsistencies',
                     title: 'Inconsistencies',
                     singleView: 'inconsistency',
-                    hasChild: false,
-                },
-                {
-                    icon: 'el-icon-menu',
-                    text: 'Drivers',
-                    name: 'driver-applications',
-                    title: 'Driver Applicants',
-                    singleView: 'driver',
                     hasChild: false,
                 },
                 {
@@ -96,7 +112,8 @@ const generalMxn = {
     },
     methods: {
         routeDetails(item) {
-            const name = item === 'not-recommended' || item === 'recommended' ? 'reviewed' : item;
+            let name = item === 'not-recommended' || item === 'recommended' ? 'reviewed' : item;
+            name = name === 'driver-applications' || name === 'owner' || name === 'driver-owner' ? 'pending' : name;
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
             const hasChild = linkDetails !== null ? linkDetails.hasChild : false;
