@@ -1,6 +1,6 @@
 <template xmlns:router-link="">
   <div class="stageone">
-      <applicantList :category="category"/>
+      <applicantList :category="category" :sub-category="this.$route.name" />
 
   </div>
 </template>

@@ -673,10 +673,14 @@ export default {
       return this.$route.name;
     },
     applicantStatus() {
-      const routeDetails = this.routeDetails(this.category);
+      const applicantType = this.applicant_details.application_type;
+      let param = this.category === 'applications' ? applicantType.toLowerCase() : this.category;
+      param = param === 'driver and owner' ? 'driver-owner' : param;
+
+      const routeDetails = this.routeDetails(param);
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.routeClass = routeDetails.text;
-      return routeDetails.name === 'applications' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;
+      return this.category === 'applications' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;
     },
   },
   watch: {},

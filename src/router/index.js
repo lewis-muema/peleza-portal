@@ -20,8 +20,7 @@ import driver_details from '@/components/driver-applications/details';
 Vue.use(Router);
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'login',
       component: login,
@@ -29,6 +28,16 @@ const router = new Router({
     {
       path: '/applications',
       name: 'applications',
+      component: applications_list,
+    },
+    {
+      path: '/applications/owners',
+      name: 'owner',
+      component: applications_list,
+    },
+    {
+      path: '/applications/driver-owner',
+      name: 'driver-owner',
       component: applications_list,
     },
     {
@@ -87,7 +96,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.path === '/') {
     if (!localStorage.authenticated || !JSON.parse(localStorage.authenticated)) next();
-    else next('/applications');
+    else next('/driver-applications');
     return;
   }
   if (localStorage.authenticated) {
