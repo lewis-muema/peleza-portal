@@ -113,7 +113,7 @@ const generalMxn = {
     methods: {
         routeDetails(item) {
             let name = item === 'not-recommended' || item === 'recommended' ? 'reviewed' : item;
-            name = name === 'driver-applications' || name === 'owner' || name === 'driver-owner' ? 'pending' : name;
+            name = name === 'driver-applications' || name === 'owner' || name === 'driver-owner' || name === 'applications' ? 'pending' : name;
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
             const hasChild = linkDetails !== null ? linkDetails.hasChild : false;

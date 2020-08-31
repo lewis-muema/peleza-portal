@@ -293,7 +293,6 @@ export default {
       return formattedDate;
     },
     startVerification(d) {
-      console.log(this.category);
       const verification = {
         applicant_details: {
           applicant_username: d.name,
