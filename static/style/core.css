@@ -334,32 +334,38 @@ li:focus {
     text-transform: uppercase;
     height: 20px;
     border-radius: 116px;
-    padding-left: 16px;
+    padding: 0 16px;
 }
 
 .applicant-status.pending {
     color: #0F4176;
     background: #C2DCF6;
-    width: 76px;
+    width: 51px;
 }
 
 .applicant-status.inconsistencies {
     color: #786D11;
     background: #E9E3AB;
-    width: 137px;
+    width: 102px;
+}
+
+.applicant-status.resolved {
+    color: #87250B;
+    background: #FCD7A7;
+    width: 83px;
 }
 
 .applicant-status.recommended {
     color: #1E7D11;
     background: #C8EAC4;
-    width: 114px;
+    width: 89px;
 }
 
 .applicant-status.not,
 .applicant-status.not-recommended {
     color: #D2212A;
     background: #FDD8DA;
-    width: 150px;
+    width: 117px;
 }
 
 .right-filters {
@@ -400,4 +406,12 @@ li:focus {
 
 .applicant-details__profile__personal-details>.el-card__body {
     padding: 20px 20px 20px 50px;
+}
+
+.submenu-text>.el-submenu__title {
+    display: inline-flex;
+}
+
+.is-opened ul {
+    display: block !important;
 }
