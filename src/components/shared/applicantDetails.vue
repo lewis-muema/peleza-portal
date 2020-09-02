@@ -679,10 +679,7 @@ export default {
     },
     applicantStatus() {
       const applicantType = this.applicant_details.application_type;
-      let param = this.category === 'applications' ? applicantType.toLowerCase() : this.category;
-      param = param === 'driver and owner' ? 'driver-owner' : param;
-
-      const routeDetails = this.routeDetails(param);
+      const routeDetails = this.routeDetails(this.category);
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.routeClass = routeDetails.text;
       return this.category === 'applications' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;

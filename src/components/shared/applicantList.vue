@@ -94,7 +94,9 @@ export default {
       return this.category === 'applicants' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;
     },
     endPoint() {
-      return `list_${this.category}`;
+     const api = 'rider/admin_partner_api/v5/';
+     const endPoint = `list_${this.category}`;
+     return this.category === 'vehicles' ? `${api}partner_management/vehicles_list/all_vehicles` : `${api}peleza/applications/${endPoint}`;
     },
     singleView() {
       return this.route.singleView;
@@ -208,7 +210,7 @@ export default {
         },
       };
       axios
-        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/${this.endPoint}/`, payload, { headers: { Authorization: localStorage.token } })
+        .post(`${AUTH_URL}${this.endPoint}/`, payload, { headers: { Authorization: localStorage.token } })
         .then(response => {
           vm.applicants = response.data.applicants;
         })
@@ -233,9 +235,9 @@ export default {
         },
       };
       await axios
-        .post(`${AUTH_URL}rider/admin_partner_api/v5/peleza/applications/${this.endPoint}`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
+        .post(`${AUTH_URL}${this.endPoint}`, payload, { headers: { 'Content-Type': 'application/json;charset=UTF-8', Authorization: localStorage.token } })
         .then(response => {
-          vm.applicants = this.category === 'drivers' ? response.data.drivers : response.data.applicants;
+          vm.applicants = this.determineApplicants(this.category, response);
           if (typeof this.subCategory !== 'undefined') {
             const data = this.filterApplicants(this.category, this.subCategory, vm.applicants);
             vm.applicants = data;
@@ -253,14 +255,25 @@ export default {
     getApplicantStatus(name) {
       return this.applicantStatus === 'reviewed' ? this.recommendationStatus(name) : this.applicantStatus;
     },
+    determineApplicants(category, response) {
+      let data = [];
+      switch (category) {
+        case 'drivers':
+          data = response.data.drivers;
+          break;
+        case 'vehicles':
+          data = [];
+          break;
+
+        default:
+          data = response.data.applicants;
+          break;
+      }
+      return data;
+    },
     filterApplicants(category, subCategory, applicants) {
       let data = [];
       switch (category) {
-        case 'applicants':
-          // eslint-disable-next-line no-case-declarations
-          const applicationType = subCategory === 'driver-owner' ? 'Driver and owner' : this.capitalizeFirstLetter(subCategory);
-          data = applicants.filter(applicant => applicant.application_type === applicationType);
-          break;
         case 'reviewed':
           // eslint-disable-next-line no-case-declarations
           const recommendationStatus = subCategory === 'recommended' ? '1' : '0';
