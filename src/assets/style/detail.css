@@ -844,3 +844,9 @@ hr {
   color: #A83A12;
   margin: 0 16px;
 }
+.input-error {
+  line-height: 24px;
+  display: flex;
+  letter-spacing: 0.03em;
+  color: #D2212A
+}

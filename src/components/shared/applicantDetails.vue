@@ -226,7 +226,7 @@
                 <span class="hidden-hover" v-if="showHoverVal === 2">Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
               </template>
 
-              <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview" class="el-col-lg-15">
+              <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview">
                 <el-form-item label="Ownership Details and Address">
                   <el-input type="textarea" :rows="4" v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                 </el-form-item>
@@ -248,7 +248,8 @@
                 </el-form-item>
 
                 <el-form-item label="Year of Manufacture">
-                  <el-date-picker v-model="verification_details.motor_vehicle_records_check.manufacture_year" type="year" popper-class="date-popup" placeholder="Year of Manufacture"></el-date-picker>
+                  <el-date-picker v-model="verification_details.motor_vehicle_records_check.manufacture_year" type="month" popper-class="date-popup" placeholder="Year of Manufacture" @change="check_vendor_period"></el-date-picker>
+                  <span class="input-error" v-if="vendorTypeAge > 24">* NOTE: Sendy only accepts Bikes that are less than 2 years</span>
                 </el-form-item>
 
                 <el-form-item label="Caveats">
@@ -256,7 +257,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" class="details-save-button" @click="updateReview('motor_vehicle_records_check', 'Motor Vehicle Records Check')">SAVE</el-button>
+                  <el-button type="primary" class="details-save-button" :disabled="isDisabled" @click="updateReview('motor_vehicle_records_check', 'Motor Vehicle Records Check')">SAVE</el-button>
                 </el-form-item>
               </el-form>
 
@@ -593,11 +594,15 @@ export default {
       showHoverVal: 0,
       errorObj: '',
       loading: false,
+      vendorTypeAge: 0,
     };
   },
   computed: {
     isPendingApplicant() {
       return this.current_route === 'applicant' || this.current_route === 'driver';
+    },
+    isDisabled() {
+      return this.vendorTypeAge > 24;
     },
     recommendationOptions() {
       const options = [
@@ -694,6 +699,14 @@ export default {
     this.loading = false;
   },
   methods: {
+    check_vendor_period() {
+      const date = this.verification_details.motor_vehicle_records_check.manufacture_year;
+      const manufactureDate = moment(date);
+      const today = moment();
+
+      const months = today.diff(manufactureDate, 'months');
+      this.vendorTypeAge = this.applicant_details.vendor_type === '1' ? months : 0;
+    },
     getApplicantStatus(name) {
       return this.applicantStatus === 'reviewed' ? this.recommendationStatus(this.applicant_details) : this.applicantStatus;
     },
@@ -977,16 +990,10 @@ export default {
       this.getPartnerLogs();
     },
     submitDataInconsistency() {
-      // change status of application to inconsistency
-      // mark the sections to inconsistency
-      // send email to partner with reupload link
       this.inconsistency_alert_status = false;
       this.inconsistency_alert_message = '';
-      // reset alert status
 
       if (!this.validInconsistency) {
-        // break
-        // check if message is set
         if (!this.validSubmitStatus) {
           this.inconsistency_alert_message = 'review all sections before you can submit inconsistency';
         } else {
