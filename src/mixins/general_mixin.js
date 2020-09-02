@@ -10,26 +10,18 @@ const generalMxn = {
                     hasChild: true,
                     subMenu: [{
                             icon: 'mdi-message-outline',
+                            text: 'Owners',
+                            name: 'applications',
+                            title: 'Pending - Owners',
+                            singleView: 'applicant',
+
+                        },
+                        {
+                            icon: 'mdi-message-outline',
                             text: 'Drivers',
                             name: 'driver-applications',
-                            title: 'Pending Driver Applicants',
+                            title: 'Pending - Drivers',
                             singleView: 'driver',
-                        },
-                        {
-                            icon: 'mdi-message-outline',
-                            text: 'Owners',
-                            name: 'owner',
-                            title: 'Pending Owner Applicants',
-                            singleView: 'applicant',
-
-                        },
-                        {
-                            icon: 'mdi-message-outline',
-                            text: 'Driver and Owner',
-                            name: 'driver-owner',
-                            title: 'Pending Driver and Owner Applicants',
-                            singleView: 'applicant',
-
                         },
                     ],
                 },
@@ -113,7 +105,7 @@ const generalMxn = {
     methods: {
         routeDetails(item) {
             let name = item === 'not-recommended' || item === 'recommended' ? 'reviewed' : item;
-            name = name === 'driver-applications' || name === 'owner' || name === 'driver-owner' || name === 'applications' ? 'pending' : name;
+            name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' ? 'pending' : name;
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
             const hasChild = linkDetails !== null ? linkDetails.hasChild : false;

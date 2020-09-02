@@ -16,6 +16,7 @@ import inconsistencies_list from '@/components/inconsistencies/list';
 import inconsistencies_details from '@/components/inconsistencies/details';
 import driver_applications from '@/components/driver-applications/list';
 import driver_details from '@/components/driver-applications/details';
+import vehicle_list from '@/components/vehicles/list';
 
 Vue.use(Router);
 
@@ -28,16 +29,6 @@ const router = new Router({
     {
       path: '/applications',
       name: 'applications',
-      component: applications_list,
-    },
-    {
-      path: '/applications/owners',
-      name: 'owner',
-      component: applications_list,
-    },
-    {
-      path: '/applications/driver-owner',
-      name: 'driver-owner',
       component: applications_list,
     },
     {
@@ -90,13 +81,18 @@ const router = new Router({
       name: 'driver',
       component: driver_details,
     },
+    {
+      path: '/vehicles',
+      name: 'vehicles',
+      component: vehicle_list,
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/') {
     if (!localStorage.authenticated || !JSON.parse(localStorage.authenticated)) next();
-    else next('/driver-applications');
+    else next('/applications');
     return;
   }
   if (localStorage.authenticated) {
