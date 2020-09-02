@@ -23,13 +23,6 @@ const generalMxn = {
                             title: 'Pending - Drivers',
                             singleView: 'driver',
                         },
-                        {
-                            icon: 'mdi-message-outline',
-                            text: 'New Vehicles',
-                            name: 'vehicles',
-                            title: 'Pending - Vehicles',
-                            singleView: 'vehicle',
-                        },
                     ],
                 },
                 {
