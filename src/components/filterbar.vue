@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="right-filters stageone__filters">
-        <el-select v-model="type" class="applicant-select" clearable placeholder="Select">
+        <el-select v-model="type" class="applicant-select" clearable placeholder="Select" v-if="!isPending">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
         <div class="block">
@@ -107,6 +107,9 @@ export default {
     pageTitle() {
       const routeDetails = this.routeDetails(this.routeName);
       return routeDetails === null ? 'Applicants' : routeDetails.title;
+    },
+    isPending() {
+      return this.routeIDName === 'driver-applications' || this.routeIDName === 'applications';
     },
   },
   watch: {
