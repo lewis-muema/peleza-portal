@@ -2,14 +2,13 @@ const generalMxn = {
     data() {
         return {
             links: [{
-                    icon: 'el-icon-menu',
+                    icon: 'pending_actions',
                     text: 'Pending Applicants',
                     name: 'pending',
                     title: 'Pending Applicants',
                     singleView: 'applicant',
                     hasChild: true,
                     subMenu: [{
-                            icon: 'mdi-message-outline',
                             text: 'Owners',
                             name: 'applications',
                             title: 'Pending - Owners',
@@ -17,7 +16,6 @@ const generalMxn = {
 
                         },
                         {
-                            icon: 'mdi-message-outline',
                             text: 'Drivers',
                             name: 'driver-applications',
                             title: 'Pending - Drivers',
@@ -26,7 +24,7 @@ const generalMxn = {
                     ],
                 },
                 {
-                    icon: 'el-icon-menu',
+                    icon: 'error_outline',
                     text: 'Inconsistencies',
                     name: 'inconsistencies',
                     title: 'Inconsistencies',
@@ -34,7 +32,7 @@ const generalMxn = {
                     hasChild: false,
                 },
                 {
-                    icon: 'el-icon-menu',
+                    icon: 'done_all',
                     text: 'Reviewed',
                     name: 'reviewed',
                     title: 'Reviewed -  All Applications',
