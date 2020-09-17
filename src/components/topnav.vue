@@ -295,6 +295,7 @@ export default {
 };
 </script>
 <style scoped>
+@import '../../static/style/core.css';
 .el-submenu__title {
   display: inline-flex !important;
 }
