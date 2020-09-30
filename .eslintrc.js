@@ -11,7 +11,7 @@ module.exports = {
 
   rules: {
     'max-len': 'off',
-    camelcase: 'off',
+    'camelcase': 'off',
     'no-undef': 'off',
     'no-dupe-keys': 'off',
     'vue/no-dupe-keys': 'off',
@@ -20,7 +20,7 @@ module.exports = {
     'array-callback-return': 'off',
     'no-else-return': 'off',
     'arrow-parens': 'off',
-    indent: 'off',
+    'indent': 'off',
     'dot-notation': 'off',
     'prefer-destructuring': 'off',
     'no-restricted-syntax': 'off',

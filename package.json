@@ -1,20 +1,20 @@
 {
   "name": "sendy-peleza-portal",
   "version": "1.0.0",
+  "private": true,
   "description": "An app to process new partner applications",
   "author": "Sendy Web Team",
-  "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
-    "prebuild": "eslint ./src --ext .js --ext .vue",
     "build": "node build/build.js",
-    "stage": "node build/stage.js",
-    "test": "mocha-webpack --timeout 10000 --require mock-local-storage --webpack-config ./build/webpack.base.conf.js --require test/setup.js --recursive test/",
-    "watch": "webpack -w -d",
     "deploy": "npm run build && surge ./dist sendy-partner-admin.surge.sh",
+    "dev": "node build/dev-server.js",
     "docker-latest": "docker build -t sendy-docker-local.jfrog.io/vue_onboarding_admin:latest . && docker push sendy-docker-local.jfrog.io/vue_onboarding_admin:latest",
-    "docker-prod": "docker build -t sendy-docker-local.jfrog.io/vue_onboarding_admin:prod . && docker push sendy-docker-local.jfrog.io/vue_onboarding_admin:prod"
+    "docker-prod": "docker build -t sendy-docker-local.jfrog.io/vue_onboarding_admin:prod . && docker push sendy-docker-local.jfrog.io/vue_onboarding_admin:prod",
+    "prebuild": "eslint ./src --ext .js --ext .vue",
+    "stage": "node build/stage.js",
+    "start": "node build/dev-server.js",
+    "test": "mocha-webpack --timeout 10000 --require mock-local-storage --webpack-config ./build/webpack.base.conf.js --require test/setup.js --recursive test/",
+    "watch": "webpack -w -d"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -66,7 +66,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-vue": "^5.2.2",
+    "eslint-plugin-vue": "^5.2.3",
     "eventsource-polyfill": "^0.9.6",
     "expect": "^24.5.0",
     "express": "^4.16.3",
@@ -107,13 +107,13 @@
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0"
   },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
 }

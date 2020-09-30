@@ -1,6 +1,7 @@
 .el-radio {
   margin-left: 15px;
 }
+
 .el-row {
   margin-left: 17px;
 }
@@ -27,9 +28,9 @@
 }
 
 .applicant-details {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 50px;
+  margin-left: 0;
+  margin-top: 0;
+  background: #f2f6fc;
 }
 
 .applicant--details__insurance {
@@ -38,11 +39,12 @@
 }
 
 .applicant-details__profile {
-  width: 30%;
+  width: 25%;
   padding-right: 0px;
-  margin-right: 15px;
   display: inline-block;
   float: left;
+  background: #f2f6fc;
+  padding-top: 1em;
 }
 
 .applicant-details__profile_image {
@@ -54,12 +56,11 @@
 }
 
 .applicant-details__data {
-  width: 65%;
+  width: 75%;
   display: inline-block;
-  /*overflow: scroll;*/
-  /*margin-right: -40px;*/
-  /*padding-right: 40px;*/
   height: auto;
+  background: #ffffff;
+  padding-top: 1em;
 }
 
 .applicant-details__profile_label {
@@ -78,14 +79,33 @@
 
 .el-card.applicant-details__profile__personal-details {
   overflow: hidden;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  background-color: inherit;
+  box-shadow: none;
+  border: none;
 }
+
 .el-card.applicant-details__submit-review {
   overflow: hidden;
-  border-radius: 20px;
   margin-bottom: 20px;
-  background: #f3f3f3;
+  margin-top: 20px;
+  background: #f2f6fc;
+  box-shadow: none;
+  border: none;
+}
+
+.applicant-details__submit-review>.el-card__header {
+  text-transform: none;
+  border: none;
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  color: #303133;
+  padding: 18px 0px;
+}
+
+.applicant-details__submit-review>.el-card__body {
+  padding: 0;
 }
 
 .el-collapse {
@@ -104,6 +124,7 @@
 .inconsistent-collapse {
   border: 1px solid #f17e3a !important;
 }
+
 .el-collapse-item is-active {
   margin-bottom: 20px;
   border: 1px solid #d1dbe5;
@@ -126,22 +147,41 @@
   background: #fefefe !important;
   border-bottom: none;
 }
+
+.el-collapse-item__header {
+  background-color: #e8f3fc;
+}
+
 .details-save-button {
   float: right;
   margin-right: 5px;
   width: 120px;
   height: 50px;
 }
+
 .details-print-button {
-  margin-top: -100px;
+  width: 15em;
+  background: #fafdff !important;
+  border-radius: 6px;
+  font-weight: 600;
+  align-items: center;
+  letter-spacing: 0.04em;
+  color: #3d6ca8;
+  align-items: center;
 }
+
 .el-date-editor.el-input {
   width: 100%;
 }
 
+.el-date-editor--daterange.el-input>el-input__inner {
+  border: 3px solid red;
+}
+
 .upload-input {
-  width: 80%;
+  width: 100%;
   display: inline-block;
+  margin-bottom: 6px;
 }
 
 .review-desc2 {
@@ -153,8 +193,9 @@
 .review-list {
   margin-bottom: 30px;
 }
+
 .details-print-button {
-  float: right;
+  /* float: right; */
 }
 
 .review-consent-text {
@@ -162,6 +203,8 @@
   margin-bottom: 14px;
   text-align: justify;
   text-justify: inter-word;
+  font-size: 14px;
+  letter-spacing: 0.03em;
 }
 
 .upload-button {
@@ -171,6 +214,7 @@
   text-align: right;
   margin-top: -5px;
 }
+
 .inputfile {
   width: 0.1px;
   height: 0.1px;
@@ -180,7 +224,7 @@
   z-index: -1;
 }
 
-.inputfile + label {
+.inputfile+label {
   font-size: 14px;
   font-weight: 300;
   color: white;
@@ -194,13 +238,14 @@
   text-transform: uppercase;
 }
 
-.inputfile:focus + label,
-.inputfile + label:hover {
+.inputfile:focus+label,
+.inputfile+label:hover {
   background: #fff;
   color: #1782c5;
   border: 1px solid;
   border-color: #1782c5;
 }
+
 .upload-button button {
   width: 95%;
   padding: 11px;
@@ -215,6 +260,7 @@
   margin-left: -400%;
   text-align: left;
 }
+
 .el-select {
   width: 100%;
 }
@@ -225,14 +271,17 @@
   font-size: 15px;
   margin-top: 10px;
 }
+
 .review-desc {
   margin-top: 10px;
   font-size: 14px;
   display: inline-block;
 }
+
 .review-details {
   display: inline-block;
 }
+
 .review-image {
   display: inline-block;
   float: right;
@@ -242,6 +291,7 @@
   width: 100%;
   height: auto;
 }
+
 .review-edit {
   text-align: right;
   font-size: 15px;
@@ -250,6 +300,7 @@
   color: #f17f3a;
   text-transform: uppercase;
 }
+
 hr {
   display: block;
   height: 1px;
@@ -258,13 +309,16 @@ hr {
   padding: 0;
   margin: 1em 0 30px;
 }
+
 .applicant-edit2 {
   /*margin-top: -500px;*/
 }
+
 .review-edit:hover,
 .review-edit:focus {
   color: #2a7fc3;
 }
+
 .application-details-ins {
   text-align: right !important;
   vertical-align: middle;
@@ -275,11 +329,18 @@ hr {
   padding: 11px 12px 11px 0;
   box-sizing: border-box;
 }
+
 .submit-review-button {
-  margin-top: 20px;
-  padding: 12px;
-  border: 1px solid #2a7fc3;
+  border: 1px solid #3d6ca8;
+  width: 112px;
+  height: 48px;
+  background: #3d6ca8 !important;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ffffff !important;
 }
+
 .submit-review-button:hover,
 .submit-review-button:focus {
   margin-top: 20px;
@@ -288,6 +349,7 @@ hr {
   color: #2a7fc3;
   border: 1px solid #2a7fc3;
 }
+
 .submit-review-button-disabled,
 .submit-review-button-disabled:hover,
 .submit-review-button-disabled:focus {
@@ -307,6 +369,12 @@ hr {
   height: 35px;
   background: #fff;
   font-size: 14px;
+  border: 1px solid #909399;
+  border-radius: 6px;
+  height: 44px;
+  letter-spacing: 0.03em;
+  color: #909399;
+  padding: 9px;
 }
 
 .logs-list {
@@ -325,6 +393,7 @@ hr {
   line-height: 25px;
   color: #333;
 }
+
 .applicant--incosistency-wrap {
   margin-left: 10px;
   color: #555;
@@ -335,6 +404,7 @@ hr {
   text-align: right;
   padding-right: 12px;
 }
+
 .applicant--incosistency-mark {
   margin-left: 10px;
   color: #555;
@@ -347,15 +417,35 @@ hr {
   position: relative;
   font-size: 14px;
 }
+
 .applicant--incosistency-wrap .el-checkbox {
   margin-right: 10px;
 }
+
 .applicant-details__inconsistency-messsage-wrap {
   overflow: hidden;
   border-radius: 20px;
   margin-bottom: 20px;
-  background: #f3f3f3;
+  background: #f2f6fc;
+  margin-top: 20px;
+  box-shadow: none;
+  border: none;
 }
+
+.applicant-details__inconsistency-messsage-wrap>.el-card__header {
+  text-transform: none;
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  color: #303133;
+  padding: 18px 0px;
+}
+
+.applicant-details__inconsistency-messsage-wrap>.el-card__body {
+  padding: 20px 0;
+}
+
 .applicant-details__inconsistency-message {
   color: #555;
   font-size: 14px;
@@ -370,6 +460,7 @@ hr {
   float: right;
   padding-right: 10px;
 }
+
 .applicant--details__noPlate {
   float: right;
   padding-right: 10px;
@@ -385,6 +476,9 @@ hr {
   overflow: hidden;
   white-space: nowrap;
   text-align: right;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: #c0c4cc;
 }
 
 .hidden-hover {
@@ -408,15 +502,19 @@ hr {
   .applicant-details__profile {
     width: 32%;
   }
+
   .applicant-details__profile_label {
     font-size: 13px;
   }
+
   .applicant-details__profile_value {
     font-size: 13px;
   }
+
   .el-card__body {
     font-size: 13px;
   }
+
   .el-collapse-item__header {
     font-size: 13px;
   }
@@ -426,23 +524,28 @@ hr {
   .applicant-details__profile {
     width: 100%;
   }
+
   .applicant-details__data {
     width: 100%;
   }
+
   .el-collapse-item__header {
     height: 55px;
     font-size: 13px;
     line-height: 32px;
   }
+
   .applicant-details__idNo {
     float: left;
     padding-left: 22px;
     padding-right: 75px;
   }
+
   .applicant--details__kraPin {
     float: left;
     padding-left: 22px;
   }
+
   .applicant--details__noPlate {
     float: left;
     padding-left: 22px;
@@ -464,46 +567,286 @@ hr {
     text-align: center;
     font-size: 12px;
   }
+
   .review-details {
     width: 100% !important;
   }
+
   .el-input {
     float: right;
     width: 95%;
   }
+
   .el-date-editor {
     float: right;
     width: 95% !important;
   }
+
   .el-textarea__inner {
     float: right;
     width: 95% !important;
   }
+
   .el-picker-panel {
     left: 0px !important;
   }
+
   .applicant-details__profile_label {
     font-size: 12px;
   }
+
   .applicant-details__profile_value {
     font-size: 12px;
   }
+
   .applicant-details__back_text {
     font-size: 12px;
   }
+
   .applicant-details__back_image {
     width: 13px;
   }
+
   .logs-list {
     font-size: 13px;
   }
+
   .user-pic {
     height: 25px;
     width: 25px;
     margin-right: 0px;
   }
+
   .date-popup {
     width: 96% !important;
     margin-left: 2% !important;
   }
+}
+
+.el-button.el-button--primary.back-button {
+  background: #f2f6fc;
+  display: block;
+  border-color: #3d6ca8;
+  letter-spacing: 0.04em;
+  color: #3d6ca8;
+  font-size: 14px;
+}
+
+.applicant-details__profile_content {
+  margin-top: 3em;
+}
+
+.applicant-details__application_type {
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+  color: #000000;
+}
+
+.applicant-details__application_type_value {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 125%;
+  color: #0f4176;
+}
+
+.applicant-name {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+}
+
+.applicant-details__application_type_identity {
+  font-size: 16px;
+  line-height: 28px;
+  display: flex;
+  letter-spacing: 0.02em;
+  margin-top: 10px;
+}
+
+.applicant-details__application_date {
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.identity-label {
+  color: #c0c4cc;
+  margin-left: 10px;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.el-button.el-button--primary.status-button {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1f4e84;
+  background: #c2dcf6;
+  border-radius: 116px;
+  height: 20px;
+  padding: 0px 12px;
+  border-color: #c2dcf6;
+}
+
+.el-button.el-button--primary.status-button.inconsistencies {
+  background: #e9e3ab;
+  color: #786d11;
+  border-color: #e9e3ab;
+}
+
+.el-button.el-button--primary.status-button.pending {
+  background: #c2dcf6;
+  color: #0f4176;
+  border-color: #c2dcf6;
+}
+
+.el-button.el-button--primary.status-button.recommended {
+  border-color: #c8eac4;
+  color: #1e7d11;
+  background: #c8eac4;
+}
+
+.el-button.el-button--primary.status-button.not {
+  border-color: #fdd8da;
+  color: #d2212a;
+  background: #fdd8da;
+}
+
+.activity-logs>.el-card__header {
+  font-weight: 600 !important;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #000000;
+  text-transform: none;
+}
+
+.activity-logs>.el-card__body {
+  padding: 20px 0;
+}
+
+.statement-log {
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  letter-spacing: 0.03em;
+  color: #000000;
+}
+
+.statement-time {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.03em;
+  color: #c0c4cc;
+}
+
+.applicant-vehicle {
+  display: flex;
+}
+
+.verification-header {
+  font-size: 24px;
+  line-height: 133%;
+  letter-spacing: 0.02em;
+}
+
+.verification-content>.el-card__body {
+  padding: 20px 0;
+}
+
+.verification-wrap {
+  background: #e8f3fc;
+  border-radius: 6px;
+  border: none;
+}
+
+.verification-wrap>.el-collapse-item__header {
+  background: #e8f3fc;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: #606266;
+  text-transform: none;
+}
+
+.applicant-details__data_holder {
+  padding: 0 5em;
+}
+
+.verification-collapse {
+  margin-top: 2em;
+}
+
+.verification-wrap>.el-collapse-item__wrap {
+  background: #fafdff !important;
+  border-top: none;
+}
+
+.insurance-label {
+  font-size: 16px;
+  color: #909399;
+}
+
+.insurance-value {
+  font-size: 16px;
+  color: #212121;
+  margin-left: 8px;
+}
+
+.insurance-divider {
+  border-top: 1px solid #dcdfe6;
+}
+
+.insurance-subtitle {
+  font-size: 16px;
+  color: #909399;
+}
+
+.el-collapse-item__header__arrow {
+  color: #0e4266;
+  font-size: 15px;
+}
+
+.upload-btn+label {
+  width: 18%;
+}
+
+.select-review {
+  height: 44px;
+  background: #ffffff;
+  border: 1px solid #909399;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.select-review .el-input .el-input__icon {
+  color: #3d6ca8;
+}
+
+.el-card applicant-details__inconsistency-messsage-wrap>.el-card__header {
+  padding: 18px 0;
+}
+
+.insurance-acceptance {
+  color: #527cbd;
+}
+
+.inconsistency-header {
+  border: 1px solid #c9531b;
+}
+
+.marked-inconsistent {
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: #A83A12;
+  margin: 0 16px;
+}
+.input-error {
+  line-height: 24px;
+  display: flex;
+  letter-spacing: 0.03em;
+  color: #D2212A
 }

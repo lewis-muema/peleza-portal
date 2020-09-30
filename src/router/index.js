@@ -16,12 +16,12 @@ import inconsistencies_list from '@/components/inconsistencies/list';
 import inconsistencies_details from '@/components/inconsistencies/details';
 import driver_applications from '@/components/driver-applications/list';
 import driver_details from '@/components/driver-applications/details';
+import vehicle_list from '@/components/vehicles/list';
 
 Vue.use(Router);
 
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'login',
       component: login,
@@ -47,6 +47,16 @@ const router = new Router({
       component: reviewed_detail,
     },
     {
+      path: '/reviewed/recommended',
+      name: 'recommended',
+      component: reviewed_list,
+    },
+    {
+      path: '/reviewed/not-recommended',
+      name: 'not-recommended',
+      component: reviewed_list,
+    },
+    {
       path: '/renewals',
       name: 'renewals',
       component: renewals_list,
@@ -70,6 +80,11 @@ const router = new Router({
       path: '/driver',
       name: 'driver',
       component: driver_details,
+    },
+    {
+      path: '/vehicles',
+      name: 'vehicles',
+      component: vehicle_list,
     },
   ],
 });

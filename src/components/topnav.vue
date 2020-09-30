@@ -1,67 +1,150 @@
 <template>
-  <div>
-    <el-menu theme="dark" :default-active="current_route" mode="horizontal" router class="nav">
-      <span class="nav__logo el-menu-item">
-        <img src="../assets/sendy-logo-white.png" class="header-logo" />
-      </span>
-      <div class="nav__links">
-        <el-menu-item class="ml" index="/applications" :class="{ 'is-active': current_route === 'applications' }" exact replace>Applications</el-menu-item>
-        <el-menu-item :class="{ 'is-active': current_route === 'inconsistencies' }" index="/inconsistencies" exact replace>Inconsistencies</el-menu-item>
-        <el-menu-item :class="{ 'is-active': current_route === 'reviewed' }" index="/reviewed" exact replace>Reviewed</el-menu-item>
-        <el-menu-item v-if="sendy_verifier" :class="{ 'is-active': current_route === 'driver-applications' }" index="/driver-applications" exact replace>Drivers</el-menu-item>
-        <!--<el-menu-item :class="{'is-active':(current_route === 'renewals')}" index="/renewals" exact replace>Renewals</el-menu-item>-->
-      </div>
-      <el-dropdown class="topnav--reupload-alert">
-        <span class="el-dropdown-link">
-          <el-badge :value="applicants.length" :max="99" class="item">
-            <el-button size="small">
-              <i class="el-icon-bell el-icon--right"></i>
-            </el-button>
-          </el-badge>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="applicant in applicants" :key="applicant.index">
-            <a @click="loadApplicant(applicant)">Applicant review updated on {{ formatDateToLocal(applicant.date_time) }}</a>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+  <el-col
+    :xs="24"
+    :sm="5"
+    :md="5"
+    :lg="5"
+    :xl="1"
+  >
+    <div class="side-navigation">
+      <div class="side-content">
+        <el-card
+          shadow="never"
+          class="images-container text-center"
+        >
+          <div class="image-holder">
+            <el-col
+              :md="4"
+              :lg="5"
+              :xl="1"
+            >
+              <img
+                src="https://s3-eu-west-1.amazonaws.com/images.sendyit.com/web_platform/appicons/SendyAppIcon_512px.png"
+                class="image"
+              />
+            </el-col>
+            <el-col
+              :md="19"
+              :lg="15"
+              :xl="1"
+              class="logo-text"
+            >
+              <span class="">Verify Portal</span>
+            </el-col>
+          </div>
+        </el-card>
+        <el-row class="tac">
+          <el-col>
+            <h5 class="nav-header">PARTNER APPLICATIONS</h5>
+            <el-menu
+              :default-active="current_route"
+              :router="true"
+              class="el-menu-vertical-demo"
+              :default-openeds="['pending']"
+            >
+              <template v-for="(link, index) in links">
+                <el-menu-item
+                  class="nav-text "
+                  v-if="!link.hasChild"
+                  :index="`${link.name}`"
+                  :key="index"
+                  :route="{ name: link.name }"
+                >
+                  <div class="outline-icon">
+                    <i class="material-icons-outlined">{{ link.icon }}</i>
+                  </div>
 
-      <el-submenu index="6" class="nav__session">
-        <template slot="title">
-          <img class="user-pic" :src="`http://care.sendyit.com/customer/include/team/${user.pic}`" />
-          <span id="el-name">{{ user.name }}</span>
-        </template>
-        <div class="el-menu-item el-dropdown" @click="logout">Logout</div>
-      </el-submenu>
-    </el-menu>
-    <div class="row" v-if="current_route !== 'applicant' && current_route !== 'reviewed-applicant' && current_route !== 'driver' && current_route !== 'inconsistency'">
-      <div class="nav-search">
-        <input class="nav__search" type="search" placeholder="Search ID / KRA PIN / VENDOR TYPE" v-model="search_term" @input="search" />
+                  <span class="applicant-type">{{ link.text }}</span>
+                  <span
+                    class="applicant-count"
+                    v-show="current_route === link.name"
+                  >{{ applicantCount }}</span>
+                </el-menu-item>
+                <el-submenu
+                  class="submenu-text"
+                  v-if="link.hasChild"
+                  :index="`${link.name}`"
+                  :key="index"
+                  :route="{ name: link.name }"
+                >
+                  <template slot="title">
+                    <div class="outline-icon">
+                      <i class="material-icons-outlined">{{ link.icon }}</i>
+                    </div>
+
+                    <div class="applicant-type">{{ link.text }}</div>
+                  </template>
+                  <el-menu-item-group
+                    class="sub-nav"
+                    :router="true"
+                  >
+                    <template v-for="(sub, i) in link.subMenu">
+                      <el-menu-item
+                        class="sub-nav-text"
+                        :class="{ 'is-active': sub.name === current_route }"
+                        :index="`${link.name}/${sub.name}`"
+                        :key="i"
+                        :route="{ name: sub.name }"
+                      >
+                        <div class="applicant-type">{{ sub.text }}</div>
+                        <div
+                          class="applicant-count text-right"
+                          v-show="current_route === sub.name"
+                        >{{ applicantCount }}</div>
+                      </el-menu-item>
+                    </template>
+                  </el-menu-item-group>
+                </el-submenu>
+              </template>
+            </el-menu>
+            <el-menu
+              :default-active="current_route"
+              class="el-menu-vertical-demo footer-links"
+            >
+              <template v-for="(link, index) in footerLinks">
+                <el-menu-item
+                  class="nav-text"
+                  v-if="!link.hasChild"
+                  @click="logout()"
+                  :index="`${link.name}`"
+                  :key="index"
+                >
+                  <i :class="`${link.icon}`"></i>
+                  <span>{{ link.text }}</span>
+                </el-menu-item>
+              </template>
+            </el-menu>
+          </el-col>
+        </el-row>
       </div>
     </div>
-  </div>
+  </el-col>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import TimezoneMxn from '../mixins/timezone_mixin';
+import GeneralMxn from '../mixins/general_mixin';
 
 export default {
   name: 'topnav',
-  mixins: [TimezoneMxn],
-  data() {
+  mixins: [TimezoneMxn, GeneralMxn],
+  data () {
     return {
       search_term: '',
       applicants: 0,
       hideDrivers: true,
+      applicantCount: '',
     };
   },
   computed: {
-    current_route() {
+    ...mapGetters({ getApplicantCount: 'getApplicantCount' }),
+    current_route () {
       return this.$route.name;
     },
-    user() {
+    user () {
       return JSON.parse(localStorage.user);
     },
-    sendy_verifier() {
+    sendy_verifier () {
       if (this.user.external_status === '0') {
         return true;
       }
@@ -69,17 +152,21 @@ export default {
     },
   },
   watch: {
-    $route() {
+    $route () {
       this.$nextTick(() => {
         this.search_term = '';
+        this.applicantCount = '';
       });
     },
+    getApplicantCount (count) {
+      this.applicantCount = count;
+    },
   },
-  mounted() {
+  mounted () {
     this.getInconsisntenciesUpdates();
   },
   methods: {
-    loadApplicant(d) {
+    loadApplicant (d) {
       const verification = {
         applicant_details: {
           application_type: d.application_type,
@@ -99,88 +186,88 @@ export default {
           identity_check: d.identity_check
             ? JSON.parse(d.identity_check)
             : {
-                applicant_name: '',
-                dob: '',
-                pob: '',
-                gender: '',
-                review_status: false,
-                inconsistency: false,
-              },
+              applicant_name: '',
+              dob: '',
+              pob: '',
+              gender: '',
+              review_status: false,
+              inconsistency: false,
+            },
           criminal_records_check: d.criminal_records_check
             ? JSON.parse(d.criminal_records_check)
             : {
-                applicant_name: '',
-                criminal_history: '',
-                authenticity: '',
-                id_no: '',
-                ref_no: '',
-                review_status: d.application_type === 'Owner',
-                inconsistency: false,
-              },
+              applicant_name: '',
+              criminal_history: '',
+              authenticity: '',
+              id_no: '',
+              ref_no: '',
+              review_status: d.application_type === 'Owner',
+              inconsistency: false,
+            },
           driving_license_check: d.driving_license_check
             ? JSON.parse(d.driving_license_check)
             : {
-                applicant_name: '',
-                dl_no: '',
-                date_of_issue: '',
-                expiry_date: '',
-                classes: '',
-                id_no: '',
-                review_status: d.application_type === 'Owner',
-                inconsistency: false,
-              },
+              applicant_name: '',
+              dl_no: '',
+              date_of_issue: '',
+              expiry_date: '',
+              classes: '',
+              id_no: '',
+              review_status: d.application_type === 'Owner',
+              inconsistency: false,
+            },
           motor_vehicle_records_check: d.motor_vehicle_records_check
             ? JSON.parse(d.motor_vehicle_records_check)
             : {
-                ownership_details: '',
-                chasis_no: '',
-                make: '',
-                body_type: '',
-                engine_no: '',
-                manufacture_year: '',
-                caveats: '',
-                review_status: d.application_type === 'Driver',
-                inconsistency: false,
-              },
+              ownership_details: '',
+              chasis_no: '',
+              make: '',
+              body_type: '',
+              engine_no: '',
+              manufacture_year: '',
+              caveats: '',
+              review_status: d.application_type === 'Driver',
+              inconsistency: false,
+            },
           car_insurance_validity: d.car_insurance_validity
             ? JSON.parse(d.car_insurance_validity)
             : {
-                owner_name: '',
-                vehicle_number_plate: '',
-                issue_date: '',
-                expiry_date: '',
-                validity: '',
-                policy_number: '',
-                review_status: d.application_type === 'Driver',
-                inconsistency: false,
-              },
+              owner_name: '',
+              vehicle_number_plate: '',
+              issue_date: '',
+              expiry_date: '',
+              validity: '',
+              policy_number: '',
+              review_status: d.application_type === 'Driver',
+              inconsistency: false,
+            },
           kra_pin_verification: d.kra_pin_verification
             ? JSON.parse(d.kra_pin_verification)
             : {
-                validity: '',
-                name: '',
-                pin_number: '',
-                tax_obligations: '',
-                registration_date: '',
-                review_status: false,
-                inconsistency: false,
-              },
+              validity: '',
+              name: '',
+              pin_number: '',
+              tax_obligations: '',
+              registration_date: '',
+              review_status: false,
+              inconsistency: false,
+            },
         },
       };
       this.$store.commit('changeVerification', verification);
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
-    logout() {
+    logout () {
       axios.post(`${AUTH_URL}logout`, { refresh_token: localStorage.refresh_token }).then(response => {
         localStorage.clear();
         this.$router.replace('/');
       });
     },
-    search(ev) {
+    search (ev) {
       // prettier-ignore
       this.$store.commit('search', ev.target.value.split(' ').join('').toLowerCase());
     },
-    getInconsisntenciesUpdates() {
+    getInconsisntenciesUpdates () {
       const final_start_date = null;
       const final_stop_date = null;
       const payload = {
@@ -208,146 +295,8 @@ export default {
 };
 </script>
 <style scoped>
-.header-logo {
-  width: auto;
-  height: 60px;
-  margin-top: -5px;
-}
-.el-table .cell {
-  word-break: initial;
-}
-.nav-search {
-  width: 76%;
-  /*margin: auto;*/
-  margin-top: 40px;
-  margin-left: 13px;
-  display: inline-block;
-  margin-bottom: 20px;
-}
-.nav__search {
-  width: 46%;
-  border: 1px solid #bfcbd9;
-  font-size: 14px;
-  font-weight: 300;
-  text-transform: uppercase;
-  text-align: center;
-  color: #555;
-}
-.nav.el-menu {
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  height: 80px;
-}
-.nav__links {
-  height: 80px;
-  margin-top: 40px;
-  text-transform: uppercase;
-}
-.nav__links .el-menu-item {
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-.topnav--reupload-alert {
-  margin-right: 50px;
-}
-
-@media only screen and (max-width: 768px) {
-  .header-logo {
-    width: auto;
-    height: 42px;
-    margin-top: 10px;
-  }
-  .el-menu-item {
-    font-size: 10px !important;
-    width: 30%;
-    text-align: center;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-  .topnav--reupload-alert {
-    margin-top: 15px;
-  }
-  .nav__session {
-    margin-top: 17px;
-  }
-  #el-name {
-    font-size: 11px;
-  }
-  .el-dropdown {
-    min-width: 10px;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .nav__logo {
-    height: 35px;
-    grid-column: span 6;
-    padding: 0px;
-    margin-top: 15px;
-  }
-  .el-menu-item * {
-    vertical-align: top;
-  }
-  .header-logo {
-    height: 28px;
-    margin-top: 0px;
-  }
-  .topnav--reupload-alert {
-    margin-left: 15px;
-    grid-column: span 12;
-    margin-top: 10px;
-  }
-  .nav__session {
-    margin: 0px;
-    grid-column: span 9;
-    font-size: 10px !important;
-  }
-  .nav {
-    height: 120px !important;
-    display: grid !important;
-    grid-template-columns: repeat(21, 1fr) !important;
-    grid-template-rows: 60px;
-    align-items: flex-start !important;
-  }
-  .nav__links {
-    grid-column: span 14;
-    margin-top: 0px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  .el-menu:before {
-    grid-column: span 1;
-  }
-  .el-menu-item {
-    padding: 4px !important;
-    font-size: 7px !important;
-    width: 30% !important;
-    text-align: center;
-  }
-  .nav-search {
-    width: 94% !important;
-  }
-  .nav__search {
-    width: 100% !important;
-  }
-  #el-name {
-    font-size: 10px;
-  }
-  .el-submenu {
-    width: 100%;
-  }
-  .el-dropdown {
-    min-width: 120px;
-  }
-}
-
-@media only screen and (max-width: 320px) {
-  .el-menu-item {
-    width: 40% !important;
-  }
+@import '../../static/style/core.css';
+.el-submenu__title {
+  display: inline-flex !important;
 }
 </style>
