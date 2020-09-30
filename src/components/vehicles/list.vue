@@ -1,18 +1,17 @@
 <template xmlns:router-link="">
   <div class="stageone">
-      <applicantList :category="category" :sub-category="this.$route.name" />
-
+      <applicantList :category="category" />
   </div>
 </template>
 <script>
 import applicantList from '../shared/applicantList.vue';
 
 export default {
-    name: 'InconsitenciesList',
+    name: 'PendingList',
     components: { applicantList },
-     data() {
+    data() {
         return {
-            category: 'inconsistencies',
+            category: 'vehicles',
         };
     },
 };

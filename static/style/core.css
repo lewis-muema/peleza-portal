@@ -1,0 +1,464 @@
+.side-navigation {
+    width: 100% !important;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
+    min-height: 114vh;
+    background: #ffffff;
+}
+
+.app-holder {
+    background: #f2f6fc
+}
+
+.main-content {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.main-holder {
+    padding-top: 2px;
+    background: #f2f6fc;
+}
+
+.login-holder {
+    width: 100% !important;
+}
+
+.el-select.applicant-select {
+    width: 196px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 1px solid #C0C4CC;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin-right: 3em;
+}
+
+.single-view-holder {
+    background: #ffffff !important;
+    padding-top: 0 !important;
+    padding: 0 !important;
+}
+
+.demo-input-suffix>.el-input--prefix>.el-input__prefix>.el-input__icon {
+    width: 0 !important;
+    color: #606266 !important;
+    font-size: 20px !important;
+}
+
+.nav-search {
+    padding: 12px 0
+}
+
+.nav-search-input {
+    width: 320px;
+    height: 44px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #C0C4CC !important;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.side-content {
+    padding: 20px 30px;
+    display: block;
+}
+
+.el-date-range-picker.has-sidebar {
+    min-width: 600px !important;
+    width: 200px !important;
+    top: 149px !important;
+}
+
+.applicant-select>.el-input>.el-input__inner {
+    border: none !important;
+}
+
+.el-input__prefix,
+.el-input__suffix {
+    height: 50% !important;
+    ;
+}
+
+.el-card__body>.image-holder {
+    text-align: center;
+    width: 100%;
+    height: 65px;
+}
+
+.el-card.images-container {
+    border: none;
+    box-shadow: none;
+}
+
+.images-container>.el-card__body {
+    padding: 10px 0;
+}
+
+.images-container span {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 140%;
+    letter-spacing: 0.02em;
+    color: #606266;
+}
+
+.image {
+    width: 40px;
+    border-radius: 100%;
+}
+
+.logo-text {
+    padding-top: 4px;
+    text-align: left;
+}
+
+.nav-header {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #303133;
+}
+
+.el-menu-item,
+.el-submenu__title {
+    padding: 0 !important;
+}
+
+.el-menu {
+    background: #ffffff !important;
+    border: none !important;
+}
+
+.el-submenu .el-menu {
+    background-color: #ffffff !important;
+}
+
+.nav-text {
+    font-size: 14px !important;
+    letter-spacing: 0.03em;
+    color: #303133 !important;
+    height: 56px !important;
+    line-height: 50px !important;
+    display: inline-flex;
+    width: 100%;
+}
+
+.el-icon-menu {
+    color: #909399 !important;
+    font-size: 18px !important;
+    line-height: 3 !important;
+}
+
+.el-menu-item-group.sub-nav {
+    padding-left: 25px;
+}
+
+.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,
+.el-menu-item.is-active {
+    background: #e8f3fc;
+    border: 3px solid #e8f3fc !important;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    color: #2d5c95 !important;
+}
+
+.el-menu.footer-links {
+    border-top: 2px solid #ebeef5 !important;
+    margin-top: 25em;
+    padding-top: 1em;
+}
+
+.filter-holder {
+    padding: 0 15px 23px 20px;
+}
+
+.el-range-input {
+    border: none;
+    width: 40%;
+    text-align: center;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+li:focus {
+    outline: none;
+}
+
+
+.el-range-separator {
+    line-height: 2;
+}
+
+.filter-holder h5 {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 125%;
+    letter-spacing: 0.02em;
+    color: #606266;
+    margin-top: 25px;
+    margin-bottom: 34px;
+}
+
+.filter-inputs {
+    display: inline-flex;
+    width: 100%;
+}
+
+.nav-search input {
+    padding: 8px 16px;
+    width: 320px;
+    height: 44px;
+    border: 1px solid #c0c4cc;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.el-date-editor--daterange.el-input>.el-input__inner {
+    height: 44px !important;
+}
+
+.nav-text>.applicant-count,
+.nav-text>.el-submenu__title>.applicant-count,
+.sub-nav-text>.applicant-count {
+    width: 20%;
+    font-size: 14px;
+    text-align: right;
+    letter-spacing: 0.03em;
+    color: #2d5c95;
+}
+
+.nav-text>.applicant-type,
+.nav-text>.el-submenu__title>.applicant-type,
+.sub-nav-text>.applicant-type {
+    width: 80%;
+}
+
+.nav-text.el-submenu>.el-submenu__title {
+    display: inline-flex;
+    width: 100%;
+}
+
+.el-submenu__icon-arrow {
+    display: none !important;
+    ;
+}
+
+.nav-text.el-submenu {
+    display: block;
+}
+
+.sub-nav-text {
+    display: inline-flex;
+}
+
+.el-table {
+    border: none !important;
+}
+
+.el-table--border td,
+.el-table--border th {
+    border-right: none !important;
+}
+
+.el-table th {
+    background-color: #ffffff !important;
+}
+
+.el-table__footer-wrapper thead div,
+.el-table__header-wrapper thead div {
+    background-color: #ffffff !important;
+    color: #1f2d3d;
+}
+
+.el-table th {
+    height: 48px !important;
+    ;
+}
+
+.el-table td {
+    height: 56px !important;
+}
+
+.el-table th>.cell {
+    line-height: 24px !important;
+    color: #606266;
+}
+
+.el-table .cell {
+    letter-spacing: 0.03em !important;
+    color: #303133 !important;
+}
+
+.stageone {
+    padding: 0 15px 23px 20px;
+}
+
+.applicants-holder {
+    background: #ffffff;
+    height: auto
+}
+
+.empty {
+    text-align: center;
+    padding-bottom: 3em;
+}
+
+.empty-image {
+    width: 30%;
+}
+
+.empty-text {
+    line-height: 28px;
+    color: #0F4176;
+}
+
+.empty-text-count {
+    line-height: 28px;
+    color: #527CBD
+}
+
+.el-table .cell,
+.el-table th>div {
+    padding-left: 9px !important;
+    padding-right: 0 !important;
+}
+
+.applicant-status {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    height: 20px;
+    border-radius: 116px;
+    padding: 0 16px;
+}
+
+.applicant-status.pending {
+    color: #0F4176;
+    background: #C2DCF6;
+    width: 51px;
+}
+
+.applicant-status.inconsistencies {
+    color: #786D11;
+    background: #E9E3AB;
+    width: 102px;
+}
+
+.applicant-status.resolved {
+    color: #87250B;
+    background: #FCD7A7;
+    width: 83px;
+}
+
+.applicant-status.recommended {
+    color: #1E7D11;
+    background: #C8EAC4;
+    width: 89px;
+}
+
+.applicant-status.not,
+.applicant-status.not-recommended {
+    color: #D2212A;
+    background: #FDD8DA;
+    width: 117px;
+}
+
+.right-filters {
+    float: right;
+    padding: 0;
+    width: 100% !important;
+    display: inline-flex !important;
+    text-align: right
+}
+
+.applicant-arrow {
+    color: #527CBD;
+}
+
+.pagination {
+    padding: 1em 0 3em 0;
+}
+
+.el-pager li,
+.el-pagination .btn-next,
+.el-pagination .btn-prev {
+    min-width: 38px !important;
+    height: 38px !important;
+    line-height: 32px !important;
+}
+
+.el-pagination .el-select .el-input input,
+.el-pagination__total {
+    height: 38px !important;
+    line-height: 38px !important;
+
+}
+
+.el-pagination__editor {
+    line-height: 26px !important;
+    width: 38px !important;
+}
+
+.applicant-details__profile__personal-details>.el-card__body {
+    padding: 20px 20px 20px 50px;
+}
+
+.submenu-text>.el-submenu__title {
+    display: inline-flex;
+}
+
+.is-opened ul {
+    display: block !important;
+}
+
+.material-icons-outlined,
+.material-icons.material-icons--outlined,
+.material-icons-two-tone,
+.material-icons.material-icons--two-tone,
+.material-icons-round,
+.material-icons.material-icons--round,
+.material-icons-sharp,
+.material-icons.material-icons--sharp {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.material-icons-outlined,
+.material-icons.material-icons--outlined {
+    font-family: 'Material Icons Outlined';
+}
+
+.material-icons-two-tone,
+.material-icons.material-icons--two-tone {
+    font-family: 'Material Icons Two Tone';
+}
+
+.material-icons-round,
+.material-icons.material-icons--round {
+    font-family: 'Material Icons Round';
+}
+
+.material-icons-sharp,
+.material-icons.material-icons--sharp {
+    font-family: 'Material Icons Sharp';
+}
+
+.outline-icon {
+    padding: 6px 6px 6px 0px;
+}

@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SENDY PARTNER VERIFICATION PORTAL</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon.ico">
-    <link rel="shortcut icon" href="/static/img/icons/favicon.ico">
-    <% for (var chunk of webpack.chunks) {
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SENDY PARTNER VERIFICATION PORTAL</title>
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16"
+    href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Sarabun|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+  <link rel="stylesheet" href="/static/style/core.css">
+  <link rel="shortcut icon" href="/static/img/icons/favicon.ico">
+  <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <noscript>
-      Please enable Javascript or Use <a href="https://chrome.google.com">Google Chrome</a>
-    </noscript>
-    <div id="app"></div>
-    <div class="lightbox" style="display: none;">
-      <img src="" class="lightbox__image"/>
-    </div>
-  </body>
+  <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>"
+    as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+    integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous">
+  </script>
+</head>
+
+<body>
+  <noscript>
+    Please enable Javascript or Use <a href="https://chrome.google.com">Google Chrome</a>
+  </noscript>
+  <div id="app"></div>
+  <div class="lightbox" style="display: none;">
+    <img src="" class="lightbox__image" />
+  </div>
+</body>
 
 </html>

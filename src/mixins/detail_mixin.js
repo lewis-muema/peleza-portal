@@ -19,8 +19,13 @@ const DetailMxn = {
     },
     createLogStatement(log) {
       const localDate = this.formatDateToLocal(log.date_time);
-      const statement = `${log.admin_name} ${log.last_activity} on ${moment(localDate).format('Do MMM YYYY')} at ${moment(localDate).format('HH:mm:ss A')}`;
-      return statement;
+      const statement = `${log.admin_name} ${log.last_activity}`;
+      const arr = [];
+      arr.statement = statement;
+      arr.date = moment(localDate).format('Do MMM YYYY');
+      arr.time = moment(localDate).format('HH:mm:ss A');
+
+      return arr;
     },
     checkProperties(obj) {
       for (const key in obj) {
