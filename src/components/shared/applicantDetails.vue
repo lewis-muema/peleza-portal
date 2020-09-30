@@ -931,11 +931,10 @@ export default {
       let message = '';
 
       if (this.applicant_review.status === '1') {
-        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Congratulations! Your application to join Sendy has been verified. We will contact you soon for Sendy training`;
+        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Congratulations! Your application to join Sendy has was successful. We will contact you soon for training`;
       } else {
-        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Sorry! Your application to join Sendy was unsuccessful.`;
+        message = `Hello ${this.capitalizeFirstLetter(this.applicant_details.applicant_username)}, Thank you for choosing to work with Sendy. Unfortunately, your application didn't meet all the verification requirements. Please try again after 3-6 months. `;
       }
-
       const payload = {
         send_sms: true,
         user_phone: phoneNo,
