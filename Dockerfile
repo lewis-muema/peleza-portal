@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM sendy-docker-local.jfrog.io/nginx:latest
 
 RUN useradd -u 3000 sendy
 
