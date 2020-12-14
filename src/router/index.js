@@ -86,6 +86,55 @@ const router = new Router({
       name: 'vehicles',
       component: vehicle_list,
     },
+    {
+      path: '/transporter',
+      name: 'transporter',
+      component: vehicle_list,
+    },
+    {
+      path: '/freight-peer',
+      name: 'freight-peer',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/freight-business',
+      name: 'freight-business',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/customer/:id',
+      name: 'customer',
+      component: () => import('@/components/freight/customers/details'),
+
+    },
+    {
+      path: '/business-inconsistencies/',
+      name: 'cop-inconsistencies',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/peer-inconsistencies/',
+      name: 'peer-inconsistencies',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/business-reviewed/',
+      name: 'reviewed-business',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/peer-reviewed/',
+      name: 'reviewed-peer',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/business-inconsistencies/:id',
+      name: 'customer',
+      component: () => import('@/components/freight/customers/details'),
+    },
   ],
 });
 
