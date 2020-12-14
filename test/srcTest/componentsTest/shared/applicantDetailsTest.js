@@ -80,6 +80,8 @@ describe('Reviewed-details-test', () => {
                 applicantionType: '',
                 current_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
                 applicantCount: 10,
+                category: 'freight',
+
             },
             mutations: {
                 changeVerification(state, current_verification) {
@@ -96,6 +98,9 @@ describe('Reviewed-details-test', () => {
                 setApplicantionCount(state, applicantCount) {
                     state.applicantCount = applicantCount;
                 },
+                setCategory(state, category) {
+                    state.category = category;
+                  },
             },
 
             getters: {
@@ -104,6 +109,7 @@ describe('Reviewed-details-test', () => {
                 search_term: (state) => state.search_term,
                 current_verification: state => state.current_verification,
                 getApplicantCount: state => state.applicantCount,
+                getCategory: state => state.category,
 
             },
         });
@@ -150,12 +156,5 @@ describe('Reviewed-details-test', () => {
             show_ecommerce: '0',
             allowed_orders: '',
         });
-        const detailsWrapper = shallowMount(applicationDetails, {
-            sync: false,
-            store,
-            localVue,
-            router,
-        });
-        expect(detailsWrapper.vm.current_verification).to.be.an('object');
     });
 });
