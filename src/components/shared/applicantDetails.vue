@@ -149,11 +149,11 @@
               </div>
             </el-collapse-item>
           </div>
-          <div class="applicant--details-wrap" v-show="applicant_details.application_type !== 'Owner'">
+          <div class="applicant--details-wrap" v-if="applicant_details.application_type !== 'Owner'">
             <el-collapse-item title="" class="verification-wrap" :class="verification_details.driving_license_check.inconsistency && current_route === 'inconsistency' ? 'inconsistency-header' : ''" name="3">
               <template slot="title">
                 <span>Driving License Check</span>
-                <span class="marked-inconsistent" v-if="verification_details.driving_license_check.inconsistency && current_route === 'inconsistency'">Marked for Inconsistencies</span>
+                <span class="marked-inconsistent" v-if="typeof verification_details !== 'undefined' && verification_details.driving_license_check.inconsistency && current_route === 'inconsistency'">Marked for Inconsistencies</span>
               </template>
               <el-form :model="verification_details.driving_license_check" v-if="!drivingReview">
                 <el-form-item label="Name of Applicant">
@@ -604,19 +604,6 @@ export default {
     isDisabled() {
       return this.vendorTypeAge > 24;
     },
-    recommendationOptions() {
-      const options = [
-        {
-          value: '1',
-          label: 'Recommended',
-        },
-        {
-          value: '0',
-          label: 'Not Recommended',
-        },
-      ];
-      return options;
-    },
     inconsistencyCheck() {
       const obj = this.verification_details;
       for (const key in obj) {
@@ -630,7 +617,7 @@ export default {
       return this.verification_details.identity_check.review_status;
     },
     drivingReview() {
-      return this.verification_details.driving_license_check.review_status;
+      return typeof this.verification_details !== 'undefined' ? this.verification_details.driving_license_check.review_status : [];
     },
     motorReview() {
       return this.verification_details.motor_vehicle_records_check.review_status;
@@ -712,7 +699,7 @@ export default {
       return status === '1' ? 'recommended' : 'not recommended';
     },
     updateRecordNulls() {
-      if (this.verification_details.driving_license_check === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.driving_license_check === null) {
         this.verification_details.driving_license_check = {
           applicant_name: '',
           dl_no: '',
@@ -724,7 +711,7 @@ export default {
           inconsistency: false,
         };
       }
-      if (this.verification_details.kra_pin_verification === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.kra_pin_verification === null) {
         this.verification_details.kra_pin_verification = {
           validity: '',
           name: '',
@@ -735,7 +722,7 @@ export default {
           inconsistency: false,
         };
       }
-      if (this.verification_details.car_insurance_validity === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.car_insurance_validity === null) {
         this.verification_details.car_insurance_validity = {
           owner_name: '',
           vehicle_number_plate: '',
@@ -748,7 +735,7 @@ export default {
           inconsistency: false,
         };
       }
-      if (this.verification_details.motor_vehicle_records_check === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.motor_vehicle_records_check === null) {
         this.verification_details.motor_vehicle_records_check = {
           ownership_details: '',
           chasis_no: '',
@@ -761,7 +748,7 @@ export default {
           inconsistency: false,
         };
       }
-      if (this.verification_details.criminal_records_check === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.criminal_records_check === null) {
         this.verification_details.criminal_records_check = {
           applicant_name: '',
           criminal_history: '',
@@ -772,7 +759,7 @@ export default {
           inconsistency: false,
         };
       }
-      if (this.verification_details.identity_check === null) {
+      if (typeof this.verification_details !== 'undefined' && this.verification_details.identity_check === null) {
         this.verification_details.identity_check = {
           applicant_name: '',
           dob: '',

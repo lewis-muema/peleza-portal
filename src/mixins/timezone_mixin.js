@@ -16,6 +16,10 @@ const TimezoneMxn = {
       const formated = moment.utc(date).local().format('YYYY-MM-DD HH:mm:ss');
       return formated;
     },
+    formatDate(date) {
+      const localDate = this.formatDateToLocal(date);
+      return moment(localDate).format('Do MMM YYYY');
+    },
     },
   };
   export default TimezoneMxn;

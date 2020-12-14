@@ -1,6 +1,10 @@
+import { mapGetters, mapMutations } from 'vuex';
+import axios from 'axios';
+
 const generalMxn = {
     data() {
         return {
+            applicantCategory: localStorage.getItem('category'),
             links: [{
                     icon: 'pending_actions',
                     text: 'Pending Applicants',
@@ -8,11 +12,13 @@ const generalMxn = {
                     title: 'Pending Applicants',
                     singleView: 'applicant',
                     hasChild: true,
-                    subMenu: [{
+                    subMenu: [
+                        {
                             text: 'Owners',
                             name: 'applications',
                             title: 'Pending - Owners',
                             singleView: 'applicant',
+                            category: 'logistics',
 
                         },
                         {
@@ -20,6 +26,45 @@ const generalMxn = {
                             name: 'driver-applications',
                             title: 'Pending - Drivers',
                             singleView: 'driver',
+                            category: 'logistics',
+
+                        },
+                        {
+                            text: 'Transporters',
+                            name: 'transporter',
+                            title: 'Freight Transporters',
+                            singleView: 'applicant',
+                            category: 'freight',
+                            user: 'partner',
+
+                        },
+                        {
+                            text: 'Freight Peer Customers ',
+                            name: 'freight-peer',
+                            title: 'Freight Peer Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'peer',
+
+
+                        },
+                        {
+                            text: 'Freight Business Customers ',
+                            name: 'freight-business',
+                            title: 'Freight Business Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'cop',
+
+
+                        },
+                        {
+                            text: 'New Vehicles ',
+                            name: 'vehicles',
+                            title: 'New Vehicles',
+                            singleView: 'driver',
+                            category: 'freight',
+
                         },
                     ],
                 },
@@ -30,6 +75,36 @@ const generalMxn = {
                     title: 'Inconsistencies',
                     singleView: 'inconsistency',
                     hasChild: false,
+                    category: 'logistics',
+                },
+                {
+                    icon: 'error_outline',
+                    text: 'Inconsistencies',
+                    name: 'freight-inconsistencies',
+                    title: 'Inconsistencies',
+                    singleView: 'inconsistency',
+                    hasChild: true,
+                    category: 'freight',
+                    subMenu: [
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Freight Peer Customers',
+                            name: 'peer-inconsistencies',
+                            title: 'Inconsistencies - Peer Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'peer',
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Freight Business Customers',
+                            name: 'cop-inconsistencies',
+                            title: 'Inconsistencies - Business Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'cop',
+                        },
+                ],
                 },
                 {
                     icon: 'done_all',
@@ -38,13 +113,33 @@ const generalMxn = {
                     title: 'Reviewed -  All Applications',
                     singleView: 'reviewed-applicant',
                     hasChild: true,
+                    category: 'logistics',
                     subMenu: [{
                             icon: 'mdi-message-outline',
                             text: 'All',
                             name: 'reviewed',
                             title: 'Reviewed - All Applications',
                             singleView: 'reviewed-applicant',
+                            category: 'logistics',
 
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Freight Peer Customers',
+                            name: 'reviewed-peer',
+                            title: 'Reviewed - Peer Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'peer',
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Freight Business Customers',
+                            name: 'reviewed-business',
+                            title: 'Reviewed - Business Customers',
+                            singleView: 'customer',
+                            category: 'freight',
+                            user: 'cop',
                         },
                         {
                             icon: 'mdi-message-outline',
@@ -52,6 +147,8 @@ const generalMxn = {
                             name: 'recommended',
                             title: 'Reviewed - Recommended',
                             singleView: 'reviewed-applicant',
+                            category: 'logistics',
+
 
                         },
                         {
@@ -60,6 +157,8 @@ const generalMxn = {
                             name: 'not-recommended',
                             title: 'Reviewed - Not Recommended',
                             singleView: 'reviewed-applicant',
+                            category: 'logistics',
+
                         },
                     ],
                 },
@@ -89,7 +188,29 @@ const generalMxn = {
                 value: 'Vehicle',
                 label: 'New Vehicles',
             }],
+            statuses: [
+                     {
+                        freightStatus: 1, reviewStatus: null, name: 'pending', title: 'Pending',
+                    },
+                     {
+                        freightStatus: 1, reviewStatus: 3, name: 'inconsistencies', title: 'inconsistencies',
+                    },
+                    {
+                        freightStatus: 0, reviewStatus: null, name: 'danger', title: 'Not Freight',
+                    },
+                    {
+                        freightStatus: 1, reviewStatus: 1, name: 'reviewed', title: 'Reviewed',
+                    },
+                    {
+                        freightStatus: 1, reviewStatus: 2, name: 'pending', title: 'Pending',
+                    },
+
+
+            ],
         };
+    },
+    computed: {
+    ...mapGetters({ getCategory: 'getCategory' }),
     },
     watch: {
         $route() {
@@ -99,11 +220,16 @@ const generalMxn = {
             this.routeTitle = data.title;
             this.routeIDName = data.name;
         },
+        getCategory(category) {
+            this.applicantCategory = category;
+        },
     },
     methods: {
         routeDetails(item) {
-            let name = item === 'not-recommended' || item === 'recommended' ? 'reviewed' : item;
-            name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' ? 'pending' : name;
+            let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' ? 'reviewed' : item;
+            name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporter' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;
+            name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' ? 'freight-inconsistencies' : name;
+
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
             const hasChild = linkDetails !== null ? linkDetails.hasChild : false;
@@ -118,8 +244,77 @@ const generalMxn = {
             return this.linkDetails;
         },
         capitalizeFirstLetter(string) {
-            return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+            return typeof string === 'undefined' || string === null ? 'N/A' : `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
         },
+        async custom_headers() {
+            const authToken = localStorage.token;
+
+            const param = {
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: authToken,
+              },
+            };
+
+            return param;
+          },
+        async axiosGetRequest(payload) {
+            const headers = await this.custom_headers();
+            const { endpoint } = payload;
+            const { params } = payload;
+            const { app } = payload;
+            const { id } = payload;
+
+            let url = `${AUTH_URL}${app}${endpoint}`;
+            url = typeof id === 'undefined' ? url : `${url}/${id}`;
+
+            const values = {
+              params,
+              headers: headers.headers,
+            };
+            // eslint-disable-next-line no-restricted-syntax
+            for (const value in values) {
+              if (values[value] === null || values[value] === undefined) {
+                delete values[value];
+              }
+            }
+
+            try {
+              const response = await axios.get(url, values);
+              return response;
+            } catch (error) {
+              return error.response;
+            }
+          },
+
+          getApplicantStatus(customer) {
+              let filteredStatus;
+            if (typeof customer.review_status !== 'undefined') {
+                 filteredStatus = this.statuses.filter((event) => event.freightStatus === customer.freight_status && event.reviewStatus === customer.review_status);
+            } else {
+                filteredStatus = this.statuses.filter((event) => event.freightStatus === customer.freight_status);
+            }
+            return filteredStatus[0];
+        },
+        async axiosPostRequest(payload) {
+            const { endpoint } = payload;
+            const { app } = payload;
+
+            const headers = await this.custom_headers();
+
+            const url = `${AUTH_URL}${app}${endpoint}`;
+            const values = JSON.stringify(payload.params);
+
+
+            try {
+              const response = await axios.post(`${url}`, payload.params, headers);
+              return response;
+            } catch (error) {
+              return error.response;
+            }
+          },
+
 
     },
 };

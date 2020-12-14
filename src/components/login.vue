@@ -95,6 +95,7 @@ export default {
           localStorage.setItem('user', JSON.stringify(parsedDecodedString.payload));
           localStorage.setItem('token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
+          localStorage.setItem('category', 'logistics');
           this.$router.push({ name: 'applications' });
           vm.logging_in = false;
         })
