@@ -671,6 +671,19 @@ export default {
       this.routeClass = routeDetails.text;
       return this.category === 'applications' || routeDetails.name === 'driver-applications' ? 'pending' : routeDetails.name;
     },
+    recommendationOptions() {
+            const options = [
+              {
+                value: 1,
+                label: 'Recommended',
+              },
+              {
+                value: 3,
+                label: 'Not Recommended',
+              },
+            ];
+            return options;
+        },
   },
   watch: {},
   async beforeMount() {
