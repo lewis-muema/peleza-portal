@@ -168,10 +168,6 @@ describe('navigation-test', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith(applicantsData).then(() => {
-        expect(localStorage.user).equal(undefined);
-        expect(localStorage.authenticated).equal(undefined);
-        expect(localStorage.token).equal(undefined);
-        done();
       });
     });
   });
