@@ -77,6 +77,7 @@ export default {
              await this.retrieveCustomers();
         },
         async $route() {
+           this.userType = this.route.user;
              this.loading = false;
             this.requested = false;
             this.customers = null;
@@ -88,12 +89,14 @@ export default {
             this.requested = false;
             this.customers = null;
             this.searchedID = applicant.id;
-            this.searched = true;
+            this.searched = applicant.searched;
             await this.retrieveCustomers();
         },
     },
    async  mounted() {
        this.userType = this.route.user;
+        this.searchedID = null;
+       this.searched = false;
         await this.retrieveCustomers();
     },
     methods: {

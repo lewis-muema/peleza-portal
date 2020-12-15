@@ -18,10 +18,10 @@
           <ul v-show="hasItems" class="search-menu">
             <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)" :key="item.index" class="search-menu-list">
                     <span>
-                        <div v-if="current_route === 'freight-business'" class="tt-suggestion"> {{ item.cop_name }}  </div>
-                        <div v-if="current_route === 'freight-business'" class="tt-suggestion"> {{ item.cop_phone }}  </div>
-                        <div v-if="current_route === 'freight-peer'" class="tt-suggestion"> {{ item.user_name }}  </div>
-                        <div v-if="current_route === 'freight-peer'" class="tt-suggestion"> {{ item.user_phone }}  </div>
+                        <div v-if="userType === 'cop'" class="tt-suggestion"> {{ item.cop_name }}  </div>
+                        <div v-if="userType === 'cop'" class="tt-suggestion"> {{ item.cop_phone }}  </div>
+                        <div v-if="userType === 'peer'" class="tt-suggestion"> {{ item.user_name }}  </div>
+                        <div v-if="userType === 'peer'" class="tt-suggestion"> {{ item.user_phone }}  </div>
                     </span>
             </li>
     </ul>
@@ -87,7 +87,26 @@ export default {
                      this.userType = 'transporter';
 
                      break;
+                 case 'peer-inconsistencies':
+                     searchString = peerUser;
+                     this.userType = 'peer';
 
+                     break;
+                 case 'reviewed-business':
+                     searchString = copUser;
+                     this.userType = 'cop';
+
+                     break;
+                 case 'cop-inconsistencies':
+                     searchString = copUser;
+                     this.userType = 'cop';
+
+                     break;
+                 case 'reviewed-peer':
+                     searchString = peerUser;
+                     this.userType = 'peer';
+
+                     break;
                  default:
                      break;
              }
@@ -119,12 +138,14 @@ export default {
                 default:
                     break;
             }
-            const searchArray = { userType: this.userType, param, id };
+            const searchArray = {
+             userType: this.userType, param, id, searched: true,
+            };
             this.$store.commit('searchedApplicant', searchArray);
         },
         prepareResponseData(data) {
             const response = data.response.docs;
-            const freightData = response.filter((res) => res.freight_status === 1);
+            const freightData = response.filter((res) => res.freight_status === 1 || res.freight_status === '1');
         return response;
     },
     },
