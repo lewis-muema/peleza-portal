@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     category: localStorage.getItem('category'),
     current_customer_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
     updateStatus: false,
+    searchedApplicant: null,
 
   },
   mutations: {
@@ -44,6 +45,9 @@ const store = new Vuex.Store({
     setUpdateStatus(state, val) {
       state.updateStatus = val;
     },
+    searchedApplicant(state, val) {
+      state.searchedApplicant = val;
+    },
     setCustomerVerification(state, current_customer_verification) {
       Object.assign(state.current_customer_verification, current_customer_verification);
       localStorage.current_verification = JSON.stringify(current_customer_verification);
@@ -59,6 +63,8 @@ const store = new Vuex.Store({
     getCategory: state => state.category,
     getCustomerVerification: state => state.current_customer_verification,
     getUpdateStatus: state => state.updateStatus,
+    getSearchedApplicant: state => state.searchedApplicant,
+
   },
 });
 

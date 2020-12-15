@@ -4,12 +4,13 @@
     <div class="filter-inputs">
       <div class="nav-search">
         <div class="demo-input-suffix">
-          <el-input class="nav-search-input" placeholder="Search ID / KRA PIN / VENDOR TYPE" v-model="search_term" @input.native="search">
+          <el-input class="nav-search-input" :placeholder="placeholder" v-model="search_term" @input.native="search" v-if="category === 'logistics'">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
+          <searchComponent v-if="category === 'freight'" :placeholder="placeholder" />
         </div>
       </div>
-      <div class="right-filters stageone__filters">
+      <div class="right-filters stageone__filters" v-if="category === 'logistics'">
         <el-select v-model="type" class="applicant-select" clearable placeholder="Select" v-if="!isPending">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
         </el-select>
@@ -21,6 +22,8 @@
   </section>
 </template>
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 import GeneralMxn from '../mixins/general_mixin';
 import ListMxn from '../mixins/list_mixin';
 import TimezoneMxn from '../mixins/timezone_mixin';
@@ -28,6 +31,9 @@ import errorHandler from './errorHandler.vue';
 
 export default {
   name: 'FilterBar',
+   components: {
+    searchComponent: () => import('./searchComponent'),
+   },
   mixins: [ListMxn, TimezoneMxn, GeneralMxn],
 
   data() {
@@ -36,6 +42,7 @@ export default {
     const m = date.getMonth();
     return {
       search_term: '',
+      category: localStorage.getItem('category'),
       applicant_type: '',
       type: 'all',
       applicants: [],
@@ -101,6 +108,8 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ getCategory: 'getCategory' }),
+
     routeName() {
       return this.$route.name;
     },
@@ -110,6 +119,10 @@ export default {
     },
     isPending() {
       return this.routeIDName === 'driver-applications' || this.routeIDName === 'applications';
+    },
+    placeholder() {
+      const string = this.$route.name === 'transporter' ? 'Enter ID or Vehicle Registration' : 'Enter name or email address';
+      return this.category === 'logistics' ? 'Search ID / KRA PIN / VENDOR TYPE' : string;
     },
   },
   watch: {
@@ -124,6 +137,9 @@ export default {
     routeTitle(title) {
       this.routeTitle = title;
     },
+    getCategory(category) {
+      this.category = category;
+     },
   },
  async  mounted() {
     await this.$store.commit('setDateRange', this.date_range);
