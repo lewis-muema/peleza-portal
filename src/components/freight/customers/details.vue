@@ -55,6 +55,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import generalMixin from '../../../mixins/general_mixin';
+import timzoneMixin from '../../../mixins/timezone_mixin';
 
 export default {
     name: 'CustomerDetails',
@@ -66,7 +67,7 @@ export default {
 
 
     },
-    mixins: [generalMixin],
+    mixins: [generalMixin, timzoneMixin],
 
     data() {
         return {
