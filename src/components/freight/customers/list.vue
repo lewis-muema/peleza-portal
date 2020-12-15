@@ -29,13 +29,15 @@
         </el-table>
         <div class="pagination mt mb" v-if="customers !== null && customers.length !== 0 ">
             <el-pagination layout="total, sizes, prev, pager, next" :total="pagination.total" :page-size="pagination.perPage" :current-page.sync="pagination.page" @current-change="changePage" :page-sizes="[pagination.perPage]"></el-pagination>
-    </div>
+         </div>
 
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 import GeneralMxn from '../../../mixins/general_mixin';
 import TimezoneMxn from '../../../mixins/timezone_mixin';
 
@@ -51,18 +53,20 @@ export default {
             requested: false,
             pagination: null,
             notification: '',
+            searchedID: null,
+            searched: false,
+            userType: '',
         };
     },
     computed: {
+     ...mapGetters({ getSearchedApplicant: 'getSearchedApplicant' }),
+
         routeName() {
         return this.$route.name;
         },
         route() {
             const routeDetails = this.routeDetails(this.routeName);
             return routeDetails;
-        },
-         userType() {
-            return this.route.user;
         },
         singleView() {
             return this.route.singleView;
@@ -73,13 +77,26 @@ export default {
              await this.retrieveCustomers();
         },
         async $route() {
+           this.userType = this.route.user;
              this.loading = false;
             this.requested = false;
             this.customers = null;
             await this.retrieveCustomers();
         },
+        async getSearchedApplicant(applicant) {
+            this.userType = applicant.userType;
+             this.loading = false;
+            this.requested = false;
+            this.customers = null;
+            this.searchedID = applicant.id;
+            this.searched = applicant.searched;
+            await this.retrieveCustomers();
+        },
     },
    async  mounted() {
+       this.userType = this.route.user;
+        this.searchedID = null;
+       this.searched = false;
         await this.retrieveCustomers();
     },
     methods: {
@@ -95,6 +112,9 @@ export default {
                 ...(this.userType === 'peer') && { peer: true },
                 ...(this.routeName === 'cop-inconsistencies' || this.routeName === 'peer-inconsistencies') && { reviewStatus: 3 },
                 ...(this.routeName === 'reviewed-peer' || this.routeName === 'reviewed-business') && { reviewStatus: 1 },
+                ...(this.searched && this.searchedID !== null && this.userType === 'cop') && { copId: this.searchedID },
+                ...(this.searched && this.searchedID !== null && this.userType === 'peer') && { userId: this.searchedID },
+
 
             };
 
