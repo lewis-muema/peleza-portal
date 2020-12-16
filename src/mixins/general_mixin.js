@@ -31,9 +31,9 @@ const generalMxn = {
                         },
                         {
                             text: 'Transporters',
-                            name: 'transporter',
+                            name: 'transporters',
                             title: 'Freight Transporters',
-                            singleView: 'applicant',
+                            singleView: 'transporter',
                             category: 'freight',
                             user: 'partner',
 
@@ -56,14 +56,6 @@ const generalMxn = {
                             category: 'freight',
                             user: 'cop',
 
-
-                        },
-                        {
-                            text: 'New Vehicles ',
-                            name: 'vehicles',
-                            title: 'New Vehicles',
-                            singleView: 'driver',
-                            category: 'freight',
 
                         },
                     ],
@@ -104,6 +96,16 @@ const generalMxn = {
                             category: 'freight',
                             user: 'cop',
                         },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Transporters',
+                            name: 'transporter-inconsistencies',
+                            title: 'Inconsistencies - Transporters',
+                            singleView: 'transporter',
+                            category: 'freight',
+                            user: 'transporter',
+                        },
+
                 ],
                 },
                 {
@@ -140,6 +142,15 @@ const generalMxn = {
                             singleView: 'customer',
                             category: 'freight',
                             user: 'cop',
+                        },
+                        {
+                            icon: 'mdi-message-outline',
+                            text: 'Transporters',
+                            name: 'transporter-reviewed',
+                            title: 'Reviewed - Transporters',
+                            singleView: 'transporter',
+                            category: 'freight',
+                            user: 'transporter',
                         },
                         {
                             icon: 'mdi-message-outline',
@@ -226,8 +237,8 @@ const generalMxn = {
     },
     methods: {
         routeDetails(item) {
-            let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' ? 'reviewed' : item;
-            name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporter' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;
+            let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' || item === 'transporter-reviewed' ? 'reviewed' : item;
+            name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporters' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;
             name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' ? 'freight-inconsistencies' : name;
 
             let linkArr = this.links.filter((link) => link.name === name);
