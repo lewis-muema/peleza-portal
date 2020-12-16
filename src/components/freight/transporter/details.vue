@@ -28,6 +28,10 @@
                                         <span>{{ transportData.kra_pin !== null ? transportData.kra_pin : 'N/A' }}</span>
                                         <span class="identity-label">{{ taxPayerNameIdentifier }} Number</span>
                                       </div>
+                                       <div class="applicant-details__application_type_identity">
+                                        <span>{{ transportData.phone !== null ? transportData.phone : 'N/A' }}</span>
+                                        <span class="identity-label">Phone Number</span>
+                                      </div>
                                 </div>
                                   <div class="applicant-details__profile_content">
                                       <div class="applicant-details__application_date">
@@ -91,13 +95,31 @@ export default {
         isBusiness() {
             return this.transportData.application_type === 'Business';
         },
+         isOwner() {
+            return this.transportData.application_type === 'Owner';
+        },
+         isDriver() {
+            return this.transportData.application_type === 'Driver';
+        },
+         isDriverOwner() {
+            return this.transportData.application_type === 'Driver and owner';
+        },
 
         companyReview() {
-            return this.isBusiness && this.transportData.company_details_check === null ? false : this.transportData.company_details_check.review_status;
+          if (this.isBusiness) {
+            return this.transportData.company_details_check === null ? false : this.transportData.company_details_check.review_status;
+          }
+          return true;
+        },
+         identityReview() {
+            return this.transportData.identity_check === null ? false : this.transportData.identity_check.review_status;
         },
 
         taxReview() {
-            return this.transportData.kra_pin_verification === null ? false : this.transportData.kra_pin_verification.review_status;
+            return this.transportData.kra_pin_verification === null || (typeof this.transportData.kra_pin_verification === 'string' && this.isEmpty(JSON.parse(this.transportData.kra_pin_verification))) ? false : this.transportData.kra_pin_verification.review_status;
+        },
+         drivingReview() {
+            return this.transportData.driving_license_check === null ? false : this.transportData.driving_license_check.review_status;
         },
          validSubmit() {
                 return this.checkReviewStatus() && !this.inconsistencyCheck;
@@ -121,9 +143,20 @@ export default {
      methods: {
         checkReviewStatus() {
             if (this.isBusiness) {
-                return this.companyReview && this.companyReview;
-            }
-            return true;
+                return this.companyReview && this.taxReview;
+            } else if (this.isDriverOwner) {
+              return this.identityReview && this.taxReview && this.drivingReview;
+            } else if (this.isOwner) {
+              return this.identityReview && this.kraReview;
+            } else {
+                const obj = this.transportData;
+                for (const key in obj) {
+                  if (obj[key] !== null && obj[key]['review_status'] === false) {
+                    return false;
+                  }
+                }
+                return true;
+              }
         },
          handleBack() {
             this.$router.push({ name: 'transporters' });
@@ -181,6 +214,15 @@ export default {
                 throw new Error('Could not update applicant');
               });
         },
+          isEmpty(obj) {
+                    for (const prop in obj) {
+                        // eslint-disable-next-line no-prototype-builtins
+                        if (obj.hasOwnProperty(prop)) {
+                        return false;
+                        }
+                    }
+            return JSON.stringify(obj) === JSON.stringify({});
+            },
      },
 
 

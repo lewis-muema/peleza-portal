@@ -920,7 +920,6 @@ export default {
       } else if (this.applicant_details.application_type === 'Business') {
         return this.motorReview && this.insuranceReview && this.kraReview;
       } else {
-        console.log('seee');
         const obj = this.verification_details;
         for (const key in obj) {
           if (obj[key] !== null && obj[key]['review_status'] === false) {
