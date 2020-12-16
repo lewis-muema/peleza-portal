@@ -917,7 +917,10 @@ export default {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
       } else if (this.applicant_details.application_type === 'Driver and owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview && this.drivingReview;
+      } else if (this.applicant_details.application_type === 'Business') {
+        return this.motorReview && this.insuranceReview && this.kraReview;
       } else {
+        console.log('seee');
         const obj = this.verification_details;
         for (const key in obj) {
           if (obj[key] !== null && obj[key]['review_status'] === false) {

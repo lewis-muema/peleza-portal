@@ -6,6 +6,68 @@
                 <span class="verification-header">Verify Transporter Details</span>
             </el-card>
             <el-collapse class="verification-collapse" v-model="accordionActiveName">
+                <div class="applicant--details-wrap" v-if="transporterData.application_type !== 'Business'">
+                    <el-collapse-item name="1" class="verification-wrap">
+                        <template slot="title">
+                            <span>National Identity Check</span>
+                            <span class="marked-inconsistent" v-if="transporterData.identity_check !== null && current_route === 'transporter-inconsistency'">Marked for Inconsistencies</span>
+                            <span class="applicant-details__idNo"> ID number: {{ transporterData.id_no === null ? 'N/A' : transporterData.id_no }} </span>
+                        </template>
+                         <el-form v-show="!identityReview">
+                            <el-form-item label="Name of Applicant">
+                            <el-input v-model="identity.name" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Date of Birth">
+                            <el-date-picker v-model="identity.dob" type="date" popper-class="date-popup" placeholder="Date of Birth"></el-date-picker>
+                            </el-form-item>
+
+                            <el-form-item label="Place of Birth">
+                            <el-input type="textarea" :rows="4" v-model="identity.pob" auto-complete="off"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="Gender">
+                            <el-select v-model="identity.gender" auto-complete="off">
+                                <el-option value="Male">Male</el-option>
+                                <el-option value="Female">Female</el-option>
+                            </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                            <el-button type="primary" class="details-save-button" @click="updateReview('identity_check', 'Identity Check')">SAVE</el-button>
+                            </el-form-item>
+                        </el-form>
+                        <div class="review_wrap" v-show="identityReview">
+                            <div class="el-row">
+                            <div class="el-col-lg-16 review-details">
+                                <div class="el-row">
+                                <div class="review-title">Name of Applicant</div>
+                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : transporterData.identity_check.name }}</div>
+                                </div>
+                                <div class="el-row">
+                                <div class="review-title">Date of Birth</div>
+                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : formatDate(transporterData.identity_check.dob) }}</div>
+                                </div>
+                                <div class="el-row">
+                                <div class="review-title">Place of Birth</div>
+                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : transporterData.identity_check.pob }}</div>
+                                </div>
+                                <div class="el-row">
+                                <div class="review-title">Gender</div>
+                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : this.transporterData.identity_check.gender }}</div>
+                                </div>
+                            </div>
+                            <div class="el-col-lg-8 review-image">
+                                <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
+                            </div>
+                            </div>
+                        </div>
+                        <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !identityReview">
+                            <el-form-item> <el-checkbox v-model="identity_inconsistency" id="identity_inconsistency" @change="setVerificationData('identity_check', 'inconsistency')" name="identity_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
+                        </el-form>
+                        <div class="applicant--incosistency-mark" v-if="identityReview && transporterData.identity_check.inconsistency">
+                            Marked for Data Inconsistency
+                        </div>
+                    </el-collapse-item>
+                </div>
                 <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Business'">
                     <el-collapse-item name="1" class="verification-wrap">
                         <template slot="title">
@@ -208,6 +270,13 @@ export default {
             identity_inconsistency: false,
             tax_inconsistency: false,
             user: JSON.parse(localStorage.user),
+            identity: {
+                name: '',
+                dob: '',
+                pob: '',
+                gender: '',
+                inconsistency: false,
+            },
              directors:
                 {
                     id_no: '',
@@ -241,6 +310,12 @@ export default {
         },
         current_route() {
             return this.$route.name;
+        },
+        companyReview() {
+            return this.transporterData.company_details_check === null || typeof this.transporterData.company_details_check === 'undefined' ? false : this.transporterData.company_details_check.review_status;
+        },
+        identityReview() {
+            return this.transporterData.identity_check === null ? false : this.transporterData.identity_check.review_status;
         },
     },
     mounted() {
@@ -334,7 +409,12 @@ export default {
                   this.transporterData.kra_pin_verification = option === 'inconsistency' ? { inconsistency: this.tax_inconsistency } : data;
                    this.$store.commit('changeVerification', this.transporterData);
                   break;
-              default:
+                case 'identity_check':
+                    data = this.identity;
+                    this.identity.review_status = true;
+                  this.transporterData.identity_check = option === 'inconsistency' ? { inconsistency: this.identity_inconsistency } : data;
+                break;
+               default:
                   break;
           }
           return this.transporterData[field];
