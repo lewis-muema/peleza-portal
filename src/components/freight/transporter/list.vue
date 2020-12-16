@@ -32,7 +32,7 @@
 
 
         </el-table>
-        <div class="pagination mt mb" v-if="transporters !== null && transporters.length !== 0 ">
+        <div class="pagination mt mb" v-if="pagination !== null && transporters !== null && transporters.length !== 0 && transporters.length >= pagination.perPage">
             <el-pagination layout="total, sizes, prev, pager, next" :total="pagination.total" :page-size="pagination.perPage" :current-page.sync="pagination.page" @current-change="changePage" :page-sizes="[pagination.perPage]"></el-pagination>
          </div>
         </div>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 import GeneralMxn from '../../../mixins/general_mixin';
 import TimezoneMxn from '../../../mixins/timezone_mixin';
 
@@ -55,18 +57,20 @@ export default {
                 pagination: null,
                 notification: '',
                 transportersStatus: null,
+                userType: '',
+                searchedID: null,
+                searched: false,
             };
         },
         computed: {
+            ...mapGetters({ getSearchedApplicant: 'getSearchedApplicant' }),
+
             routeName() {
             return this.$route.name;
             },
             route() {
                 const routeDetails = this.routeDetails(this.routeName);
                 return routeDetails;
-            },
-            userType() {
-                return this.route.user;
             },
             singleView() {
                 return this.route.singleView;
@@ -80,8 +84,20 @@ export default {
                 await this.getApplicantStatus();
                 await this.retrieveTransporters();
             },
+            async getSearchedApplicant(applicant) {
+                this.userType = applicant.userType;
+                this.loading = false;
+                this.requested = false;
+                this.transporters = null;
+                this.searchedID = applicant.id;
+                this.searched = applicant.searched;
+                await this.retrieveTransporters();
+             },
          },
         async  mounted() {
+             this.userType = this.route.user;
+            this.searchedID = null;
+            this.searched = false;
             await this.getApplicantStatus();
             await this.retrieveTransporters();
         },
@@ -136,26 +152,51 @@ export default {
                     ...(this.transportersStatus === 'pending') && { pending: 1 },
                     ...(this.transportersStatus === 'inconsistencies') && { inconsistencies: 1 },
                     ...(this.transportersStatus === 'reviewed') && { reviewed: 1 },
+                    ...(this.searched && this.searchedID !== null) && { partnerId: this.searchedID },
 
 
                 };
+                const endpoint = this.searched ? `onboarding/peleza/list-applicant/${this.searchedID}` : 'onboarding/peleza/list-applicants';
 
                 const fullPayload = {
                     app: 'partner-api/',
-                    params: payload,
-                    endpoint: 'onboarding/peleza/list-applicants',
+                    ...(!this.searched) && { params: payload },
+                    endpoint,
                 };
+                const arr = [];
 
                 try {
                     const response = await this.axiosGetRequest(fullPayload);
-                    this.transporters = response.status === 200 ? response.data.data : null;
-                    this.pagination = response.status === 200 ? response.data.pagination : null;
+                    if (!this.searched) {
+                        this.transporters = response.status === 200 ? await this.getFreightPartners(response.data.data) : null;
+                    } else {
+                        const partner = [response.data];
+                        this.transporters = response.status === 200 ? partner : null;
+                    }
+
+                    this.pagination = response.status === 200 && !this.searched ? response.data.pagination : null;
                     this.notification = response.status === 200 && response.data.data.length === 0 ? 'No applications to show on this list' : '';
                     this.loading = false;
+                     this.getFreightPartners(response.data.data);
                 } catch (error) {
                     this.notification = 'Failed to fetch customer data. Kindly try again or contact Sendy tech support';
                     this.loading = false;
                 }
+            },
+
+            getFreightPartners(partners) {
+                const freightPartners = [];
+                for (let i = 0; i < partners.length; i += 1) {
+                    let filteredVehicles = [];
+
+                    if (partners[i].vehicle.length !== 0) {
+                        filteredVehicles = partners[i].vehicle.filter(vehicle => vehicle.vendor_type === 25);
+                    }
+                    if (filteredVehicles.length !== 0) {
+                        freightPartners.push(partners[i]);
+                    }
+                }
+                return freightPartners;
             },
          },
 
