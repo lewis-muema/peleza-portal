@@ -13,7 +13,7 @@
                             <span class="marked-inconsistent" v-if="transporterData.identity_check !== null && current_route === 'transporter-inconsistency'">Marked for Inconsistencies</span>
                             <span class="applicant-details__idNo"> ID number: {{ transporterData.id_no === null ? 'N/A' : transporterData.id_no }} </span>
                         </template>
-                         <el-form v-show="!identityReview">
+                         <el-form v-if="!identityReview">
                             <el-form-item label="Name of Applicant">
                             <el-input v-model="identity.name" auto-complete="off"></el-input>
                             </el-form-item>
@@ -35,7 +35,7 @@
                             <el-button type="primary" class="details-save-button" @click="updateReview('identity_check', 'Identity Check')">SAVE</el-button>
                             </el-form-item>
                         </el-form>
-                        <div class="review_wrap" v-show="identityReview">
+                        <div class="review_wrap" v-if="identityReview">
                             <div class="el-row">
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row">
@@ -75,7 +75,7 @@
                             <span class="marked-inconsistent" v-if="transporterData.company_details_check !== null && transporterData.company_details_check.inconsistency !== 'undefined' && transporterData.company_details_check.inconsistency && current_route === 'inconsistency'">Marked for Inconsistencies</span>
                             <span class="applicant-details__idNo"> Registration number: {{ transporterData.company_reg_no === null ? 'N/A' : transporterData.company_reg_no }} </span>
                         </template>
-                        <el-form v-show="!companyReview">
+                        <el-form v-if="!companyReview">
                             <el-form-item label="Company Name">
                                 <el-input v-model="company_name" auto-complete="off"></el-input>
                             </el-form-item>
@@ -89,7 +89,7 @@
                                 <el-button type="primary" class="details-save-button" @click="updateReview('company_details_check', 'Company Details Verification')">SAVE</el-button>
                             </el-form-item>
                         </el-form>
-                         <div class="review_wrap" v-show="companyReview">
+                         <div class="review_wrap" v-if="companyReview">
                             <div class="el-row">
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row" >
@@ -118,6 +118,75 @@
                         </div>
                     </el-collapse-item>
                 </div>
+                <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Driver and owner'">
+                    <el-collapse-item name="license" class="verification-wrap">
+                        <template slot="title">
+                            <span>Driving License Check</span>
+                            <span class="marked-inconsistent" v-if="transporterData.driving_license_check !== null && current_route === 'transporter-inconsistency'">Marked for Inconsistencies</span>
+                        </template>
+                        <el-form v-if="!drivingReview">
+                            <el-form-item label="Name of Applicant">
+                            <el-input v-model="drivingLicense.name" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="DL Number">
+                            <el-input v-model="drivingLicense.dl_no" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Date of Issue">
+                            <el-date-picker v-model="drivingLicense.date_of_issue" type="date" popper-class="date date- date-popup" placeholder="Date of Issue"></el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="Expiry Date">
+                            <el-date-picker v-model="drivingLicense.expiry_date" type="date" popper-class="date-popup" placeholder="Expiry Date"></el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="Classes">
+                            <el-input v-model="drivingLicense.classes" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Id Number">
+                            <el-input v-model="drivingLicense.id_no" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                            <el-button type="primary" class="details-save-button" @click="updateReview('driving_license_check', 'Driving License Check')">SAVE</el-button>
+                            </el-form-item>
+                        </el-form>
+                        <div class="el-row" v-if="drivingReview">
+                            <div class="el-col-lg-16 review-details">
+                            <div class="el-row">
+                                <div class="review-title">Name of Applicant</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.name }}</div>
+                            </div>
+                            <div class="el-row">
+                                <div class="review-title">DL Number</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.dl_no }}</div>
+                            </div>
+                            <div class="el-row">
+                                <div class="review-title">Date of Issue</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null || typeof transporterData.driving_license_check.date_of_issue === 'undefined' ? 'N/A' : formatDate(transporterData.driving_license_check.date_of_issue) }}</div>
+                            </div>
+                            <div class="el-row">
+                                <div class="review-title">Expiry Date</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null || typeof transporterData.driving_license_check.expiry_date === 'undefined' ? 'N/A' : formatDate(transporterData.driving_license_check.expiry_date) }}</div>
+                            </div>
+                            <div class="el-row">
+                                <div class="review-title">Classes</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.classes }}</div>
+                            </div>
+                            <div class="el-row">
+                                <div class="review-title">ID Number</div>
+                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.id_no }}</div>
+                            </div>
+                            </div>
+                            <div class="el-col-lg-8 review-image">
+                            <div class="review-edit" @click="handleReviewEdit('driving_license_check')">Edit</div>
+                            </div>
+                        </div>
+                         <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !drivingReview">
+                            <el-form-item> <el-checkbox v-model="license_inconsistency" id="identity_inconsistency" @change="setVerificationData('driving_license_check', 'inconsistency')" name="identity_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
+                        </el-form>
+                        <div class="applicant--incosistency-mark" v-if="drivingReview && transporterData.driving_license_check.inconsistency">
+                            Marked for Data Inconsistency
+                        </div>
+
+                    </el-collapse-item>
+                </div>
                  <div class="applicant--details-wrap">
                     <el-collapse-item name="3" class="verification-wrap">
                         <template slot="title">
@@ -125,7 +194,7 @@
                             <span class="marked-inconsistent" v-if="transporterData.kra_pin_verification !== null && transporterData.kra_pin_verification.inconsistency !== 'undefined' && transporterData.kra_pin_verification.inconsistency && current_route === 'inconsistency'">Marked for Inconsistencies</span>
                             <span class="applicant-details__idNo"> {{ taxPayerNameIdentifier }}: {{ transporterData.kra_pin === null ? 'N/A' : transporterData.kra_pin }} </span>
                         </template>
-                        <el-form v-show="!taxReview">
+                        <el-form v-if="!taxReview">
                             <el-form-item label="Validity">
                                 <el-input v-model="validity" auto-complete="off"></el-input>
                             </el-form-item>
@@ -149,7 +218,7 @@
                                 <el-button type="primary" class="details-save-button" @click="updateReview('kra_pin_verification', `${taxPayerNameIdentifier} Verification`)">SAVE</el-button>
                             </el-form-item>
                         </el-form>
-                        <div class="review_wrap" v-show="taxReview">
+                        <div class="review_wrap" v-if="taxReview">
                             <div class="el-row">
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row" >
@@ -186,39 +255,19 @@
                         </div>
                     </el-collapse-item>
                 </div>
-                 <div class="applicant--details-wrap" v-if="isBusiness && transporterData.director_details !== null" >
-                     <template v-for="(director, index ) in JSON.parse(transporterData.director_details)" >
-                    <el-collapse-item :name="`director_${index}`" class="verification-wrap" :key="index">
+                  <div class="applicant--details-wrap" v-if="isBusiness && transporterData.director_details !== null" >
+                      <template v-for="(director, index ) in JSON.parse(transporterData.director_details)" >
+                    <el-collapse-item :name="`director_${index}`" class="verification-wrap" :key="`id_no_${index}`">
                         <template slot="title">
-                            <span> Director ID verification {{ index + 1 }} </span>
+                            <span> Director verification  {{ index + 1 }} </span>
                             <span class="marked-inconsistent" v-if="transporterData.director_id_check !== null && transporterData.director_id_check.inconsistency !== 'undefined' && transporterData.director_id_check.inconsistency && current_route === 'inconsistency'">Marked for Inconsistencies</span>
                             <span class="applicant-details__idNo"> ID Number: {{ director.id_no === null ? 'N/A' : director.id_no }} </span>
                         </template>
-                        <el-form v-show="!getDirectorsStatus(index, director.id_no)">
-                            <el-form-item label="ID Number">
-                                <el-input v-model="directors.id_no" auto-complete="off"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" class="details-save-button" @click="setDirectors(index, director.id_no)">SAVE</el-button>
-                            </el-form-item>
-                        </el-form>
-                         <div class="review_wrap" v-if="getDirectorsStatus(index, director.id_no)">
-
-                            <div class="el-row">
-                            <div class="el-col-lg-16 review-details">
-                                <div class="el-row" >
-                                    <div class="review-title">ID Number</div>
-                                    <div class="review-desc">{{ getDirectorsReview(index, director.id_no) !== null ? getDirectorsReview(index, director.id_no).id_no : 'N/A' }}</div>
-                                </div>
-                            </div>
-                            </div>
-                         </div>
-                         <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant">
-                            <el-form-item> <el-checkbox v-model="directors.inconsistency" id="identity_inconsistency" name="identity_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
-                        </el-form>
+                        <directorsVerification :director="director" :index="index" :transporter-data="transporterData" @directorReview="handleDirectorsReview" />
                     </el-collapse-item>
                     </template>
                  </div>
+
                    <div class="applicant--details-wrap" v-for="(vehicle, i ) in transporterData.vehicle" :key="`vehicle_no_${i}`">
                     <el-collapse-item :name="`vehicle_${i}`" class="verification-wrap">
                         <template slot="title">
@@ -236,6 +285,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
 import GeneralMxn from '../../../mixins/general_mixin';
 import TimezoneMxn from '../../../mixins/timezone_mixin';
 
@@ -244,11 +295,11 @@ export default {
     components: {
         errorHandler: () => import('../../errorHandler'),
         vehicleVerification: () => import('./vehicleVerification'),
-
+        directorsVerification: () => import('./directorsVerification'),
 
     },
     mixins: [GeneralMxn, TimezoneMxn],
-    props: ['transporterData', 'taxPayerNameIdentifier'],
+    props: ['taxPayerNameIdentifier'],
     data() {
         return {
             errorObj: '',
@@ -269,6 +320,7 @@ export default {
             company_inconsistency: false,
             identity_inconsistency: false,
             tax_inconsistency: false,
+            license_inconsistency: false,
             user: JSON.parse(localStorage.user),
             identity: {
                 name: '',
@@ -277,15 +329,29 @@ export default {
                 gender: '',
                 inconsistency: false,
             },
+            drivingLicense: {
+                name: '',
+                dl_no: '',
+                date_of_issue: '',
+                expiry_date: '',
+                classes: '',
+                id_no: '',
+                inconsistency: false,
+            },
              directors:
                 {
-                    id_no: '',
-                    review_status: false,
-                    inconsistency: false,
+                    ids: [],
+                    review_status: [],
+                    inconsistency: [],
                 },
         };
     },
     computed: {
+    ...mapGetters(['current_verification']),
+        transporterData() {
+            return this.current_verification;
+        },
+
         companyReview() {
             return this.transporterData.company_details_check === null || typeof this.transporterData.company_details_check === 'undefined' ? false : this.transporterData.company_details_check.review_status;
         },
@@ -317,13 +383,43 @@ export default {
         identityReview() {
             return this.transporterData.identity_check === null ? false : this.transporterData.identity_check.review_status;
         },
+        drivingReview() {
+            return this.transporterData.driving_license_check === null ? false : this.transporterData.driving_license_check.review_status;
+        },
     },
-    mounted() {
+      watch: {
+        current_verification(data) {
+            this.transporterData = data;
+        },
+      },
+     mounted() {
              if (this.isBusiness) {
                 this.company_name = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.company_name;
                 this.company_reg = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.company_reg_no;
                 this.address = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.address;
                 this.company_inconsistency = this.transporterData.company_details_check === null ? false : this.transporterData.company_details_check.inconsistency;
+            }
+
+            if (this.isDriverOwner) {
+               this.drivingLicense = {
+                name: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.name,
+                dl_no: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.dl_no,
+                date_of_issue: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.date_of_issue,
+                expiry_date: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.date_of_issue,
+                classes: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.expiry_date,
+                id_no: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.id_no,
+                inconsistency: this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.inconsistency,
+            };
+            this.license_inconsistency = this.transporterData.driving_license_check === null ? '' : this.transporterData.driving_license_check.inconsistency;
+            }
+            if (!this.isBusiness) {
+                this.identity = {
+                name: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.name,
+                gender: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.gender,
+                pob: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.pob,
+                dob: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.dob,
+                };
+                this.identity_inconsistency = this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency;
             }
 
             this.registration_date = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.registration_date;
@@ -334,54 +430,13 @@ export default {
             this.tax_inconsistency = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.inconsistency;
     },
     methods: {
-        getDirectorsStatus(index, id_no) {
-            const diretorsDetails = JSON.parse(this.transporterData.director_details);
-            const field = 'director_id_check';
-             const index1 = this.transporterData.director_id_check === null ? -1 : JSON.parse(this.transporterData.director_id_check).findIndex(x => x.setIDNo === id_no);
 
-
-                if (index1 === -1) {
-                   return false;
-                } else {
-                    return this.transporterData.director_id_check[index1].review_status;
-                }
-        },
-         getDirectorsReview(index, id_no) {
-            const diretorsDetails = JSON.parse(this.transporterData.director_details);
-            const field = 'director_id_check';
-             const index1 = this.transporterData[field] === null ? -1 : JSON.parse(this.transporterData[field]).findIndex(x => x.setIDNo === id_no);
-                if (index1 === -1) {
-                   return null;
-                } else {
-                    return this.transporterData.director_id_check[index1];
-                }
-        },
          handleReviewEdit(section) {
-            const obj = this.customerData;
+            const obj = this.transporterData;
             this.transporterData[section].review_status = false;
          },
-           async  setDirectors(index, id_no) {
-            this.directors.review_status = true;
-            this.directors.partnerID = this.transporterData.id;
-            this.directors.directorIndex = index;
-            this.directors.setIDNo = id_no;
 
-
-             if (this.transporterData.director_id_check === null) {
-                    this.transporterData.director_id_check = [];
-                }
-                const index1 = this.transporterData.director_id_check.findIndex(x => x.directorIndex === index);
-                if (index1 === -1) {
-                    this.transporterData.director_id_check.push(this.directors);
-                } else {
-                    this.transporterData.director_id_check[index1] = this.directors;
-                }
-
-                this.$store.commit('changeVerification', this.transporterData);
-                 await this.updateReview('director_id_check', 'Director ID Check');
-            },
              setVerificationData(field, option) {
-                 console.log('sumbua');
                let data = {};
                  switch (field) {
               case 'company_details_check':
@@ -413,6 +468,11 @@ export default {
                     data = this.identity;
                     this.identity.review_status = true;
                   this.transporterData.identity_check = option === 'inconsistency' ? { inconsistency: this.identity_inconsistency } : data;
+                break;
+                case 'driving_license_check':
+                    data = this.drivingLicense;
+                    this.drivingLicense.review_status = true;
+                  this.transporterData.driving_license_check = option === 'inconsistency' ? { inconsistency: this.license_inconsistency } : data;
                 break;
                default:
                   break;
@@ -464,7 +524,10 @@ export default {
             }
         },
         handleReview(vehicleReview) {
-            this.updateReview(vehicleReview.section, vehicleReview.field_title);
+            this.updateReview(vehicleReview.section, vehicleReview.title);
+        },
+         handleDirectorsReview(directorReview) {
+            this.updateReview('director_id_check', 'Director ID check');
         },
     },
 };

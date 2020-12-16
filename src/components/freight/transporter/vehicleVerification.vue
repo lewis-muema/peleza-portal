@@ -171,6 +171,15 @@ export default {
         },
     },
     methods: {
+            isEmpty(obj) {
+                    for (const prop in obj) {
+                        // eslint-disable-next-line no-prototype-builtins
+                        if (obj.hasOwnProperty(prop)) {
+                        return false;
+                        }
+                    }
+            return JSON.stringify(obj) === JSON.stringify({});
+            },
            createReviewData(field, index, field_title = '') {
                this.motorVehicle.review_status = true;
                this.motorVehicle.vehicle_reg_no = this.vehicle.vehicle_reg_no;
@@ -182,21 +191,28 @@ export default {
                 data.field_title = field_title;
 
 
-                if (this.transporterData[field] === null) {
-                    this.transporterData[field] = [];
-                }
+                 let vehicleArray = [];
 
-                const index1 = this.transporterData[field].findIndex(x => x.vehicle_reg_no === this.vehicle.vehicle_reg_no);
-                if (index1 === -1) {
-                    this.transporterData[field].push(data);
+                if (this.transporterData[field] === null || this.transporterData[field] === '' || (typeof this.transporterData[field] === 'string' && this.isEmpty(JSON.parse(this.transporterData[field])))) {
+                    vehicleArray = [];
                 } else {
-                    this.transporterData[field][index1] = data;
+                    vehicleArray = typeof this.transporterData[field] === 'string' ? JSON.parse(this.transporterData[field]) : this.transporterData[field];
                 }
 
-                this.$store.commit('changeVerification', this.transporterData);
+                 const index1 = this.transporterData[field] === null || this.transporterData[field] === '' || this.transporterData[field] === {} ? -1 : vehicleArray.findIndex(x => x.vehicle_reg_no === this.vehicle.vehicle_reg_no);
 
 
-              this.$emit('vehicleReview', data);
+                 if (index1 === -1) {
+                    vehicleArray.push(data);
+                } else {
+                    vehicleArray[index1] = data;
+                }
+
+                 this.transporterData[field] = vehicleArray;
+                 this.$store.commit('changeVerification', this.transporterData);
+
+
+               this.$emit('vehicleReview', { vehicleArray, section: field, title: field_title });
         },
     },
 
