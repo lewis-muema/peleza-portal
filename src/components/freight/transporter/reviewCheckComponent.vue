@@ -382,8 +382,6 @@ export default {
                   this.$store.commit('setUpdateStatus', false);
                 return error.response;
             }
-
-
         },
         handleReview(vehicleReview) {
             this.updateReview(vehicleReview.section, vehicleReview.field_title);
