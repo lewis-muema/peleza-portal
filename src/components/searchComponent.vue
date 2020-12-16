@@ -82,7 +82,7 @@ export default {
                      this.userType = 'peer';
 
                      break;
-                case 'transporter':
+                case 'transporters':
                      searchString = owner;
                      this.userType = 'transporter';
 
