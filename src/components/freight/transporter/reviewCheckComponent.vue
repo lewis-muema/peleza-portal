@@ -146,7 +146,7 @@
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row" >
                                     <div class="review-title">ID Number</div>
-                                    <!-- <div class="review-desc">{{ getDirectorsReview(index, director.id_no) !== null ? getDirectorsReview(index, director.id_no).id_no : 'N/A' }}</div> -->
+                                    <div class="review-desc">{{ getDirectorsReview(index, director.id_no) !== null ? getDirectorsReview(index, director.id_no).id_no : 'N/A' }}</div>
                                 </div>
                             </div>
                             </div>
@@ -262,8 +262,7 @@ export default {
         getDirectorsStatus(index, id_no) {
             const diretorsDetails = JSON.parse(this.transporterData.director_details);
             const field = 'director_id_check';
-             const index1 = this.transporterData.director_id_check.findIndex(x => x.setIDNo === id_no);
-            console.log('getDirectorsStatus', index1);
+             const index1 = JSON.parse(this.transporterData.director_id_check).findIndex(x => x.setIDNo === id_no);
 
                 if (index1 === -1) {
                    return false;
@@ -274,7 +273,7 @@ export default {
          getDirectorsReview(index, id_no) {
             const diretorsDetails = JSON.parse(this.transporterData.director_details);
             const field = 'director_id_check';
-             const index1 = this.transporterData[field].findIndex(x => x.setIDNo === id_no);
+             const index1 = JSON.parse(this.transporterData[field]) === null ? -1 : JSON.parse(this.transporterData[field]).findIndex(x => x.setIDNo === id_no);
                 if (index1 === -1) {
                    return null;
                 } else {
