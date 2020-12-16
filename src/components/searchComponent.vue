@@ -86,11 +86,7 @@ export default {
                      this.userType = 'peer';
 
                      break;
-                case 'transporters':
-                     searchString = global;
-                     this.userType = 'transporter';
 
-                     break;
                  case 'peer-inconsistencies':
                      searchString = peerUser;
                      this.userType = 'peer';
@@ -109,6 +105,21 @@ export default {
                  case 'reviewed-peer':
                      searchString = peerUser;
                      this.userType = 'peer';
+
+                     break;
+                 case 'transporters':
+                     searchString = global;
+                     this.userType = 'transporter';
+
+                     break;
+                 case 'transporter-reviewed':
+                     searchString = global;
+                     this.userType = 'transporter';
+
+                     break;
+                 case 'transporter-inconsistencies':
+                     searchString = global;
+                     this.userType = 'transporter';
 
                      break;
                  default:
