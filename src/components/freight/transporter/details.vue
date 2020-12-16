@@ -47,7 +47,7 @@
                                       <inconsistenciesForm :valid-submit-status="validSubmitStatus" :inconsistency-check="inconsistencyCheck" :check-review-status="checkReviewStatus" @customerReview="submitApplicantReview" />
                                   </div>-->
                                   <div class="applicant-details__profile_content">
-                                      <activityLogs :user-type="transportData.application_type"/>
+                                      <activityLogs :user-type="transportData.application_type" :id="transportData.id" />
                                   </div>
                           </el-card>
 

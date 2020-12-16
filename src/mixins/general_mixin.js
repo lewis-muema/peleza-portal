@@ -239,7 +239,7 @@ const generalMxn = {
         routeDetails(item) {
             let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' || item === 'transporter-reviewed' ? 'reviewed' : item;
             name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporters' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;
-            name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' ? 'freight-inconsistencies' : name;
+            name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' || name === 'transporter-inconsistencies' ? 'freight-inconsistencies' : name;
 
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
