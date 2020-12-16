@@ -225,7 +225,7 @@ export default {
      handleClick(tab, event) {
        this.setCategory(tab.name);
        localStorage.setItem('category', tab.name);
-       return tab.name === 'logistics' ? this.$router.push({ name: 'applications' }) : this.$router.push({ name: 'transporter' });
+       return tab.name === 'logistics' ? this.$router.push({ name: 'applications' }) : this.$router.push({ name: 'transporters' });
       },
   },
 };

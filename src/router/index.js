@@ -87,11 +87,6 @@ const router = new Router({
       component: vehicle_list,
     },
     {
-      path: '/transporter',
-      name: 'transporter',
-      component: vehicle_list,
-    },
-    {
       path: '/freight-peer',
       name: 'freight-peer',
       component: () => import('@/components/freight/customers/list'),
@@ -134,6 +129,26 @@ const router = new Router({
       path: '/business-inconsistencies/:id',
       name: 'customer',
       component: () => import('@/components/freight/customers/details'),
+    },
+    {
+      path: '/transporters',
+      name: 'transporters',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporter-inconsistencies',
+      name: 'transporter-inconsistencies',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporter-reviewed',
+      name: 'transporter-reviewed',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporters/:id',
+      name: 'transporter',
+      component: () => import('@/components/freight/transporter/details'),
     },
   ],
 });
