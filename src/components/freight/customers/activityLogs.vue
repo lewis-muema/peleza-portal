@@ -34,6 +34,7 @@ export default {
             loading: false,
             requested: false,
             updateStatus: false,
+            notification: '',
         };
     },
      computed: {
