@@ -181,7 +181,7 @@ export default {
     name: 'ReviewCheckComponent',
     components: {
         errorHandler: () => import('../../errorHandler'),
-        vehicleVerification: () => import('./VehicleVerification'),
+        vehicleVerification: () => import('./vehicleVerification'),
 
 
     },
