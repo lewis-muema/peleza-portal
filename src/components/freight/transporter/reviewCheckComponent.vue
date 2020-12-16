@@ -262,7 +262,8 @@ export default {
         getDirectorsStatus(index, id_no) {
             const diretorsDetails = JSON.parse(this.transporterData.director_details);
             const field = 'director_id_check';
-             const index1 = JSON.parse(this.transporterData.director_id_check).findIndex(x => x.setIDNo === id_no);
+             const index1 = this.transporterData.director_id_check === null ? -1 : JSON.parse(this.transporterData.director_id_check).findIndex(x => x.setIDNo === id_no);
+
 
                 if (index1 === -1) {
                    return false;
@@ -273,7 +274,7 @@ export default {
          getDirectorsReview(index, id_no) {
             const diretorsDetails = JSON.parse(this.transporterData.director_details);
             const field = 'director_id_check';
-             const index1 = JSON.parse(this.transporterData[field]) === null ? -1 : JSON.parse(this.transporterData[field]).findIndex(x => x.setIDNo === id_no);
+             const index1 = this.transporterData[field] === null ? -1 : JSON.parse(this.transporterData[field]).findIndex(x => x.setIDNo === id_no);
                 if (index1 === -1) {
                    return null;
                 } else {
