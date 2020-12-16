@@ -16,5 +16,6 @@ module.exports = {
   VUE_APP_SOLR_VEHICLES: '"vehiclestaging/"',
   VUE_APP_SOLR_COP_USERS: '"cop_clientsstaging/"',
   VUE_APP_SOLR_PEER_USERS: '"peer_clientsstaging/"',
+  VUE_APP_SOLR_PARTNERS: '"partnerstaging/"',
   VUE_APP_SOLR_JWT: '"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJyV01HZVR2WWZMVnlBSWwxOHFPVGFWMnRxMnFDVmpJZiIsIm5hbWUiOiJzb2xyIn0.p7uW30OQBaSEduNerbIaSbaQTdUAa-VkVMQUF4LAPFQ"',
 };

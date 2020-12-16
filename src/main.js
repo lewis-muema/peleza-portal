@@ -61,6 +61,8 @@ window.VUE_APP_SOLR_VEHICLES = process.env.VUE_APP_SOLR_VEHICLES;
 window.VUE_APP_SOLR_COP_USERS = process.env.VUE_APP_SOLR_COP_USERS;
 window.VUE_APP_SOLR_JWT = process.env.VUE_APP_SOLR_JWT;
 window.VUE_APP_SOLR_PEER_USERS = process.env.VUE_APP_SOLR_PEER_USERS;
+window.VUE_APP_SOLR_PARTNERS = process.env.VUE_APP_SOLR_PARTNERS;
+
 
 window.rbmq_link = process.env.rbmq_link;
 window.rbmq_user = process.env.rbmq_user;

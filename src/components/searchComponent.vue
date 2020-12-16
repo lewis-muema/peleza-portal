@@ -22,6 +22,8 @@
                         <div v-if="userType === 'cop'" class="tt-suggestion"> {{ item.cop_phone }}  </div>
                         <div v-if="userType === 'peer'" class="tt-suggestion"> {{ item.user_name }}  </div>
                         <div v-if="userType === 'peer'" class="tt-suggestion"> {{ item.user_phone }}  </div>
+                         <div v-if="userType === 'transporter'" class="tt-suggestion"> {{ item.name }}  </div>
+                        <div v-if="userType === 'transporter'" class="tt-suggestion"> {{ item.phone }}  </div>
                     </span>
             </li>
     </ul>
@@ -72,6 +74,8 @@ export default {
 
             const owner = `${this.solarBase}${VUE_APP_SOLR_OWNERS}select?q=(name:*${this.query_string}*+OR+id_no:*${this.query_string}*+OR+phone:*${this.query_string}*)&wt=json&indent=true&row=10&sort=id%20desc&jwt=${this.solarToken}`;
 
+            const global = `${this.solarBase}${VUE_APP_SOLR_PARTNERS}select?q=(name:*${this.query_string}*+OR+id_no:*${this.query_string}*+OR+phone:*${this.query_string}*)&wt=json&indent=true&row=10&sort=id%20desc&jwt=${this.solarToken}`;
+
              switch (this.current_route) {
                  case 'freight-business':
                      searchString = copUser;
@@ -83,7 +87,7 @@ export default {
 
                      break;
                 case 'transporters':
-                     searchString = owner;
+                     searchString = global;
                      this.userType = 'transporter';
 
                      break;
@@ -132,7 +136,7 @@ export default {
                     break;
                  case 'transporter':
                      param = 'transporter';
-                     id = item.owner_id;
+                     id = item.id;
                     break;
 
                 default:
