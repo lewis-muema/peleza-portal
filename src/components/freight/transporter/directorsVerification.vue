@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form v-if="!reviewedStatus">
+        <el-form v-if="!reviewedStatus" :key="componentDirectors">
             <el-form-item label="ID Number" >
              <el-input type="text" v-model="form.id_no" auto-complete="off"></el-input>
             </el-form-item>
@@ -9,9 +9,10 @@
             </el-form-item>
         </el-form>
          <div class="review_wrap" v-if="reviewedStatus">
-                <div class="el-row">
+             <div v-if="loading">loading...</div>
+                <div v-else class="el-row">
                 <div class="el-col-lg-16 review-details">
-                    <div class="el-row" >
+                    <div class="el-row" v-if="!loading">
                         <div class="review-title">ID NUmber</div>
                         <div class="review-desc">{{ directorCheck === null ? 'N/A' : directorCheck.id_no }}</div>
                     </div>
@@ -32,12 +33,17 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import GeneralMxn from '../../../mixins/general_mixin';
+
 
 export default {
     name: 'DirectorsVerification',
+    mixins: [GeneralMxn],
     props: ['director', 'index'],
     data() {
         return {
+            loading: false,
+            componentDirectors: this.index,
         form:
                 {
                     id_no: '',
@@ -49,7 +55,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['current_verification']),
+        ...mapGetters(['current_verification', 'getUpdateStatus']),
             transporterData() {
                 return this.current_verification;
             },
@@ -79,6 +85,18 @@ export default {
         current_verification(data) {
             this.transporterData = data;
         },
+           async getUpdateStatus(status) {
+             this.updateStatus = status;
+             if (status) {
+                 this.loading = true;
+                 this.forceRender();
+                 this.directorCheck = null;
+                 this.directorCheck = this.IDReview;
+                 // eslint-disable-next-line no-unused-expressions
+                 this.$set(this.directorCheck, this.IDReview);
+                 this.loading = false;
+             }
+         },
       },
     mounted() {
         this.directorCheck = this.IDReview;
@@ -112,9 +130,27 @@ export default {
 
 
               this.$emit('directorReview', directorArray);
+
+                this.forceRender();
+                 this.directorCheck = null;
+                 this.directorCheck = this.IDReview;
+                 // eslint-disable-next-line no-unused-expressions
+                 this.$set(this.directorCheck, this.IDReview);
+                 this.loading = false;
            },
          handleReviewEdit(section) {
+            this.loading = true;
+                 this.forceRender();
+                 this.directorCheck = null;
+                 this.directorCheck = this.IDReview;
+                 // eslint-disable-next-line no-unused-expressions
+                 this.$set(this.directorCheck, this.IDReview);
+                 this.loading = false;
+
             this.reviewedStatus = false;
+         },
+         forceRender() {
+             this.componentDirectors += 1;
          },
      },
 
