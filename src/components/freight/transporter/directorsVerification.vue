@@ -21,6 +21,12 @@
                 </div>
             </div>
         </div>
+        <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !reviewedStatus">
+            <el-form-item> <el-checkbox v-model="form.inconsistency" id="identity_inconsistency" name="identity_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
+        </el-form>
+            <div class="applicant--incosistency-mark" v-if="reviewedStatus && directorCheck !== null && directorCheck.inconsistency">
+            Marked for Data Inconsistency
+        </div>
     </div>
 </template>
 
@@ -35,6 +41,7 @@ export default {
         form:
                 {
                     id_no: '',
+                    inconsistency: false,
                 },
          directorCheck: null,
          reviewedStatus: false,
@@ -60,6 +67,12 @@ export default {
                 this.reviewedStatus = this.directorCheck !== null;
 
             return this.directorCheck;
+        },
+          isPendingApplicant() {
+            return this.current_route === 'transporter';
+        },
+         current_route() {
+            return this.$route.name;
         },
     },
     watch: {
