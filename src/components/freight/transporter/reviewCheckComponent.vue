@@ -223,23 +223,23 @@
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row" >
                                     <div class="review-title">Validity</div>
-                                    <div class="review-desc">{{ transporterData.kra_pin_verification === null ? 'N/A' : transporterData.kra_pin_verification.validity }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.validity }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Name</div>
-                                    <div class="review-desc">{{ transporterData.kra_pin_verification === null ? 'N/A' : transporterData.kra_pin_verification.tax_name }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.tax_name }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">{{ taxPayerNameIdentifier }} Number</div>
-                                    <div class="review-desc">{{ transporterData.kra_pin_verification === null ? 'N/A' : transporterData.kra_pin_verification.pin_number }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.pin_number }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Tax Obligations</div>
-                                    <div class="review-desc">{{ transporterData.kra_pin_verification === null ? 'N/A' : transporterData.kra_pin_verification.taxkra_pin_verification_obligations }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.taxkra_pin_verification_obligations }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Date of Registration</div>
-                                    <div class="review-desc">{{ transporterData.kra_pin_verification === null ? 'N/A' : formatDate(transporterData.kra_pin_verification.registration_date ) }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : formatDate(taxCheck.registration_date ) }}</div>
                                 </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
@@ -349,6 +349,8 @@ export default {
                 companyReview: false,
                 companyCheck: null,
                 updateStatus: false,
+                taxReview: false,
+                taxCheck: null,
 
         };
     },
@@ -371,9 +373,6 @@ export default {
             return this.companyCheck;
         },
 
-        taxReview() {
-            return this.transporterData.kra_pin_verification === null ? false : this.transporterData.kra_pin_verification.review_status;
-        },
 
         isBusiness() {
             return this.transporterData.application_type === 'Business';
@@ -400,6 +399,18 @@ export default {
         drivingReview() {
             return this.transporterData.driving_license_check === null ? false : this.transporterData.driving_license_check.review_status;
         },
+          TaxReview() {
+             if (this.transporterData.kra_pin_verification === null || this.transporterData.kra_pin_verification === '') {
+                    this.taxCheck = null;
+                } else {
+                    const data = typeof this.transporterData.kra_pin_verification === 'string' ? JSON.parse(this.transporterData.kra_pin_verification) : this.transporterData.kra_pin_verification;
+
+                    this.taxCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.taxReview = this.taxCheck !== null;
+
+            return this.taxCheck;
+        },
     },
       watch: {
         current_verification(data) {
@@ -410,11 +421,14 @@ export default {
              this.updateStatus = status;
              if (status) {
                  this.companyReview = this.IDReview;
+                this.taxCheck = this.TaxReview;
              }
          },
       },
      mounted() {
          this.companyReview = this.IDReview;
+         this.taxCheck = this.TaxReview;
+
              if (this.isBusiness) {
                 this.company_name = this.companyCheck === null ? '' : this.companyCheck.company_name;
                 this.company_reg = this.companyCheck === null ? '' : this.companyCheck.company_reg_no;
@@ -444,21 +458,30 @@ export default {
                 this.identity_inconsistency = this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency;
             }
 
-            this.registration_date = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.registration_date;
-            this.validity = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.validity;
-            this.pin_number = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.pin_number;
-            this.tax_obligations = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.tax_obligations;
-            this.tax_name = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.tax_name;
-            this.tax_inconsistency = this.transporterData.kra_pin_verification === null ? '' : this.transporterData.kra_pin_verification.inconsistency;
+            this.registration_date = this.taxCheck === null ? '' : this.taxCheck.registration_date;
+            this.validity = this.taxCheck === null ? '' : this.taxCheck.validity;
+            this.pin_number = this.taxCheck === null ? '' : this.taxCheck.pin_number;
+            this.tax_obligations = this.taxCheck === null ? '' : this.taxCheck.tax_obligations;
+            this.tax_name = this.taxCheck === null ? '' : this.taxCheck.tax_name;
+            this.tax_inconsistency = this.taxCheck === null ? '' : this.inconsistency;
     },
     methods: {
 
          handleReviewEdit(section) {
-             if (section === 'company_details_check') {
-                 this.companyReview = false;
-             } else {
-            const obj = this.transporterData;
-            this.transporterData[section].review_status = false;
+             switch (section) {
+                 case 'company_details_check':
+                    this.companyReview = false;
+                     break;
+                case 'kra_pin_verification':
+                    this.taxReview = false;
+                     break;
+
+                 default:
+                 // eslint-disable-next-line no-case-declarations
+                 const obj = this.transporterData;
+                this.transporterData[section].review_status = false;
+
+                     break;
              }
          },
 

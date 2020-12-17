@@ -60,6 +60,8 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import generalMixin from '../../../mixins/general_mixin';
 import timzoneMixin from '../../../mixins/timezone_mixin';
@@ -80,6 +82,10 @@ export default {
         loading: false,
         requested: false,
         updateStatus: false,
+        companyReview: false,
+        companyCheck: null,
+        taxReview: false,
+        taxCheck: null,
 
       };
     },
@@ -87,6 +93,19 @@ export default {
         ...mapGetters(['current_verification', 'getUpdateStatus']),
         transportData() {
             return this.current_verification;
+        },
+
+        IDReview() {
+             if (this.transportData.company_details_check === null || this.transportData.company_details_check === '') {
+                    this.companyCheck = null;
+                } else {
+                    const data = typeof this.transportData.company_details_check === 'string' ? JSON.parse(this.transportData.company_details_check) : this.transportData.company_details_check;
+
+                    this.companyCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.companyReview = this.companyCheck !== null;
+
+            return this.companyCheck;
         },
         taxPayerNameIdentifier() {
           if ('country' in this.transportData) {
@@ -109,19 +128,23 @@ export default {
             return this.transportData.application_type === 'Driver and owner';
         },
 
-        companyReview() {
-          if (this.isBusiness) {
-            return this.transportData.company_details_check === null ? false : this.transportData.company_details_check.review_status;
-          }
-          return true;
+         TaxReview() {
+             if (this.transportData.kra_pin_verification === null || this.transportData.kra_pin_verification === '') {
+                    this.taxCheck = null;
+                } else {
+                    const data = typeof this.transportData.kra_pin_verification === 'string' ? JSON.parse(this.transportData.kra_pin_verification) : this.transportData.kra_pin_verification;
+
+                    this.taxCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.taxReview = this.taxCheck !== null;
+
+            return this.taxCheck;
         },
+
          identityReview() {
             return this.transportData.identity_check === null ? false : this.transportData.identity_check.review_status;
         },
 
-        taxReview() {
-            return this.transportData.kra_pin_verification === null || (typeof this.transportData.kra_pin_verification === 'string' && this.isEmpty(JSON.parse(this.transportData.kra_pin_verification))) ? false : this.transportData.kra_pin_verification.review_status;
-        },
          drivingReview() {
             return this.transportData.driving_license_check === null ? false : this.transportData.driving_license_check.review_status;
         },
@@ -147,8 +170,14 @@ export default {
              this.updateStatus = status;
              if (status) {
                 await this.retrieveSingleTransporter(this.$route.params.id);
+                this.companyCheck = this.IDReview;
+                this.taxReview = this.TaxReview;
              }
          },
+    },
+    mounted() {
+       this.companyCheck = this.IDReview;
+       this.taxCheck = this.TaxReview;
     },
      methods: {
         checkReviewStatus() {
