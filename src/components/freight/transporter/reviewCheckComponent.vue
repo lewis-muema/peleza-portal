@@ -94,15 +94,15 @@
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row" >
                                     <div class="review-title">Company Name</div>
-                                    <div class="review-desc">{{ transporterData.company_details_check === null ? 'N/A' : transporterData.company_details_check.company_name }}</div>
+                                    <div class="review-desc">{{ companyCheck === null ? 'N/A' : companyCheck.company_name }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Company registration number</div>
-                                    <div class="review-desc">{{ transporterData.company_details_check === null ? 'N/A' : transporterData.company_details_check.company_reg_no }}</div>
+                                    <div class="review-desc">{{ companyCheck === null ? 'N/A' : companyCheck.company_reg_no }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Company Address</div>
-                                    <div class="review-desc">{{ transporterData.company_details_check === null ? 'N/A' : transporterData.company_details_check.address }}</div>
+                                    <div class="review-desc">{{ companyCheck === null ? 'N/A' : companyCheck.address }}</div>
                                 </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
@@ -113,7 +113,7 @@
                          <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !companyReview">
                             <el-form-item> <el-checkbox v-model="company_inconsistency" id="identity_inconsistency" @change="setVerificationData('company_details_check', 'inconsistency')" name="identity_inconsistency"></el-checkbox>Mark for Data Inconsistency </el-form-item>
                         </el-form>
-                        <div class="applicant--incosistency-mark" v-if="companyReview && transporterData.company_details_check.inconsistency">
+                        <div class="applicant--incosistency-mark" v-if="companyReview && companyCheck.inconsistency">
                             Marked for Data Inconsistency
                         </div>
                     </el-collapse-item>
@@ -285,6 +285,8 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 import GeneralMxn from '../../../mixins/general_mixin';
@@ -344,17 +346,31 @@ export default {
                     review_status: [],
                     inconsistency: [],
                 },
+                companyReview: false,
+                companyCheck: null,
+                updateStatus: false,
+
         };
     },
     computed: {
-    ...mapGetters(['current_verification']),
+    ...mapGetters(['current_verification', 'getUpdateStatus']),
         transporterData() {
             return this.current_verification;
         },
 
-        companyReview() {
-            return this.transporterData.company_details_check === null || typeof this.transporterData.company_details_check === 'undefined' ? false : this.transporterData.company_details_check.review_status;
+        IDReview() {
+             if (this.transporterData.company_details_check === null || this.transporterData.company_details_check === '') {
+                    this.companyCheck = null;
+                } else {
+                    const data = typeof this.transporterData.company_details_check === 'string' ? JSON.parse(this.transporterData.company_details_check) : this.transporterData.company_details_check;
+
+                    this.companyCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.companyReview = this.companyCheck !== null;
+
+            return this.companyCheck;
         },
+
         taxReview() {
             return this.transporterData.kra_pin_verification === null ? false : this.transporterData.kra_pin_verification.review_status;
         },
@@ -377,9 +393,7 @@ export default {
         current_route() {
             return this.$route.name;
         },
-        companyReview() {
-            return this.transporterData.company_details_check === null || typeof this.transporterData.company_details_check === 'undefined' ? false : this.transporterData.company_details_check.review_status;
-        },
+       
         identityReview() {
             return this.transporterData.identity_check === null ? false : this.transporterData.identity_check.review_status;
         },
@@ -390,14 +404,22 @@ export default {
       watch: {
         current_verification(data) {
             this.transporterData = data;
+             this.companyReview = this.IDReview;
         },
+          async getUpdateStatus(status) {
+             this.updateStatus = status;
+             if (status) {
+                 this.companyReview = this.IDReview;
+             }
+         },
       },
      mounted() {
+         this.companyReview = this.IDReview;
              if (this.isBusiness) {
-                this.company_name = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.company_name;
-                this.company_reg = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.company_reg_no;
-                this.address = this.transporterData.company_details_check === null ? '' : this.transporterData.company_details_check.address;
-                this.company_inconsistency = this.transporterData.company_details_check === null ? false : this.transporterData.company_details_check.inconsistency;
+                this.company_name = this.companyCheck === null ? '' : this.companyCheck.company_name;
+                this.company_reg = this.companyCheck === null ? '' : this.companyCheck.company_reg_no;
+                this.address = this.companyCheck === null ? '' : this.companyCheck.address;
+                this.company_inconsistency = this.companyCheck === null ? false : this.companyCheck.inconsistency;
             }
 
             if (this.isDriverOwner) {
@@ -432,8 +454,12 @@ export default {
     methods: {
 
          handleReviewEdit(section) {
+             if (section === 'company_details_check') {
+                 this.companyReview = false;
+             } else {
             const obj = this.transporterData;
             this.transporterData[section].review_status = false;
+             }
          },
 
              setVerificationData(field, option) {
