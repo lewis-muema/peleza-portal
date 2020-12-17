@@ -236,6 +236,27 @@ const generalMxn = {
         },
     },
     methods: {
+        async retrieveSingleTransporter(id) {
+            const endpoint = `onboarding/peleza/list-applicant/${id}`;
+
+            const fullPayload = {
+                app: 'partner-api/',
+                endpoint,
+            };
+            const arr = [];
+
+            try {
+                const response = await this.axiosGetRequest(fullPayload);
+                  const data = response.status === 200 ? response.data : null;
+                  if (response.status === 200) {
+                        this.$store.commit('changeVerification', data);
+                  }
+
+                  return data;
+            } catch (error) {
+                this.notification = 'Failed to fetch transporter data. Kindly try again or contact Sendy tech support';
+            }
+        },
         routeDetails(item) {
             let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' || item === 'transporter-reviewed' ? 'reviewed' : item;
             name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporters' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;

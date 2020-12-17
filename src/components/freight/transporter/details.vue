@@ -77,10 +77,14 @@ export default {
     data() {
       return {
         userType: 'transporter',
+        loading: false,
+        requested: false,
+        updateStatus: false,
+
       };
     },
      computed: {
-        ...mapGetters(['current_verification']),
+        ...mapGetters(['current_verification', 'getUpdateStatus']),
         transportData() {
             return this.current_verification;
         },
@@ -139,6 +143,12 @@ export default {
         current_verification(data) {
             this.transportData = data;
         },
+        async getUpdateStatus(status) {
+             this.updateStatus = status;
+             if (status) {
+                await this.retrieveSingleTransporter(this.$route.params.id);
+             }
+         },
     },
      methods: {
         checkReviewStatus() {
