@@ -126,9 +126,12 @@ export default {
 
                 return currentTime.diff(timeStore, 'h');
                 },
-            startVerification(row) {
-                row.transportersStatus = this.transportersStatus;
-                this.$store.commit('changeVerification', row);
+            async startVerification(row) {
+                const transporter = await this.retrieveSingleTransporter(row.id);
+
+
+                transporter.transportersStatus = this.transportersStatus;
+
                 const id = row.application_type === 'business' ? row.cop_id : row.user_id;
                 this.$router.push({ name: `${this.singleView}`, params: { id: row.id } });
              },
@@ -153,9 +156,8 @@ export default {
                     ...(this.transportersStatus === 'reviewed') && { reviewed: 1 },
                     ...(this.searched && this.searchedID !== null) && { partnerId: this.searchedID },
 
-
                 };
-                const endpoint = this.searched ? `onboarding/peleza/list-applicant/${this.searchedID}` : 'onboarding/peleza/list-applicants';
+                const endpoint = this.searched || this.singlePartner !== null ? `onboarding/peleza/list-applicant/${this.searchedID}` : 'onboarding/peleza/list-applicants';
 
                 const fullPayload = {
                     app: 'partner-api/',
