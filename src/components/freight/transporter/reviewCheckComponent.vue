@@ -393,7 +393,7 @@ export default {
         current_route() {
             return this.$route.name;
         },
-       
+
         identityReview() {
             return this.transporterData.identity_check === null ? false : this.transporterData.identity_check.review_status;
         },
