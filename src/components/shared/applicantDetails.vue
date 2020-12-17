@@ -226,7 +226,7 @@
                 <span class="hidden-hover" v-if="showHoverVal === 2">Number Plate : {{ applicant_details.vehicle_reg_no }}</span>
               </template>
 
-              <el-form :model="verification_details.motor_vehicle_records_check" v-show="!motorReview">
+              <el-form v-show="!motorReview">
                 <el-form-item label="Ownership Details and Address">
                   <el-input type="textarea" :rows="4" v-model="verification_details.motor_vehicle_records_check.ownership_details" auto-complete="off"></el-input>
                 </el-form-item>
@@ -317,7 +317,7 @@
                 <span class="applicant--details__insurance" @mouseover="showDets(3)" @mouseout="showDets(0)"> Insurance Number : {{ applicant_details.insurance_number }} </span>
                 <span class="hidden-hover" v-if="showHoverVal === 3"> Insurance Number : {{ applicant_details.insurance_number }} </span>
               </template>
-              <el-form :model="verification_details.car_insurance_validity" class="el-col-lg-24 review-details" v-show="!insuranceReview">
+              <el-form class="el-col-lg-24 review-details" v-show="!insuranceReview">
                 <div id="print" class="el-row" v-show="this.applicant_details.application_type !== 'Driver'">
                   <div class="review-consent-text">I, {{ this.applicant_details.partner_name }} (ID Number {{ this.applicant_details.id_no }}), {{ this.appendConsentText() }}</div>
 
