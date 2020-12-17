@@ -157,7 +157,7 @@ export default {
                     ...(this.searched && this.searchedID !== null) && { partnerId: this.searchedID },
 
                 };
-                const endpoint = this.searched || this.singlePartner !== null ? `onboarding/peleza/list-applicant/${this.searchedID}` : 'onboarding/peleza/list-applicants';
+                const endpoint = this.searched ? `onboarding/peleza/list-applicant/${this.searchedID}` : 'onboarding/peleza/list-applicants';
 
                 const fullPayload = {
                     app: 'partner-api/',
