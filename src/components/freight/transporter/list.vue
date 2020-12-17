@@ -148,7 +148,6 @@ export default {
 
                 const payload = {
                     page: this.page,
-                    stage: -1,
                     ...(this.transportersStatus === 'pending') && { pending: 1 },
                     ...(this.transportersStatus === 'inconsistencies') && { inconsistencies: 1 },
                     ...(this.transportersStatus === 'reviewed') && { reviewed: 1 },
