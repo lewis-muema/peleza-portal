@@ -33,100 +33,28 @@
             </el-col>
           </div>
         </el-card>
-        <el-row class="tac">
-          <el-col>
-            <h5 class="nav-header">PARTNER APPLICATIONS</h5>
-            <el-menu
-              :default-active="current_route"
-              :router="true"
-              class="el-menu-vertical-demo"
-              :default-openeds="['pending']"
-            >
-              <template v-for="(link, index) in links">
-                <el-menu-item
-                  class="nav-text "
-                  v-if="!link.hasChild"
-                  :index="`${link.name}`"
-                  :key="index"
-                  :route="{ name: link.name }"
-                >
-                  <div class="outline-icon">
-                    <i class="material-icons-outlined">{{ link.icon }}</i>
-                  </div>
-
-                  <span class="applicant-type">{{ link.text }}</span>
-                  <span
-                    class="applicant-count"
-                    v-show="current_route === link.name"
-                  >{{ applicantCount }}</span>
-                </el-menu-item>
-                <el-submenu
-                  class="submenu-text"
-                  v-if="link.hasChild"
-                  :index="`${link.name}`"
-                  :key="index"
-                  :route="{ name: link.name }"
-                >
-                  <template slot="title">
-                    <div class="outline-icon">
-                      <i class="material-icons-outlined">{{ link.icon }}</i>
-                    </div>
-
-                    <div class="applicant-type">{{ link.text }}</div>
-                  </template>
-                  <el-menu-item-group
-                    class="sub-nav"
-                    :router="true"
-                  >
-                    <template v-for="(sub, i) in link.subMenu">
-                      <el-menu-item
-                        class="sub-nav-text"
-                        :class="{ 'is-active': sub.name === current_route }"
-                        :index="`${link.name}/${sub.name}`"
-                        :key="i"
-                        :route="{ name: sub.name }"
-                      >
-                        <div class="applicant-type">{{ sub.text }}</div>
-                        <div
-                          class="applicant-count text-right"
-                          v-show="current_route === sub.name"
-                        >{{ applicantCount }}</div>
-                      </el-menu-item>
-                    </template>
-                  </el-menu-item-group>
-                </el-submenu>
-              </template>
-            </el-menu>
-            <el-menu
-              :default-active="current_route"
-              class="el-menu-vertical-demo footer-links"
-            >
-              <template v-for="(link, index) in footerLinks">
-                <el-menu-item
-                  class="nav-text"
-                  v-if="!link.hasChild"
-                  @click="logout()"
-                  :index="`${link.name}`"
-                  :key="index"
-                >
-                  <i :class="`${link.icon}`"></i>
-                  <span>{{ link.text }}</span>
-                </el-menu-item>
-              </template>
-            </el-menu>
-          </el-col>
-        </el-row>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="LOGISTICS " name="logistics" class="nav-tabs">
+              <navigation :current-route="current_route" :applicant-count="applicantCount" />
+          </el-tab-pane>
+          <el-tab-pane label="FREIGHT" name="freight" class="nav-tabs">
+              <navigation :current-route="current_route" :applicant-count="applicantCount" />
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </el-col>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import TimezoneMxn from '../mixins/timezone_mixin';
 import GeneralMxn from '../mixins/general_mixin';
 
 export default {
   name: 'topnav',
+   components: {
+    navigation: () => import('./shared/navigation'),
+  },
   mixins: [TimezoneMxn, GeneralMxn],
   data () {
     return {
@@ -134,10 +62,11 @@ export default {
       applicants: 0,
       hideDrivers: true,
       applicantCount: '',
+      activeName: localStorage.getItem('category'),
     };
   },
   computed: {
-    ...mapGetters({ getApplicantCount: 'getApplicantCount' }),
+    ...mapGetters({ getApplicantCount: 'getApplicantCount' }, { getCategory: 'getCategory' }),
     current_route () {
       return this.$route.name;
     },
@@ -161,11 +90,19 @@ export default {
     getApplicantCount (count) {
       this.applicantCount = count;
     },
+    getCategory(category) {
+      this.activeName = category;
+    },
   },
   mounted () {
+    this.activeName = localStorage.getItem('category');
     this.getInconsisntenciesUpdates();
   },
   methods: {
+      ...mapMutations({
+      setCategory: 'setCategory',
+    }),
+
     loadApplicant (d) {
       const verification = {
         applicant_details: {
@@ -257,12 +194,6 @@ export default {
       this.$store.commit('changeVerification', verification);
       this.$router.push({ name: 'applicant', params: { id: d.id } });
     },
-    logout () {
-      axios.post(`${AUTH_URL}logout`, { refresh_token: localStorage.refresh_token }).then(response => {
-        localStorage.clear();
-        this.$router.replace('/');
-      });
-    },
     search (ev) {
       // prettier-ignore
       this.$store.commit('search', ev.target.value.split(' ').join('').toLowerCase());
@@ -291,6 +222,11 @@ export default {
           throw new Error('Could not get applicants');
         });
     },
+     handleClick(tab, event) {
+       this.setCategory(tab.name);
+       localStorage.setItem('category', tab.name);
+       return tab.name === 'logistics' ? this.$router.push({ name: 'applications' }) : this.$router.push({ name: 'transporters' });
+      },
   },
 };
 </script>
@@ -298,5 +234,8 @@ export default {
 @import '../../static/style/core.css';
 .el-submenu__title {
   display: inline-flex !important;
+}
+.el-tabs__item.is-active {
+    color: #1B7FC3;
 }
 </style>

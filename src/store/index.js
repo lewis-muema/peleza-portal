@@ -12,6 +12,11 @@ const store = new Vuex.Store({
     dateRange: '',
     applicantionType: '',
     applicantCount: '',
+    category: localStorage.getItem('category'),
+    current_customer_verification: localStorage.current_verification ? JSON.parse(localStorage.current_verification) : {},
+    updateStatus: false,
+    searchedApplicant: null,
+
   },
   mutations: {
     changeVerification(state, current_verification) {
@@ -34,6 +39,20 @@ const store = new Vuex.Store({
     setApplicantionCount(state, applicantCount) {
       state.applicantCount = applicantCount;
     },
+    setCategory(state, category) {
+      state.category = category;
+    },
+    setUpdateStatus(state, val) {
+      state.updateStatus = val;
+    },
+    searchedApplicant(state, val) {
+      state.searchedApplicant = val;
+    },
+    setCustomerVerification(state, current_customer_verification) {
+      Object.assign(state.current_customer_verification, current_customer_verification);
+      localStorage.current_verification = JSON.stringify(current_customer_verification);
+    },
+
   },
   getters: {
     current_verification: state => state.current_verification,
@@ -41,6 +60,11 @@ const store = new Vuex.Store({
     getDateRange: state => state.dateRange,
     getApplicantionType: state => state.applicantionType,
     getApplicantCount: state => state.applicantCount,
+    getCategory: state => state.category,
+    getCustomerVerification: state => state.current_customer_verification,
+    getUpdateStatus: state => state.updateStatus,
+    getSearchedApplicant: state => state.searchedApplicant,
+
   },
 });
 

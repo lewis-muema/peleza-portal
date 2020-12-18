@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM sendy-docker-local.jfrog.io/nginx:latest
 
 RUN useradd -u 3000 sendy
 
@@ -32,7 +32,9 @@ ARG DOCKER_ENV
 
 ENV DOCKER_ENV=$DOCKER_ENV
 
-RUN npm install && npm rebuild node-sass && npm run build
+RUN npm install && \
+    npm rebuild node-sass && \ 
+    npm run build
 
 RUN cp nginx/default.conf /etc/nginx/conf.d/default.conf && \
     cp -R /build/dist/*  /app/ && \

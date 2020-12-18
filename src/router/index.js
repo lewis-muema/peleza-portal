@@ -86,6 +86,70 @@ const router = new Router({
       name: 'vehicles',
       component: vehicle_list,
     },
+    {
+      path: '/freight-peer',
+      name: 'freight-peer',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/freight-business',
+      name: 'freight-business',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/customer/:id',
+      name: 'customer',
+      component: () => import('@/components/freight/customers/details'),
+
+    },
+    {
+      path: '/business-inconsistencies/',
+      name: 'cop-inconsistencies',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/peer-inconsistencies/',
+      name: 'peer-inconsistencies',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/business-reviewed/',
+      name: 'reviewed-business',
+      component: () => import('@/components/freight/customers/list'),
+    },
+    {
+      path: '/peer-reviewed/',
+      name: 'reviewed-peer',
+      component: () => import('@/components/freight/customers/list'),
+
+    },
+    {
+      path: '/business-inconsistencies/:id',
+      name: 'customer',
+      component: () => import('@/components/freight/customers/details'),
+    },
+    {
+      path: '/transporters',
+      name: 'transporters',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporter-inconsistencies',
+      name: 'transporter-inconsistencies',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporter-reviewed',
+      name: 'transporter-reviewed',
+      component: () => import('@/components/freight/transporter/list'),
+    },
+    {
+      path: '/transporters/:id',
+      name: 'transporter',
+      component: () => import('@/components/freight/transporter/details'),
+    },
   ],
 });
 

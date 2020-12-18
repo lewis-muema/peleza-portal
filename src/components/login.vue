@@ -95,6 +95,7 @@ export default {
           localStorage.setItem('user', JSON.stringify(parsedDecodedString.payload));
           localStorage.setItem('token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
+          localStorage.setItem('category', 'logistics');
           this.$router.push({ name: 'applications' });
           vm.logging_in = false;
         })
@@ -110,3 +111,17 @@ export default {
   },
 };
 </script>
+<style>
+.login svg {
+    margin: 0 auto !important;
+    margin-top: 10% !important;
+}
+.login h1 {
+    width: 100% !important;
+    margin-bottom: 1em !important;
+}
+.login-holder {
+  background:  #ffffff !important;
+  height: 100vh !important;
+}
+</style>

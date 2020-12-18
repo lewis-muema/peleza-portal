@@ -15,7 +15,7 @@ import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import 'mock-local-storage';
 
-const applicationDetails = require('../../../src/components/topnav.vue');
+const applicationDetails = require('../../../src/components/shared/navigation.vue');
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -37,7 +37,7 @@ const router = new VueRouter({
   ],
 });
 
-describe('Top-nav-test', () => {
+describe('navigation-test', () => {
   let store;
   let getters;
   const applicantsData = {
@@ -124,8 +124,8 @@ describe('Top-nav-test', () => {
           state.applicantCount = applicantCount;
         },
         setCategory(state, category) {
-          state.category = category;
-      },
+            state.category = category;
+        },
       },
       getters: {
         current_verification: state => state.current_verification,
@@ -157,36 +157,17 @@ describe('Top-nav-test', () => {
   afterEach(() => {
     moxios.uninstall();
   });
-  it('Check whether updated inconsistencies counter registers', done => {
+  it('Check whether logout clears the localStorage', () => {
     const wrapper = shallowMount(applicationDetails, {
       sync: false,
       store,
       localVue,
       router,
     });
-    wrapper.vm.getInconsisntenciesUpdates();
+    wrapper.vm.logout();
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith(applicantsData).then(() => {
-        done();
-      });
-    });
-  });
-  it('Check whether the updated application clicked populates applicant data to the localStorage', done => {
-    const wrapper = shallowMount(applicationDetails, {
-      sync: false,
-      store,
-      localVue,
-      router,
-    });
-    wrapper.vm.getInconsisntenciesUpdates();
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent();
-      request.respondWith(applicantsData).then(() => {
-        wrapper.vm.loadApplicant(wrapper.vm.applicants[0]);
-        expect(JSON.parse(localStorage.current_verification).applicant_details.id_no).equal('34507898');
-        expect(JSON.parse(localStorage.current_verification)).to.be.an('object');
-        done();
       });
     });
   });

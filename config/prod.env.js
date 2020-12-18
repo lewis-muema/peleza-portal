@@ -6,5 +6,13 @@ module.exports = {
   BASE_URL: '"https://rider.sendyit.com/admin_partner_api/v5/admin/"',
   PARTNER_BASE_URL: '"https://rider.sendyit.com/admin_partner_api/v5/"',
   NODE_PARTNER_API: '"https://rider.sendyit.com/node_partner_api/v1/"',
+  ADONIS_PRIVATE_API: '"https://auth.sendyit.com/adonis/"',
   NODE_API_SWITCH: false,
+  VUE_APP_SOLR_BASE: '"https://gate.sendyit.com/solr/"',
+  VUE_APP_SOLR_OWNERS: '"owners/"',
+  VUE_APP_SOLR_VEHICLES: '"vehicles/"',
+  VUE_APP_SOLR_COP_USERS: '"cop_clients/"',
+  VUE_APP_SOLR_PEER_USERS: '"peer_clients/"',
+  VUE_APP_SOLR_PARTNERS: '"partner/"',
+  VUE_APP_SOLR_JWT: '"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJyV01HZVR2WWZMVnlBSWwxOHFPVGFWMnRxMnFDVmpJZiIsIm5hbWUiOiJzb2xyIn0.p7uW30OQBaSEduNerbIaSbaQTdUAa-VkVMQUF4LAPFQ"',
 };

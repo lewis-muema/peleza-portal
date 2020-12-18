@@ -45,6 +45,7 @@
   float: left;
   background: #f2f6fc;
   padding-top: 1em;
+  min-height: 150vh;
 }
 
 .applicant-details__profile_image {
@@ -710,6 +711,11 @@ hr {
   color: #1e7d11;
   background: #c8eac4;
 }
+.el-button.el-button--primary.status-button.reviewed {
+  border-color: #c8eac4;
+  color: #1e7d11;
+  background: #c8eac4;
+}
 
 .el-button.el-button--primary.status-button.not {
   border-color: #fdd8da;
@@ -849,4 +855,7 @@ hr {
   display: flex;
   letter-spacing: 0.03em;
   color: #D2212A
+}
+.app-holder {
+  background: #ffffff;
 }
