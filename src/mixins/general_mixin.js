@@ -66,15 +66,6 @@ const generalMxn = {
                     name: 'inconsistencies',
                     title: 'Inconsistencies',
                     singleView: 'inconsistency',
-                    hasChild: false,
-                    category: 'logistics',
-                },
-                {
-                    icon: 'error_outline',
-                    text: 'Inconsistencies',
-                    name: 'freight-inconsistencies',
-                    title: 'Inconsistencies',
-                    singleView: 'inconsistency',
                     hasChild: true,
                     category: 'freight',
                     subMenu: [
@@ -104,6 +95,16 @@ const generalMxn = {
                             singleView: 'transporter',
                             category: 'freight',
                             user: 'transporter',
+                        },
+                        {
+                            icon: 'error_outline',
+                            text: 'Inconsistencies',
+                            name: 'inconsistencies',
+                            title: 'Inconsistencies',
+                            singleView: 'inconsistency',
+                            hasChild: false,
+                            category: 'logistics',
+
                         },
 
                 ],
@@ -260,7 +261,7 @@ const generalMxn = {
         routeDetails(item) {
             let name = item === 'not-recommended' || item === 'recommended' || item === 'reviewed-business' || item === 'reviewed-peer' || item === 'transporter-reviewed' ? 'reviewed' : item;
             name = name === 'driver-applications' || name === 'applications' || name === 'vehicles' || name === 'transporters' || name === 'freight-peer' || name === 'freight-business' ? 'pending' : name;
-            name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' || name === 'transporter-inconsistencies' ? 'freight-inconsistencies' : name;
+            name = name === 'cop-inconsistencies' || name === 'peer-inconsistencies' || name === 'transporter-inconsistencies' ? 'inconsistencies' : name;
 
             let linkArr = this.links.filter((link) => link.name === name);
             let linkDetails = linkArr.length > 0 ? linkArr[0] : null;
