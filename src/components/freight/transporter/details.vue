@@ -39,13 +39,10 @@
                                           <span class="identity-label">Application Date</span>
                                       </div>
                                   </div>
-                                  <el-button type="primary status-button" :class="transportData.transportersStatus"> {{ transportData.transportersStatus }}</el-button>
+                                  <el-button type="primary status-button" :class="transporterStatus"> {{ transporterStatus }}</el-button>
                                   <div class="applicant-details__profile_content" v-if="validSubmit">
                                       <reviewForm :valid-submit="validSubmit" :user-type="userType" @customerReview="submitApplicantReview"/>
                                   </div>
-                                  <!-- <div class="applicant-details__profile_content" v-if="inconsistencyCheck">
-                                      <inconsistenciesForm :valid-submit-status="validSubmitStatus" :inconsistency-check="inconsistencyCheck" :check-review-status="checkReviewStatus" @customerReview="submitApplicantReview" />
-                                  </div>-->
                                   <div class="applicant-details__profile_content">
                                       <activityLogs :user-type="transportData.application_type" :id="transportData.id" />
                                   </div>
@@ -160,6 +157,18 @@ export default {
             }
             return false;
         },
+        routeName() {
+          return this.$route.name;
+        },
+        transporterStatus() {
+            let status = 'pending';
+            if (this.routeName.includes('reviewed')) {
+                status = 'reviewed';
+            } else if (this.routeName.includes('inconsistencies')) {
+                status = 'inconsistencies';
+            }
+            return status;
+          },
 
      },
       watch: {
