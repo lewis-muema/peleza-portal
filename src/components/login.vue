@@ -113,15 +113,15 @@ export default {
 </script>
 <style>
 .login svg {
-    margin: 0 auto;
-    margin-top: 10%;
+    margin: 0 auto !important;
+    margin-top: 10% !important;
 }
 .login h1 {
-    width: 100%;
-    margin-bottom: 1em;
+    width: 100% !important;
+    margin-bottom: 1em !important;
 }
 .login-holder {
-  background:  #ffffff;
-  height: 100vh;
+  background:  #ffffff !important;
+  height: 100vh !important;
 }
 </style>
