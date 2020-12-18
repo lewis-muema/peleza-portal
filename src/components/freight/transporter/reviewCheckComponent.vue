@@ -18,7 +18,7 @@
                             <el-input v-model="identity.name" auto-complete="off"></el-input>
                             </el-form-item>
                             <el-form-item label="Date of Birth">
-                            <el-date-picker v-model="identity.dob" type="date" popper-class="date-popup" placeholder="Date of Birth"></el-date-picker>
+                            <el-date-picker v-model="identity.dob" type="date" onkeydown="return false;" popper-class="date-popup" placeholder="Date of Birth"></el-date-picker>
                             </el-form-item>
 
                             <el-form-item label="Place of Birth">
@@ -132,10 +132,10 @@
                             <el-input v-model="drivingLicense.dl_no" auto-complete="off"></el-input>
                             </el-form-item>
                             <el-form-item label="Date of Issue">
-                            <el-date-picker v-model="drivingLicense.date_of_issue" type="date" popper-class="date date- date-popup" placeholder="Date of Issue"></el-date-picker>
+                            <el-date-picker v-model="drivingLicense.date_of_issue" onkeydown="return false;" onkeyup="return false;" type="date" popper-class="date date- date-popup" placeholder="Date of Issue"></el-date-picker>
                             </el-form-item>
                             <el-form-item label="Expiry Date">
-                            <el-date-picker v-model="drivingLicense.expiry_date" type="date" popper-class="date-popup" placeholder="Expiry Date"></el-date-picker>
+                            <el-date-picker v-model="drivingLicense.expiry_date" onkeydown="return false;" onkeyup="return false;" type="date" popper-class="date-popup" placeholder="Expiry Date"></el-date-picker>
                             </el-form-item>
                             <el-form-item label="Classes">
                             <el-input v-model="drivingLicense.classes" auto-complete="off"></el-input>
@@ -211,7 +211,7 @@
                             </el-form-item>
 
                             <el-form-item label="Date of Registration">
-                                <el-date-picker v-model="registration_date" type="date" popper-class="date-popup" placeholder="Date of Registration"></el-date-picker>
+                                <el-date-picker v-model="registration_date" onkeydown="return false;" type="date" popper-class="date-popup" placeholder="Date of Registration"></el-date-picker>
                             </el-form-item>
 
                             <el-form-item>
