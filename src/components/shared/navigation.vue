@@ -32,6 +32,7 @@
                         :index="`${link.name}`"
                         :key="index"
                         :route="{ name: link.name }"
+                        :class="{'active-route' : link.name === activeRoute}"
                         >
                         <template slot="title">
                             <div class="outline-icon">
@@ -91,6 +92,22 @@ export default {
     name: 'Navigation',
     mixins: [GeneralMxn],
     props: ['currentRoute', 'applicantCount'],
+    computed: {
+        routeName () {
+            return this.$route.name;
+        },
+        activeRoute () {
+            let active = '';
+           if (this.routeName === 'applications' || this.routeName === 'driver-applications' || this.routeName === 'transporters' || this.routeName === 'transporters' || this.routeName === 'freight-peer' || this.routeName === 'freight-business') {
+               active = 'pending';
+           } else if (this.routeName === 'inconsistencies' || this.routeName === 'freight-inconsistencies' || this.routeName === 'cop-inconsistencies' || this.routeName === 'peer-inconsistencies' || this.routeName === 'transporter-inconsistencies') {
+               active = 'inconsistencies';
+           } else if (this.routeName === 'reviewed' || this.routeName === 'recommended' || this.routeName === 'not-recommended' || this.routeName === 'reviewed-business' || this.routeName === 'reviewed-peer' || this.routeName === 'transporter-reviewed') {
+               active = 'reviewed';
+           }
+           return active;
+        },
+    },
     methods: {
         logout () {
             axios.post(`${AUTH_URL}logout`, { refresh_token: localStorage.refresh_token }).then(response => {
@@ -104,5 +121,16 @@ export default {
 </script>
 
 <style>
-
+.el-submenu__title {
+    width: 94%;
+    border-radius: 4px;
+    margin-bottom: 3px;
+}
+.active-route > .el-submenu__title {
+    background: #e8f3fc;
+    border: 3px solid #e8f3fc !important;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    color: #2d5c95 !important;
+}
 </style>
