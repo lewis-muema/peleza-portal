@@ -194,7 +194,7 @@ const generalMxn = {
                 value: 'Driver',
                 label: 'Driver',
             }, {
-                value: 'Driver and owner',
+                value: 'Driver and 0wner',
                 label: 'Driver & Owner',
             }, {
                 value: 'Vehicle',

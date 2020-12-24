@@ -294,7 +294,7 @@ export default {
             return this.transporterData.application_type === 'Driver';
         },
          isDriverOwner() {
-            return this.transporterData.application_type === 'Driver and owner';
+            return this.transporterData.application_type === 'Driver and 0wner';
         },
          isPendingApplicant() {
             return this.current_route === 'transporter';
