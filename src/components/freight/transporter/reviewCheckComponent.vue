@@ -118,7 +118,7 @@
                         </div>
                     </el-collapse-item>
                 </div>
-                <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Driver and owner'">
+                <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Driver and Owner'">
                     <el-collapse-item name="license" class="verification-wrap">
                         <template slot="title">
                             <span>Driving License Check</span>
@@ -384,7 +384,7 @@ export default {
             return this.transporterData.application_type === 'Driver';
         },
          isDriverOwner() {
-            return this.transporterData.application_type === 'Driver and owner';
+            return this.transporterData.application_type === 'Driver and 0wner';
         },
          isPendingApplicant() {
             return this.current_route === 'transporter';
