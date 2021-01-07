@@ -118,7 +118,7 @@
                         </div>
                     </el-collapse-item>
                 </div>
-                <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Driver and Owner'">
+                <div class="applicant--details-wrap" v-if="transporterData.application_type === 'Driver and Owner' || transporterData.application_type === 'Driver and owner'">
                     <el-collapse-item name="license" class="verification-wrap">
                         <template slot="title">
                             <span>Driving License Check</span>
