@@ -915,7 +915,7 @@ export default {
         return this.identityReview && this.drivingReview;
       } else if (this.applicant_details.application_type === 'Owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview;
-      } else if (this.applicant_details.application_type === 'Driver and Owner') {
+      } else if (this.applicant_details.application_type === 'Driver and Owner' || this.applicant_details.application_type === 'Driver and owner') {
         return this.identityReview && this.motorReview && this.insuranceReview && this.kraReview && this.drivingReview;
       } else if (this.applicant_details.application_type === 'Business') {
         return this.motorReview && this.insuranceReview && this.kraReview;
