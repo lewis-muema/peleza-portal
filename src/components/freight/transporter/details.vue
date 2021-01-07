@@ -122,7 +122,7 @@ export default {
             return this.transportData.application_type === 'Driver';
         },
          isDriverOwner() {
-            return this.transportData.application_type === 'Driver and Owner';
+            return this.transportData.application_type === 'Driver and Owner' || this.transportData.application_type === 'Driver and owner';
         },
 
          TaxReview() {
@@ -222,6 +222,9 @@ export default {
               title = 'Driver';
               break;
             case 'Driver and Owner':
+              title = 'Driver and Owner';
+              break;
+            case 'Driver and owner':
               title = 'Driver and Owner';
               break;
 
