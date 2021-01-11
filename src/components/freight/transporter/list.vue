@@ -151,6 +151,7 @@ export default {
 
                 const payload = {
                     page: this.page,
+                    vendor_type: 25,
                     ...(this.transportersStatus === 'pending') && { pending: 1 },
                     ...(this.transportersStatus === 'inconsistencies') && { inconsistencies: 1 },
                     ...(this.transportersStatus === 'reviewed') && { reviewed: 1 },
@@ -169,7 +170,7 @@ export default {
                 try {
                     const response = await this.axiosGetRequest(fullPayload);
                     if (!this.searched) {
-                        this.transporters = response.status === 200 ? await this.getFreightPartners(response.data.data) : null;
+                        this.transporters = response.status === 200 ? response.data.data : null;
                     } else {
                         const partner = [response.data];
                         this.transporters = response.status === 200 ? partner : null;
@@ -178,7 +179,6 @@ export default {
                     this.pagination = response.status === 200 && !this.searched ? response.data.pagination : null;
                     this.notification = response.status === 200 && response.data.data.length === 0 ? 'No applications to show on this list' : '';
                     this.loading = false;
-                     this.getFreightPartners(response.data.data);
                 } catch (error) {
                     this.notification = 'Failed to fetch customer data. Kindly try again or contact Sendy tech support';
                     this.loading = false;
