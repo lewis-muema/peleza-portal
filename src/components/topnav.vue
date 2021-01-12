@@ -34,7 +34,7 @@
           </div>
         </el-card>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="LOGISTICS " name="logistics" class="nav-tabs">
+          <el-tab-pane label="Transportation " name="logistics" class="nav-tabs">
               <navigation :current-route="current_route" :applicant-count="applicantCount" />
           </el-tab-pane>
           <el-tab-pane label="FREIGHT" name="freight" class="nav-tabs">

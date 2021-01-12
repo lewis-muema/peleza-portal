@@ -196,7 +196,10 @@
                         </template>
                         <el-form v-if="!taxReview">
                             <el-form-item label="Validity">
-                                <el-input v-model="validity" auto-complete="off"></el-input>
+                                <el-select v-model="validity" auto-complete="off">
+                                    <el-option value="Valid">Valid</el-option>
+                                    <el-option value="Invalid">Invalid</el-option>
+                                </el-select>
                             </el-form-item>
                             <el-form-item label="Name">
                                 <el-input v-model="tax_name" auto-complete="off"></el-input>
