@@ -59,7 +59,7 @@
 }
 
 .side-content {
-    padding: 20px 30px;
+    padding: 20px 6px;
     display: block;
 }
 
@@ -133,6 +133,7 @@
 
 .el-submenu .el-menu {
     background-color: #ffffff !important;
+    margin-left: 1em;
 }
 
 .nav-text {
@@ -423,6 +424,7 @@ li:focus {
 
 .submenu-text>.el-submenu__title {
     display: inline-flex;
+    margin-left: 1em;
 }
 
 .is-opened ul {
@@ -490,4 +492,8 @@ li:focus {
 }
 .el-tabs__header {
     margin: 0 1em 15px 0;
+}
+
+.el-tabs__active-bar {
+    width: 50% !important;
 }
