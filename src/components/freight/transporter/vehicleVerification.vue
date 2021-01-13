@@ -267,7 +267,13 @@ export default {
                     this.motorCheck = null;
                 } else {
                     const data = typeof this.transporterData.motor_vehicle_records_check === 'string' ? JSON.parse(this.transporterData.motor_vehicle_records_check) : this.transporterData.motor_vehicle_records_check;
-                    this.motorCheck = typeof data[this.index] !== 'undefined' ? data[this.index] : null;
+
+                    const verifiedVehicle = data.filter((elem) => {
+                        if (elem.vehicle_reg_no === this.transporterData.vehicle[this.index].vehicle_reg_no) return elem;
+                    });
+
+                    this.motorCheck = typeof verifiedVehicle !== 'undefined' ? verifiedVehicle : [];
+                    this.motorCheck = this.motorCheck.length === 0 ? null : this.motorCheck[0];
                 }
                 this.motorVehicleStatus = this.motorCheck !== null;
 
@@ -278,8 +284,16 @@ export default {
                     this.insuranceCheck = null;
                 } else {
                     const data = typeof this.transporterData.car_insurance_validity === 'string' ? JSON.parse(this.transporterData.car_insurance_validity) : this.transporterData.car_insurance_validity;
-                    this.insuranceCheck = typeof data[this.index] !== 'undefined' ? data[this.index] : null;
+
+
+                     const verifiedVehicle = Object.keys(data).length === 0 ? [] : data.filter((elem) => {
+                        if (elem.vehicle_reg_no === this.transporterData.vehicle[this.index].vehicle_reg_no) return elem;
+                    });
+
+                    this.insuranceCheck = typeof verifiedVehicle !== 'undefined' ? verifiedVehicle : [];
+                    this.insuranceCheck = this.insuranceCheck.length === 0 ? null : this.insuranceCheck[0];
                 }
+
                 this.insuranceVehicleStatus = this.insuranceCheck !== null;
 
             return this.insuranceCheck;
