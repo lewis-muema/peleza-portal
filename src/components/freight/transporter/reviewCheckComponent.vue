@@ -532,6 +532,8 @@ export default {
           return this.transporterData[field];
         },
         async updateReview(field, field_title = '') {
+                this.$store.commit('setUpdateStatus', false);
+
             this.transporterData.kra_pin_verification = this.transporterData.kra_pin_verification === null ? [] : this.transporterData.kra_pin_verification;
             const review_json = await this.setVerificationData(field, 'default');
 
