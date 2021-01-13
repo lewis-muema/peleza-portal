@@ -83,6 +83,8 @@ export default {
         companyCheck: null,
         taxReview: false,
         taxCheck: null,
+        identityReview: false,
+        identityCheck: null,
 
       };
     },
@@ -138,8 +140,17 @@ export default {
             return this.taxCheck;
         },
 
-         identityReview() {
-            return this.transportData.identity_check === null ? false : this.transportData.identity_check.review_status;
+           IdentityReview() {
+             if (this.transportData.identity_check === null || this.transportData.identity_check === '') {
+                    this.identityCheck = null;
+                } else {
+                    const data = typeof this.transportData.identity_check === 'string' ? JSON.parse(this.transportData.identity_check) : this.transportData.identity_check;
+
+                    this.identityCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.identityReview = this.identityCheck !== null;
+
+            return this.identityCheck;
         },
 
          drivingReview() {
@@ -181,21 +192,23 @@ export default {
                 await this.retrieveSingleTransporter(this.$route.params.id);
                 this.companyCheck = this.IDReview;
                 this.taxReview = this.TaxReview;
+                this.identityReview = this.IdentityReview;
              }
          },
     },
     mounted() {
        this.companyCheck = this.IDReview;
        this.taxCheck = this.TaxReview;
+      this.identityCheck = this.IdentityReview;
     },
      methods: {
         checkReviewStatus() {
             if (this.isBusiness) {
                 return this.companyReview && this.taxReview;
             } else if (this.isDriverOwner) {
-              return this.identityReview && this.taxReview && this.drivingReview;
+              return this.identityReview && this.taxReview;
             } else if (this.isOwner) {
-              return this.identityReview && this.kraReview;
+              return this.identityReview && this.taxReview;
             } else {
                 const obj = this.transportData;
                 for (const key in obj) {
