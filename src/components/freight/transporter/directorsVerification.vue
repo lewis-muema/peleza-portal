@@ -138,8 +138,6 @@ export default {
                  this.reviewedStatus = true;
                  this.$store.commit('changeVerification', this.transporterData);
 
-                 console.log('sumbua');
-
 
               this.$emit('directorReview', directorArray);
 
