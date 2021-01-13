@@ -32,6 +32,8 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import GeneralMxn from '../../../mixins/general_mixin';
 
@@ -61,15 +63,20 @@ export default {
             },
         IDReview() {
              if (this.transporterData.director_id_check === null || this.transporterData.director_id_check === '') {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.directorCheck = null;
                 } else {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     const data = typeof this.transporterData.director_id_check === 'string' ? JSON.parse(this.transporterData.director_id_check) : this.transporterData.director_id_check;
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+
+                    const verifiedDirector = data.filter((elem) => {
+                        if (elem.originalID === this.director.id_no) return elem;
+                    });
+
+                    const check = typeof verifiedDirector !== 'undefined' ? verifiedDirector : [];
+                    this.directorCheck = check.length === 0 ? null : check[0];
+
                     this.directorCheck = typeof data[this.index] !== 'undefined' ? data[this.index] : null;
                 }
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+
                 this.reviewedStatus = this.directorCheck !== null;
 
             return this.directorCheck;
@@ -92,8 +99,11 @@ export default {
                  this.forceRender();
                  this.directorCheck = null;
                  this.directorCheck = this.IDReview;
-                 // eslint-disable-next-line no-unused-expressions
-                 this.$set(this.directorCheck, this.IDReview);
+                 if (this.IDReview !== null) {
+                      // eslint-disable-next-line no-unused-expressions
+                    this.$set(this.directorCheck, this.IDReview);
+                 }
+
                  this.loading = false;
              }
          },
@@ -128,14 +138,18 @@ export default {
                  this.reviewedStatus = true;
                  this.$store.commit('changeVerification', this.transporterData);
 
+                 console.log('sumbua');
+
 
               this.$emit('directorReview', directorArray);
 
                 this.forceRender();
                  this.directorCheck = null;
                  this.directorCheck = this.IDReview;
-                 // eslint-disable-next-line no-unused-expressions
-                 this.$set(this.directorCheck, this.IDReview);
+                  if (this.IDReview !== null) {
+                    // eslint-disable-next-line no-unused-expressions
+                    this.$set(this.directorCheck, this.IDReview);
+                  }
                  this.loading = false;
            },
          handleReviewEdit(section) {
@@ -143,8 +157,10 @@ export default {
                  this.forceRender();
                  this.directorCheck = null;
                  this.directorCheck = this.IDReview;
-                 // eslint-disable-next-line no-unused-expressions
-                 this.$set(this.directorCheck, this.IDReview);
+                  if (this.IDReview !== null) {
+                    // eslint-disable-next-line no-unused-expressions
+                    this.$set(this.directorCheck, this.IDReview);
+                  }
                  this.loading = false;
 
             this.reviewedStatus = false;
