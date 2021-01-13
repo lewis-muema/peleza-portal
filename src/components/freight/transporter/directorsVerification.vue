@@ -132,12 +132,17 @@ export default {
                  if (index1 === -1) {
                     directorArray.push(this.form);
                 } else {
-                    directorArray[index1] = this.form;
+                    directorArray[this.index] = this.form;
                 }
-                this.transporterData.director_id_check = directorArray;
-                 this.reviewedStatus = true;
-                 this.$store.commit('changeVerification', this.transporterData);
 
+                const field = 'director_id_check';
+                this.transporterData[field] = directorArray;
+
+                const arr = this.transporterData;
+                arr.director_id_check = directorArray;
+
+                 this.reviewedStatus = true;
+                 this.$store.commit('changeVerification', arr);
 
               this.$emit('directorReview', directorArray);
 
