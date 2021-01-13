@@ -208,7 +208,7 @@ export default {
             } else if (this.isDriverOwner) {
               return this.identityReview && this.taxReview;
             } else if (this.isOwner) {
-              return this.identityReview && this.kraReview;
+              return this.identityReview && this.taxReview;
             } else {
                 const obj = this.transportData;
                 for (const key in obj) {
