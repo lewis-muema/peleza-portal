@@ -40,23 +40,24 @@
                             <div class="el-col-lg-16 review-details">
                                 <div class="el-row">
                                 <div class="review-title">Name of Applicant</div>
-                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : transporterData.identity_check.name }}</div>
+                                <div class="review-desc">{{ identityCheck === null ? 'N/A' : identityCheck.name }}</div>
                                 </div>
                                 <div class="el-row">
                                 <div class="review-title">Date of Birth</div>
-                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : formatDate(transporterData.identity_check.dob) }}</div>
+                                <div class="review-desc">{{ identityCheck === null ? 'N/A' : formatDate(identityCheck.dob) }}</div>
                                 </div>
                                 <div class="el-row">
                                 <div class="review-title">Place of Birth</div>
-                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : transporterData.identity_check.pob }}</div>
+                                <div class="review-desc">{{ identityCheck === null ? 'N/A' : identityCheck.pob }}</div>
                                 </div>
                                 <div class="el-row">
                                 <div class="review-title">Gender</div>
-                                <div class="review-desc">{{ transporterData.identity_check === null ? 'N/A' : this.transporterData.identity_check.gender }}</div>
+                                <div class="review-desc">{{ identityCheck === null ? 'N/A' : identityCheck.gender }}</div>
                                 </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
                                 <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
+
                             </div>
                             </div>
                         </div>
@@ -151,27 +152,27 @@
                             <div class="el-col-lg-16 review-details">
                             <div class="el-row">
                                 <div class="review-title">Name of Applicant</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.name }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.name }}</div>
                             </div>
                             <div class="el-row">
                                 <div class="review-title">DL Number</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.dl_no }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.dl_no }}</div>
                             </div>
                             <div class="el-row">
                                 <div class="review-title">Date of Issue</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null || typeof transporterData.driving_license_check.date_of_issue === 'undefined' ? 'N/A' : formatDate(transporterData.driving_license_check.date_of_issue) }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : formatDate(drivingCheck.date_of_issue) }}</div>
                             </div>
                             <div class="el-row">
                                 <div class="review-title">Expiry Date</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null || typeof transporterData.driving_license_check.expiry_date === 'undefined' ? 'N/A' : formatDate(transporterData.driving_license_check.expiry_date) }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : formatDate(drivingCheck.expiry_date) }}</div>
                             </div>
                             <div class="el-row">
                                 <div class="review-title">Classes</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.classes }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.classes }}</div>
                             </div>
                             <div class="el-row">
                                 <div class="review-title">ID Number</div>
-                                <div class="review-desc">{{ transporterData.driving_license_check === null ? 'N/A' : transporterData.driving_license_check.id_no }}</div>
+                                <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.id_no }}</div>
                             </div>
                             </div>
                             <div class="el-col-lg-8 review-image">
@@ -353,7 +354,11 @@ export default {
                 companyCheck: null,
                 updateStatus: false,
                 taxReview: false,
+                identityReview: false,
+                drivingReview: false,
                 taxCheck: null,
+                identityCheck: null,
+                drivingCheck: null,
 
         };
     },
@@ -396,11 +401,29 @@ export default {
             return this.$route.name;
         },
 
-        identityReview() {
-            return this.transporterData.identity_check === null ? false : this.transporterData.identity_check.review_status;
+        IdentityReview() {
+             if (this.transporterData.identity_check === null || this.transporterData.identity_check === '') {
+                    this.identityCheck = null;
+                } else {
+                    const data = typeof this.transporterData.identity_check === 'string' ? JSON.parse(this.transporterData.identity_check) : this.transporterData.identity_check;
+
+                    this.identityCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.identityReview = this.identityCheck !== null;
+
+            return this.identityCheck;
         },
-        drivingReview() {
-            return this.transporterData.driving_license_check === null ? false : this.transporterData.driving_license_check.review_status;
+        DrivingReview() {
+            if (this.transporterData.driving_license_check === null || this.transporterData.driving_license_check === '') {
+                    this.drivingCheck = null;
+                } else {
+                    const data = typeof this.transporterData.driving_license_check === 'string' ? JSON.parse(this.transporterData.driving_license_check) : this.transporterData.driving_license_check;
+
+                    this.drivingCheck = typeof data !== 'undefined' ? data : null;
+                }
+                this.drivingReview = this.drivingCheck !== null;
+
+            return this.drivingCheck;
         },
           TaxReview() {
              if (this.transporterData.kra_pin_verification === null || this.transporterData.kra_pin_verification === '') {
@@ -419,18 +442,24 @@ export default {
         current_verification(data) {
             this.transporterData = data;
              this.companyReview = this.IDReview;
+             this.identityReview = this.IdentityReview;
         },
           async getUpdateStatus(status) {
              this.updateStatus = status;
              if (status) {
                  this.companyReview = this.IDReview;
                 this.taxCheck = this.TaxReview;
+                this.identityReview = this.IdentityReview;
+                this.drivingReview = this.DrivingReview;
              }
          },
       },
      mounted() {
          this.companyReview = this.IDReview;
          this.taxCheck = this.TaxReview;
+         this.identityReview = this.IdentityReview;
+         this.drivingReview = this.DrivingReview;
+
 
              if (this.isBusiness) {
                 this.company_name = this.companyCheck === null ? '' : this.companyCheck.company_name;
@@ -479,6 +508,12 @@ export default {
                     this.taxReview = false;
                      break;
 
+                  case 'identity_check':
+                    this.identityReview = false;
+                     break;
+                case 'driving_license_check':
+                this.drivingReview = false;
+                    break;
                  default:
                  // eslint-disable-next-line no-case-declarations
                  const obj = this.transporterData;
@@ -532,6 +567,8 @@ export default {
           return this.transporterData[field];
         },
         async updateReview(field, field_title = '') {
+                this.$store.commit('setUpdateStatus', false);
+
             this.transporterData.kra_pin_verification = this.transporterData.kra_pin_verification === null ? [] : this.transporterData.kra_pin_verification;
             const review_json = await this.setVerificationData(field, 'default');
 
