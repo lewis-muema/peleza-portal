@@ -692,6 +692,7 @@ hr {
   height: 20px;
   padding: 0px 12px;
   border-color: #c2dcf6;
+  margin-top: 2em;
 }
 
 .el-button.el-button--primary.status-button.inconsistencies {
@@ -715,6 +716,11 @@ hr {
   border-color: #c8eac4;
   color: #1e7d11;
   background: #c8eac4;
+}
+.el-button.el-button--primary.status-button.ongoing {
+  border-color: #FCD7A7;
+  color: #87250B;
+  background: #FCD7A7;
 }
 
 .el-button.el-button--primary.status-button.not {
