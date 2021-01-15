@@ -59,7 +59,7 @@
 }
 
 .side-content {
-    padding: 20px 6px;
+    padding: 20px 12px;
     display: block;
 }
 
@@ -169,6 +169,8 @@
     border-top: 2px solid #ebeef5 !important;
     margin-top: 80%;
     padding-top: 1em;
+    margin-left: 1em;
+
 }
 
 .filter-holder {
@@ -342,7 +344,7 @@ li:focus {
 .applicant-status.pending {
     color: #0F4176;
     background: #C2DCF6;
-    width: 51px;
+    width: 58px;
 }
 .applicant-status.danger {
     color: white;
@@ -360,7 +362,7 @@ li:focus {
 .applicant-status.resolved {
     color: #87250B;
     background: #FCD7A7;
-    width: 83px;
+    width: 65px;
 }
 
 .applicant-status.recommended {
@@ -371,9 +373,13 @@ li:focus {
 .applicant-status.reviewed {
     color: #1E7D11;
     background: #C8EAC4;
-    width: 89px;
+    width: 65px;
 }
-
+.applicant-status.ongoing {
+    color: #87250B;
+    background: #FCD7A7;
+    width: 65px;
+}
 
 .applicant-status.not,
 .applicant-status.not-recommended {

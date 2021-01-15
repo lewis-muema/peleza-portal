@@ -110,6 +110,9 @@ export default {
       },
     mounted() {
         this.directorCheck = this.IDReview;
+        if (this.directorCheck !== null) {
+             this.form.id_no = this.directorCheck.id_no;
+        }
     },
      methods: {
            createReviewData(index) {
