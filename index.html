@@ -13,8 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Sarabun|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
-  <link rel="stylesheet" href="/static/style/core.css">
-  <link rel="shortcut icon" href="/static/img/icons/favicon.ico">
+  <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.publicPath %>static/style/core.css"">
+  <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/favicon.ico">
   <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
