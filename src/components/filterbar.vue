@@ -157,6 +157,8 @@ export default {
       this.$store.commit('setApplicantionType', this.type);
     },
     routeTitle(title) {
+      this.$store.commit('setCategory', this.route.category);
+      localStorage.setItem('category', this.route.category);
       this.routeTitle = title;
     },
     getCategory(category) {

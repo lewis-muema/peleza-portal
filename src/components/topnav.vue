@@ -1,9 +1,9 @@
 <template>
   <el-col
     :xs="24"
-    :sm="5"
-    :md="5"
-    :lg="5"
+    :sm="6"
+    :md="6"
+    :lg="6"
     :xl="1"
   >
     <div class="side-navigation">
