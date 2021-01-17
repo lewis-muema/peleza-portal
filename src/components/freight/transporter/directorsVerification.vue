@@ -17,7 +17,7 @@
                         <div class="review-desc">{{ directorCheck === null ? 'N/A' : directorCheck.id_no }}</div>
                     </div>
                 </div>
-                <div class="el-col-lg-8 review-image">
+                <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0">
                     <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
                 </div>
             </div>
