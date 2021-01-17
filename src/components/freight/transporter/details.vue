@@ -40,7 +40,7 @@
                                       </div>
                                   </div>
                                   <el-button type="primary status-button" :class="transporterStatus"> {{ transporterStatus }}</el-button>
-                                  <div class="applicant-details__profile_content" v-if="validSubmit && transportData.review_status === 0">
+                                  <div class="applicant-details__profile_content" v-if="validSubmit && (transportData.review_status === 0 ||  transportData.review_status === null ||  transportData.review_status === 2)">
                                       <reviewForm :valid-submit="validSubmit" :user-type="userType" @customerReview="submitApplicantReview"/>
                                   </div>
                                   <div class="applicant-details__profile_content">
