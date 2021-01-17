@@ -133,4 +133,7 @@ export default {
     letter-spacing: 0.03em;
     color: #2d5c95 !important;
 }
+.active-route > .el-menu {
+    display: block !important;
+}
 </style>

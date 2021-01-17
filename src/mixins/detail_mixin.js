@@ -109,7 +109,7 @@ const DetailMxn = {
       return true;
     },
     appendConsentText() {
-      return 'hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Verify portal International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.';
+      return 'hereby authorize the relevant Insurance Company to disclose my insurance information to Sendy Limited through their partner Peleza International for the purposes of verifying the authenticity of my insurance particulars as provided to them. This authorization acts as my direct consent for the release of this information from my insurer for the purposes of my application to the use of my asset (motorbike/ vehicle) by Sendy.';
     },
     printInsurance() {
       const prtHtml = document.getElementById('print').innerHTML;

@@ -21,7 +21,7 @@
                 <el-table-column prop="status" label="Status" :min-width="50">
                     <template slot-scope="scope">
                     <span class="applicant-status resolved" v-if="transporters[scope.$index]['review_status'] === '4'">Resolved</span>
-                    <div class="applicant-status" :class="getApplicantStatus(transporters[scope.$index])" v-else>{{ getApplicantStatus(transporters[scope.$index]) }}</div>
+                    <div class="applicant-status" :class="getTransporterStatus(transporters[scope.$index])" v-else>{{ getTransporterStatus(transporters[scope.$index]) }}</div>
                     </template>
                 </el-table-column>
                  <el-table-column :min-width="15" class-name="icon-holder">
@@ -32,7 +32,7 @@
 
 
         </el-table>
-        <div class="pagination mt mb" v-if="pagination !== null && transporters !== null && transporters.length !== 0 && transporters.length >= pagination.perPage">
+        <div class="pagination mt mb" v-if="pagination !== null && transporters !== null && transporters.length !== 0">
             <el-pagination layout="total, sizes, prev, pager, next" :total="pagination.total" :page-size="pagination.perPage" :current-page.sync="pagination.page" @current-change="changePage" :page-sizes="[pagination.perPage]"></el-pagination>
          </div>
         </div>
@@ -60,6 +60,7 @@ export default {
                 userType: '',
                 searchedID: null,
                 searched: false,
+                applicantStatus: null,
             };
         },
         computed: {
@@ -116,6 +117,33 @@ export default {
                 }
                 this.transportersStatus = status;
                 return status;
+             },
+             getTransporterStatus(row) {
+                   let status;
+                    switch (row.review_status) {
+                    case 0:
+                        status = 'pending';
+                        break;
+                    case 1:
+                        status = 'reviewed';
+                        break;
+                      case 2:
+                        status = 'ongoing';
+                        break;
+                    case 3:
+                        status = 'inconsistencies';
+                        break;
+                    case 4:
+                        status = 'resolved';
+                        break;
+                    case null:
+                        status = 'pending';
+                        break;
+                    default:
+                        status = 'N/A';
+                        break;
+                    }
+                    return status;
              },
              determineIdentity(row) {
                  return row.application_type === 'Business' ? row.company_reg_no : row.id_no;

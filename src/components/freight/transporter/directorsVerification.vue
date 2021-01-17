@@ -17,7 +17,7 @@
                         <div class="review-desc">{{ directorCheck === null ? 'N/A' : directorCheck.id_no }}</div>
                     </div>
                 </div>
-                <div class="el-col-lg-8 review-image">
+                <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null || transporterData.review_status === 2">
                     <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
                 </div>
             </div>
@@ -110,6 +110,9 @@ export default {
       },
     mounted() {
         this.directorCheck = this.IDReview;
+        if (this.directorCheck !== null) {
+             this.form.id_no = this.directorCheck.id_no;
+        }
     },
      methods: {
            createReviewData(index) {

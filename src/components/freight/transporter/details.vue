@@ -40,7 +40,7 @@
                                       </div>
                                   </div>
                                   <el-button type="primary status-button" :class="transporterStatus"> {{ transporterStatus }}</el-button>
-                                  <div class="applicant-details__profile_content" v-if="validSubmit">
+                                  <div class="applicant-details__profile_content" v-if="validSubmit && (transportData.review_status === 0 ||  transportData.review_status === null ||  transportData.review_status === 2)">
                                       <reviewForm :valid-submit="validSubmit" :user-type="userType" @customerReview="submitApplicantReview"/>
                                   </div>
                                   <div class="applicant-details__profile_content">
@@ -172,11 +172,29 @@ export default {
           return this.$route.name;
         },
         transporterStatus() {
-            let status = 'pending';
-            if (this.routeName.includes('reviewed')) {
+            let status;
+            switch (this.transportData.review_status) {
+               case 0:
+                status = 'pending';
+                break;
+              case 1:
                 status = 'reviewed';
-            } else if (this.routeName.includes('inconsistencies')) {
+                break;
+               case 2:
+                status = 'ongoing';
+                break;
+               case 3:
                 status = 'inconsistencies';
+                break;
+               case 4:
+                status = 'resolved';
+                break;
+               case null:
+                status = 'pending';
+                break;
+              default:
+                 status = 'N/A';
+                break;
             }
             return status;
           },
@@ -220,7 +238,7 @@ export default {
               }
         },
          handleBack() {
-            this.$router.push({ name: 'transporters' });
+           return this.$router.go(-1);
         },
         setApplicantName(type) {
           let title = 'Partner';
