@@ -32,7 +32,7 @@
 
 
         </el-table>
-        <div class="pagination mt mb" v-if="pagination !== null && transporters !== null && transporters.length !== 0 && transporters.length >= pagination.perPage">
+        <div class="pagination mt mb" v-if="pagination !== null && transporters !== null && transporters.length !== 0">
             <el-pagination layout="total, sizes, prev, pager, next" :total="pagination.total" :page-size="pagination.perPage" :current-page.sync="pagination.page" @current-change="changePage" :page-sizes="[pagination.perPage]"></el-pagination>
          </div>
         </div>
@@ -135,6 +135,9 @@ export default {
                         break;
                     case 4:
                         status = 'resolved';
+                        break;
+                    case null:
+                        status = 'pending';
                         break;
                     default:
                         status = 'N/A';
