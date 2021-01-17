@@ -239,7 +239,7 @@
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Tax Obligations</div>
-                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.taxkra_pin_verification_obligations }}</div>
+                                    <div class="review-desc">{{ taxCheck === null ? 'N/A' : taxCheck.tax_obligations }}</div>
                                 </div>
                                 <div class="el-row">
                                     <div class="review-title">Date of Registration</div>
