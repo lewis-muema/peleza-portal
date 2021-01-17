@@ -106,7 +106,7 @@
                                     <div class="review-desc">{{ companyCheck === null ? 'N/A' : companyCheck.address }}</div>
                                 </div>
                             </div>
-                            <div class="el-col-lg-8 review-image">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0">
                                 <div class="review-edit" @click="handleReviewEdit('company_details_check')">Edit</div>
                             </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.id_no }}</div>
                             </div>
                             </div>
-                            <div class="el-col-lg-8 review-image">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0">
                             <div class="review-edit" @click="handleReviewEdit('driving_license_check')">Edit</div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
                                     <div class="review-desc">{{ taxCheck === null ? 'N/A' : formatDate(taxCheck.registration_date ) }}</div>
                                 </div>
                             </div>
-                            <div class="el-col-lg-8 review-image">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0">
                                 <div class="review-edit" @click="handleReviewEdit('kra_pin_verification')">Edit</div>
                             </div>
                             </div>
@@ -392,7 +392,7 @@ export default {
             return this.transporterData.application_type === 'Driver';
         },
          isDriverOwner() {
-            return this.transporterData.application_type === 'Driver and 0wner';
+            return this.transporterData.application_type === 'Driver and Owner' || this.transporterData.application_type === 'Driver and owner';
         },
          isPendingApplicant() {
             return this.current_route === 'transporter';
