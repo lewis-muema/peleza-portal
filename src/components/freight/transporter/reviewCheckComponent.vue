@@ -482,12 +482,23 @@ export default {
             }
             if (!this.isBusiness) {
                 this.identity = {
-                name: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.name,
-                gender: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.gender,
-                pob: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.pob,
-                dob: this.transporterData.identity_check === null ? '' : this.transporterData.identity_check.dob,
+                name: this.identityCheck === null ? '' : this.identityCheck.name,
+                gender: this.identityCheck === null ? '' : this.identityCheck.gender,
+                pob: this.identityCheck === null ? '' : this.identityCheck.pob,
+                dob: this.identityCheck === null ? '' : this.identityCheck.dob,
+               inconsistency: this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency
                 };
-                this.identity_inconsistency = this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency;
+
+                this.drivingLicense = {
+                name: this.drivingCheck === null ? '' : this.drivingCheck.name,
+                dl_no: this.drivingCheck === null ? '' : this.drivingCheck.dl_no,
+                date_of_issue: this.drivingCheck === null ? '' : this.drivingCheck.date_of_issue,
+                expiry_date: this.drivingCheck === null ? '' : this.drivingCheck.expiry_date,
+                classes: this.drivingCheck === null ? '' : this.drivingCheck.classes,
+                id_no: this.drivingCheck === null ? '' : this.drivingCheck.id_no,
+                inconsistency: this.transporterData.driving_license_check === null ? false : this.transporterData.driving_license_check.inconsistency,
+             };
+                
             }
 
             this.registration_date = this.taxCheck === null ? '' : this.taxCheck.registration_date;
