@@ -66,7 +66,7 @@
                                 <div class="review-desc">{{ motorCheck === null ? 'N/A' : motorCheck.caveats }}</div>
                             </div>
                         </div>
-                        <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null">
+                        <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
                             <div class="review-edit" v-show="motorVehicleStatus" @click="handleReviewEdit('motor_vehicle_records_check')">Edit</div>
                         </div>
                         <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !motorVehicleStatus">
@@ -192,7 +192,7 @@
 
                             </div>
                         </div>
-                        <div class="el-col-lg-7 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null">
+                        <div class="el-col-lg-7 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
                             <div class="review-edit applicant-edit2" @click="handleReviewEdit('car_insurance_validity')" v-if="insuranceVehicleStatus">Edit</div>
                         </div>
                          <el-form class="applicant--incosistency-wrap" v-if="isPendingApplicant && !insuranceVehicleStatus">
