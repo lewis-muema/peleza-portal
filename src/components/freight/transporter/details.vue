@@ -189,6 +189,9 @@ export default {
                case 4:
                 status = 'resolved';
                 break;
+               case null:
+                status = 'pending';
+                break;
               default:
                  status = 'N/A';
                 break;
