@@ -55,7 +55,7 @@
                                 <div class="review-desc">{{ identityCheck === null ? 'N/A' : identityCheck.gender }}</div>
                                 </div>
                             </div>
-                            <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0 || transporterData.review_status === null || transporterData.review_status === 2">
                                 <div class="review-edit" @click="handleReviewEdit('identity_check')">Edit</div>
 
                             </div>
@@ -106,7 +106,7 @@
                                     <div class="review-desc">{{ companyCheck === null ? 'N/A' : companyCheck.address }}</div>
                                 </div>
                             </div>
-                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0 || transporterData.review_status === null || transporterData.review_status === 2">
                                 <div class="review-edit" @click="handleReviewEdit('company_details_check')">Edit</div>
                             </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <div class="review-desc">{{ drivingCheck === null ? 'N/A' : drivingCheck.id_no }}</div>
                             </div>
                             </div>
-                            <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0 || transporterData.review_status === null || transporterData.review_status === 2">
                             <div class="review-edit" @click="handleReviewEdit('driving_license_check')">Edit</div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
                                     <div class="review-desc">{{ taxCheck === null ? 'N/A' : formatDate(taxCheck.registration_date ) }}</div>
                                 </div>
                             </div>
-                            <div class="el-col-lg-8 review-image"  v-if="transporterData.review_status === 0 || transporterData.review_status === null ||  transporterData.review_status === 2">
+                            <div class="el-col-lg-8 review-image" v-if="transporterData.review_status === 0 || transporterData.review_status === null || transporterData.review_status === 2">
                                 <div class="review-edit" @click="handleReviewEdit('kra_pin_verification')">Edit</div>
                             </div>
                             </div>
@@ -486,7 +486,7 @@ export default {
                 gender: this.identityCheck === null ? '' : this.identityCheck.gender,
                 pob: this.identityCheck === null ? '' : this.identityCheck.pob,
                 dob: this.identityCheck === null ? '' : this.identityCheck.dob,
-               inconsistency: this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency
+               inconsistency: this.transporterData.identity_check === null ? false : this.transporterData.identity_check.inconsistency,
                 };
 
                 this.drivingLicense = {
@@ -498,7 +498,6 @@ export default {
                 id_no: this.drivingCheck === null ? '' : this.drivingCheck.id_no,
                 inconsistency: this.transporterData.driving_license_check === null ? false : this.transporterData.driving_license_check.inconsistency,
              };
-                
             }
 
             this.registration_date = this.taxCheck === null ? '' : this.taxCheck.registration_date;
