@@ -431,7 +431,7 @@ export default {
                 } else {
                     const data = typeof this.transporterData.kra_pin_verification === 'string' ? JSON.parse(this.transporterData.kra_pin_verification) : this.transporterData.kra_pin_verification;
 
-                    this.taxCheck = typeof data !== 'undefined' ? data : null;
+                    this.taxCheck = typeof data === 'undefined' || Object.keys(data).length === 0 ? null : data;
                 }
                 this.taxReview = this.taxCheck !== null;
 
