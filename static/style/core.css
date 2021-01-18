@@ -368,7 +368,7 @@ li:focus {
 .applicant-status.recommended {
     color: #1E7D11;
     background: #C8EAC4;
-    width: 89px;
+    width: 92px;
 }
 .applicant-status.reviewed {
     color: #1E7D11;
@@ -385,7 +385,7 @@ li:focus {
 .applicant-status.not-recommended {
     color: #D2212A;
     background: #FDD8DA;
-    width: 117px;
+    width: 120px;
 }
 
 .right-filters {
