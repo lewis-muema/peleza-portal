@@ -11,17 +11,23 @@
             </div>
             <el-table v-else v-loading.body="loading" :data="transporters" @row-click="startVerification" :default-sort="{ prop: 'date_created', order: 'descending' }" width="100">
                 <el-table-column type="index" label=" " />
-                <el-table-column prop="application_type" label="Application type" />
-                <el-table-column label="ID No. / B. Registration " :formatter="determineIdentity" />
+                <el-table-column prop="application_type" label="Application type" :min-width="50" />
+                <el-table-column prop="name" label="Name" :min-width="50" />
+                <el-table-column label="ID No. / B. RegNo " :formatter="determineIdentity" :min-width="50" />
                 <el-table-column prop="country" label="Country " :min-width="30" />
 
                 <el-table-column v-if="routeName === 'transporter-reviewed'" prop="date_created" label="Reviewed Date" :formatter="determineDuration" sortable />
                 <el-table-column v-else prop="date_created" label="Application Date" :formatter="determineDuration" sortable />
 
-                <el-table-column prop="status" label="Status" :min-width="50">
+                <el-table-column prop="status" label="Status" :min-width="50" v-if="routeName !== 'transporter-reviewed'">
                     <template slot-scope="scope">
                     <span class="applicant-status resolved" v-if="transporters[scope.$index]['review_status'] === '4'">Resolved</span>
                     <div class="applicant-status" :class="getTransporterStatus(transporters[scope.$index])" v-else>{{ getTransporterStatus(transporters[scope.$index]) }}</div>
+                    </template>
+                </el-table-column>
+                  <el-table-column prop="recommendation_status" label="Status" :min-width="60" v-else >
+                    <template slot-scope="scope">
+                    <div class="applicant-status" :class="recommendationStatus(transporters[scope.$index])">{{ recommendationStatus(transporters[scope.$index]) }}</div>
                     </template>
                 </el-table-column>
                  <el-table-column :min-width="15" class-name="icon-holder">
@@ -103,6 +109,10 @@ export default {
             await this.retrieveTransporters();
         },
          methods: {
+              recommendationStatus(row) {
+                const status = row.recommendation_status;
+                return status === '1' || status === 1 ? 'recommended' : 'not recommended';
+                },
               async changePage() {
                 this.page = this.pagination.page;
                 this.transporters = null;

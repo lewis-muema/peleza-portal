@@ -39,7 +39,9 @@
                                           <span class="identity-label">Application Date</span>
                                       </div>
                                   </div>
-                                  <el-button type="primary status-button" :class="transporterStatus"> {{ transporterStatus }}</el-button>
+                                  <el-button type="primary status-button" :class="recommendationStatus(transportData.recommendation_status)" v-if="transportData.review_status === 1"> {{ recommendationStatus(transportData.recommendation_status) }}</el-button>
+                                  <el-button type="primary status-button" :class="transporterStatus" v-else> {{ transporterStatus }}</el-button>
+
                                   <div class="applicant-details__profile_content" v-if="validSubmit && (transportData.review_status === 0 || transportData.review_status === null || transportData.review_status === 2)">
                                       <reviewForm :valid-submit="validSubmit" :user-type="userType" @customerReview="submitApplicantReview"/>
                                   </div>
@@ -220,6 +222,9 @@ export default {
       this.identityCheck = this.IdentityReview;
     },
      methods: {
+        recommendationStatus(status) {
+            return status === '1' || status === 1 ? 'recommended' : 'not recommended';
+            },
         checkReviewStatus() {
             if (this.isBusiness) {
                 return this.companyReview && this.taxReview;
