@@ -20,7 +20,7 @@
       <el-table-column v-else prop="date_verified" label="Reviewed Date" :formatter="determineDuration" sortable />
       <el-table-column prop="status" label="Status">
         <template slot-scope="scope">
-          <span class="applicant-status resolved" v-if="filteredData[scope.$index]['review_status'] === '4'">Resolved</span>
+          <span class="applicant-status resolved" v-if="filteredData[scope.$index]['review_status'] === '4'">{{ setResolved() }}</span>
           <div class="applicant-status" :class="getApplicantStatus(filteredData[scope.$index])" v-else>{{ getApplicantStatus(filteredData[scope.$index]) }}</div>
         </template>
       </el-table-column>
@@ -255,6 +255,12 @@ export default {
     getApplicantStatus(name) {
       return this.applicantStatus === 'reviewed' ? this.recommendationStatus(name) : this.applicantStatus;
     },
+    setResolved() {
+      const routeDetails = this.routeDetails(this.current_route);
+      this.routeClass = routeDetails.text;
+      this.route = routeDetails;
+      return 'Resolved';
+    },
     determineApplicants(category, response) {
       let data = [];
       switch (category) {
@@ -402,7 +408,7 @@ export default {
                 review_status: false,
                 inconsistency: this.category === 'inconsistencies',
               },
-          good_conduct: d.good_conduct
+          good_conduct: d.good_conduct && typeof d.good_conduct === 'object'
             ? JSON.parse(d.good_conduct)
             : {
                 reference_number: '',
