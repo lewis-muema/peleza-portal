@@ -1,5 +1,4 @@
-# sendy-peleza-portal
-
+# Peleza portal
 > An app to process new partner applications
 
 ## Build Setup
